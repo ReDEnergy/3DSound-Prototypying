@@ -35,6 +35,7 @@ class ComponentEditor
 		ComponentEditor();
 		virtual ~ComponentEditor() {};
 
+		void Init();
 		void Update();
 		void AddItem();
 		void ListCleared();

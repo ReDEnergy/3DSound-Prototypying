@@ -27,6 +27,11 @@ ComponentEditor::ComponentEditor()
 	InitUI();
 }
 
+void ComponentEditor::Init()
+{
+	propertyEditor->Init();
+}
+
 void ComponentEditor::Update()
 {
 	//GUI::Get<ScoreEditor>(QT_INSTACE::SCORE_EDITOR)->Update();
