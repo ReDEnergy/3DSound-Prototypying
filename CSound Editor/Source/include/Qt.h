@@ -1,0 +1,62 @@
+#pragma once
+
+#include <QtWidgets/QAction>
+#include <QtWidgets/QApplication>
+#include <QtWidgets/QBoxLayout>
+#include <QtWidgets/QComboBox>
+#include <QtWidgets/QCheckBox>
+#include <QtWidgets/QDialog>
+#include <QtWidgets/QFileDialog>
+#include <QtWidgets/QFormLayout>
+#include <QtWidgets/QFrame>
+#include <QtWidgets/QGridLayout>
+#include <QtWidgets/QLabel>
+#include <QtWidgets/QLayout>
+#include <QtWidgets/QLayoutItem>
+#include <QtWidgets/QLineEdit>
+#include <QtWidgets/QListWidget>
+#include <QtWidgets/QListWidgetItem>
+#include <QtWidgets/QMainWindow>
+#include <QtWidgets/QMenu>
+#include <QtWidgets/QMenuBar>
+#include <QtWidgets/QMessageBox>
+#include <QtWidgets/QPushButton>
+#include <QtWidgets/QToolBar>
+#include <QtWidgets/QToolButton>
+#include <QtWidgets/QTreeWidget>
+#include <QtWidgets/QTreeWidgetItem>
+#include <QtWidgets/QSpinBox>
+#include <QtWidgets/QStatusBar>
+#include <QtWidgets/QStyledItemDelegate>
+#include <QtWidgets/QTextEdit>
+#include <QtWidgets/QDockWidget>
+#include <QtWidgets/QWidget>
+
+#include <QtCore/QObject>
+#include <QtCore/QtDebug>
+#include <QtCore/QDataStream>
+#include <QtCore/QFile>
+#include <QtCore/QSignalMapper>
+#include <QtCore/QMimeData>
+#include <QtCore/QtPlugin>
+#include <QtCore/QTime>
+#include <QtCore/QTimer>
+#include <QtCore/QThread>
+#include <QtCore/QThreadPool>
+
+#include <QtGui/QBitmap>
+#include <QtGui/QColor>
+#include <QtGui/QDragEnterEvent>
+#include <QtGui/QDropEvent>
+#include <QtGui/QImage>
+#include <QtGui/QMouseEvent>
+#include <QtGui/QPainter>
+#include <QtGui/QPainter>
+#include <QtGui/QtEvents>
+#include <QtGui/QTextBlock>
+#include <QtGui/QTextDocument>
+#include <QtGui/QTextLayout>
+#include <QtGui/QStandardItemModel>
+#include <QtGui/QWindow>
+
+

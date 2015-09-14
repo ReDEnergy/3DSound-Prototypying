@@ -1,0 +1,222 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="3DWorld">
+      <UniqueIdentifier>{5dfdcee5-ff00-4a22-9860-c8808ceba397}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="3DWorld\CSound">
+      <UniqueIdentifier>{fdf52e0e-4748-47ff-928b-83df34fc3324}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="3DWorld\Input">
+      <UniqueIdentifier>{a663c5e1-aac1-4798-971a-f0dc49bfcf52}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Editor">
+      <UniqueIdentifier>{b94e1cfb-dcae-4b48-bee1-1b2f0f2517e5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include">
+      <UniqueIdentifier>{fe0c5669-1bc4-4fd1-b91b-8d2e59abffa0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="templates">
+      <UniqueIdentifier>{ad1d7e01-d818-4c5d-a0b4-b059c2096bb7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Editor\QT">
+      <UniqueIdentifier>{306fa174-c0fd-47ca-beab-c6b28eb131f3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Editor\UI">
+      <UniqueIdentifier>{c2987a34-c726-438d-9820-1597588f691c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Editor\Windows">
+      <UniqueIdentifier>{841e3732-a46d-45ab-b9a7-355ead894113}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Editor\Windows\OpenGL">
+      <UniqueIdentifier>{3bbb57df-55a5-4084-892f-9dca5d2ec3d9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Editor\Windows\Interface">
+      <UniqueIdentifier>{57a60cfe-c150-4e6f-a26e-ef983c4caae5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Editor\Windows\Editors">
+      <UniqueIdentifier>{40993d38-a61f-4dab-b693-15dded79c08e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Editor\Windows\Lists">
+      <UniqueIdentifier>{293d7cd2-d34c-4d47-8108-404d29df0b4c}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\Source\3DWorld\CSound\CSound3DSource.cpp">
+      <Filter>3DWorld\CSound</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\3DWorld\CSound\CSoundScene.cpp">
+      <Filter>3DWorld\CSound</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\3DWorld\Input\GameInput.cpp">
+      <Filter>3DWorld\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\3DWorld\Game.cpp">
+      <Filter>3DWorld</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\Editor\EditorMainWindow.cpp">
+      <Filter>Editor</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\Editor\GUI.cpp">
+      <Filter>Editor</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\Editor\QT\Utils.cpp">
+      <Filter>Editor\QT</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\Editor\UI\GUIEntity.cpp">
+      <Filter>Editor\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\Editor\Windows\SceneWindow.cpp">
+      <Filter>Editor\Windows</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\Editor\Windows\TextPreview.cpp">
+      <Filter>Editor\Windows</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\Editor\Windows\Lists\ScoreList.cpp">
+      <Filter>Editor\Windows\Lists</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\Editor\Windows\Lists\ComponentList.cpp">
+      <Filter>Editor\Windows\Lists</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\Editor\Windows\Lists\InstrumentList.cpp">
+      <Filter>Editor\Windows\Lists</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\Editor\Windows\Interface\EditorList.cpp">
+      <Filter>Editor\Windows\Interface</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\Editor\Windows\Interface\DockWindow.cpp">
+      <Filter>Editor\Windows\Interface</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\Editor\Windows\Editors\PropertyEditor.cpp">
+      <Filter>Editor\Windows\Editors</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\Editor\Windows\Editors\ScoreEditor.cpp">
+      <Filter>Editor\Windows\Editors</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\Editor\Windows\Editors\ComponentEditor.cpp">
+      <Filter>Editor\Windows\Editors</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\Editor\Windows\Editors\InstrumentEditor.cpp">
+      <Filter>Editor\Windows\Editors</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\Editor\Windows\OpenGL\OpenGLWindow.cpp">
+      <Filter>Editor\Windows\OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\Editor\Windows\OpenGL\GameWindow.cpp">
+      <Filter>Editor\Windows\OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\CSoundEditor.cpp" />
+    <ClCompile Include="..\Source\Main.cpp" />
+    <ClCompile Include="..\Source\Editor\UI\FilePicker.cpp">
+      <Filter>Editor\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\Editor\Windows\Interface\CustomWidget.cpp">
+      <Filter>Editor\Windows\Interface</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\Source\3DWorld\CSound\CSound3DSource.h">
+      <Filter>3DWorld\CSound</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\3DWorld\CSound\CSoundScene.h">
+      <Filter>3DWorld\CSound</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\3DWorld\Input\GameInput.h">
+      <Filter>3DWorld\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\3DWorld\Game.h">
+      <Filter>3DWorld</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\templates\ReferenceCounter.h">
+      <Filter>templates</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\templates\singleton.h">
+      <Filter>templates</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\include\Qt.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\include\qt_utils.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\include\Qt2Glfw.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Editor\Editor.h">
+      <Filter>Editor</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Editor\EditorForward.h">
+      <Filter>Editor</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Editor\EditorMainWindow.h">
+      <Filter>Editor</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Editor\GUI.h">
+      <Filter>Editor</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Editor\QTForward.h">
+      <Filter>Editor</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Editor\QT\Utils.h">
+      <Filter>Editor\QT</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Editor\UI\GUIEntity.h">
+      <Filter>Editor\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Editor\Windows\SceneWindow.h">
+      <Filter>Editor\Windows</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Editor\Windows\TextPreview.h">
+      <Filter>Editor\Windows</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Editor\Windows\Lists\InstrumentList.h">
+      <Filter>Editor\Windows\Lists</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Editor\Windows\Lists\ScoreList.h">
+      <Filter>Editor\Windows\Lists</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Editor\Windows\Lists\ComponentList.h">
+      <Filter>Editor\Windows\Lists</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Editor\Windows\Interface\DockWindow.h">
+      <Filter>Editor\Windows\Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Editor\Windows\Interface\EditorList.h">
+      <Filter>Editor\Windows\Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Editor\Windows\Interface\GenericList.h">
+      <Filter>Editor\Windows\Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Editor\Windows\Interface\QtListTemplates.h">
+      <Filter>Editor\Windows\Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Editor\Windows\Interface\CSoundListEditor.h">
+      <Filter>Editor\Windows\Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Editor\Windows\Editors\PropertyEditor.h">
+      <Filter>Editor\Windows\Editors</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Editor\Windows\Editors\ScoreEditor.h">
+      <Filter>Editor\Windows\Editors</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Editor\Windows\Editors\ComponentEditor.h">
+      <Filter>Editor\Windows\Editors</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Editor\Windows\Editors\InstrumentEditor.h">
+      <Filter>Editor\Windows\Editors</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Editor\Windows\OpenGL\OpenGLWindow.h">
+      <Filter>Editor\Windows\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Editor\Windows\OpenGL\GameWindow.h">
+      <Filter>Editor\Windows\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\CSoundEditor.h" />
+    <ClInclude Include="..\Source\Editor\UI\FilePicker.h">
+      <Filter>Editor\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Editor\Windows\Interface\CustomWidget.h">
+      <Filter>Editor\Windows\Interface</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

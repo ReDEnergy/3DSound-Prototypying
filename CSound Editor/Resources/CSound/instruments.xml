@@ -1,0 +1,31 @@
+<instruments>
+	<instrument>
+		<name>simple</name>
+		<components>
+			<component>sound source</component>
+			<component>sound loop</component>
+			<component>attenuation</component>
+		</components>
+	</instrument>
+
+	<instrument>
+		<name>sound-loop</name>
+		<components>
+			<component>sound source</component>
+			<component>sound loop</component>
+		</components>
+	</instrument>
+</instruments>
+
+<blocks>
+	<instrument>
+		<name>hrtf-output</name>
+		<components>
+			<component>hrtf2</component>
+			<component>output stereo</component>
+		</components>
+	</instrument>
+	<instrument>
+		<name>none</name>
+	</instrument>
+</blocks>

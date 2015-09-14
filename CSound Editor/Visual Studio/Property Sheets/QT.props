@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ImportGroup Label="PropertySheets" />
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <IncludePath>..\..\libs\Qt\include;..\..\libs\Qt\include\QtCore;..\..\libs\Qt\include\QtWidgets;..\..\libs\Qt\include\QtGui;..\..\libs\Qt\include\QtOpenGL;..\..\libs\Qt\include\QtPlatformHeaders;$(IncludePath)</IncludePath>
+    <LibraryPath>..\..\libs\Qt\$(PlatformTarget)\$(Configuration);$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
+  <ItemDefinitionGroup>
+    <Link>
+      <AdditionalDependencies>Qt5Core.lib;Qt5Widgets.lib;Qt5Gui.lib;Qt5PlatformSupport.lib;qtmain.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+    <ClCompile />
+  </ItemDefinitionGroup>
+  <ItemGroup />
+</Project>

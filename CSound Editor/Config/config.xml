@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+	<!-- EDITOR BUILD -->
+	<!--
+	<resolution>320 240</resolution>
+	<position>1280 640</position>
+	-->
+	<!-- EDITOR TEST -->
+	<window>
+		<name>3DSound Test Engine</name>
+		<resolution>960 680</resolution>
+		<fullscreen>false</fullscreen>
+		<position>0 0</position>
+		<centered>true</centered>
+		<hidden>true</hidden>
+	</window>
+	<vsync>false</vsync>
+	<ssao>false</ssao>
+	<resource>Resources.xml</resource>
+	<shaders>Shaders.xml</shaders>
+	<scene>Scene.xml</scene>
+	<menu>Menu.xml</menu>
+</config>

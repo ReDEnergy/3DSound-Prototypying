@@ -1,0 +1,91 @@
+<!-- 
+	TODO 
+	Each Component
+		- in/out/constant
+			{name: value}  	
+			// default value is name unless a default attribute is defined
+		- function/control
+			{name} of the function/channel
+		- op
+			{value} of the concatenating operation
+		- text
+			{name: value}
+-->
+
+<components>
+	<component>
+		<name>control</name>
+		<content>
+			<control>kName</control>
+		</content>
+	</component>		
+	<component>
+		<name>sound source</name>
+		<content>
+			<out>ain</out>
+			<function>soundin</function>
+			<in>"Audio/noise.wav"</in>
+		</content>
+	</component>		
+			
+	<component>
+		<name>sound loop</name>
+		<content>
+			<out>aout</out>
+			<out>krec</out>
+			<function>sndloop</function>
+			<in>ain</in>
+			<op>,</op>
+			<control>kPitch</control>
+			<control>kTrigger</control>
+			<op>,</op>
+			<constant>0.5</constant>		<!-- iDuration -->
+			<constant>0</constant>			<!-- iFade -->
+		</content>
+	</component>		
+			
+	<component>
+		<name>attenuation</name>
+		<content>
+			<out>aout</out>
+			<op>=</op>
+			<in>aout</in>
+			<op>*</op>
+			<control>kVolume</control>
+			<op>*</op>
+			<control>kAttenuation</control>
+		</content>
+	</component>	
+			
+	<component>
+		<name>hrtf2</name>
+		<content>
+			<out>aleft</out>
+			<out>aright</out>
+			<function>hrtfmove2</function>
+			<in>aout</in>
+			<op>,</op>
+			<control>kAzimuth</control>
+			<control>kElevation</control>
+			<text>, "CSound/hrtf/hrtf-44100-left.dat", "CSound/hrtf/hrtf-44100-right.dat"</text>		
+		</content>
+	</component>		
+
+	<component>
+		<name>output mono</name>
+		<content>
+			<function>outs</function>
+			<in>aout</in>
+			<in>aout</in>
+		</content>
+	</component>		
+	
+	<component>
+		<name>output stereo</name>
+		<content>
+			<function>outs</function>
+			<in>aleft</in>
+			<in>aright</in>
+		</content>
+	</component>		
+</components>

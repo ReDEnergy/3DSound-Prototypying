@@ -1,0 +1,9 @@
+bin
+lib
+/libs
+*.sdf
+*.opensdf
+**/Visual Studio/obj
+**/Visual Studio/Debug
+**/Saves
+**/Resources/*.csd

@@ -1,0 +1,17 @@
+<scores>
+	<score>
+		<name>simple</name>
+		<instruments>
+			<instrument>simple</instrument>
+		</instruments>
+	</score>
+
+	<score>
+		<name>sound-loop</name>
+		<instruments>
+			<instrument>sound-loop</instrument>
+		</instruments>
+	</score>
+</scores>
+
+

@@ -1,0 +1,120 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="..\CSound\CSoundComponent.cpp">
+      <Filter>CSound</Filter>
+    </ClCompile>
+    <ClCompile Include="..\CSound\CSoundEntity.cpp">
+      <Filter>CSound</Filter>
+    </ClCompile>
+    <ClCompile Include="..\CSound\CSoundInstrument.cpp">
+      <Filter>CSound</Filter>
+    </ClCompile>
+    <ClCompile Include="..\CSound\CSoundManager.cpp">
+      <Filter>CSound</Filter>
+    </ClCompile>
+    <ClCompile Include="..\CSound\CSoundScore.cpp">
+      <Filter>CSound</Filter>
+    </ClCompile>
+    <ClCompile Include="..\CSound\SoundManager.cpp">
+      <Filter>CSound</Filter>
+    </ClCompile>
+    <ClCompile Include="..\CSound\CSoundComponentProperty.cpp">
+      <Filter>CSound</Filter>
+    </ClCompile>
+    <ClCompile Include="..\CSound\CSoundPlayer.cpp">
+      <Filter>CSound</Filter>
+    </ClCompile>
+    <ClCompile Include="..\CSound\CSoundInstrumentBlock.cpp">
+      <Filter>CSound</Filter>
+    </ClCompile>
+    <ClCompile Include="..\CSound\Serialization\CSoundSerialize.cpp">
+      <Filter>Serialization</Filter>
+    </ClCompile>
+    <ClCompile Include="..\CSound\DLL\dllmain.cpp">
+      <Filter>DLL</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\CSound\include\dll_export.h">
+      <Filter>DLL</Filter>
+    </ClInclude>
+    <ClInclude Include="..\CSound\include\utils.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\CSound\include\math.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\CSound\include\pugixml.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\CSound\SoundManager.h">
+      <Filter>CSound</Filter>
+    </ClInclude>
+    <ClInclude Include="..\CSound\CSoundComponent.h">
+      <Filter>CSound</Filter>
+    </ClInclude>
+    <ClInclude Include="..\CSound\CSoundEntity.h">
+      <Filter>CSound</Filter>
+    </ClInclude>
+    <ClInclude Include="..\CSound\CSoundInstrument.h">
+      <Filter>CSound</Filter>
+    </ClInclude>
+    <ClInclude Include="..\CSound\CSoundManager.h">
+      <Filter>CSound</Filter>
+    </ClInclude>
+    <ClInclude Include="..\CSound\CSoundRenderEntry.h">
+      <Filter>CSound</Filter>
+    </ClInclude>
+    <ClInclude Include="..\CSound\CSoundScore.h">
+      <Filter>CSound</Filter>
+    </ClInclude>
+    <ClInclude Include="..\CSound\EntityStorage.h">
+      <Filter>CSound</Filter>
+    </ClInclude>
+    <ClInclude Include="..\CSound\CSound.h">
+      <Filter>CSound</Filter>
+    </ClInclude>
+    <ClInclude Include="..\CSound\include\csound.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\CSound\CSoundComponentProperty.h">
+      <Filter>CSound</Filter>
+    </ClInclude>
+    <ClInclude Include="..\CSound\CSoundPlayer.h">
+      <Filter>CSound</Filter>
+    </ClInclude>
+    <ClInclude Include="..\CSound\CSoundInstrumentBlock.h">
+      <Filter>CSound</Filter>
+    </ClInclude>
+    <ClInclude Include="..\CSound\CSoundForward.h">
+      <Filter>Forward</Filter>
+    </ClInclude>
+    <ClInclude Include="..\CSound\Templates\CSoundList.h">
+      <Filter>Templates</Filter>
+    </ClInclude>
+    <ClInclude Include="..\CSound\Serialization\CSoundSerialize.h">
+      <Filter>Serialization</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="DLL">
+      <UniqueIdentifier>{ef88c4bb-180b-4cd6-813e-9076a2f39299}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include">
+      <UniqueIdentifier>{519ec41c-0271-4f35-9c5b-d706bc21abe9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="CSound">
+      <UniqueIdentifier>{1b9deebe-c274-4c5c-acbd-f6b59d846093}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Forward">
+      <UniqueIdentifier>{86ff207f-44af-4399-8eb9-5dae0af28d79}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Templates">
+      <UniqueIdentifier>{16658a26-d9f3-4e35-a750-d8bc7b2d53ac}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Serialization">
+      <UniqueIdentifier>{aa897e80-02a2-4c23-a33a-c8ee4162b5e5}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

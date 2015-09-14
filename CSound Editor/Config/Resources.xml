@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Meshes -->
+<meshes>
+	<!-- gizmo objects -->
+	<mesh material="no">
+		<name>gizmo_move</name>
+		<path>Gizmo</path>
+		<file>gizmo_move.obj</file>
+	</mesh>
+	<mesh material="no">
+		<name>gizmo_rotate</name>
+		<path>Gizmo</path>
+		<file>rotate.fbx</file>
+	</mesh>
+	<mesh material="no">
+		<name>gizmo_scale</name>
+		<path>Gizmo</path>
+		<file>gizmo_scale.obj</file>
+	</mesh>
+	<!-- end gizmo objects -->
+	<mesh material="no">
+		<name>screen-quad</name>
+		<path>Primitives</path>
+		<file>screen_quad.obj</file>
+	</mesh>
+	<mesh quad="true">
+		<name>box</name>
+		<path>Primitives</path>
+		<file>box.obj</file>
+	</mesh>
+	<mesh>
+		<name>sphere</name>
+		<path>Primitives</path>
+		<file>sphere.obj</file>
+	</mesh>
+	<mesh>
+		<name>teapot</name>
+		<path>Primitives</path>
+		<file>teapot.obj</file>
+	</mesh>
+	<mesh>
+		<name>ground</name>
+		<path>Props</path>
+		<file>ground.obj</file>
+	</mesh>
+</meshes>
+
+<!-- Audio -->
+<audio>
+</audio>
+
+<!-- GameObjects -->
+<objects>
+	<!-- gizmo objects -->
+	<object>
+		<name>gizmo_move</name>
+		<mesh>gizmo_move</mesh>
+	</object>
+	<object>
+		<name>gizmo_rotate</name>
+		<mesh>gizmo_rotate</mesh>
+	</object>
+	<object>
+		<name>gizmo_scale</name>
+		<mesh>gizmo_scale</mesh>
+	</object>
+	<!-- end gizmo objects -->
+	
+	<object>
+		<name>render-quad</name>
+		<mesh>screen-quad</mesh>
+	</object>
+	<object>
+		<name>box</name>
+		<mesh>box</mesh>
+	</object>
+	<object>
+		<name>light-debug</name>
+		<mesh>sphere</mesh>
+	</object>
+	<object>
+		<name>sphere</name>
+		<mesh>sphere</mesh>
+	</object>
+	<object>
+		<name>ground</name>
+		<mesh>ground</mesh>
+		<physics>
+			<file>ground.hkt</file>
+		</physics>
+	</object>
+	<object>
+		<name>teapot</name>
+		<mesh>teapot</mesh>
+		<shadow>yes</shadow>
+	</object>
+</objects>
