@@ -32,8 +32,7 @@ class Game : public World,
 		void FrameEnd();
 
 	private:
-		void OnEvent(EventType Event, Object *data);
-		void OnEvent(const char* eventID, Object *data);
+		void OnEvent(EventType Event, void *data);
 		void InitSceneCameras();
 
 	public:

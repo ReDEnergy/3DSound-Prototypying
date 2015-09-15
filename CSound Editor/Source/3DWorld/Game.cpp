@@ -164,7 +164,8 @@ void Game::FrameEnd()
 	}
 }
 
-void Game::OnEvent(EventType Event, Object *data) {
+void Game::OnEvent(EventType Event, void *data)
+{
 	switch (Event)
 	{
 	case EventType::SWITCH_CAMERA:
@@ -183,10 +184,6 @@ void Game::OnEvent(EventType Event, Object *data) {
 	default:
 		break;
 	}
-}
-
-void Game::OnEvent(const char* eventID, Object *data)
-{
 }
 
 void Game::InitSceneCameras()
