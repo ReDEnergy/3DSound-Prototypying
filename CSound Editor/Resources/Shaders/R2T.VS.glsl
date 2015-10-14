@@ -18,8 +18,8 @@ layout(location = 5) out vec4 screen_position;
 void main() {
 	texture_coord = v_texture_coord;
 
-	world_position = Model * vec4(v_position, 1.0);
-	world_normal = Model * vec4(v_normal, 1.0);
+	world_position = Model * vec4(v_position, 1);
+	world_normal = Model * vec4(v_normal, 0);
 
 	view_position = View * world_position;
 	view_normal = View * world_normal;
