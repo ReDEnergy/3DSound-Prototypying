@@ -1,21 +1,25 @@
 #pragma once
+
+#include <templates/singleton.h>
+
 #include <Editor/Windows/Interface/GenericList.h>
 #include <CSound/CSound.h>
 
 #include <QAction>
 #include <QMenu>
 
-template <class T, class L>
+template <class CSoundContext, class L>
 class CSoundListEditor : public GenericList<L>
 {
 	public:
 		CSoundListEditor() {
 			CreatePopupMenu();
+			activeContext = nullptr;
 		}
 
-		virtual ~CSoundListEditor() {};
+		virtual ~CSoundListEditor() {}
 
-		void SetContext(T *context)
+		void SetContext(CSoundContext *context)
 		{
 			if (!context) {
 				cout << "ERROR: context is NULL";
@@ -30,12 +34,12 @@ class CSoundListEditor : public GenericList<L>
 			}
 
 			if (qtList->count()) {
-				qtList->setItemSelected(qtList->itemAt(0, 0), true);
-				QtItemClicked(qtList->itemAt(0, 0));
+				qtList->setItemSelected(qtList->item(0), true);
+				QtItemClicked(qtList->item(0));
 			}
 		}
 
-		T* GetActiveContext() {
+		CSoundContext* GetActiveContext() {
 			return activeContext;
 		}
 
@@ -94,19 +98,20 @@ class CSoundListEditor : public GenericList<L>
 		}
 
 	protected:
-		T *activeContext;
+		CSoundContext *activeContext;
 };
 
 template <class CSoundType, class ListContainer, class Parent>
-class CSoundEditorListWidget
+class CSoundQtList
 	: public QTListWidget<CSoundType, ListContainer>
 {
 	public:
-		CSoundEditorListWidget() {};
+		CSoundQtList() {};
 
 		void DropEvent(QObject *source)
 		{
-			auto parent = ((Parent*)(this->parent()->parent()));
+			cout << "DROP" << endl;
+			auto parent = Singleton<Parent>::Instance();
 			if (source == this)
 			{
 				parent->ReorederEvent();

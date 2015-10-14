@@ -10,19 +10,22 @@
 using namespace std;
 
 class DockWindow;
+class CustomWidget;
 class GameWindow;
 
 class EditorMainWindow : public QMainWindow
 {
-	public:
+	protected:
 		EditorMainWindow(QWidget *parent = 0);
 		~EditorMainWindow();
+
+	public:
 		void Run(QApplication * app);
+		void Update();
 
 	private:
 		void close();
 		void closeEvent(QCloseEvent *event);
-		void Update();
 		void Config();
 
 		void SetupUI(QMainWindow * MainWindow);
@@ -30,7 +33,6 @@ class EditorMainWindow : public QMainWindow
 
 		// Toolbar actions
 		void ReloadStyleSheets();
-		void ChnageOuputModel();
 
 	private:
 		bool shouldQuit = false;
@@ -39,8 +41,8 @@ class EditorMainWindow : public QMainWindow
 		QApplication *app;
 		QComboBox *dropdown;
 
-	private:
-		unordered_map<string, DockWindow*> appWindows;
+		unordered_map<string, DockWindow*> dockWindows;
+		unordered_map<string, CustomWidget*> appWindows;
 };
 
 class EngineThread : public QThread 

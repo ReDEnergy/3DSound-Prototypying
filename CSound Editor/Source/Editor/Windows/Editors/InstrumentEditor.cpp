@@ -1,29 +1,31 @@
 #include "InstrumentEditor.h"
 
+#include <templates/singleton.h>
+
 #include <Editor/GUI.h>
 
 #include <Editor/Windows/TextPreview.h>
 #include <Editor/Windows/Editors/ScoreEditor.h>
-#include <Editor/Windows/Editors/ComponentEditor.h>
+//#include <Editor/Windows/Editors/ComponentEditor.h>
+#include <Editor/Windows/Editors/ComponentComposer.h>
 #include <Editor/Windows/Lists/ComponentList.h>
 
 #include <Csound/CSoundInstrument.h>
 
-InstrumentEditor::InstrumentEditor()
+InstrumentComposer::InstrumentComposer()
 {
-	setWindowTitle("Instrument Editor");
-	GUI::Set(QT_INSTACE::INSTRUMENT_EDITOR, (void*) this);
+	GUI::Set(QT_INSTACE::INSTRUMENT_COMPOSER, (void*) this);
 }
 
-void InstrumentEditor::Update()
+void InstrumentComposer::Update()
 {
 	if (activeContext) {
-		GUI::Get<ScoreEditor>(QT_INSTACE::SCORE_EDITOR)->Update();
+		GUI::Get<ScoreComposer>(QT_INSTACE::SCORE_COMPOSER)->Update();
 		GUI::Get<TextPreviewWindow>(QT_INSTACE::TEXT_PREVIEW)->RenderText(activeContext->GetRender());
 	}
 }
 
-void InstrumentEditor::DropItem(CSoundComponent * comp)
+void InstrumentComposer::DropItem(CSoundComponent * comp)
 {
 	if (activeContext) {
 		activeContext->Add(comp);
@@ -32,20 +34,42 @@ void InstrumentEditor::DropItem(CSoundComponent * comp)
 	}
 }
 
-void InstrumentEditor::ListCleared()
+void InstrumentComposer::ListCleared()
 {
-	GUI::Get<ComponentEditor>(QT_INSTACE::COMPONENT_EDITOR)->Clear();
+	GUI::Get<ComponentComposer>(QT_INSTACE::COMPONENT_COMPOSER)->Clear();
 }
 
-void InstrumentEditor::QtItemClicked(QListWidgetItem * item)
+void InstrumentComposer::QtItemClicked(QListWidgetItem * item)
 {
 	CSoundListEditor::QtItemClicked(item);
 	auto data = qtList->GetItemData(item);
-	GUI::Get<ComponentEditor>(QT_INSTACE::COMPONENT_EDITOR)->SetContext(data);
+	GUI::Get<ComponentComposer>(QT_INSTACE::COMPONENT_COMPOSER)->SetContext(data);
+	GUI::Get<TextPreviewWindow>(QT_INSTACE::TEXT_PREVIEW)->RenderText(data->GetRender());
 }
 
-InstrumentEditorListWidget::InstrumentEditorListWidget()
+InstrumentEditorList::InstrumentEditorList()
 {
 	auto W = GUI::Get<ComponentList>(QT_INSTACE::COMPONENT_LIST)->GetQtList();
 	AddDragnDropSource(W);
+}
+
+InstrumentEditor::InstrumentEditor()
+{
+	setWindowTitle("Instrument Editor");
+	InitUI();
+}
+
+InstrumentEditor::~InstrumentEditor()
+{
+}
+
+void InstrumentEditor::InitUI()
+{
+	composer = Singleton<InstrumentComposer>::Instance();
+	qtLayout->addWidget(composer);
+}
+
+void InstrumentEditor::Init()
+{
+	composer->Init();
 }

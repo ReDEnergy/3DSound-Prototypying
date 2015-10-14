@@ -40,6 +40,18 @@
     <Filter Include="Editor\Windows\Lists">
       <UniqueIdentifier>{293d7cd2-d34c-4d47-8108-404d29df0b4c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Editor\Windows\Features">
+      <UniqueIdentifier>{323c32f9-fd9c-4c08-9b36-4957c40df22f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="3DWorld\Scripts">
+      <UniqueIdentifier>{d865708c-2104-4e2a-9a1a-2d8a333aedad}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Editor\Events">
+      <UniqueIdentifier>{5dfe2465-b6e8-4dae-9a0a-b427174fac55}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="3DWorld\Compute">
+      <UniqueIdentifier>{02d9d6f0-38a1-40f4-b5b1-0ca546c3357a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Source\3DWorld\CSound\CSound3DSource.cpp">
@@ -93,9 +105,6 @@
     <ClCompile Include="..\Source\Editor\Windows\Editors\ScoreEditor.cpp">
       <Filter>Editor\Windows\Editors</Filter>
     </ClCompile>
-    <ClCompile Include="..\Source\Editor\Windows\Editors\ComponentEditor.cpp">
-      <Filter>Editor\Windows\Editors</Filter>
-    </ClCompile>
     <ClCompile Include="..\Source\Editor\Windows\Editors\InstrumentEditor.cpp">
       <Filter>Editor\Windows\Editors</Filter>
     </ClCompile>
@@ -112,6 +121,36 @@
     </ClCompile>
     <ClCompile Include="..\Source\Editor\Windows\Interface\CustomWidget.cpp">
       <Filter>Editor\Windows\Interface</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\Editor\Windows\Editors\ComponentComposer.cpp">
+      <Filter>Editor\Windows\Editors</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\Editor\Windows\Editors\ComponentEditor.cpp">
+      <Filter>Editor\Windows\Editors</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\Editor\Windows\Editors\SceneObjectProperties.cpp">
+      <Filter>Editor\Windows\Editors</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\Editor\Windows\Features\HrtfTest.cpp">
+      <Filter>Editor\Windows\Features</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\3DWorld\Scripts\HrtfRecorder.cpp">
+      <Filter>3DWorld\Scripts</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\Editor\Events\UIEvents.cpp">
+      <Filter>Editor\Events</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\3DWorld\Scripts\MovingPlane.cpp">
+      <Filter>3DWorld\Scripts</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\3DWorld\Scripts\GrowingSphere.cpp">
+      <Filter>3DWorld\Scripts</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\3DWorld\Compute\SurfaceArea.cpp">
+      <Filter>3DWorld\Compute</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\3DWorld\Compute\PlaneIntersection.cpp">
+      <Filter>3DWorld\Compute</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -199,9 +238,6 @@
     <ClInclude Include="..\Source\Editor\Windows\Editors\ScoreEditor.h">
       <Filter>Editor\Windows\Editors</Filter>
     </ClInclude>
-    <ClInclude Include="..\Source\Editor\Windows\Editors\ComponentEditor.h">
-      <Filter>Editor\Windows\Editors</Filter>
-    </ClInclude>
     <ClInclude Include="..\Source\Editor\Windows\Editors\InstrumentEditor.h">
       <Filter>Editor\Windows\Editors</Filter>
     </ClInclude>
@@ -217,6 +253,39 @@
     </ClInclude>
     <ClInclude Include="..\Source\Editor\Windows\Interface\CustomWidget.h">
       <Filter>Editor\Windows\Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Editor\Windows\Editors\ComponentComposer.h">
+      <Filter>Editor\Windows\Editors</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Editor\Windows\Editors\ComponentEditor.h">
+      <Filter>Editor\Windows\Editors</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Editor\Windows\Editors\SceneObjectProperties.h">
+      <Filter>Editor\Windows\Editors</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Editor\Windows\Interface\QtInput.h">
+      <Filter>Editor\Windows\Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Editor\Windows\Features\HrtfTest.h">
+      <Filter>Editor\Windows\Features</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\3DWorld\Scripts\HrtfRecorder.h">
+      <Filter>3DWorld\Scripts</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Editor\Events\UIEvents.h">
+      <Filter>Editor\Events</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\3DWorld\Scripts\MovingPlane.h">
+      <Filter>3DWorld\Scripts</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\3DWorld\Scripts\GrowingSphere.h">
+      <Filter>3DWorld\Scripts</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\3DWorld\Compute\SurfaceArea.h">
+      <Filter>3DWorld\Compute</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\3DWorld\Compute\PlaneIntersection.h">
+      <Filter>3DWorld\Compute</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

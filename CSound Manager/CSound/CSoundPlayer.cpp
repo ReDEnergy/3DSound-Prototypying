@@ -1,5 +1,7 @@
 ﻿#include "CSoundPlayer.h"
 
+#include <iostream>
+
 #include <include/utils.h>
 #include <include/csound.h>
 
@@ -45,7 +47,8 @@ bool CSoundPlayer::Init()
 	return true;
 }
 
-void CSoundPlayer::Clean() {
+void CSoundPlayer::Clean()
+{
 	PERF_STATUS = false;
 	if (ThreadID) {
 		csoundJoinThread(ThreadID);
@@ -80,11 +83,16 @@ void CSoundPlayer::Pause()
 void CSoundPlayer::Stop()
 {
 	//perfThread->Stop();
-	PERF_STATUS = false;
+	if (PERF_STATUS) {
+		PERF_STATUS = false;
+		cout << "Sound Score Time: " << csound->GetScoreTime() << endl;
+	}
 }
 	
 void CSoundPlayer::InitControlChannels()
 {
+	if (!csound) return;
+
 	for (auto instr : score->GetEntries()) {
 		for (auto &chn : instr->GetControlChannels()) {
 			channels[chn];
@@ -99,10 +107,10 @@ void CSoundPlayer::InitControlChannels()
 
 void CSoundPlayer::SetControl(const char* channelName, float value)
 {
-	if (csound) {
-		if (channels.find(channelName) != channels.end())
-			*channels[channelName] = value;
-	}
+	if (!PERF_STATUS || !csound) return;
+
+	if (channels.find(channelName) != channels.end())
+		*channels[channelName] = value;
 }
 
 uintptr_t csThread(void *data)
@@ -112,7 +120,9 @@ uintptr_t csThread(void *data)
 	score->PERF_STATUS = true;
 
 	// Play sound
-	while ((score->csound->PerformKsmps() == 0)	&& (score->PERF_STATUS == true)) {}
+	while ((score->csound->PerformKsmps() == 0)	&& score->PERF_STATUS) {}
+
+	score->PERF_STATUS = false;
 
 	return 0;
 }

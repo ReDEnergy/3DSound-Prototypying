@@ -11,13 +11,19 @@ CSoundScene* CSoundEditor::Scene = nullptr;
 Game * CSoundEditor::game = nullptr;
 
 
+namespace RESOURCE_PATH {
+	const string ROOT = "Resources\\";
+	const string CONFIG = "Config\\";
+	const string STYLESHEET = CONFIG + "StyleSheets\\";
+}
+
 void CSoundEditor::Init()
 {
 	Scene = new CSoundScene();
-	Scene->Init();
-
 	game = new Game();
 	game->Init();
+
+	Scene->Init();
 
 	Engine::SetWorldInstance(game);
 }
@@ -30,4 +36,9 @@ CSoundScene * CSoundEditor::GetScene()
 Game * CSoundEditor::GetGame()
 {
 	return game;
+}
+
+string CSoundEditor::GetStyleSheetFilePath(const char * fileName)
+{
+	return RESOURCE_PATH::STYLESHEET + fileName;
 }

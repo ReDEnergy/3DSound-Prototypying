@@ -1,5 +1,7 @@
 #include "EditorList.h"
 
+#include <iostream>
+
 #include <Editor/Windows/Interface/QtListTemplates.h>
 #include <Editor/Windows/TextPreview.h>
 #include <Editor/Windows/Editors/ComponentEditor.h>
@@ -8,6 +10,8 @@
 #include <QLayout>
 #include <QMenu>
 #include <QAction>
+
+using namespace std;
 
 EditorList::EditorList()
 {

@@ -28,6 +28,11 @@
 		<path>Primitives</path>
 		<file>box.obj</file>
 	</mesh>
+	<mesh quad="true">
+		<name>plane</name>
+		<path>Primitives</path>
+		<file>plane.obj</file>
+	</mesh>
 	<mesh>
 		<name>sphere</name>
 		<path>Primitives</path>
@@ -81,6 +86,10 @@
 	<object>
 		<name>sphere</name>
 		<mesh>sphere</mesh>
+	</object>
+	<object>
+		<name>plane</name>
+		<mesh>plane</mesh>
 	</object>
 	<object>
 		<name>ground</name>

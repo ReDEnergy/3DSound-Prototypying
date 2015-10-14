@@ -18,16 +18,20 @@ class EntityStorage
 		T* Get(const char* name) const;
 		T* Create(const char* name);
 		string Create();
-		vector<T*> GetEntries() const;
+		const vector<T*>& GetEntries() const;
 
 		void Set(const char* name, T* entity);
 
 		bool Rename(const char* name, const char* newName);
 		void Remove(const char* name);
 
+	private:
+		void RebuildList();
+
 	protected:
 		const string prefix;
 		unordered_map <string, T*> storage;
+		vector <T*> list;
 };
 
 template<class T>
@@ -40,12 +44,14 @@ template<class T>
 inline void EntityStorage<T>::Clear()
 {
 	storage.clear();
+	list.clear();
 }
 
 template<class T>
 inline void EntityStorage<T>::Set(const char * name, T * entity)
 {
 	storage[name] = entity;
+	list.push_back(entity);
 }
 
 template<class T>
@@ -79,6 +85,16 @@ template<class T>
 inline void EntityStorage<T>::Remove(const char * name)
 {
 	storage.erase(name);
+	RebuildList();
+}
+
+template<class T>
+inline void EntityStorage<T>::RebuildList()
+{
+	list.clear();
+	for (auto item : storage) {
+		list.push_back(item.second);
+	}
 }
 
 template<class T>
@@ -89,6 +105,7 @@ inline T * EntityStorage<T>::Create(const char * name)
 
 	T* entity = new T();
 	storage[name] = entity;
+	list.push_back(entity);
 	return entity;
 }
 
@@ -111,11 +128,7 @@ inline string EntityStorage<T>::Create()
 }
 
 template<class T>
-inline vector<T*> EntityStorage<T>::GetEntries() const
+inline const vector<T*>& EntityStorage<T>::GetEntries() const
 {
-	vector<T*> entries;
-	for (auto item : storage) {
-		entries.push_back(item.second);
-	}
-	return entries;
+	return list;
 }

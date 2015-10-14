@@ -1,11 +1,15 @@
 #include "GameInput.h"
 
 #include <3DWorld/Game.h>
+#include <3DWorld/CSound/CSound3DSource.h>
+
 #include <Manager/Manager.h>
 #include <Manager/SceneManager.h>
+#include <UI/ColorPicking/ColorPicking.h>
 #include <Manager/EventSystem.h>
 #include <Core/InputSystem.h>
 #include <Core/Camera/Camera.h>
+#include <Component/Transform/Transform.h>
 
 
 GameInput::GameInput(Game *game)
@@ -13,8 +17,8 @@ GameInput::GameInput(Game *game)
 {
 }
 
-void GameInput::Update(float deltaTime, int mods) {
-
+void GameInput::Update(float deltaTime, int mods)
+{
 	Camera *activeCamera = Manager::GetScene()->GetActiveCamera();
 
 	if (InputSystem::KeyHold(GLFW_KEY_RIGHT))
@@ -26,13 +30,20 @@ void GameInput::Update(float deltaTime, int mods) {
 	if (InputSystem::KeyHold(GLFW_KEY_DOWN))
 		activeCamera->MoveBackward(deltaTime);
 
-	activeCamera->Update();
+	if (activeCamera->transform->GetMotionState())
+		activeCamera->Update();
+}
+
+inline ostream &operator<< (ostream &out, const glm::mediump_vec3 &vec) {
+	out << "[" << vec.x << ", " << vec.y << ", " << vec.z << "]";
+	return out;
 }
 
 void GameInput::OnKeyPress(int key, int mods)
 {
 	if (key == GLFW_KEY_ESCAPE) {
-		Manager::GetEvent()->EmitSync(EventType::OPEN_GAME_MENU, nullptr);
+		Manager::GetEvent()->EmitAsync(EventType::OPEN_GAME_MENU, nullptr);
+		return;
 	}
 }
 

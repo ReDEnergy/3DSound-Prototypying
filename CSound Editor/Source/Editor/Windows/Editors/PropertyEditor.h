@@ -1,16 +1,18 @@
 #pragma once
-// #include <Editor/Windows/Interface/DockWindow.h>
 #include <Editor/Windows/Interface/CustomWidget.h>
 
 class CSoundComponentProperty;
+class QLineEdit;
+class QComboBox;
 
-class PropertyEditor
+class CSoundPropertyEditor
 	: public CustomWidget
 {
-	public:
-		PropertyEditor();
-		virtual ~PropertyEditor() {};
+	protected:
+		CSoundPropertyEditor();
+		virtual ~CSoundPropertyEditor() {};
 
+	public:
 		void Init();
 		void SetContext(CSoundComponentProperty *prop);
 

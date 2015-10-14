@@ -4,7 +4,7 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup>
     <ExecutablePath>$(ExecutablePath)</ExecutablePath>
-    <IncludePath>..\..\..\GameEngine\Engine\Source;D:\Dropbox\Projects\GameEngine\libs;$(IncludePath)</IncludePath>
+    <IncludePath>..\..\..\GameEngine\Engine\Source;..\..\..\GameEngine\Engine;D:\Dropbox\Projects\GameEngine\libs;$(IncludePath)</IncludePath>
     <LibraryPath>..\..\..\GameEngine\Engine\lib\$(PlatformTarget)\$(Configuration);$(LibraryPath)</LibraryPath>
     <_PropertySheetDisplayName>Engine</_PropertySheetDisplayName>
   </PropertyGroup>

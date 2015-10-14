@@ -11,14 +11,10 @@ using namespace std;
 
 static unsigned int windowNumber = 0;
 
-CustomWidget::CustomWidget()
+CustomWidget::CustomWidget(QBoxLayout::Direction direction)
 {
-	setWindowTitle("DockWindow");
-	setMinimumWidth(120);
-	setMinimumHeight(150);
-	//setFeatures(QDockWidget::DockWidgetMovable | QDockWidget::DockWidgetFloatable | QDockWidget::DockWidgetClosable);
-
-	qtLayout = new QBoxLayout(QBoxLayout::Direction::TopToBottom);
+	qtLayout = new QBoxLayout(direction);
+	qtLayout->setMargin(0);
 	qtLayout->setSpacing(5);
 	qtLayout->setContentsMargins(0, 0, 0, 0);
 

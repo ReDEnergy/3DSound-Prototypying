@@ -27,8 +27,16 @@
 			<in>"Audio/noise.wav"</in>
 		</content>
 	</component>		
-			
 	<component>
+		<name>wav output</name>
+		<content>
+			<function>fout</function>
+			<out>"Audio/1.wav"</out>
+			<in>, 14</in>
+			<in>aleft</in>
+			<in>aright</in>
+		</content>
+	</component>		<component>
 		<name>sound loop</name>
 		<content>
 			<out>aout</out>
@@ -37,6 +45,22 @@
 			<in>ain</in>
 			<op>,</op>
 			<control>kPitch</control>
+			<control>kTrigger</control>
+			<op>,</op>
+			<constant>0.5</constant>		<!-- iDuration -->
+			<constant>0</constant>			<!-- iFade -->
+		</content>
+	</component>
+
+	<component>
+		<name>snd-loop-pitch-cover</name>
+		<content>
+			<out>aout</out>
+			<out>krec</out>
+			<function>sndloop</function>
+			<in>ain</in>
+			<op>,</op>
+			<control>kSurfaceCover</control>
 			<control>kTrigger</control>
 			<op>,</op>
 			<constant>0.5</constant>		<!-- iDuration -->
@@ -67,7 +91,7 @@
 			<op>,</op>
 			<control>kAzimuth</control>
 			<control>kElevation</control>
-			<text>, "CSound/hrtf/hrtf-44100-left.dat", "CSound/hrtf/hrtf-44100-right.dat"</text>		
+			<text>, "CSound/hrtf/hrtf-48000-left.dat", "CSound/hrtf/hrtf-48000-right.dat"</text>		
 		</content>
 	</component>		
 

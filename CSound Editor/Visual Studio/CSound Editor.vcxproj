@@ -171,7 +171,7 @@ xcopy /y /d "..\..\libs\Engine\$(PlatformTarget)\$(Configuration)\*.dll" "$(OutD
       <SDLCheck>true</SDLCheck>
     </ClCompile>
     <Link>
-      <SubSystem>Windows</SubSystem>
+      <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
@@ -202,7 +202,7 @@ xcopy /y /d "..\..\libs\Engine\$(PlatformTarget)\$(Configuration)\*.dll" "$(OutD
       <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
-      <SubSystem>Windows</SubSystem>
+      <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
@@ -225,6 +225,8 @@ xcopy /y /d "..\..\libs\Engine\$(PlatformTarget)\$(Configuration)\*.dll" "$(OutD
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\Source\3DWorld\Compute\PlaneIntersection.cpp" />
+    <ClCompile Include="..\Source\3DWorld\Compute\SurfaceArea.cpp" />
     <ClCompile Include="..\Source\3DWorld\CSound\CSound3DSource.cpp">
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">pchCsound.h</PrecompiledHeaderFile>
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">pchCsound.h</PrecompiledHeaderFile>
@@ -245,11 +247,15 @@ xcopy /y /d "..\..\libs\Engine\$(PlatformTarget)\$(Configuration)\*.dll" "$(OutD
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="..\Source\3DWorld\Scripts\GrowingSphere.cpp" />
+    <ClCompile Include="..\Source\3DWorld\Scripts\HrtfRecorder.cpp" />
+    <ClCompile Include="..\Source\3DWorld\Scripts\MovingPlane.cpp" />
     <ClCompile Include="..\Source\CSoundEditor.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="..\Source\Editor\EditorMainWindow.cpp" />
+    <ClCompile Include="..\Source\Editor\Events\UIEvents.cpp" />
     <ClCompile Include="..\Source\Editor\GUI.cpp" />
     <ClCompile Include="..\Source\Editor\QT\Utils.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
@@ -259,15 +265,13 @@ xcopy /y /d "..\..\libs\Engine\$(PlatformTarget)\$(Configuration)\*.dll" "$(OutD
     </ClCompile>
     <ClCompile Include="..\Source\Editor\UI\FilePicker.cpp" />
     <ClCompile Include="..\Source\Editor\UI\GUIEntity.cpp" />
-    <ClCompile Include="..\Source\Editor\Windows\Editors\ComponentEditor.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
-    </ClCompile>
+    <ClCompile Include="..\Source\Editor\Windows\Editors\ComponentComposer.cpp" />
+    <ClCompile Include="..\Source\Editor\Windows\Editors\ComponentEditor.cpp" />
     <ClCompile Include="..\Source\Editor\Windows\Editors\InstrumentEditor.cpp" />
     <ClCompile Include="..\Source\Editor\Windows\Editors\PropertyEditor.cpp" />
+    <ClCompile Include="..\Source\Editor\Windows\Editors\SceneObjectProperties.cpp" />
     <ClCompile Include="..\Source\Editor\Windows\Editors\ScoreEditor.cpp" />
+    <ClCompile Include="..\Source\Editor\Windows\Features\HrtfTest.cpp" />
     <ClCompile Include="..\Source\Editor\Windows\Interface\CustomWidget.cpp" />
     <ClCompile Include="..\Source\Editor\Windows\Interface\DockWindow.cpp" />
     <ClCompile Include="..\Source\Editor\Windows\Interface\EditorList.cpp" />
@@ -281,28 +285,38 @@ xcopy /y /d "..\..\libs\Engine\$(PlatformTarget)\$(Configuration)\*.dll" "$(OutD
     <ClCompile Include="..\Source\Main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\Source\3DWorld\Compute\PlaneIntersection.h" />
+    <ClInclude Include="..\Source\3DWorld\Compute\SurfaceArea.h" />
     <ClInclude Include="..\Source\3DWorld\CSound\CSound3DSource.h" />
     <ClInclude Include="..\Source\3DWorld\CSound\CSoundScene.h" />
     <ClInclude Include="..\Source\3DWorld\Game.h" />
     <ClInclude Include="..\Source\3DWorld\Input\GameInput.h" />
+    <ClInclude Include="..\Source\3DWorld\Scripts\GrowingSphere.h" />
+    <ClInclude Include="..\Source\3DWorld\Scripts\HrtfRecorder.h" />
+    <ClInclude Include="..\Source\3DWorld\Scripts\MovingPlane.h" />
     <ClInclude Include="..\Source\CSoundEditor.h" />
     <ClInclude Include="..\Source\Editor\Editor.h" />
     <ClInclude Include="..\Source\Editor\EditorForward.h" />
     <ClInclude Include="..\Source\Editor\EditorMainWindow.h" />
+    <ClInclude Include="..\Source\Editor\Events\UIEvents.h" />
     <ClInclude Include="..\Source\Editor\GUI.h" />
     <ClInclude Include="..\Source\Editor\QTForward.h" />
     <ClInclude Include="..\Source\Editor\QT\Utils.h" />
     <ClInclude Include="..\Source\Editor\UI\FilePicker.h" />
     <ClInclude Include="..\Source\Editor\UI\GUIEntity.h" />
+    <ClInclude Include="..\Source\Editor\Windows\Editors\ComponentComposer.h" />
     <ClInclude Include="..\Source\Editor\Windows\Editors\ComponentEditor.h" />
     <ClInclude Include="..\Source\Editor\Windows\Editors\InstrumentEditor.h" />
     <ClInclude Include="..\Source\Editor\Windows\Editors\PropertyEditor.h" />
+    <ClInclude Include="..\Source\Editor\Windows\Editors\SceneObjectProperties.h" />
     <ClInclude Include="..\Source\Editor\Windows\Editors\ScoreEditor.h" />
+    <ClInclude Include="..\Source\Editor\Windows\Features\HrtfTest.h" />
     <ClInclude Include="..\Source\Editor\Windows\Interface\CSoundListEditor.h" />
     <ClInclude Include="..\Source\Editor\Windows\Interface\CustomWidget.h" />
     <ClInclude Include="..\Source\Editor\Windows\Interface\DockWindow.h" />
     <ClInclude Include="..\Source\Editor\Windows\Interface\EditorList.h" />
     <ClInclude Include="..\Source\Editor\Windows\Interface\GenericList.h" />
+    <ClInclude Include="..\Source\Editor\Windows\Interface\QtInput.h" />
     <ClInclude Include="..\Source\Editor\Windows\Interface\QtListTemplates.h" />
     <ClInclude Include="..\Source\Editor\Windows\Lists\ComponentList.h" />
     <ClInclude Include="..\Source\Editor\Windows\Lists\InstrumentList.h" />

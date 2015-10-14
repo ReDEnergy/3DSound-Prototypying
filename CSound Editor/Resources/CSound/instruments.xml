@@ -7,6 +7,16 @@
 			<component>attenuation</component>
 		</components>
 	</instrument>
+	
+	<instrument>
+		<name>hrtf2</name>
+		<components>
+			<component>sound source</component>
+			<component>sound loop</component>
+			<component>attenuation</component>
+			<component>hrtf2</component>
+		</components>
+	</instrument>	
 
 	<instrument>
 		<name>sound-loop</name>
@@ -15,6 +25,18 @@
 			<component>sound loop</component>
 		</components>
 	</instrument>
+	
+	<instrument>
+		<name>record-hrtf</name>
+		<components>
+			<component>sound source</component>
+			<component>sound loop</component>
+			<component>attenuation</component>
+			<component>hrtf2</component>
+			<component>output stereo</component>
+			<component>wav output</component>
+		</components>
+	</instrument>	
 </instruments>
 
 <blocks>

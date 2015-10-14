@@ -18,7 +18,7 @@ class CSoundEditor
 		static void Init();
 		static CSoundScene* GetScene();
 		static Game* GetGame();
-		static Game* SetOutputModel(CSoundInstrumentBlock *outputModel);
+		static string GetStyleSheetFilePath(const char* fileName);
 
 	private:
 		static CSoundScene *Scene;

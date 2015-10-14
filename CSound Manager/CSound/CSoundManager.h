@@ -33,5 +33,6 @@ class DLLExport CSoundManager
 		EntityStorage<CSoundInstrumentBlock> *blocks;
 
 	private:
+		unsigned int controlSamples;
 		unordered_map<string, char> propertyTypes;
 };

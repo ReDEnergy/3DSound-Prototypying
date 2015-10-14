@@ -2,27 +2,25 @@
 #include <Csound/CSoundInstrument.h>
 #include <Csound/CSoundScore.h>
 
-#include <Editor/Windows/Interface/GenericList.h>
 #include <Editor/Windows/Interface/CSoundListEditor.h>
 
 class CSoundComponent;
 class CSoundInstrument;
-class InstrumentEditor;
+class InstrumentComposer;
 
-
-class InstrumentEditorListWidget
-	: public CSoundEditorListWidget<CSoundComponent, QTListItem<CSoundComponent>, InstrumentEditor>
+class InstrumentEditorList
+	: public CSoundQtList<CSoundComponent, QTListItem<CSoundComponent>, InstrumentComposer>
 {
 	public:
-		InstrumentEditorListWidget();
+		InstrumentEditorList();
 };
 
-class InstrumentEditor
-	: public CSoundListEditor<CSoundInstrument, InstrumentEditorListWidget>
+class InstrumentComposer
+	: public CSoundListEditor<CSoundInstrument, InstrumentEditorList>
 {
 	public:
-		InstrumentEditor();
-		virtual ~InstrumentEditor() {};
+		InstrumentComposer();
+		virtual ~InstrumentComposer() {};
 
 		void Update();
 		void DropItem(CSoundComponent *comp);
@@ -31,4 +29,19 @@ class InstrumentEditor
 	private:
 		void QtItemClicked(QListWidgetItem * item);
 
+};
+
+class InstrumentEditor : public DockWindow
+{
+	public:
+		InstrumentEditor();
+		~InstrumentEditor();
+
+		void Init();
+	
+	private:
+		void InitUI();
+
+	private:
+		InstrumentComposer *composer;
 };

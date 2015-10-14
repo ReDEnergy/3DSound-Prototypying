@@ -11,6 +11,7 @@ CSoundInstrument::CSoundInstrument()
 {
 	SetName("New Instrument");
 	render.reserve(1000);
+	duration = 1000;
 	parent = nullptr;
 }
 
@@ -19,6 +20,7 @@ CSoundInstrument::CSoundInstrument(const CSoundInstrument & instr)
 	SetName(instr.GetName());
 	render.reserve(1000);
 	parent = nullptr;
+	duration = instr.duration;
 
 	PreventUpdate();
 	for (auto C : instr.entries) {
@@ -95,6 +97,11 @@ vector<string> CSoundInstrument::GetControlChannels() const
 	return chns;
 }
 
+unsigned int CSoundInstrument::GetDuration() const
+{
+	return duration;
+}
+
 void CSoundInstrument::SetChannelValue(const char *channelName, float value)
 {
 	if (channels.find(channelName) != channels.end())
@@ -104,4 +111,11 @@ void CSoundInstrument::SetChannelValue(const char *channelName, float value)
 void CSoundInstrument::SetParent(CSoundScore * score)
 {
 	parent = score;
+}
+
+void CSoundInstrument::SetDuration(unsigned int duration)
+{
+	this->duration = duration;
+	if (parent)
+		parent->Update();
 }

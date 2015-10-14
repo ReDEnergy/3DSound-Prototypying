@@ -1,9 +1,17 @@
 ﻿#include "Game.h"
 
 #include <3DWorld/Input/GameInput.h>
+
+#include <3DWorld/Compute/SurfaceArea.h>
+
 #include <Editor/Windows/OpenGL/GameWindow.h>
 #include <Editor/GUI.h>
-#include <Engine.h>
+#include <Editor/EditorMainWindow.h>
+#include <include/Engine.h>
+#include <templates/singleton.h>
+
+#include <3DWorld/Scripts/MovingPlane.h>
+#include <3DWorld/Scripts/GrowingSphere.h>
 
 //#ifdef GLEW_ARB_shader_storage_buffer_object
 //#undef GLEW_ARB_shader_storage_buffer_object
@@ -17,8 +25,6 @@ Game::~Game() {
 
 void Game::Init()
 {
-	sboArea = new SSBOArea();
-
 	// Game resolution
 	glm::ivec2 resolution = Engine::Window->resolution;
 	float aspectRation = float(resolution.x) / resolution.y;
@@ -28,10 +34,11 @@ void Game::Init()
 	gameCamera->SetPerspective(40, aspectRation, 0.1f, 150);
 	gameCamera->SetPosition(glm::vec3(0, 5, 5));
 	gameCamera->SplitFrustum(5);
-	//gameCamera->Update();
+	gameCamera->transform->SetMoveSpeed(10);
 
 	freeCamera = new Camera();
-	freeCamera->SetOrthgraphic(40, 40, 0.1f, 500);
+	//freeCamera->SetOrthgraphic(40, 40, 0.1f, 500);
+	freeCamera->SetPerspective(40, aspectRation, 0.1f, 150);
 	freeCamera->SetPosition(glm::vec3(0.0f, 10.0f, 10.0f));
 	freeCamera->Update();
 
@@ -83,12 +90,17 @@ void Game::Init()
 	if (ground) ground->SetSelectable(false);
 	Manager::GetScene()->Update();
 
+	new MovingPlane();
+	new GrowingSphere();
+	objSurfaces = new SurfaceArea();
+
 	wglSwapIntervalEXT(1);
 }
 
 void Game::FrameStart()
 {
 	Engine::Window->SetContext();
+	Manager::GetEvent()->EmitSync(EventType::FRAME_START);
 }
 
 void Game::Update(float elapsedTime, float deltaTime)
@@ -107,6 +119,7 @@ void Game::Update(float elapsedTime, float deltaTime)
 	Manager::GetPicker()->Update(activeCamera);
 	Manager::GetPicker()->DrawSceneForPicking();
 	Manager::GetScene()->LightSpaceCulling(gameCamera, Sun);
+	Manager::GetEvent()->EmitSync(EventType::FRAME_UPDATE);
 
 	///////////////////////////////////////////////////////////////////////////
 	// Scene Rendering
@@ -127,41 +140,18 @@ void Game::Update(float elapsedTime, float deltaTime)
 	Manager::GetMenu()->RenderMenu();
 
 	///////////////////////////////////////////////////////////////////////
-	// Compute ColorID Area 
+	// Compute Object Area Cover 
 
 	#ifdef GLEW_ARB_shader_storage_buffer_object
-	{
-		// -- COMPUTE SHADER
-		int WORK_GROUP_SIZE = 16;
-
-		Shader *S = Manager::GetShader()->GetShader("ColorSurface");
-		S->Use();
-
-		glBindBufferBase(GL_SHADER_STORAGE_BUFFER, 0, sboArea->ssbo);
-		glClearBufferData(GL_SHADER_STORAGE_BUFFER, GL_R32UI, GL_RED, GL_UNSIGNED_INT, NULL);
-		CheckOpenGLError();
-
-		Manager::GetPicker()->FBO->BindTexture(0, GL_TEXTURE0);
-		glBindImageTexture(1, sboArea->colorAreaTexture->GetTextureID(), 0, GL_FALSE, 0, GL_READ_WRITE, GL_R16F);
-		glDispatchCompute(GLuint(UPPER_BOUND(Engine::Window->resolution.x, WORK_GROUP_SIZE)), GLuint(UPPER_BOUND(Engine::Window->resolution.y, WORK_GROUP_SIZE)), 1);
-
-		glFinish();
-		glMemoryBarrier(GL_ALL_BARRIER_BITS);
-
-		sboArea->ReadData();
-	}
+	objSurfaces->Update(gameCamera);
 	#endif
-
-	Manager::GetScene()->FrameEnded();
 }
 
 void Game::FrameEnd()
 {
-	auto SceneWindow = GUI::Get<GameWindow>(QT_INSTACE::_3D_SCENE_WINDOW);
-	if (SceneWindow) {
-		SceneWindow->Update();
-		SceneWindow->Render();
-	}
+	Singleton<EditorMainWindow>::Instance()->Update();
+	Manager::GetScene()->FrameEnded();
+	Manager::GetEvent()->EmitSync(EventType::FRAME_END);
 }
 
 void Game::OnEvent(EventType Event, void *data)
@@ -191,40 +181,7 @@ void Game::InitSceneCameras()
 	activeSceneCamera = 0;
 	sceneCameras.push_back(gameCamera);
 	sceneCameras.push_back(freeCamera);
-	sceneCameras.push_back(Sun);
+	//sceneCameras.push_back(Sun);
 
 	Manager::GetScene()->GetActiveCamera()->SetDebugView(false);
-}
-
-SSBOArea::SSBOArea()
-{
-	colorAreaTexture = new Texture();
-	colorAreaTexture->Create2DTextureFloat(NULL, 64, 64, 1);
-
-	counter = new uint[2048];
-	memset(counter, 0, 4 * 2048);
-
-	#ifdef GLEW_ARB_shader_storage_buffer_object
-	{
-		glGenBuffers(1, &ssbo);
-		glBindBuffer(GL_SHADER_STORAGE_BUFFER, ssbo);
-		glBufferData(GL_SHADER_STORAGE_BUFFER, 4 * 2048, &counter, GL_DYNAMIC_READ);
-		glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0);
-		CheckOpenGLError();
-	}
-	#endif
-}
-
-void SSBOArea::ReadData()
-{
-	glBindBuffer(GL_SHADER_STORAGE_BUFFER, ssbo);
-	GLvoid* p = glMapBuffer(GL_SHADER_STORAGE_BUFFER, GL_READ_ONLY);
-	memcpy(counter, p, 4 * 2048);
-	glUnmapBuffer(GL_SHADER_STORAGE_BUFFER);
-
-	vector<int> view;
-	for (auto i = 0; i < 2048; i++) {
-		if (counter[i])
-			view.push_back(counter[i]);
-	}
 }

@@ -2,7 +2,8 @@
 #include <string>
 
 #include <Editor/QTForward.h>
-#include <QtWidgets/QWidget>
+#include <QWidget>
+#include <QBoxLayout>
 
 using namespace std;
 
@@ -10,7 +11,7 @@ class CustomWidget
 	: public QWidget
 {
 	public:
-		CustomWidget();
+		CustomWidget(QBoxLayout::Direction direction = QBoxLayout::Direction::TopToBottom);
 		virtual ~CustomWidget() {};
 
 		virtual void Init();
@@ -22,5 +23,5 @@ class CustomWidget
 
 	protected:
 		string styleSheet;
-		QLayout* qtLayout;
+		QBoxLayout* qtLayout;
 };

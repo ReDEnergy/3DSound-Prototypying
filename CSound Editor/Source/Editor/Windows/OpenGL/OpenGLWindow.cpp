@@ -1,6 +1,6 @@
 #include "OpenGLWindow.h"
 
-#include <Engine.h>
+#include <include/Engine.h>
 #include <QtGui/QOpenGLContext>
 #include <QtPlatformHeaders/QWGLNativeContext>
 #include <QtGui/QOffscreenSurface>

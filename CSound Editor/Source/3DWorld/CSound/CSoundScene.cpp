@@ -19,6 +19,7 @@
 #include <Manager/ResourceManager.h>
 #include <Manager/SceneManager.h>
 #include <Manager/SceneManager.h>
+#include <Manager/EventSystem.h>
 #include <UI/ColorPicking/ColorPicking.h>
 #include <Utils/Serialization.h>
 
@@ -27,9 +28,11 @@ using namespace pugi;
 using namespace std;
 
 
-CSoundScene::CSoundScene() {
+CSoundScene::CSoundScene()
+{
 	defaultScore = nullptr;
-
+	playback = false;
+	SubscribeToEvent(EventType::EDITOR_OBJECT_REMOVED);
 }
 
 CSoundScene::~CSoundScene()
@@ -40,34 +43,33 @@ CSoundScene::~CSoundScene()
 void CSoundScene::Init()
 {
 	_3DSources = new EntityStorage<CSound3DSource>("3DSource ");
-	SetDefaultScore(SoundManager::GetCSManager()->scores->Get("simple"));
+	SetDefaultScore(SoundManager::GetCSManager()->GetScore("simple"));
 	Clear();
-	CreateSource();
+	auto obj = CreateSource();
 	sceneFile = "";
 }
 
 void CSoundScene::Update()
 {
-	auto game = CSoundEditor::GetGame();
-
 	for (auto S3D : _3DSources->GetEntries()) {
-		auto ID = Manager::GetColor()->GetUKeyFromColor(S3D->GetColorID());
-		auto X = game->sboArea->counter[ID];
-		S3D->SetSufaceArea(game->sboArea->counter[ID]);
+		S3D->UpdateSurfaceArea();
 	}
 }
 
 void CSoundScene::Clear()
 {
+	playback = false;
+	Manager::GetPicker()->ClearSelection();
+	Manager::GetEvent()->EmitSync(EventType::EDITOR_NO_SELECTION);
 	for (auto S3D : _3DSources->GetEntries()) {
 		Manager::GetScene()->RemoveObject(S3D, true);
 	}
 	_3DSources->Clear();
-	Manager::GetPicker()->ClearSelection();
 }
 
 void CSoundScene::Play()
 {
+	playback = true;
 	for (auto source : _3DSources->GetEntries()) {
 		source->PlayScore();
 	}
@@ -75,6 +77,7 @@ void CSoundScene::Play()
 
 void CSoundScene::Stop()
 {
+	playback = false;
 	for (auto source : _3DSources->GetEntries()) {
 		source->StopScore();
 	}
@@ -82,6 +85,7 @@ void CSoundScene::Stop()
 
 void CSoundScene::AddSource(CSound3DSource * S3D)
 {
+	Manager::GetScene()->AddObject(S3D);
 	_3DSources->Set(S3D->GetName(), S3D);
 }
 
@@ -91,12 +95,21 @@ CSound3DSource * CSoundScene::CreateSource()
 	auto source = _3DSources->Get(key.c_str());
 	source->SetName(key.c_str());
 	source->SetSoundModel(defaultScore);
+	if (playback)
+		source->PlayScore();
+
+	Manager::GetScene()->AddObject(source);
 	return source;
 }
 
 CSoundScore * CSoundScene::GetDefaultScore()
 {
 	return defaultScore;
+}
+
+const vector<CSound3DSource*>& CSoundScene::GetEntries() const
+{
+	return _3DSources->GetEntries();
 }
 
 bool CSoundScene::Rename(CSound3DSource * S3D, const char * newName)
@@ -228,7 +241,7 @@ void CSoundScene::LoadScene(const char* fileName)
 	auto doc = LoadXML(fileName);
 
 	///////////////////////////////////////////////////////////////////////////
-	// Save Scores
+	// Load Scene
 
 	xml_node nodeScene = doc->child("scene");
 
@@ -279,4 +292,12 @@ void CSoundScene::TrackInstrument(CSoundInstrument * instr)
 void CSoundScene::UnTrackInstrument(CSoundInstrument * instr)
 {
 	sceneInstruments.Remove(instr);
+}
+
+void CSoundScene::OnEvent(EventType Event, void * data)
+{
+	if (Event == EventType::EDITOR_OBJECT_REMOVED) {
+		auto obj = (GameObject*)data;
+		_3DSources->Remove(obj->GetName());
+	}
 }

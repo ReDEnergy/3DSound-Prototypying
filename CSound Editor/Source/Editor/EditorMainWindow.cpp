@@ -20,6 +20,9 @@
 
 // Engine Library
 #include <Manager/Manager.h>
+#include <Manager/SceneManager.h>
+#include <Manager/ResourceManager.h>
+#include <Manager/EventSystem.h>
 #include <Core/Engine.h>
 
 uint frame = 0;
@@ -33,11 +36,17 @@ EditorMainWindow::EditorMainWindow(QWidget *parent)
 	CSoundEditor::Init();
 
 	SetupUI(this);
-	show();
+	new UIEvents();
+
+	for (auto &window : dockWindows) {
+		window.second->Init();
+	}
 
 	for (auto &window : appWindows) {
 		window.second->Init();
 	}
+
+	show();
 }
 
 EditorMainWindow::~EditorMainWindow()
@@ -71,7 +80,7 @@ void EditorMainWindow::close()
 
 void EditorMainWindow::closeEvent(QCloseEvent * event)
 {
-	Engine::Exit();
+	close();
 }
 
 void EditorMainWindow::SetupUI(QMainWindow *MainWindow) {
@@ -85,6 +94,11 @@ void EditorMainWindow::SetupUI(QMainWindow *MainWindow) {
 								QMainWindow::AllowTabbedDocks);
 
 	MainWindow->setTabPosition(Qt::AllDockWidgetAreas, QTabWidget::TabPosition::North);
+
+	// ************************************************************************
+	// Load styling
+
+	ReloadStyleSheets();
 
 	// ************************************************************************
 	// File Picker
@@ -156,7 +170,6 @@ void EditorMainWindow::SetupUI(QMainWindow *MainWindow) {
 		QToolButton *button = new QToolButton();
 		button->setText("Play");
 		button->setMaximumWidth(50);
-		button->setMinimumHeight(30);
 		toolbar->addWidget(button);
 
 		QObject::connect(button, &QToolButton::clicked, this, []() {
@@ -169,7 +182,6 @@ void EditorMainWindow::SetupUI(QMainWindow *MainWindow) {
 		QToolButton *button = new QToolButton();
 		button->setText("Stop");
 		button->setMaximumWidth(50);
-		button->setMinimumHeight(30);
 		toolbar->addWidget(button);
 
 		QObject::connect(button, &QToolButton::clicked, this, []() {
@@ -181,7 +193,6 @@ void EditorMainWindow::SetupUI(QMainWindow *MainWindow) {
 	{
 		QToolButton *button = new QToolButton();
 		button->setText("Save Scene");
-		button->setMinimumHeight(30);
 		toolbar->addWidget(button);
 
 		QObject::connect(button, &QToolButton::clicked, this, []() {
@@ -199,7 +210,6 @@ void EditorMainWindow::SetupUI(QMainWindow *MainWindow) {
 	{
 		QToolButton *button = new QToolButton();
 		button->setText("Load Scene");
-		button->setMinimumHeight(30);
 		toolbar->addWidget(button);
 
 		QObject::connect(picker, &QFileDialog::fileSelected, this, [picker] (const QString & file) {
@@ -219,7 +229,6 @@ void EditorMainWindow::SetupUI(QMainWindow *MainWindow) {
 	{
 		QToolButton *button = new QToolButton();
 		button->setText("Clear Scene");
-		button->setMinimumHeight(30);
 		toolbar->addWidget(button);
 
 		QObject::connect(button, &QToolButton::clicked, this, []() {
@@ -227,6 +236,49 @@ void EditorMainWindow::SetupUI(QMainWindow *MainWindow) {
 			GUI::Get<SceneWindow>(QT_INSTACE::SCENE_EDITOR)->Clear();
 		});
 	}
+
+	// Record HRTF Test
+	{
+		QToolButton *button = new QToolButton();
+		button->setText("Record HRTF");
+		toolbar->addWidget(button);
+
+		appWindows["HRTFTest"] = new HrtfTest();
+		auto HRTFWindow = appWindows["HRTFTest"];
+		QObject::connect(button, &QToolButton::clicked, this, [HRTFWindow]() {
+			if (HRTFWindow)
+				HRTFWindow->show();
+		});
+	}
+
+	// Moving Plane
+	{
+		QToolButton *button = new QToolButton();
+		button->setText("Moving Plane");
+		toolbar->addWidget(button);
+
+		bool *state = new bool(false);
+		QObject::connect(button, &QToolButton::clicked, this, [state]() {
+			*state = !(*state);
+			auto event = *state ? "start-moving-plane" : "stop-moving-plane";
+			Manager::GetEvent()->EmitAsync(event);
+		});
+	}
+
+	// Expanding Sphere
+	{
+		QToolButton *button = new QToolButton();
+		button->setText("Expanding Sphere");
+		toolbar->addWidget(button);
+
+		bool *state = new bool(false);
+		QObject::connect(button, &QToolButton::clicked, this, [state]() {
+			*state = !(*state);
+			auto event = *state ? "start-expanding-sphere" : "stop-expanding-sphere";
+			Manager::GetEvent()->EmitAsync(event);
+		});
+	}
+
 
 	// Padding Scene
 	{
@@ -243,20 +295,20 @@ void EditorMainWindow::SetupUI(QMainWindow *MainWindow) {
 
 		QStyledItemDelegate* itemDelegate = new QStyledItemDelegate();
 		dropdown->setItemDelegate(itemDelegate);
+
 		dropdown->addItem("None", QVariant("none"));
 		dropdown->addItem("HRTF2", QVariant("hrtf-output"));
 		dropdown->addItem("Stereo", QVariant("stereo-output"));
 
 		QWidget* widget = Wrap("Output", 35, dropdown);
 		toolbar->addWidget(widget);
-	}
-	{
-		QToolButton *button = new QToolButton();
-		button->setText("Apply");
-		button->setMinimumHeight(30);
-		toolbar->addWidget(button);
 
-		QObject::connect(button, &QToolButton::clicked, this, &EditorMainWindow::ChnageOuputModel);
+		void (QComboBox::* indexChangedSignal)(int index) = &QComboBox::currentIndexChanged;
+		QObject::connect(dropdown, indexChangedSignal, this, [&](int index) {
+			auto data = dropdown->currentData().toString().toStdString();
+			CSoundEditor::GetScene()->SetOutputModel(data.c_str());
+		});
+
 	}
 
 	// Attach toobar to the main window
@@ -280,53 +332,61 @@ void EditorMainWindow::SetupUI(QMainWindow *MainWindow) {
 
 	// ************************************************************************
 	// Attach windows
-	appWindows["TextPreview"] = new TextPreviewWindow();
-	appWindows["ComponentList"] = new ComponentList();
-	appWindows["InstrumentList"] = new InstrumentList();
-	appWindows["ScoreList"] = new ScoreList();
+	dockWindows["TextPreview"] = new TextPreviewWindow();
+	dockWindows["ComponentList"] = new ComponentList();
+	dockWindows["InstrumentList"] = new InstrumentList();
+	dockWindows["ScoreList"] = new ScoreList();
 
-	appWindows["ComponentEditor"] = new ComponentEditor();
-	appWindows["InstrumentEditor"] = new InstrumentEditor();
-	appWindows["ScoreEditor"] = new ScoreEditor();
-	//appWindows["PropertyEditor"] = new PropertyEditor();
+	dockWindows["ScoreEditor"] = new ScoreEditor();
+	dockWindows["InstrumentEditor"] = new InstrumentEditor();
+	dockWindows["ComponentEditor"] = new ComponentEditor();
+	
+	dockWindows["SceneWindow"] = new SceneWindow();
+	dockWindows["GameWindow"] = new GameWindow();
 
-	appWindows["SceneWindow"] = new SceneWindow();
-	appWindows["GameWindow"] = new GameWindow();
+	dockWindows["ObjectProperty"] = new SceneObjectProperties();
 
 	//// Left Dock
-	MainWindow->addDockWidget(Qt::DockWidgetArea::LeftDockWidgetArea, appWindows["SceneWindow"], Qt::Orientation::Vertical);
-	MainWindow->addDockWidget(Qt::DockWidgetArea::LeftDockWidgetArea, appWindows["ScoreEditor"], Qt::Orientation::Horizontal);
-	MainWindow->addDockWidget(Qt::DockWidgetArea::LeftDockWidgetArea, appWindows["InstrumentEditor"], Qt::Orientation::Horizontal);
-	MainWindow->addDockWidget(Qt::DockWidgetArea::LeftDockWidgetArea, appWindows["ComponentEditor"], Qt::Orientation::Vertical);
-	//MainWindow->addDockWidget(Qt::DockWidgetArea::LeftDockWidgetArea, appWindows["PropertyEditor"], Qt::Orientation::Vertical);
-	MainWindow->addDockWidget(Qt::DockWidgetArea::LeftDockWidgetArea, appWindows["TextPreview"], Qt::Orientation::Horizontal);
-	MainWindow->tabifyDockWidget(appWindows["TextPreview"], appWindows["GameWindow"]);
+	MainWindow->addDockWidget(Qt::DockWidgetArea::LeftDockWidgetArea, dockWindows["SceneWindow"], Qt::Orientation::Vertical);
+	MainWindow->addDockWidget(Qt::DockWidgetArea::LeftDockWidgetArea, dockWindows["ScoreEditor"], Qt::Orientation::Horizontal);
+	MainWindow->addDockWidget(Qt::DockWidgetArea::LeftDockWidgetArea, dockWindows["InstrumentEditor"], Qt::Orientation::Horizontal);
+	MainWindow->addDockWidget(Qt::DockWidgetArea::LeftDockWidgetArea, dockWindows["ComponentEditor"], Qt::Orientation::Vertical);
+	MainWindow->tabifyDockWidget(dockWindows["ComponentEditor"], dockWindows["ObjectProperty"]);
 
-	appWindows["GameWindow"]->setFloating(true);
-	appWindows["GameWindow"]->setFloating(false);
+	MainWindow->addDockWidget(Qt::DockWidgetArea::LeftDockWidgetArea, dockWindows["TextPreview"], Qt::Orientation::Horizontal);
+	MainWindow->tabifyDockWidget(dockWindows["TextPreview"], dockWindows["GameWindow"]);
+
+	dockWindows["GameWindow"]->setFloating(true);
+	dockWindows["GameWindow"]->setFloating(false);
 
 	// Right Dock
-	MainWindow->addDockWidget(Qt::DockWidgetArea::RightDockWidgetArea, appWindows["ComponentList"], Qt::Orientation::Vertical);
-	MainWindow->addDockWidget(Qt::DockWidgetArea::RightDockWidgetArea, appWindows["InstrumentList"], Qt::Orientation::Vertical);
-	MainWindow->addDockWidget(Qt::DockWidgetArea::RightDockWidgetArea, appWindows["ScoreList"], Qt::Orientation::Vertical);
+	MainWindow->addDockWidget(Qt::DockWidgetArea::RightDockWidgetArea, dockWindows["ComponentList"], Qt::Orientation::Vertical);
+	MainWindow->addDockWidget(Qt::DockWidgetArea::RightDockWidgetArea, dockWindows["InstrumentList"], Qt::Orientation::Vertical);
+	MainWindow->addDockWidget(Qt::DockWidgetArea::RightDockWidgetArea, dockWindows["ScoreList"], Qt::Orientation::Vertical);
 }
 
 void EditorMainWindow::Update()
 {
-	app->processEvents();
+	//app->processEvents();
+	auto SceneWindow = GUI::Get<GameWindow>(QT_INSTACE::_3D_SCENE_WINDOW);
+	if (SceneWindow) {
+		SceneWindow->Update();
+		SceneWindow->Render();
+	}
+	dockWindows["ObjectProperty"]->Update();
 }
 
 void EditorMainWindow::ReloadStyleSheets()
 {
-	for (auto &window : appWindows) {
+	for (auto &window : dockWindows) {
 		window.second->ReloadStyleSheet();
 	}
-}
 
-void EditorMainWindow::ChnageOuputModel()
-{
-	auto data = dropdown->currentData().toString().toStdString();
-	CSoundEditor::GetScene()->SetOutputModel(data.c_str());
+	// Set general app stylesheet
+	QFile File(CSoundEditor::GetStyleSheetFilePath("app.qss").c_str());
+	File.open(QFile::ReadOnly);
+	QString StyleSheet = QLatin1String(File.readAll());
+	setStyleSheet(StyleSheet);
 }
 
 void EngineThread::run()

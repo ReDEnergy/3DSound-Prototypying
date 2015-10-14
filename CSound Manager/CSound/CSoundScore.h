@@ -30,7 +30,4 @@ class DLLExport CSoundScore
 		string _valueCsOptions;
 		string _valueInstrumentOptions;
 		pugi::xml_document *doc;
-
-	public:
-		bool PERF_STATUS;
 };

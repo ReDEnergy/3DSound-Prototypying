@@ -2,26 +2,30 @@
 
 #include <Editor/GUI.h>
 #include <Editor/QT/Utils.h>
-#include <Editor/Windows/Editors/ComponentEditor.h>
+#include <Editor/Windows/Editors/ComponentComposer.h>
+#include <CSoundEditor.h>
 
 #include <Csound/CSoundComponentProperty.h>
 #include <Csound/CSoundManager.h>
 #include <Csound/SoundManager.h>
 
-#include <QtWidgets/QComboBox>
-#include <QtWidgets/QLayout>
-#include <QtWidgets/QPushButton>
-#include <QtWidgets/QStyledItemDelegate>
+#include <QComboBox>
+#include <QLayout>
+#include <QPushButton>
+#include <QStyledItemDelegate>
+#include <QLineEdit>
 
 
-PropertyEditor::PropertyEditor()
+CSoundPropertyEditor::CSoundPropertyEditor()
 {
-	// setWindowTitle("Property Editor");
+	setWindowTitle("Property Editor");
 	GUI::Set(QT_INSTACE::PROPERTY_EDITOR, (void*) this);
 	InitUI();
+
+	context = nullptr;
 }
 
-void PropertyEditor::SetContext(CSoundComponentProperty * prop)
+void CSoundPropertyEditor::SetContext(CSoundComponentProperty * prop)
 {
 	context = prop;
 	value->setText(context->GetValue());
@@ -30,10 +34,9 @@ void PropertyEditor::SetContext(CSoundComponentProperty * prop)
 	dropdown->setCurrentIndex(typeIndex);
 }
 
-void PropertyEditor::InitUI()
+void CSoundPropertyEditor::InitUI()
 {
-	LoadStyleSheet("Resources/StyleSheets/stylesheet.qss");
-	qtLayout->setMargin(5);
+	qtLayout->setMargin(0);
 	qtLayout->setAlignment(Qt::AlignTop);
 
 	{
@@ -42,19 +45,19 @@ void PropertyEditor::InitUI()
 		QStyledItemDelegate* itemDelegate = new QStyledItemDelegate();
 		dropdown->setItemDelegate(itemDelegate);
 
-		auto widget = Wrap("Type", 50, dropdown);
+		auto widget = Wrap("Type", 40, dropdown);
 		qtLayout->addWidget(widget);
 	}
 
 	{
 		value = new QLineEdit();
-		auto widget = Wrap("Value", 50, value);
+		auto widget = Wrap("Value", 40, value);
 		qtLayout->addWidget(widget);
 	}
 
 	{
 		defaultValue = new QLineEdit();
-		auto widget = Wrap("Default", 50, defaultValue);
+		auto widget = Wrap("Default", 40, defaultValue);
 		qtLayout->addWidget(widget);
 	}
 
@@ -64,23 +67,23 @@ void PropertyEditor::InitUI()
 		button->setText("Update");
 		qtLayout->addWidget(button);
 
-		QObject::connect(button, &QPushButton::clicked, this, &PropertyEditor::Update);
+		QObject::connect(button, &QPushButton::clicked, this, &CSoundPropertyEditor::Update);
 	}
 }
 
-void PropertyEditor::Update()
+void CSoundPropertyEditor::Update()
 {
 	if (!context) return;
 
 	context->SetDefault(defaultValue->text().toStdString().c_str());
 	context->SetValue(value->text().toStdString().c_str());
 	context->SetName(dropdown->currentText().toStdString().c_str());
-	auto CE = GUI::Get<ComponentEditor>(QT_INSTACE::COMPONENT_EDITOR);
+	auto CE = GUI::Get<ComponentComposer>(QT_INSTACE::COMPONENT_COMPOSER);
 	CE->Update();
 	CE->SetContext(CE->GetActiveContext());
 }
 
-void PropertyEditor::Init()
+void CSoundPropertyEditor::Init()
 {
 	auto types = SoundManager::GetCSManager()->GetPropertyTypes();
 

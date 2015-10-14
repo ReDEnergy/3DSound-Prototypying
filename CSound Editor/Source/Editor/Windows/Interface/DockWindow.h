@@ -16,6 +16,7 @@ class DockWindow
 		virtual void Init();
 		virtual void Hide();
 		virtual void Close() {};
+		virtual void Update() {};
 
 		void ReloadStyleSheet();
 		void LoadStyleSheet(const char* fileLocation);

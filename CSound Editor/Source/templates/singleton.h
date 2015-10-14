@@ -28,7 +28,8 @@ T* Singleton<T>::Instance() {
 template<class T>
 void Singleton<T>::Destroy() {
 	if (pInstance != nullptr ) {
-		delete pInstance;
+		// TODO: QT error when delete
+		// delete pInstance;
         pInstance = nullptr;
     }
 }

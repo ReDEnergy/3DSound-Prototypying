@@ -2,6 +2,7 @@
 #include <stdio.h>
 
 #include <Editor/EditorMainWindow.h>
+#include <Templates/singleton.h>
 
 #include <QApplication>
 
@@ -16,8 +17,8 @@ public:
 	}
 
 	void Init() {
-		EditorMainWindow window;
-		window.Run(this);
+		auto window = Singleton<EditorMainWindow>::Instance();
+		window->Run(this);
 		//this->exec();
 	};
 

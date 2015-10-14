@@ -1,24 +1,23 @@
 #pragma once
-#include <Editor/Windows/Interface/GenericList.h>
 #include <Editor/Windows/Interface/CSoundListEditor.h>
 
 class CSoundInstrument;
 class CSoundScore;
-class ScoreEditor;
+class ScoreComposer;
 
-class ScoreEditorListWidget
-	: public CSoundEditorListWidget<CSoundInstrument, QTListItem<CSoundInstrument>, ScoreEditor>
+class ScoreEditorList
+	: public CSoundQtList<CSoundInstrument, QTListItem<CSoundInstrument>, ScoreComposer>
 {
 	public:
-		ScoreEditorListWidget();
+		ScoreEditorList();
 };
 
-class ScoreEditor
-	: public CSoundListEditor<CSoundScore, ScoreEditorListWidget>
+class ScoreComposer
+	: public CSoundListEditor<CSoundScore, ScoreEditorList>
 {
 	public:
-		ScoreEditor();
-		virtual ~ScoreEditor() {};
+		ScoreComposer();
+		virtual ~ScoreComposer() {};
 	
 		void Update();
 		void DropItem(CSoundInstrument *instr);
@@ -26,5 +25,19 @@ class ScoreEditor
 
 	private:
 		void QtItemClicked(QListWidgetItem * item);
-	
+};
+
+class ScoreEditor : public DockWindow
+{
+	public:
+		ScoreEditor();
+		~ScoreEditor();
+
+		void Init();
+
+	private:
+		void InitUI();
+
+	private:
+		ScoreComposer *composer;
 };

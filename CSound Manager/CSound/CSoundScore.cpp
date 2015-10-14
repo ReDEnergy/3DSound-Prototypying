@@ -33,15 +33,13 @@ CSoundScore::~CSoundScore() {
 
 void CSoundScore::Init()
 {
-	PERF_STATUS = false;
-
 	_valueCsOptions = string(
 		"\n+rtaudio=alsa -o dac" \
 		"\n-B 64" \
 		"\n-b 2048\n\t");
 
 	_valueInstrumentOptions = string(
-		"\nksmps = 32 \
+		"\nksmps = 8 \
 		\nnchnls = 2\n");
 
 	doc = nullptr;
@@ -87,7 +85,7 @@ void CSoundScore::Update()
 
 	instrumentID = 1;
 	for (auto I : entries) {
-		string instr = "i" + to_string(instrumentID) + " 0 300000\n";
+		string instr = "i" + to_string(instrumentID) + " 0 " + to_string(I->GetDuration()) + " \n";
 		CsScore.append_child(pugi::node_pcdata).set_value(instr.c_str());
 		instrumentID++;
 	}

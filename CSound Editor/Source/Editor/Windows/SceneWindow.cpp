@@ -29,12 +29,15 @@ SceneWindow::SceneWindow()
 	CreatePopupMenu();
 
 	GUI::Set(QT_INSTACE::SCENE_EDITOR, (void*) this);
+	SubscribeToEvent(EventType::EDITOR_OBJECT_SELECTED);
+	SubscribeToEvent(EventType::EDITOR_OBJECT_ADDED);
+	SubscribeToEvent(EventType::EDITOR_OBJECT_REMOVED);
 }
 
 void SceneWindow::Init()
 {
 	Clear();
-	auto entries = CSoundEditor::GetScene()->_3DSources->GetEntries();
+	auto entries = CSoundEditor::GetScene()->GetEntries();
 	for (auto &entry : entries)
 	{
 		auto item = new SceneItem(entry);
@@ -68,7 +71,7 @@ void SceneWindow::InitUI()
 void SceneWindow::Clear()
 {
 	qtTree->clear();
-	GUI::Get<ScoreEditor>(QT_INSTACE::SCORE_EDITOR)->Clear();
+	GUI::Get<ScoreComposer>(QT_INSTACE::SCORE_COMPOSER)->Clear();
 }
 
 
@@ -87,6 +90,12 @@ void SceneWindow::ReloadItem()
 	((SceneItem*)qtTree->currentItem())->GetData()->ReloadScore();
 }
 
+void SceneWindow::InsertItem(CSound3DSource * data)
+{
+	auto item = new SceneItem(data);
+	rootItem->addChild(item);
+}
+
 void SceneWindow::RemoveItem()
 {
 	int row = qtTree->currentIndex().row();
@@ -98,6 +107,19 @@ void SceneWindow::RemoveItem()
 void SceneWindow::RenameItem()
 {
 	qtTree->editItem(qtTree->currentItem());
+}
+
+void SceneWindow::CreateItem()
+{
+	auto S = CSoundEditor::GetScene()->CreateSource();
+	auto item = new SceneItem(S);
+	rootItem->addChild(item);
+	qtTree->setCurrentItem(item, 0);
+	QtItemClicked(item, 0);
+}
+
+void SceneWindow::DropItem(CSoundScore * score)
+{
 }
 
 void SceneWindow::CreatePopupMenu()
@@ -121,8 +143,53 @@ void SceneWindow::CreatePopupMenu()
 	QObject::connect(actionDelete, &QAction::triggered, this, &SceneWindow::RemoveItem);
 }
 
+void SceneWindow::FindAndSelectItem(void *data)
+{
+	if (data == nullptr) return;
+
+	QString name(((GameObject*)data)->GetName());
+	auto items = qtTree->findItems(name, Qt::MatchExactly, 0);
+	if (items.size()) {
+		auto item = items.first();
+		qtTree->setCurrentItem(item);
+		QtItemClicked(item, 0);
+	}
+}
+
+void SceneWindow::FindAndDeleteItem(void *data)
+{
+	if (data == nullptr) return;
+	auto obj = dynamic_cast<CSound3DSource*>((GameObject*)data);
+
+	if (obj == nullptr) return;
+
+	auto noItems = qtTree->topLevelItemCount();
+	for (int i = 0; i < noItems; i++) {
+		auto itemData = ((SceneItem*)qtTree->topLevelItem(i))->GetData();
+		if (itemData == data)
+		{
+			bool selectNewItem = (qtTree->currentIndex().row() == i);
+			qtTree->takeTopLevelItem(i);
+			if (selectNewItem && noItems > 1)
+			{
+				// select the previous element if there is any
+				if (i) i--;
+				auto item = qtTree->topLevelItem(i);
+				qtTree->setCurrentItem(item);
+				QtItemClicked(item, 0);
+			}
+			else {
+				Clear();
+			}
+		break;
+		}
+	}
+	cout << "Delete: " << ((GameObject*)data)->GetName() << endl;
+}
+
 void SceneWindow::OpenPopupMenu(const QPoint & pos)
 {
+	cout << pos.x() << "-" << pos.y() << endl;
 	auto qtItem = qtTree->itemAt(pos);
 
 	if (qtItem) {
@@ -133,7 +200,7 @@ void SceneWindow::OpenPopupMenu(const QPoint & pos)
 void SceneWindow::QtItemClicked(QTreeWidgetItem *item, int column)
 {
 	((SceneItem*)item)->GetData()->SelectObject();
-	GUI::Get<ScoreEditor>(QT_INSTACE::SCORE_EDITOR)->SetContext(((SceneItem*)item)->GetData()->GetScore());
+	GUI::Get<ScoreComposer>(QT_INSTACE::SCORE_COMPOSER)->SetContext(((SceneItem*)item)->GetData()->GetScore());
 	GUI::Get<TextPreviewWindow>(QT_INSTACE::TEXT_PREVIEW)->RenderText(((SceneItem*)item)->GetData()->GetRender());
 }
 
@@ -148,8 +215,14 @@ void SceneWindow::QtItemRenamed(QListWidgetItem * item)
 	}
 }
 
-void SceneWindow::DropItem(CSoundScore * score)
+void SceneWindow::OnEvent(EventType Event, void * data)
 {
+	if (Event == EventType::EDITOR_OBJECT_SELECTED) {
+		FindAndSelectItem(data);
+	}
+	if (Event == EventType::EDITOR_OBJECT_REMOVED) {
+		FindAndDeleteItem(data);
+	}
 }
 
 void SceneWindow::SelectFirstTopLevelItem(int row)
@@ -158,20 +231,11 @@ void SceneWindow::SelectFirstTopLevelItem(int row)
 	int count = qtTree->topLevelItemCount();
 	if (count == 0)
 	{
-		GUI::Get<ScoreEditor>(QT_INSTACE::SCORE_EDITOR)->Clear();
+		GUI::Get<ScoreComposer>(QT_INSTACE::SCORE_COMPOSER)->Clear();
 		return;
 	}
 
-	auto item = qtTree->itemAt(0, 0);
-	qtTree->setCurrentItem(item, 0);
-	QtItemClicked(item, 0);
-}
-
-void SceneWindow::CreateItem()
-{
-	auto S = CSoundEditor::GetScene()->CreateSource();
-	auto item = new SceneItem(S);
-	rootItem->addChild(item);
+	auto item = qtTree->topLevelItem(0);
 	qtTree->setCurrentItem(item, 0);
 	QtItemClicked(item, 0);
 }
@@ -201,5 +265,4 @@ void SceneTreeWidget::dropEvent(QDropEvent * event)
 		((SceneWindow*)(this->parent()->parent()))->DropItem(appData);
 		cout << "DROP FROM [SCORE LIST]: " << appData->GetName() << endl;
 	}
-
 }

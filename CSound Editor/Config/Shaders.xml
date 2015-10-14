@@ -87,7 +87,11 @@
 	<shader>
 		<name>ColorSurface</name>
 		<compute>Compute/ColorSurface.CS</compute>
-	</shader>	
+	</shader>
+	<shader>
+		<name>ClearBuffer</name>
+		<compute>Compute/ClearBuffer.CS</compute>
+	</shader>
 	<shader>
 		<name>deferred</name>
 		<vertex>MVP.VS</vertex>

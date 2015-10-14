@@ -9,6 +9,7 @@ class TextPreviewWindow
 	public:
 		TextPreviewWindow();
 		virtual ~TextPreviewWindow() {};
+
 		void RenderText(const char * text);
 
 	private:

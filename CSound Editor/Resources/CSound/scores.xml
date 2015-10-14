@@ -12,6 +12,14 @@
 			<instrument>sound-loop</instrument>
 		</instruments>
 	</score>
+
+	<score>
+		<name>record-hrtf</name>
+		<instruments>
+			<instrument>record-hrtf</instrument>
+		</instruments>
+	</score>
+	
 </scores>
 
 

@@ -18,11 +18,14 @@ class DLLExport CSoundInstrument
 
 		void InitControlChannels(Csound * score);
 		vector<string> GetControlChannels() const;
+		unsigned int GetDuration() const;
 
 		void SetChannelValue(const char * channelName, float value);
 		void SetParent(CSoundScore *score);
+		void SetDuration(unsigned int duration);
 
 	private:
+		unsigned int duration;
 		CSoundScore *parent;
 		unordered_map<string, MYFLT*> channels;
 };

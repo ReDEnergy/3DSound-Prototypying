@@ -2,10 +2,13 @@
 #include <unordered_map>
 #include <string>
 
+#include <Event/EventListener.h>
+
 #include <CSound/CSoundForward.h>
 #include <templates/ReferenceCounter.h>
 
 class CSoundScene
+	: public EventListener
 {
 	public:
 		CSoundScene();
@@ -27,6 +30,7 @@ class CSoundScene
 		void AddSource(CSound3DSource * S3D);
 		CSound3DSource *CreateSource();
 		CSoundScore *GetDefaultScore();
+		const vector<CSound3DSource*>& GetEntries() const;
 		void SetDefaultScore(CSoundScore *score);
 		void SetOutputModel(const char* name);
 
@@ -38,12 +42,18 @@ class CSoundScene
 
 		void UnTrackInstrument(CSoundInstrument * instr);
 
-	public:
+	private:
+		void OnEvent(EventType Event, void *data);
+
+	private:
 		EntityStorage<CSound3DSource> *_3DSources;
+
+	public:
 		ReferenceCounter<CSoundScore> sceneScores;
 		ReferenceCounter<CSoundInstrument> sceneInstruments;
 
 	private:
+		bool playback;
 		CSoundScore *defaultScore;
 		string sceneFile;
 };

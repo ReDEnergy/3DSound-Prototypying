@@ -2,6 +2,9 @@
 #include <Editor/Windows/Interface/DockWindow.h>
 
 class CSoundScore;
+class CSound3DSource;
+
+#include <Event/EventListener.h>
 
 #include <QTreeWidget>
 
@@ -14,6 +17,7 @@ public:
 
 class SceneWindow
 	: public DockWindow
+	, public EventListener
 {
 	friend class SceneTreeWidget;
 
@@ -21,6 +25,7 @@ class SceneWindow
 		SceneWindow();
 		virtual ~SceneWindow() {};
 
+		void InsertItem(CSound3DSource *data);
 		void CreateItem();
 		void Clear();
 		void Init();
@@ -34,10 +39,13 @@ class SceneWindow
 		void RemoveItem();
 		void RenameItem();
 		void CreatePopupMenu();
+		void FindAndSelectItem(void *data);
+		void FindAndDeleteItem(void * data);
 
 		void OpenPopupMenu(const QPoint & pos);
 		void QtItemClicked(QTreeWidgetItem* item, int column);
 		void QtItemRenamed(QListWidgetItem* item);
+		void OnEvent(EventType Event, void *data);
 
 	protected:
 		void DropItem(CSoundScore* score);

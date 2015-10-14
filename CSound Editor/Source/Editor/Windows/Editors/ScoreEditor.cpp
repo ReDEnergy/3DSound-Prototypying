@@ -1,5 +1,7 @@
 #include "ScoreEditor.h"
 
+#include <templates/singleton.h>
+
 #include <Editor/Windows/TextPreview.h>
 #include <Editor/Windows/Editors/InstrumentEditor.h>
 #include <Editor/Windows/Lists/InstrumentList.h>
@@ -13,29 +15,28 @@
 #include <Manager/EventSystem.h>
 
 
-ScoreEditor::ScoreEditor()
+ScoreComposer::ScoreComposer()
 {
-	setWindowTitle("Score Editor");
-	GUI::Set(QT_INSTACE::SCORE_EDITOR, (void*) this);
+	GUI::Set(QT_INSTACE::SCORE_COMPOSER, (void*) this);
 }
 
-void ScoreEditor::Update()
+void ScoreComposer::Update()
 {
 	if (activeContext) {
 		activeContext->Save();
 	}
-	Manager::GetEvent()->EmitSync("model-changed", activeContext);
+	Manager::GetEvent()->EmitAsync("model-changed", activeContext);
 }
 
-void ScoreEditor::QtItemClicked(QListWidgetItem * item)
+void ScoreComposer::QtItemClicked(QListWidgetItem * item)
 {
 	CSoundListEditor::QtItemClicked(item);
 	auto data = qtList->GetItemData(item);
-	GUI::Get<InstrumentEditor>(QT_INSTACE::INSTRUMENT_EDITOR)->SetContext(data);
+	GUI::Get<InstrumentComposer>(QT_INSTACE::INSTRUMENT_COMPOSER)->SetContext(data);
 	GUI::Get<TextPreviewWindow>(QT_INSTACE::TEXT_PREVIEW)->RenderText(data->GetRender());
 }
 
-void ScoreEditor::DropItem(CSoundInstrument * instr)
+void ScoreComposer::DropItem(CSoundInstrument * instr)
 {
 	if (activeContext) {
 		CSoundEditor::GetScene()->TrackInstrument(instr);
@@ -46,14 +47,35 @@ void ScoreEditor::DropItem(CSoundInstrument * instr)
 	}
 }
 
-void ScoreEditor::ListCleared()
+void ScoreComposer::ListCleared()
 {
-	GUI::Get<InstrumentEditor>(QT_INSTACE::INSTRUMENT_EDITOR)->Clear();
+	GUI::Get<InstrumentComposer>(QT_INSTACE::INSTRUMENT_COMPOSER)->Clear();
 	GUI::Get<TextPreviewWindow>(QT_INSTACE::TEXT_PREVIEW)->RenderText("");
 }
 
-ScoreEditorListWidget::ScoreEditorListWidget()
+ScoreEditorList::ScoreEditorList()
 {
 	auto W = GUI::Get<InstrumentList>(QT_INSTACE::INSTRUMENT_LIST)->GetQtList();
 	AddDragnDropSource(W);
+}
+
+ScoreEditor::ScoreEditor()
+{
+	setWindowTitle("Score Editor");
+	InitUI();
+}
+
+ScoreEditor::~ScoreEditor()
+{
+}
+
+void ScoreEditor::InitUI()
+{
+	composer = Singleton<ScoreComposer>::Instance();
+	qtLayout->addWidget(composer);
+}
+
+void ScoreEditor::Init()
+{
+	composer->Init();
 }

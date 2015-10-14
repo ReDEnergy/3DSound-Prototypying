@@ -1,24 +1,13 @@
 #pragma once
 #include <vector>
-#include <EngineForward.h>
+#include <include/EngineForward.h>
 
 using namespace std;
 
 #include <Core/World.h>
 #include <Event/EventListener.h>
 
-class SSBOArea
-{
-	public:
-		SSBOArea();
-		~SSBOArea() {};
-		void ReadData();
-
-	public:
-		unsigned int *counter;
-		Texture *colorAreaTexture;
-		unsigned int ssbo;
-};
+class SurfaceArea;
 
 class Game : public World,
 			public EventListener
@@ -58,5 +47,5 @@ class Game : public World,
 		vector<Camera*>		sceneCameras;
 		unsigned int		activeSceneCamera;
 
-		SSBOArea *sboArea;
+		SurfaceArea *objSurfaces;
 };

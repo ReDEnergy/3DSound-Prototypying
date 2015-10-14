@@ -7,6 +7,8 @@
 #include <QtWidgets/QBoxLayout>
 #include <QtCore/QFile>
 
+#include <CSoundEditor.h>
+
 using namespace std;
 
 static unsigned int windowNumber = 0;
@@ -16,7 +18,6 @@ DockWindow::DockWindow()
 	setWindowTitle("DockWindow");
 	setMinimumWidth(120);
 	setMinimumHeight(150);
-	//setFeatures(QDockWidget::DockWidgetMovable | QDockWidget::DockWidgetFloatable | QDockWidget::DockWidgetClosable);
 
 	qtLayout = new QBoxLayout(QBoxLayout::Direction::TopToBottom);
 	qtLayout->setSpacing(5);
@@ -26,9 +27,9 @@ DockWindow::DockWindow()
 	layoutWidget->setLayout(qtLayout);
 	this->setWidget(layoutWidget);
 
-	styleSheet = "";
-
 	QObject::connect(this, &QDockWidget::topLevelChanged, this, &DockWindow::DockedEvent);
+
+	LoadStyleSheet("stylesheet.qss");
 }
 
 void DockWindow::Init()
@@ -47,10 +48,11 @@ void DockWindow::ReloadStyleSheet()
 		LoadStyleSheet(styleSheet.c_str());
 }
 
-void DockWindow::LoadStyleSheet(const char * fileLocation)
+void DockWindow::LoadStyleSheet(const char * fileName)
 {
-	styleSheet = fileLocation;
-	QFile File(fileLocation);
+	styleSheet = fileName;
+	CSoundEditor::GetStyleSheetFilePath(fileName);
+	QFile File(CSoundEditor::GetStyleSheetFilePath(fileName).c_str());
 	File.open(QFile::ReadOnly);
 	QString StyleSheet = QLatin1String(File.readAll());
 	setStyleSheet(StyleSheet);

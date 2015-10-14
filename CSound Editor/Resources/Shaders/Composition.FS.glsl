@@ -119,7 +119,6 @@ void main() {
 		
 	out_color += SkeletalView(text_coord);
 
-	//Gizmo - BUG - until not used final image is darker
 	if (active_selection)
 	{
 		vec4 gizmo_add = texture(u_texture_7, text_coord);

@@ -12,7 +12,7 @@
 #include <QLayout>
 
 // Engine library
-#include <Engine.h>
+#include <include/Engine.h>
 
 
 static GPUBuffers *buffer;
@@ -72,8 +72,8 @@ void GameWindow::Render()
 	auto activeCamera = Manager::GetScene()->GetActiveCamera();
 
 	// No need to clear because we write a texture to the entire screen
-	//glClearColor(1, 1, 1, 1);
 	FrameBuffer::Unbind();
+	FrameBuffer::Clear();
 	glDepthMask(GL_FALSE);
 	glDisable(GL_DEPTH_TEST);
 
@@ -111,7 +111,7 @@ void GameWindow::Render()
 		Manager::GetPicker()->FBO_Gizmo->BindTexture(0, GL_TEXTURE7);
 		Manager::GetPicker()->FBO->BindTexture(0, GL_TEXTURE8);
 		game->Sun->FBO->BindTexture(0, GL_TEXTURE10);
-		game->sboArea->colorAreaTexture->Bind(GL_TEXTURE11);
+		//game->sboArea->colorAreaTexture->Bind(GL_TEXTURE11);
 
 		glUniformMatrix4fv(Debug->loc_model_matrix, 1, GL_FALSE, glm::value_ptr(debugTransform.GetModel()));
 		RenderMesh(buffer->VAO);

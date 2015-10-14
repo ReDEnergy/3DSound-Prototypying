@@ -136,7 +136,7 @@ public:
 
 	T* GetItemData(QListWidgetItem *item) const
 	{
-		return (T*)((P*)item)->GetData();
+		return (T*)(((P*)item)->GetData());
 	};
 
 	void AddDragnDropSource(QObject* S)
