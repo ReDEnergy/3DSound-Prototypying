@@ -1,0 +1,17 @@
+QComboBox {
+	height: 22px;
+	margin-left: 0px;
+	padding-left: 10px;
+}
+
+QComboBox QAbstractItemView::item {
+	height: 22px;
+}
+
+QToolButton {
+	height: 30px;
+}
+
+QDockWidget {
+    border: 1px solid #ff0000;
+}

@@ -7,3 +7,7 @@ QComboBox {
 QComboBox QAbstractItemView::item {
 	height: 22px;
 }
+
+QToolButton {
+	height: 30px;
+}
