@@ -17,22 +17,32 @@
 #include <GPU/Texture.h>
 #include <GPU/FrameBuffer.h>
 
+#include <3DWorld/Game.h>
+#include <CSoundEditor.h>
+
 SurfaceArea::SurfaceArea()
 {
 	ssbo = new SSBO<unsigned int>(2048);
+	counter = ssbo->GetBuffer();
+
+	gameCamera = CSoundEditor::GetGame()->gameCamera;
+
+	computeShader = Manager::GetShader()->GetShader("ColorSurface");
+	if (computeShader) {
+		SubscribeToEvent(EventType::FRAME_UPDATE);
+	}
 }
 
-void SurfaceArea::Update(const Camera* const camera)
+void SurfaceArea::Update()
 {
-	if (camera->transform->GetMotionState() == false) return;
+	if (gameCamera->transform->GetMotionState() == false) return;
 
-	Shader *S = Manager::GetShader()->GetShader("ColorSurface");
-	S->Use();
+	computeShader->Use();
+	int WORK_GROUP_SIZE = 32;
 
 	ssbo->ClearBuffer();
 	ssbo->BindBuffer(0);
-	Manager::GetPicker()->FBO->BindTexture(0, GL_TEXTURE0);
-	int WORK_GROUP_SIZE = 16;
+	glBindImageTexture(0, Manager::GetPicker()->FBO->GetTextureID(0), 0, GL_FALSE, 0, GL_READ_ONLY, GL_RGBA32F);
 	glDispatchCompute(GLuint(UPPER_BOUND(Engine::Window->resolution.x, WORK_GROUP_SIZE)), GLuint(UPPER_BOUND(Engine::Window->resolution.y, WORK_GROUP_SIZE)), 1);
 	glFinish();
 	glMemoryBarrier(GL_ALL_BARRIER_BITS);
@@ -49,4 +59,10 @@ void SurfaceArea::ReadData()
 {
 	ssbo->ReadBuffer();
 	counter = ssbo->GetBuffer();
+}
+
+void SurfaceArea::OnEvent(EventType Event, void * data)
+{
+	if (Event == EventType::FRAME_UPDATE)
+		Update();
 }

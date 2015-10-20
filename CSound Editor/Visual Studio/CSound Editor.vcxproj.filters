@@ -152,6 +152,15 @@
     <ClCompile Include="..\Source\3DWorld\Compute\PlaneIntersection.cpp">
       <Filter>3DWorld\Compute</Filter>
     </ClCompile>
+    <ClCompile Include="..\Source\Editor\Windows\Interface\QtSortableInput.cpp">
+      <Filter>Editor\Windows\Interface</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\Editor\Windows\Features\HrtfTestGenerator.cpp">
+      <Filter>Editor\Windows\Features</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\Editor\Windows\Features\HrtfTestAnswerPanel.cpp">
+      <Filter>Editor\Windows\Features</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Source\3DWorld\CSound\CSound3DSource.h">
@@ -286,6 +295,15 @@
     </ClInclude>
     <ClInclude Include="..\Source\3DWorld\Compute\PlaneIntersection.h">
       <Filter>3DWorld\Compute</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Editor\Windows\Interface\QtSortableInput.h">
+      <Filter>Editor\Windows\Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Editor\Windows\Features\HrtfTestGenerator.h">
+      <Filter>Editor\Windows\Features</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Editor\Windows\Features\HrtfTestAnswerPanel.h">
+      <Filter>Editor\Windows\Features</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -25,7 +25,7 @@ void InstrumentList::Init()
 
 void InstrumentList::QtItemClicked(QListWidgetItem * item)
 {
-	cout << item->text().toStdString().c_str()  << endl;
+	EditorList::QtItemClicked(item);
 	GUI::Get<TextPreviewWindow>(QT_INSTACE::TEXT_PREVIEW)->RenderText(((ListItem*)item)->GetData()->GetRender());
 }
 

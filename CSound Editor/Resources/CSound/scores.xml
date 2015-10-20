@@ -20,6 +20,13 @@
 		</instruments>
 	</score>
 	
+	<score>
+		<name>test-hrtf</name>
+		<instruments>
+			<instrument>test-hrtf</instrument>
+		</instruments>
+	</score>	
+	
 </scores>
 
 

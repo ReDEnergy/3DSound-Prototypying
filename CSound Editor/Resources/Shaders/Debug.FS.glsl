@@ -59,6 +59,9 @@ vec4 CSM() {
 void main() {
 
 	switch(debug_id) {
+		case 0:
+			frag_color = viewDepth(u_texture_0, text_coord);
+			break;
 		case 1:
 			frag_color = texture(u_texture_1, text_coord);
 			break;
@@ -75,7 +78,7 @@ void main() {
 			frag_color = texture(u_texture_5, text_coord);
 			break;
 		case 6:
-			frag_color = viewDepth(u_texture_6, text_coord);
+			frag_color = texture(u_texture_6, text_coord);
 			break;
 		case 7:
 			frag_color = texture(u_texture_7, text_coord);
@@ -86,21 +89,13 @@ void main() {
 		case 9:
 			frag_color = texture(u_texture_9, text_coord);
 			break;
-		case 10:
-			frag_color = viewDepth(u_texture_11, text_coord);
-			break;
-		case 11:
-			vec4 wpos = texture(u_texture_1, text_coord);
-			vec3 dir = wpos.xyz - eye_position;
-			// frag_color = vec4(dir, 1.0);
-			frag_color = texture(u_texture_cube_14, dir);
-			break;
-		case 12:
-			frag_color = component(u_texture_12, text_coord, 2);
-			break;
 		default:
 			frag_color = texture(u_texture_0, text_coord);
 	}
+	// CubeMapping
+	// vec4 wpos = texture(u_texture_1, text_coord);
+	// vec3 dir = wpos.xyz - eye_position;
+	// frag_color = vec4(dir, 1.0);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -115,7 +110,7 @@ float linearDepth(sampler2D depthTexture, vec2 coord) {
 
 vec4 viewDepth(sampler2D depthTexture, vec2 coord) {
 	float dist = texture(depthTexture, coord).x;
-	float d = pow(dist , 128);
+	float d = pow(dist , pow(2, 12));
 	return vec4(d, d, d, 1.0);
 }
 

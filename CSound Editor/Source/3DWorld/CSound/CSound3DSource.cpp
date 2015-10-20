@@ -28,6 +28,7 @@
 #include <Manager/ResourceManager.h>
 #include <UI/ColorPicking/ColorPicking.h>
 
+#define RESTRICT(value, min, max)  (value < min) ? min : (value > max) ? max : value
 
 CSound3DSource::CSound3DSource()
 	: GameObject("")
@@ -94,6 +95,7 @@ void CSound3DSource::Update()
 		ComputeControlProperties();
 	UpdateControlChannels(motion);
 }
+
 void CSound3DSource::UpdateSurfaceArea()
 {
 	auto game = CSoundEditor::GetGame();
@@ -195,6 +197,7 @@ void CSound3DSource::ComputeControlProperties()
 		// ------------------------------------------------------------------------
 		// Compute Azimuth
 		float value = glm::dot(glm::vec3(0, 0, 1), targetProjection);
+		value = RESTRICT(value, -1, 1);
 		azimuth = acos(value) * TO_DEGREES;
 		if (positionCameraSpace.x > 0)
 			azimuth = -azimuth;
@@ -203,6 +206,7 @@ void CSound3DSource::ComputeControlProperties()
 		// Compute Elevation
 
 		value = glm::dot(targetProjection, targetCameraSpace);
+		value = RESTRICT(value, -1, 1);
 		elevation = acos(value) * TO_DEGREES;
 		if (positionCameraSpace.y < 0)
 			elevation = -elevation;

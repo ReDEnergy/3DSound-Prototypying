@@ -2,22 +2,29 @@
 
 class Texture;
 class Camera;
+class Shader;
 
 template <class T>
 class SSBO;
 
+#include <Event/EventListener.h>
+
 class SurfaceArea
+	: public EventListener
 {
 	public:
 		SurfaceArea();
 		~SurfaceArea() {};
-		void Update(const Camera* const camera);
 		unsigned int GetValue(unsigned int ID) const;
 
-	public:
+	private:
+		void Update();
 		void ReadData();
+		void OnEvent(EventType Event, void *data);
 
 	private:
 		SSBO<unsigned int> *ssbo;
 		const unsigned int *counter;
+		const Camera* gameCamera;
+		const Shader* computeShader;
 };

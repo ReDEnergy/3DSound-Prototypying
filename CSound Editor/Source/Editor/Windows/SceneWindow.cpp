@@ -147,12 +147,15 @@ void SceneWindow::FindAndSelectItem(void *data)
 {
 	if (data == nullptr) return;
 
-	QString name(((GameObject*)data)->GetName());
-	auto items = qtTree->findItems(name, Qt::MatchExactly, 0);
-	if (items.size()) {
-		auto item = items.first();
-		qtTree->setCurrentItem(item);
-		QtItemClicked(item, 0);
+	auto noItems = qtTree->topLevelItemCount();
+	for (int i = 0; i < noItems; i++) {
+		auto item = qtTree->topLevelItem(i);
+		auto itemData = ((SceneItem*)item)->GetData();
+		if (itemData == data) {
+			qtTree->setCurrentItem(item);
+			QtItemClicked(item, 0);
+			return;
+		}
 	}
 }
 

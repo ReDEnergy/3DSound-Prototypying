@@ -7,6 +7,8 @@
 #include <QtWidgets/QBoxLayout>
 #include <QtCore/QFile>
 
+#include <CSoundEditor.h>
+
 using namespace std;
 
 static unsigned int windowNumber = 0;
@@ -33,16 +35,30 @@ void CustomWidget::Hide()
 	hide();
 }
 
+void CustomWidget::AddWidget(QWidget * widget)
+{
+	qtLayout->addWidget(widget);
+}
+
+void CustomWidget::DetachFromParent()
+{
+	QWidget *widgetParent = (QWidget*)parent();
+	if (widgetParent) {
+		widgetParent->layout()->removeWidget(this);
+		this->setParent(nullptr);
+	}
+}
+
 void CustomWidget::ReloadStyleSheet()
 {
 	if (styleSheet.size())
 		LoadStyleSheet(styleSheet.c_str());
 }
 
-void CustomWidget::LoadStyleSheet(const char * fileLocation)
+void CustomWidget::LoadStyleSheet(const char * fileName)
 {
-	styleSheet = fileLocation;
-	QFile File(fileLocation);
+	styleSheet = fileName;
+	QFile File(CSoundEditor::GetStyleSheetFilePath(fileName).c_str());
 	File.open(QFile::ReadOnly);
 	QString StyleSheet = QLatin1String(File.readAll());
 	setStyleSheet(StyleSheet);

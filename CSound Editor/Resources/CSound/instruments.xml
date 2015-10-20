@@ -37,6 +37,17 @@
 			<component>wav output</component>
 		</components>
 	</instrument>	
+
+	<instrument>
+		<name>test-hrtf</name>
+		<components>
+			<component>sound source</component>
+			<component>sound loop</component>
+			<component>attenuation</component>
+			<component>hrtf2</component>
+			<component>output stereo</component>
+		</components>
+	</instrument>		
 </instruments>
 
 <blocks>

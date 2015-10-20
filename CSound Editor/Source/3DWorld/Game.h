@@ -15,6 +15,7 @@ class Game : public World,
 	public:
 		Game();
 		~Game();
+
 		void Init();
 		void FrameStart();
 		void Update(float elapsedTime, float deltaTime);

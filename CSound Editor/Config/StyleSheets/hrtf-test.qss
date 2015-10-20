@@ -1,0 +1,16 @@
+QWidget {
+}
+
+QPushButton {
+	min-height: 30px;
+}
+
+QLabel {
+	min-width: 100px;
+	min-height: 20px;
+}
+
+QLineEdit {
+	min-height: 20px;
+	min-width: 150px;
+}

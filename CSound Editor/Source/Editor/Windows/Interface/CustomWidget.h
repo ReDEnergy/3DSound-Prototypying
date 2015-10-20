@@ -18,6 +18,9 @@ class CustomWidget
 		virtual void Hide();
 		virtual void Close() {};
 
+		void AddWidget(QWidget *widget);
+		void DetachFromParent();
+
 		void ReloadStyleSheet();
 		void LoadStyleSheet(const char* fileLocation);
 

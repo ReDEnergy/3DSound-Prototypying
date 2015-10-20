@@ -8,6 +8,7 @@
 
 class CSoundComponentProperty;
 class GameObject;
+class PlaneIntersection;
 template <class T>
 class TimerEvent;
 
@@ -33,6 +34,8 @@ class MovingPlane
 		GameObject* camera;
 		GameObject *virtualPlane;
 		GameObject *visiblePlane;
+
+		PlaneIntersection *computeIntersection;
 
 		float planeSpeed;
 };

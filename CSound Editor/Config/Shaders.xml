@@ -34,65 +34,6 @@
 		<fragment>Default.FS</fragment>
 	</shader>
 	<shader>
-		<name>font</name>
-		<vertex>Font/Default.VS</vertex>
-		<fragment>Font/Default.FS</fragment>
-	</shader>
-	<shader>
-		<name>ssao</name>
-		<vertex>Screen.VS</vertex>
-		<fragment>SSAO.FS</fragment>
-	</shader>
-	<shader>
-		<name>ssaoBlur</name>
-		<compute>Compute/Blur.CS</compute>
-	</shader>
-	<shader>
-		<name>blur</name>
-		<vertex>Screen.VS</vertex>
-		<fragment>Filters/Blur.FS</fragment>
-	</shader>
-	<shader>
-		<name>composition</name>
-		<vertex>Screen.VS</vertex>
-		<fragment>Composition.FS</fragment>
-	</shader>
-	<shader>
-		<name>shadow</name>
-		<vertex>MVP.Texture.VS</vertex>
-		<fragment>Depth.FS</fragment>
-	</shader>
-	<shader>
-		<name>CSM</name>
-		<vertex>Shadows/CSM.VS</vertex>
-		<fragment>Shadows/CSM.FS</fragment>
-	</shader>	
-	<shader>
-		<name>VSM</name>
-		<vertex>Shadows/CSM.VS</vertex>
-		<fragment>Shadows/VSM.FS</fragment>
-	</shader>	
-	<shader>
-		<name>ShadowMap</name>
-		<compute>Shadows/Compute/ShadowMap.CS</compute>
-	</shader>	
-	<shader>
-		<name>CSMShadowMap</name>
-		<compute>Shadows/Compute/CSMShadowMap.CS</compute>
-	</shader>	
-	<shader>
-		<name>CSMClear</name>
-		<compute>Shadows/Compute/CSMClear.CS</compute>
-	</shader>	
-	<shader>
-		<name>ColorSurface</name>
-		<compute>Compute/ColorSurface.CS</compute>
-	</shader>
-	<shader>
-		<name>ClearBuffer</name>
-		<compute>Compute/ClearBuffer.CS</compute>
-	</shader>
-	<shader>
 		<name>deferred</name>
 		<vertex>MVP.VS</vertex>
 		<fragment>Deferred.Light.FS</fragment>
@@ -101,14 +42,33 @@
 		<name>rendertargets</name>
 		<vertex>R2T.VS</vertex>
 		<fragment>R2T.FS</fragment>
-	</shader>
-	<shader>
-		<name>r2tskinning</name>
-		<vertex>Skinning/R2T.VS</vertex>
-		<fragment>R2T.FS</fragment>
 	</shader>	
 	<shader>
-		<name>SoVInput</name>
-		<compute>SoV/SoVInput.CS</compute>
-	</shader>		
+		<name>composition</name>
+		<vertex>Screen.VS</vertex>
+		<fragment>Composition.FS</fragment>
+	</shader>
+	<shader>
+		<name>font</name>
+		<vertex>Font/Default.VS</vertex>
+		<fragment>Font/Default.FS</fragment>
+	</shader>
+	<shader>
+		<name>shadow</name>
+		<vertex>MVP.Texture.VS</vertex>
+		<fragment>Depth.FS</fragment>
+	</shader>	
+	<shader>
+		<name>ColorSurface</name>
+		<compute>Compute/ColorSurface.CS</compute>
+	</shader>
+	<shader>
+		<name>PlaneIntersection</name>
+		<compute>Compute/PlaneIntersection.CS</compute>
+	</shader>
+	<shader>
+		<name>ClearBuffer</name>
+		<compute>Compute/ClearBuffer.CS</compute>
+	</shader>
+	
 </shaders>

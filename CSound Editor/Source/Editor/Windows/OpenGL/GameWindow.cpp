@@ -13,7 +13,8 @@
 
 // Engine library
 #include <include/Engine.h>
-
+#include <Manager/Manager.h>
+#include <Debugging/TextureDebugger.h>
 
 static GPUBuffers *buffer;
 static Transform debugTransform;
@@ -59,6 +60,7 @@ void GameWindow::Init()
 {
 	game = CSoundEditor::GetGame();
 	InitRendering();
+	Manager::GetTextureDebugger()->SetRenderingVAO(buffer->VAO);
 }
 
 void GameWindow::Update()
@@ -81,14 +83,11 @@ void GameWindow::Render()
 		Shader *Composition = Manager::GetShader()->GetShader("composition");
 		Composition->Use();
 		glUniform2f(Composition->loc_resolution, (float)Engine::Window->resolution.x, (float)Engine::Window->resolution.y);
-		glUniform1i(Composition->active_ssao, false);
 		glUniform1i(Composition->active_selection, Manager::GetPicker()->HasActiveSelection());
 		glUniform1i(Composition->loc_debug_view, Manager::GetDebug()->GetActiveState());
 		activeCamera->BindProjectionDistances(Composition);
 
 		game->FBO->BindTexture(0, GL_TEXTURE0);
-		game->FBO_Light->BindTexture(0, GL_TEXTURE1);
-		game->ShadowMap->Bind(GL_TEXTURE2);
 		game->FBO->BindDepthTexture(GL_TEXTURE4);
 		Manager::GetDebug()->FBO->BindTexture(0, GL_TEXTURE5);
 		Manager::GetDebug()->FBO->BindDepthTexture(GL_TEXTURE6);
@@ -97,25 +96,7 @@ void GameWindow::Render()
 		RenderMesh(buffer->VAO);
 	}
 
-	// --- Debug View --- //
-	if (Manager::GetRenderSys()->Is(RenderState::DEBUG))
-	{
-		Shader *Debug = Manager::GetShader()->GetShader("debug");
-		Debug->Use();
-		glUniform1i(Debug->loc_debug_id, Manager::GetRenderSys()->debugParam);
-		activeCamera->BindProjectionDistances(Debug);
-
-		game->FBO->BindAllTextures();
-		game->FBO_Light->BindTexture(0, GL_TEXTURE5);
-		game->FBO->BindDepthTexture(GL_TEXTURE6);
-		Manager::GetPicker()->FBO_Gizmo->BindTexture(0, GL_TEXTURE7);
-		Manager::GetPicker()->FBO->BindTexture(0, GL_TEXTURE8);
-		game->Sun->FBO->BindTexture(0, GL_TEXTURE10);
-		//game->sboArea->colorAreaTexture->Bind(GL_TEXTURE11);
-
-		glUniformMatrix4fv(Debug->loc_model_matrix, 1, GL_FALSE, glm::value_ptr(debugTransform.GetModel()));
-		RenderMesh(buffer->VAO);
-	}
+	Manager::GetTextureDebugger()->Render();
 
 	glEnable(GL_DEPTH_TEST);
 	glDepthMask(GL_TRUE);
@@ -127,7 +108,7 @@ void GameWindow::Render()
 void GameWindow::InitRendering()
 {
 	auto value = qtOpenGLWindow->SetAsCurrentContext();
-	auto mesh = game->ScreenQuad->mesh;
+	auto mesh = Manager::GetResource()->GetMesh("screen-quad");
 	buffer = UtilsGPU::UploadData(mesh->positions, mesh->normals, mesh->texCoords, mesh->indices);
 
 	auto nativeHandle = qtOpenGLWindow->GetContext()->nativeHandle();

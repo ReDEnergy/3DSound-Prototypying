@@ -156,24 +156,23 @@ void SceneObjectProperties::Update()
 	bool cameraMotion = Manager::GetScene()->GetActiveCamera()->transform->GetMotionState();
 	if (selectedMotion || cameraMotion) {
 		gameObj->ComputeControlProperties();
-		cameraSpacePosition->Update(gameObj->GetCameraSpacePosition());
-		surfaceAreaInput->Update(gameObj->GetSurfaceArea());
-		surfaceCoverInput->Update(gameObj->GetSurfaceCover());
-		azimuthInput->Update(gameObj->GetAzimuthToCamera());
-		elevationInput->Update(gameObj->GetElevationToCamera());
-		distanceToCameraInput->Update(gameObj->GetDistanceToCamera());
+		cameraSpacePosition->SetValue(gameObj->GetCameraSpacePosition());
+		surfaceAreaInput->SetValue(gameObj->GetSurfaceArea());
+		surfaceCoverInput->SetValue(gameObj->GetSurfaceCover());
+		azimuthInput->SetValue(gameObj->GetAzimuthToCamera());
+		elevationInput->SetValue(gameObj->GetElevationToCamera());
+		distanceToCameraInput->SetValue(gameObj->GetDistanceToCamera());
+		soundVolume->SetValue(gameObj->GetSoundVolume());
+		soundIntensity->SetValue(gameObj->GetSoundIntensity());
 	}
 
 	if (forceUpdate || selectedMotion) {
 		gameObj->transform->GetWorldPosition();
-		worldPosition->Update(gameObj->transform->GetWorldPosition());
-		worldQuat->Update(gameObj->transform->GetWorldRotation());
-		worldScale->Update(gameObj->transform->GetScale());
-		worldEuler->Update(gameObj->transform->GetRotationEuler360());
+		worldPosition->SetValue(gameObj->transform->GetWorldPosition());
+		worldQuat->SetValue(gameObj->transform->GetWorldRotation());
+		worldScale->SetValue(gameObj->transform->GetScale());
+		worldEuler->SetValue(gameObj->transform->GetRotationEuler360());
 	}
-
-	soundVolume->Update(gameObj->GetSoundVolume());
-	soundIntensity->Update(gameObj->GetSoundIntensity());
 }
 
 void SceneObjectProperties::ForceUpdate()

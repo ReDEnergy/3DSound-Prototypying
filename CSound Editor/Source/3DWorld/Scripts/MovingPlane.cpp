@@ -3,6 +3,8 @@
 #include <3DWorld/Csound/CSound3DSource.h>
 #include <3DWorld/Csound/CSoundScene.h>
 
+#include <3DWorld/Compute/PlaneIntersection.h>
+
 #include <Csound/CSoundComponentProperty.h>
 #include <Csound/CSoundManager.h>
 #include <Csound/SoundManager.h>
@@ -40,6 +42,9 @@ MovingPlane::MovingPlane()
 	visiblePlane->renderer->SetOpacity(0.2f);
 	visiblePlane->renderer->SetCulling(OpenGL::CULL::NONE);
 	visiblePlane->transform->SetScale(glm::vec3(10));
+
+	computeIntersection = new PlaneIntersection();
+	computeIntersection->SetPlaneTransform(visiblePlane->transform);
 
 	SubscribeToEvent("start-moving-plane");
 	SubscribeToEvent("stop-moving-plane");

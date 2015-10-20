@@ -126,8 +126,8 @@ xcopy /y /d "..\..\libs\Csound\$(PlatformTarget)\*.dll" "$(OutDir)"
 xcopy /y /d "..\..\CSound Manager\lib\$(PlatformTarget)\$(Configuration)\*.dll" "$(OutDir)"
 xcopy /y /d "..\..\CSound Manager\lib\$(PlatformTarget)\$(Configuration)\*.pdb" "$(OutDir)"
 
-xcopy /y /d "D:\Dropbox\Projects\GameEngine\Engine\lib\$(PlatformTarget)\$(Configuration)\*.dll" "$(OutDir)"
-xcopy /y /d "D:\Dropbox\Projects\GameEngine\Engine\lib\$(PlatformTarget)\$(Configuration)\*.pdb" "$(OutDir)"
+xcopy /y /d "..\..\..\GameEngine\Engine\lib\$(PlatformTarget)\$(Configuration)\*.dll" "$(OutDir)"
+xcopy /y /d "..\..\..\GameEngine\Engine\lib\$(PlatformTarget)\$(Configuration)\*.pdb" "$(OutDir)"
 xcopy /y /d "..\..\libs\Engine\$(PlatformTarget)\*.dll" "$(OutDir)"
 xcopy /y /d "..\..\libs\Engine\$(PlatformTarget)\$(Configuration)\*.dll" "$(OutDir)"
 </Command>
@@ -153,8 +153,8 @@ xcopy /y /d "..\..\libs\Csound\$(PlatformTarget)\*.dll" "$(OutDir)"
 xcopy /y /d "..\..\CSound Manager\lib\$(PlatformTarget)\$(Configuration)\*.dll" "$(OutDir)"
 xcopy /y /d "..\..\CSound Manager\lib\$(PlatformTarget)\$(Configuration)\*.pdb" "$(OutDir)"
 
-xcopy /y /d "D:\Dropbox\Projects\GameEngine\Engine\lib\$(PlatformTarget)\$(Configuration)\*.dll" "$(OutDir)"
-xcopy /y /d "D:\Dropbox\Projects\GameEngine\Engine\lib\$(PlatformTarget)\$(Configuration)\*.pdb" "$(OutDir)"
+xcopy /y /d "..\..\..\GameEngine\Engine\lib\$(PlatformTarget)\$(Configuration)\*.dll" "$(OutDir)"
+xcopy /y /d "..\..\..\GameEngine\Engine\lib\$(PlatformTarget)\$(Configuration)\*.pdb" "$(OutDir)"
 xcopy /y /d "..\..\libs\Engine\$(PlatformTarget)\*.dll" "$(OutDir)"
 xcopy /y /d "..\..\libs\Engine\$(PlatformTarget)\$(Configuration)\*.dll" "$(OutDir)"
 </Command>
@@ -186,8 +186,8 @@ xcopy /y /d "..\..\libs\Csound\$(PlatformTarget)\*.dll" "$(OutDir)"
 xcopy /y /d "..\..\CSound Manager\lib\$(PlatformTarget)\$(Configuration)\*.dll" "$(OutDir)"
 xcopy /y /d "..\..\CSound Manager\lib\$(PlatformTarget)\$(Configuration)\*.pdb" "$(OutDir)"
 
-xcopy /y /d "D:\Dropbox\Projects\GameEngine\Engine\lib\$(PlatformTarget)\$(Configuration)\*.dll" "$(OutDir)"
-xcopy /y /d "D:\Dropbox\Projects\GameEngine\Engine\lib\$(PlatformTarget)\$(Configuration)\*.pdb" "$(OutDir)"
+xcopy /y /d "..\..\..\GameEngine\Engine\lib\$(PlatformTarget)\$(Configuration)\*.dll" "$(OutDir)"
+xcopy /y /d "..\..\..\GameEngine\Engine\lib\$(PlatformTarget)\$(Configuration)\*.pdb" "$(OutDir)"
 xcopy /y /d "..\..\libs\Engine\$(PlatformTarget)\*.dll" "$(OutDir)"
 xcopy /y /d "..\..\libs\Engine\$(PlatformTarget)\$(Configuration)\*.dll" "$(OutDir)"
 </Command>
@@ -217,8 +217,8 @@ xcopy /y /d "..\..\libs\Csound\$(PlatformTarget)\*.dll" "$(OutDir)"
 xcopy /y /d "..\..\CSound Manager\lib\$(PlatformTarget)\$(Configuration)\*.dll" "$(OutDir)"
 xcopy /y /d "..\..\CSound Manager\lib\$(PlatformTarget)\$(Configuration)\*.pdb" "$(OutDir)"
 
-xcopy /y /d "D:\Dropbox\Projects\GameEngine\Engine\lib\$(PlatformTarget)\$(Configuration)\*.dll" "$(OutDir)"
-xcopy /y /d "D:\Dropbox\Projects\GameEngine\Engine\lib\$(PlatformTarget)\$(Configuration)\*.pdb" "$(OutDir)"
+xcopy /y /d "..\..\..\GameEngine\Engine\lib\$(PlatformTarget)\$(Configuration)\*.dll" "$(OutDir)"
+xcopy /y /d "..\..\..\GameEngine\Engine\lib\$(PlatformTarget)\$(Configuration)\*.pdb" "$(OutDir)"
 xcopy /y /d "..\..\libs\Engine\$(PlatformTarget)\*.dll" "$(OutDir)"
 xcopy /y /d "..\..\libs\Engine\$(PlatformTarget)\$(Configuration)\*.dll" "$(OutDir)"
 </Command>
@@ -272,9 +272,12 @@ xcopy /y /d "..\..\libs\Engine\$(PlatformTarget)\$(Configuration)\*.dll" "$(OutD
     <ClCompile Include="..\Source\Editor\Windows\Editors\SceneObjectProperties.cpp" />
     <ClCompile Include="..\Source\Editor\Windows\Editors\ScoreEditor.cpp" />
     <ClCompile Include="..\Source\Editor\Windows\Features\HrtfTest.cpp" />
+    <ClCompile Include="..\Source\Editor\Windows\Features\HrtfTestAnswerPanel.cpp" />
+    <ClCompile Include="..\Source\Editor\Windows\Features\HrtfTestGenerator.cpp" />
     <ClCompile Include="..\Source\Editor\Windows\Interface\CustomWidget.cpp" />
     <ClCompile Include="..\Source\Editor\Windows\Interface\DockWindow.cpp" />
     <ClCompile Include="..\Source\Editor\Windows\Interface\EditorList.cpp" />
+    <ClCompile Include="..\Source\Editor\Windows\Interface\QtSortableInput.cpp" />
     <ClCompile Include="..\Source\Editor\Windows\Lists\ComponentList.cpp" />
     <ClCompile Include="..\Source\Editor\Windows\Lists\InstrumentList.cpp" />
     <ClCompile Include="..\Source\Editor\Windows\Lists\ScoreList.cpp" />
@@ -311,6 +314,8 @@ xcopy /y /d "..\..\libs\Engine\$(PlatformTarget)\$(Configuration)\*.dll" "$(OutD
     <ClInclude Include="..\Source\Editor\Windows\Editors\SceneObjectProperties.h" />
     <ClInclude Include="..\Source\Editor\Windows\Editors\ScoreEditor.h" />
     <ClInclude Include="..\Source\Editor\Windows\Features\HrtfTest.h" />
+    <ClInclude Include="..\Source\Editor\Windows\Features\HrtfTestAnswerPanel.h" />
+    <ClInclude Include="..\Source\Editor\Windows\Features\HrtfTestGenerator.h" />
     <ClInclude Include="..\Source\Editor\Windows\Interface\CSoundListEditor.h" />
     <ClInclude Include="..\Source\Editor\Windows\Interface\CustomWidget.h" />
     <ClInclude Include="..\Source\Editor\Windows\Interface\DockWindow.h" />
@@ -318,6 +323,7 @@ xcopy /y /d "..\..\libs\Engine\$(PlatformTarget)\$(Configuration)\*.dll" "$(OutD
     <ClInclude Include="..\Source\Editor\Windows\Interface\GenericList.h" />
     <ClInclude Include="..\Source\Editor\Windows\Interface\QtInput.h" />
     <ClInclude Include="..\Source\Editor\Windows\Interface\QtListTemplates.h" />
+    <ClInclude Include="..\Source\Editor\Windows\Interface\QtSortableInput.h" />
     <ClInclude Include="..\Source\Editor\Windows\Lists\ComponentList.h" />
     <ClInclude Include="..\Source\Editor\Windows\Lists\InstrumentList.h" />
     <ClInclude Include="..\Source\Editor\Windows\Lists\ScoreList.h" />

@@ -87,9 +87,9 @@ class GenericList
 		virtual void QtItemClicked(QListWidgetItem *item)
 		{
 			activeIndex = qtList->currentRow();
-			if (item) {
-				cout << item->text().toStdString().c_str() << endl;
-			}
+			//if (item) {
+			//	cout << item->text().toStdString().c_str() << endl;
+			//}
 		};
 
 		virtual void QtItemRenamed(QListWidgetItem *item) {};

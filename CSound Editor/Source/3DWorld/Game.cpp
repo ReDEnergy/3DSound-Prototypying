@@ -7,15 +7,12 @@
 #include <Editor/Windows/OpenGL/GameWindow.h>
 #include <Editor/GUI.h>
 #include <Editor/EditorMainWindow.h>
+
 #include <include/Engine.h>
 #include <templates/singleton.h>
 
 #include <3DWorld/Scripts/MovingPlane.h>
 #include <3DWorld/Scripts/GrowingSphere.h>
-
-//#ifdef GLEW_ARB_shader_storage_buffer_object
-//#undef GLEW_ARB_shader_storage_buffer_object
-//#endif
 
 Game::Game() {
 }
@@ -31,14 +28,13 @@ void Game::Init()
 
 	// Cameras
 	gameCamera = new Camera();
-	gameCamera->SetPerspective(40, aspectRation, 0.1f, 150);
+	gameCamera->SetPerspective(40, aspectRation, 0.1f, 250);
 	gameCamera->SetPosition(glm::vec3(0, 5, 5));
 	gameCamera->SplitFrustum(5);
 	gameCamera->transform->SetMoveSpeed(10);
 
 	freeCamera = new Camera();
-	//freeCamera->SetOrthgraphic(40, 40, 0.1f, 500);
-	freeCamera->SetPerspective(40, aspectRation, 0.1f, 150);
+	freeCamera->SetPerspective(40, aspectRation, 0.1f, 250);
 	freeCamera->SetPosition(glm::vec3(0.0f, 10.0f, 10.0f));
 	freeCamera->Update();
 
@@ -52,30 +48,17 @@ void Game::Init()
 	Sun->SetOrthgraphic(40, 40, 0.1f, 200);
 	Sun->Update();
 
-	ShadowMap = new Texture();
-	ShadowMap->Create2DTextureFloat(NULL, resolution.x, resolution.y, 4, 32);
-
 	// --- Create FBO for rendering to texture --- //
 	FBO = new FrameBuffer();
 	FBO->Generate(resolution.x, resolution.y, 5);
 
-	FBO_Light = new FrameBuffer();
-	FBO_Light->Generate(resolution.x, resolution.y, 1);
-
-	ScreenQuad = Manager::GetResource()->GetGameObject("render-quad");
-	ScreenQuad->Update();
-
-	// --- Debugging --- //
-	DebugPanel = Manager::GetResource()->GetGameObject("render-quad");
-	DebugPanel->UseShader(Manager::GetShader()->GetShader("debug"));
-	DebugPanel->transform->SetScale(glm::vec3(0.5));
-	DebugPanel->transform->SetWorldPosition(glm::vec3(0.5));
+	// Texture Debugger
+	auto TXDB = Manager::GetTextureDebugger();
+	TXDB->SetChannel(0, FBO);
+	TXDB->SetChannel(1, Manager::GetPicker()->FBO);
 
 	// Listens to Events and Input
-
 	SubscribeToEvent(EventType::SWITCH_CAMERA);
-	SubscribeToEvent(EventType::CLOSE_MENU);
-	SubscribeToEvent(EventType::OPEN_GAME_MENU);
 
 	cameraInput = new CameraInput(Manager::GetScene()->GetActiveCamera());
 	cameraDebugInput = new CameraDebugInput(gameCamera);
@@ -139,16 +122,12 @@ void Game::Update(float elapsedTime, float deltaTime)
 	Manager::GetScene()->Render(activeCamera);
 	Manager::GetMenu()->RenderMenu();
 
-	///////////////////////////////////////////////////////////////////////
-	// Compute Object Area Cover 
-
-	#ifdef GLEW_ARB_shader_storage_buffer_object
-	objSurfaces->Update(gameCamera);
-	#endif
+	Manager::GetEvent()->EmitSync(EventType::FRAME_AFTER_RENDERING);
 }
 
 void Game::FrameEnd()
 {
+//	Manager::GetTextureDebugger()->Render();
 	Singleton<EditorMainWindow>::Instance()->Update();
 	Manager::GetScene()->FrameEnded();
 	Manager::GetEvent()->EmitSync(EventType::FRAME_END);
@@ -181,7 +160,5 @@ void Game::InitSceneCameras()
 	activeSceneCamera = 0;
 	sceneCameras.push_back(gameCamera);
 	sceneCameras.push_back(freeCamera);
-	//sceneCameras.push_back(Sun);
-
 	Manager::GetScene()->GetActiveCamera()->SetDebugView(false);
 }

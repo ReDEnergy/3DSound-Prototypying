@@ -1,19 +1,19 @@
 #pragma once
 #include <Editor/Windows/Interface/CustomWidget.h>
-#include <Editor/Windows/Interface/QtInput.h>
-#include <Editor/QT/Utils.h>
 
-#include <include/glm.h>
+// Engine
 #include <Event/EventListener.h>
 
 
 class CSoundComponentProperty;
 class CSound3DSource;
-class HrtfRecorder;
+class HrtfTestGenerator;
+class HrtfTestAnswerPanel;
+class SimpleFloatInput;
+class QtSortableInput;
+class SimpleCheckBox;
 
-#include <QLayout>
-#include <QLineEdit>
-#include <QLabel>
+class QKeyEvent;
 
 class HrtfTest
 	: public CustomWidget
@@ -25,22 +25,29 @@ class HrtfTest
 
 	private:
 		void InitUI();
-		void Update();
-		void OnEvent(EventType Event, void *data);
+		void Start();
+		void Stop();
+		void ResetConfig();
+		void OnEvent(const string& eventID, void *data);
+		void keyPressEvent(QKeyEvent * event);
+		void keyReleaseEvent(QKeyEvent * event);
 
 	private:
-		GLMVecComponent<glm::vec3> *worldPosition;
-		GLMVecComponent<glm::vec3> *cameraSpacePosition;
-		GLMVecComponent<glm::vec3> *worldEuler;
-		GLMVecComponent<glm::vec3> *worldScale;
-		GLMVecComponent<glm::quat> *worldQuat;
-		SimpleFloatInput *azimuthInput;
-		SimpleFloatInput *elevationInput;
-		SimpleFloatInput *distanceToCameraInput;
-		SimpleFloatInput *surfaceCoverInput;
-		SimpleFloatInput *surfaceAreaInput;
 
-		CSound3DSource *gameObj;
-		HrtfRecorder *recorder;
-		bool forceUpdate;
+		HrtfTestGenerator *sampleGenerator;
+		HrtfTestAnswerPanel *answerPanel;
+
+		CustomWidget *configArea;
+		CustomWidget *advanceConfig;
+		QLineEdit *testName;
+		SimpleFloatInput *prepareTime;
+		SimpleFloatInput *sampleDuration;
+		SimpleFloatInput *sampleInterval;
+		SimpleFloatInput *randomIterations;
+		SimpleFloatInput *numberOfSamples;
+		QtSortableInput *sortableElevation;
+		QtSortableInput *sortableAzimuth;
+		SimpleCheckBox *wait4Input;
+		SimpleCheckBox *randomValues;
+		QPushButton **buttons;
 };

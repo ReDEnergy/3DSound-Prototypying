@@ -46,79 +46,18 @@ vec4 DebugView(vec2 text_coord) {
 	return vec4(0);
 }
 
-vec4 KinectView(vec2 text_coord) {
-	float ds = texture(u_texture_4, text_coord).r;
-	float dd = texture(u_texture_8, text_coord).r;
-	if (dd < ds)
-		return texture(u_texture_9, text_coord);
-	return vec4(0);
-}
-
-vec4 SkeletalView(vec2 text_coord) {
-	float ds = texture(u_texture_4, text_coord).r;
-	float dd = texture(u_texture_10, text_coord).r;
-	if (dd < ds)
-		return texture(u_texture_11, text_coord);
-	return vec4(0);
-}
-
-float SoftShadow(vec2 text_coord) {
-	float depth = linearDepth(u_texture_4, text_coord);
-	if (depth > 40)
-		return texture(u_texture_0, text_coord).a;
-
-	float sum = 0;
-	float kernel = 5;
-	if (depth > 16)	kernel = 3;
-	
-	int size = int(kernel / 2);
-	for (int i=-size; i<=size; i++) {
-		for (int j=-size; j<=size; j++) {
-			float shadow = texture(u_texture_0, text_coord + ivec2(i, j) / resolution).a;
-			sum += shadow;
-		}
-	}
-	
-	return sum/(kernel * kernel);
-}
-
 void main() {
 	vec2 text_coord = gl_FragCoord.xy / resolution;
 
 	vec4 diffuse = texture(u_texture_0, text_coord);
-	// diffuse.rgb *= SoftShadow(text_coord);
-
-	///////////////////////////////////////////////////////////////////////////
-	// Bake Shadows
-	// vec4 shadow = texture(u_texture_2, text_coord);
-	// diffuse.rgb *= shadow.r;
-	// diffuse.rgb *= shadow.g;
-	// diffuse.rgb *= shadow.b;
-	// diffuse.rgb *= shadow.a;
 	
-	///////////////////////////////////////////////////////////////////////////
-	// Bake Ambient Occlusion
-	if (active_ssao == 1) {
-		float ao = texture(u_texture_3, text_coord).x;
-		vec4 ssao = vec4(1.0) - vec4(ao, ao, ao, 1.0);
-		out_color = clamp((diffuse - ssao), 0.0, 1.0);
-	} else {
-		out_color = diffuse;
+	out_color = diffuse;
+
+	if (debug_view == 1)
+	{
+		out_color += DebugView(text_coord);	
 	}
 	
-	///////////////////////////////////////////////////////////////////////////
-	// Bake Light
-	vec4 light = texture(u_texture_1, text_coord);
-	vec4 ambient = vec4(0.8);
-	out_color *= (light + ambient);
-	
-	///////////////////////////////////////////////////////////////////////////
-	// Creates a fake alpha blending
-	if (debug_view == 1)
-		out_color += DebugView(text_coord);
-		
-	out_color += SkeletalView(text_coord);
-
 	if (active_selection)
 	{
 		vec4 gizmo_add = texture(u_texture_7, text_coord);

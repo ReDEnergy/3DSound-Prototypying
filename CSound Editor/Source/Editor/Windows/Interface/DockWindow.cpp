@@ -51,7 +51,6 @@ void DockWindow::ReloadStyleSheet()
 void DockWindow::LoadStyleSheet(const char * fileName)
 {
 	styleSheet = fileName;
-	CSoundEditor::GetStyleSheetFilePath(fileName);
 	QFile File(CSoundEditor::GetStyleSheetFilePath(fileName).c_str());
 	File.open(QFile::ReadOnly);
 	QString StyleSheet = QLatin1String(File.readAll());

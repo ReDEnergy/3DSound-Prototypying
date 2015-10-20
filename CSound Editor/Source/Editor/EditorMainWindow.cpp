@@ -71,6 +71,8 @@ void EditorMainWindow::Run(QApplication *app)
 	// Move the processing to the engine...
 	// Should suspends the current code... but somehow application still process events
 	Engine::Run();
+
+	cout << "exit" << endl;
 }
 
 void EditorMainWindow::close()
@@ -240,7 +242,7 @@ void EditorMainWindow::SetupUI(QMainWindow *MainWindow) {
 	// Record HRTF Test
 	{
 		QToolButton *button = new QToolButton();
-		button->setText("Record HRTF");
+		button->setText("Test HRTF");
 		toolbar->addWidget(button);
 
 		appWindows["HRTFTest"] = new HrtfTest();
@@ -379,6 +381,10 @@ void EditorMainWindow::Update()
 void EditorMainWindow::ReloadStyleSheets()
 {
 	for (auto &window : dockWindows) {
+		window.second->ReloadStyleSheet();
+	}
+
+	for (auto &window : appWindows) {
 		window.second->ReloadStyleSheet();
 	}
 

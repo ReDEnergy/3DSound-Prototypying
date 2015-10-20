@@ -3,6 +3,7 @@
 #include <vector>
 #include <string>
 #include <functional>
+#include <iostream>
 
 #include <Editor/Windows/Interface/CustomWidget.h>
 #include <Editor/QT/Utils.h>
@@ -11,11 +12,14 @@
 #include <QLayout>
 #include <QLineEdit>
 #include <QEvent>
+#include <QCheckBox>
 #include <QRegExp>
 #include <QRegExpValidator>
 
 #include <include/glm.h>
 #include <include/math.h>
+
+using namespace std;
 
 // ***************************************************************************
 // GLM UI component
@@ -67,11 +71,7 @@ class GLMVecComponent
 			updateFunc = func;
 		}
 
-		void CellEdit() {
-			updateFunc(value);
-		}
-
-		void Update(const T &vec)
+		void SetValue(const T &vec)
 		{
 			value = vec;
 			char buff[20];
@@ -98,40 +98,143 @@ class SimpleFloatInput
 	public:
 		SimpleFloatInput(const char* label, const char* unit = "", unsigned int precision = 2, bool readOnly = false)
 		{
+			acceptNegativeValues = true;
+
 			qtLayout->setDirection(QBoxLayout::LeftToRight);
 			qtLayout->setSpacing(0);
 
 			precision = min(precision, 6);
+			toPrecision = pow(10, precision);
+
 			format = new char[20];
 			sprintf(format, "%%.%df %s", precision, unit);
 
 			{
-				auto l = new QLabel(label);
-				l->setMinimumWidth(80);
-				l->setAlignment(Qt::AlignVCenter | Qt::AlignLeft);
+				qLabel = new QLabel(label);
+				qLabel->setMinimumWidth(80);
+				qLabel->setAlignment(Qt::AlignVCenter | Qt::AlignLeft);
 
 				prop = new QLineEdit();
 				prop->setReadOnly(readOnly);
-				qtLayout->addWidget(l);
+				qtLayout->addWidget(qLabel);
 				qtLayout->addWidget(prop);
+
+				QObject::connect(prop, &QLineEdit::editingFinished, this, [&]() {
+					auto value = prop->text();
+					value.replace(QRegExp("[a-zA-Z ]+"), "");
+					SetValue(value.toFloat());
+				});
+
+				SetValue(0);
 			}
 		}
 
 		~SimpleFloatInput() {};
+
+		void SetLabelWidth(int width)
+		{
+			qLabel->setMinimumWidth(width);
+		}
 
 		void SetReadOnly(bool value)
 		{
 			prop->setReadOnly(value);
 		}
 
-		void Update(float value)
+		void OnUserEdit(function<void(float)> func)
 		{
+			updateFunc = func;
+		}
+
+		void SetValue(float value)
+		{
+			this->value = int(value * toPrecision) / (float)toPrecision;
+
+			if (!acceptNegativeValues && this->value < 0)
+				this->value = abs(this->value);
+
 			char buff[20];
-			sprintf(buff, format, value);
+			sprintf(buff, format, this->value);
 			prop->setText(buff);
+
+			if (updateFunc)
+				updateFunc(this->value);
+		}
+
+		void AcceptNegativeValues(bool value)
+		{
+			acceptNegativeValues = value;
+		}
+
+		float GetValue() {
+			return value;
 		}
 
 		private:
+			bool acceptNegativeValues;
+			float value;
+			int toPrecision;
 			char *format;
+			QLabel *qLabel;
 			QLineEdit *prop;
+			function<void(float)> updateFunc;
+};
+
+
+class SimpleCheckBox
+	: public CustomWidget
+{
+	public:
+		SimpleCheckBox(const char* label, bool checked = false)
+		{
+			qtLayout->setDirection(QBoxLayout::LeftToRight);
+			qtLayout->setSpacing(0);
+
+			{
+				qLabel = new QLabel(label);
+				qLabel->setMinimumWidth(80);
+				qLabel->setAlignment(Qt::AlignVCenter | Qt::AlignLeft);
+
+				prop = new QCheckBox();
+				qtLayout->addWidget(qLabel);
+				qtLayout->addWidget(prop);
+
+				QObject::connect(prop, &QCheckBox::clicked, this, [&](bool checked) {
+					SetValue(checked);
+				});
+
+				SetValue(checked);
+			}
+		}
+
+		~SimpleCheckBox() {};
+
+		void SetLabelWidth(int width)
+		{
+			qLabel->setMinimumWidth(width);
+		}
+
+		void OnUserEdit(function<void(bool)> func)
+		{
+			updateFunc = func;
+		}
+
+		void SetValue(bool checked)
+		{
+			value = checked;
+			prop->setCheckState(checked ? Qt::CheckState::Checked : Qt::CheckState::Unchecked);
+			if (updateFunc)
+				updateFunc(value);
+		}
+
+		bool GetValue()
+		{
+			return value;
+		}
+
+	private:
+		bool value;
+		QLabel *qLabel;
+		QCheckBox *prop;
+		function<void(bool)> updateFunc;
 };

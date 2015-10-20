@@ -76,7 +76,6 @@ void EditorList::OpenPopupMenu(const QPoint& pos)
 
 void EditorList::QtItemClicked(QListWidgetItem * item)
 {
-	cout << item->text().toStdString().c_str() << endl;
 }
 
 void EditorList::QtItemRenamed(QListWidgetItem * item)
