@@ -7,6 +7,8 @@ using namespace std;
 
 class QLineEdit;
 
+using CallbackFunc = function<void(float azimuth, float elevation)>;
+
 class HrtfTestAnswerPanel
 	: public CustomWidget
 {
@@ -15,6 +17,7 @@ class HrtfTestAnswerPanel
 		virtual ~HrtfTestAnswerPanel() {};
 
 		void SetupAnswerPanel(vector<float> azimuthSamples, vector<float> elevationSamples);
+		void OnButtonClick(CallbackFunc onClick);
 
 	private:
 		void InitUI();
@@ -24,4 +27,5 @@ class HrtfTestAnswerPanel
 		vector<QPushButton*> buttons;
 		CustomWidget *generatedPanel;
 		QLabel *answerInfo;
+		list<CallbackFunc> callbacks;
 };

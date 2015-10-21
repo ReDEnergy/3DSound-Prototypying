@@ -161,10 +161,6 @@ void CSoundScene::SetOutputModel(const char * name)
 
 void CSoundScene::AutoSave()
 {
-	//bool exist = QDir("Saves").exists();
-	//if (!exist) {
-	//	QDir().mkdir("Saves");
-	//}
 	time_t now = time(0);
 	char fileName[32];
 	strftime(fileName, 32, "Saves/Scene %d-%b [%Hh%Mm].xml", std::localtime(&now));

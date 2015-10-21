@@ -39,7 +39,7 @@ struct AnswerEntry
 {
 	glm::vec2 source;
 	glm::vec2 answer;
-	float responseTime;
+	float responseTime; // seconds
 	bool correct;
 };
 
@@ -60,10 +60,11 @@ class HrtfRecorder
 	private:
 		glm::vec3 ComputePosition(float azimuth, float elevation);
 		void ClearEvents();
-		void PlayNextSample();
+		void PlayCurrentSample();
 		void WaitForNextSample();
 		void Update();
 		void SaveTestAnswers() const;
+		void ExportTestResultsAsCSV() const;
 		void OnEvent(const string& eventID, void *data);
 
 	private:
@@ -77,7 +78,6 @@ class HrtfRecorder
 
 		HrtfTestConfig config;
 		bool started;
-		bool forceUpdate;
-
+		double startTimeCurrentTest;
 		Camera *sceneCamera;
 };

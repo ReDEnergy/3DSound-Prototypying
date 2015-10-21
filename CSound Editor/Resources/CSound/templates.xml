@@ -80,6 +80,17 @@
 			<control>kAttenuation</control>
 		</content>
 	</component>	
+	
+	<component>
+		<name>volume</name>
+		<content>
+			<out>aout</out>
+			<op>=</op>
+			<in>aout</in>
+			<op>*</op>
+			<control>kVolume</control>
+		</content>
+	</component>		
 			
 	<component>
 		<name>hrtf2</name>

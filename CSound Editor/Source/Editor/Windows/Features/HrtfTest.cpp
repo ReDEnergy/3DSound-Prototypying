@@ -13,12 +13,22 @@
 #include <QPushButton>
 #include <QLabel>
 #include <QKeyEvent>
+#include <QDir>
+
+static HrtfRecorder *recorder;
 
 HrtfTest::HrtfTest()
 {
 	LoadStyleSheet("hrtf-test.qss");
 	setWindowTitle("Record HRTF Test");
 	InitUI();
+
+	recorder = new HrtfRecorder();
+
+	bool exist = QDir("HRTF-Tests").exists();
+	if (!exist) {
+		QDir().mkdir("HRTF-Tests");
+	}
 
 	SubscribeToEvent("HRTF-test-end");
 }
@@ -30,6 +40,9 @@ void HrtfTest::InitUI()
 	qtLayout->setAlignment(Qt::AlignTop);
 
 	answerPanel = new HrtfTestAnswerPanel();
+	answerPanel->OnButtonClick([](float azimuth, float elevation) {
+		recorder->VerifyAnswer(azimuth, elevation);
+	});
 
 	sampleGenerator = new HrtfTestGenerator();
 
@@ -171,6 +184,7 @@ void HrtfTest::Start()
 
 	AddWidget(answerPanel);
 	configArea->DetachFromParent();
+	ResetAnswerKeyOffset();
 }
 
 void HrtfTest::Stop()
@@ -203,9 +217,88 @@ void HrtfTest::OnEvent(const string & eventID, void * data)
 
 void HrtfTest::keyPressEvent(QKeyEvent * event)
 {
-	cout << event->key() << endl;
+	switch (event->key())
+	{
+	case Qt::Key::Key_4:
+	{
+		keyOffsetX -= 1;
+		if (keyOffsetX < 0) keyOffsetX = 0;
+		KeyResponseInfo();
+		break;
+	}
+
+	case Qt::Key::Key_5:
+	{
+		ResetAnswerKeyOffset();
+		KeyResponseInfo();
+		break;
+	}
+
+	case Qt::Key::Key_6:
+	{
+		keyOffsetX += 1;
+		int sizeX = sortableAzimuth->GetValues().size();
+		if (keyOffsetX >= sizeX)
+			keyOffsetX = sizeX - 1;
+		KeyResponseInfo();
+		break;
+	}
+
+	case Qt::Key::Key_8:
+	{
+		keyOffsetY += 1;
+		int sizeY = sortableElevation->GetValues().size();
+		if (keyOffsetY >= sizeY)
+			keyOffsetY = sizeY - 1;
+		KeyResponseInfo();
+		break;
+	}
+
+	case Qt::Key::Key_2:
+	{
+		keyOffsetY -= 1;
+		if (keyOffsetY < 0) keyOffsetY = 0;
+		KeyResponseInfo();
+		break;
+	}
+
+	case Qt::Key::Key_Enter:
+	{
+		SendKeyboardAnswer();
+		ResetAnswerKeyOffset();
+		break;
+	}
+	case Qt::Key::Key_Return:
+	{
+		SendKeyboardAnswer();
+		ResetAnswerKeyOffset();
+		break;
+	}
+	default:
+		break;
+	}
 }
 
 void HrtfTest::keyReleaseEvent(QKeyEvent * event)
 {
+}
+
+void HrtfTest::KeyResponseInfo() const
+{
+	auto azimuth = sortableAzimuth->GetValues()[keyOffsetX];
+	auto elevation = sortableElevation->GetValues()[keyOffsetY];
+	printf("[%f, %f]\n", keyOffsetX, keyOffsetY, azimuth, elevation);
+}
+
+void HrtfTest::ResetAnswerKeyOffset()
+{
+	keyOffsetX = sortableAzimuth->GetValues().size() / 2;
+	keyOffsetY = sortableElevation->GetValues().size() / 2;
+}
+
+void HrtfTest::SendKeyboardAnswer() const
+{
+	auto azimuth = sortableAzimuth->GetValues()[keyOffsetX];
+	auto elevation = sortableElevation->GetValues()[keyOffsetY];
+	recorder->VerifyAnswer(azimuth, elevation);
 }

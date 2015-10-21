@@ -35,6 +35,12 @@ EditorMainWindow::EditorMainWindow(QWidget *parent)
 	SoundManager::Init();
 	CSoundEditor::Init();
 
+	// Create the saving directory if it doesn't exist
+	bool exist = QDir("Saves").exists();
+	if (!exist) {
+		QDir().mkdir("Saves");
+	}
+
 	SetupUI(this);
 	new UIEvents();
 

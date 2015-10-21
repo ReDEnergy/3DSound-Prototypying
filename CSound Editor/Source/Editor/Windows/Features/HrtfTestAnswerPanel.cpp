@@ -2,9 +2,6 @@
 
 #include <Editor/Windows/Interface/QtInput.h>
 
-#include <3DWorld/Scripts/HrtfRecorder.h>
-
-
 #include <include/utils.h>
 #include <Manager/Manager.h>
 #include <Manager/EventSystem.h>
@@ -17,12 +14,8 @@
 #include <QLineEdit>
 #include <QPushButton>
 
-HrtfRecorder *recorder;
-
-
 HrtfTestAnswerPanel::HrtfTestAnswerPanel()
 {
-	recorder = new HrtfRecorder();
 
 	generatedPanel = nullptr;
 	InitUI();
@@ -80,6 +73,11 @@ void HrtfTestAnswerPanel::SetupAnswerPanel(vector<float> azimuthSamples, vector<
 	qtLayout->addWidget(generatedPanel);
 }
 
+void HrtfTestAnswerPanel::OnButtonClick(CallbackFunc onClick)
+{
+	callbacks.push_back(onClick);
+}
+
 void HrtfTestAnswerPanel::ButtonClick(unsigned int index)
 {
 	auto button = buttons[index];
@@ -94,5 +92,7 @@ void HrtfTestAnswerPanel::ButtonClick(unsigned int index)
 	float azimuth = values[0].toFloat();
 	float elevation = values[1].toFloat();
 
-	recorder->VerifyAnswer(azimuth, elevation);
+	for (auto &c : callbacks) {
+		c(azimuth, elevation);
+	}
 }

@@ -31,6 +31,9 @@ class HrtfTest
 		void OnEvent(const string& eventID, void *data);
 		void keyPressEvent(QKeyEvent * event);
 		void keyReleaseEvent(QKeyEvent * event);
+		void KeyResponseInfo() const;
+		void ResetAnswerKeyOffset();
+		void SendKeyboardAnswer() const;
 
 	private:
 
@@ -50,4 +53,7 @@ class HrtfTest
 		SimpleCheckBox *wait4Input;
 		SimpleCheckBox *randomValues;
 		QPushButton **buttons;
+
+		int keyOffsetX = 0;
+		int keyOffsetY = 0;
 };

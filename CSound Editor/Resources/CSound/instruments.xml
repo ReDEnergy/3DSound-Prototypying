@@ -43,7 +43,7 @@
 		<components>
 			<component>sound source</component>
 			<component>sound loop</component>
-			<component>attenuation</component>
+			<component>volume</component>
 			<component>hrtf2</component>
 			<component>output stereo</component>
 		</components>
