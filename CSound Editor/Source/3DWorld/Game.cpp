@@ -11,7 +11,7 @@
 #include <include/Engine.h>
 #include <templates/singleton.h>
 
-#include <3DWorld/Scripts/MovingPlane.h>
+#include <3DWorld/Scripts/MovingPlaneScript.h>
 #include <3DWorld/Scripts/GrowingSphere.h>
 
 Game::Game() {
@@ -29,7 +29,7 @@ void Game::Init()
 	// Cameras
 	gameCamera = new Camera();
 	gameCamera->SetPerspective(40, aspectRation, 0.1f, 250);
-	gameCamera->SetPosition(glm::vec3(0, 5, 5));
+	gameCamera->SetPosition(glm::vec3(0, 3, -7));
 	gameCamera->SplitFrustum(5);
 	gameCamera->transform->SetMoveSpeed(10);
 
@@ -55,7 +55,6 @@ void Game::Init()
 	// Texture Debugger
 	auto TXDB = Manager::GetTextureDebugger();
 	TXDB->SetChannel(0, FBO);
-	TXDB->SetChannel(1, Manager::GetPicker()->FBO);
 
 	// Listens to Events and Input
 	SubscribeToEvent(EventType::SWITCH_CAMERA);
@@ -73,9 +72,9 @@ void Game::Init()
 	if (ground) ground->SetSelectable(false);
 	Manager::GetScene()->Update();
 
-	new MovingPlane();
+	new MovingPlaneScript();
 	new GrowingSphere();
-	objSurfaces = new SurfaceArea();
+	new SurfaceArea();
 
 	wglSwapIntervalEXT(1);
 }
@@ -98,17 +97,14 @@ void Game::Update(float elapsedTime, float deltaTime)
 	Manager::GetAudio()->Update(activeCamera);
 	Manager::GetEvent()->Update();
 	Manager::GetScene()->Update();
-	Manager::GetDebug()->Update(activeCamera);
+	Manager::GetScene()->LightSpaceCulling(gameCamera, Sun);
 	Manager::GetPicker()->Update(activeCamera);
 	Manager::GetPicker()->DrawSceneForPicking();
-	Manager::GetScene()->LightSpaceCulling(gameCamera, Sun);
+	Manager::GetDebug()->Update(activeCamera);
 	Manager::GetEvent()->EmitSync(EventType::FRAME_UPDATE);
 
 	///////////////////////////////////////////////////////////////////////////
 	// Scene Rendering
-
-	glDepthMask(GL_TRUE);
-	glEnable(GL_DEPTH_TEST);
 
 	if (Manager::GetRenderSys()->Is(RenderState::FORWARD)) {
 		FrameBuffer::Unbind();
@@ -121,7 +117,6 @@ void Game::Update(float elapsedTime, float deltaTime)
 
 	Manager::GetScene()->Render(activeCamera);
 	Manager::GetMenu()->RenderMenu();
-
 	Manager::GetEvent()->EmitSync(EventType::FRAME_AFTER_RENDERING);
 }
 

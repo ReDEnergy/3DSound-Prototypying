@@ -63,8 +63,8 @@
 		<compute>Compute/ColorSurface.CS</compute>
 	</shader>
 	<shader>
-		<name>PlaneIntersection</name>
-		<compute>Compute/PlaneIntersection.CS</compute>
+		<name>SceneIntersection</name>
+		<compute>Compute/SceneIntersection.CS</compute>
 	</shader>
 	<shader>
 		<name>ClearBuffer</name>

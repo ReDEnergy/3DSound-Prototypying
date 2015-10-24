@@ -225,7 +225,7 @@ xcopy /y /d "..\..\libs\Engine\$(PlatformTarget)\$(Configuration)\*.dll" "$(OutD
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\Source\3DWorld\Compute\PlaneIntersection.cpp" />
+    <ClCompile Include="..\Source\3DWorld\Compute\SceneIntersection.cpp" />
     <ClCompile Include="..\Source\3DWorld\Compute\SurfaceArea.cpp" />
     <ClCompile Include="..\Source\3DWorld\CSound\CSound3DSource.cpp">
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">pchCsound.h</PrecompiledHeaderFile>
@@ -249,7 +249,7 @@ xcopy /y /d "..\..\libs\Engine\$(PlatformTarget)\$(Configuration)\*.dll" "$(OutD
     </ClCompile>
     <ClCompile Include="..\Source\3DWorld\Scripts\GrowingSphere.cpp" />
     <ClCompile Include="..\Source\3DWorld\Scripts\HrtfRecorder.cpp" />
-    <ClCompile Include="..\Source\3DWorld\Scripts\MovingPlane.cpp" />
+    <ClCompile Include="..\Source\3DWorld\Scripts\MovingPlaneScript.cpp" />
     <ClCompile Include="..\Source\CSoundEditor.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
@@ -274,6 +274,7 @@ xcopy /y /d "..\..\libs\Engine\$(PlatformTarget)\$(Configuration)\*.dll" "$(OutD
     <ClCompile Include="..\Source\Editor\Windows\Features\HrtfTest.cpp" />
     <ClCompile Include="..\Source\Editor\Windows\Features\HrtfTestAnswerPanel.cpp" />
     <ClCompile Include="..\Source\Editor\Windows\Features\HrtfTestGenerator.cpp" />
+    <ClCompile Include="..\Source\Editor\Windows\Features\MovingPlane\MovingPlaneWindow.cpp" />
     <ClCompile Include="..\Source\Editor\Windows\Interface\CustomWidget.cpp" />
     <ClCompile Include="..\Source\Editor\Windows\Interface\DockWindow.cpp" />
     <ClCompile Include="..\Source\Editor\Windows\Interface\EditorList.cpp" />
@@ -288,7 +289,7 @@ xcopy /y /d "..\..\libs\Engine\$(PlatformTarget)\$(Configuration)\*.dll" "$(OutD
     <ClCompile Include="..\Source\Main.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\Source\3DWorld\Compute\PlaneIntersection.h" />
+    <ClInclude Include="..\Source\3DWorld\Compute\SceneIntersection.h" />
     <ClInclude Include="..\Source\3DWorld\Compute\SurfaceArea.h" />
     <ClInclude Include="..\Source\3DWorld\CSound\CSound3DSource.h" />
     <ClInclude Include="..\Source\3DWorld\CSound\CSoundScene.h" />
@@ -296,7 +297,8 @@ xcopy /y /d "..\..\libs\Engine\$(PlatformTarget)\$(Configuration)\*.dll" "$(OutD
     <ClInclude Include="..\Source\3DWorld\Input\GameInput.h" />
     <ClInclude Include="..\Source\3DWorld\Scripts\GrowingSphere.h" />
     <ClInclude Include="..\Source\3DWorld\Scripts\HrtfRecorder.h" />
-    <ClInclude Include="..\Source\3DWorld\Scripts\MovingPlane.h" />
+    <ClInclude Include="..\Source\3DWorld\Scripts\MovingPlaneScript.h" />
+    <ClInclude Include="..\Source\3DWorld\Scripts\MovingPlaneConfig.h" />
     <ClInclude Include="..\Source\CSoundEditor.h" />
     <ClInclude Include="..\Source\Editor\Editor.h" />
     <ClInclude Include="..\Source\Editor\EditorForward.h" />
@@ -316,6 +318,7 @@ xcopy /y /d "..\..\libs\Engine\$(PlatformTarget)\$(Configuration)\*.dll" "$(OutD
     <ClInclude Include="..\Source\Editor\Windows\Features\HrtfTest.h" />
     <ClInclude Include="..\Source\Editor\Windows\Features\HrtfTestAnswerPanel.h" />
     <ClInclude Include="..\Source\Editor\Windows\Features\HrtfTestGenerator.h" />
+    <ClInclude Include="..\Source\Editor\Windows\Features\MovingPlane\MovingPlaneWindow.h" />
     <ClInclude Include="..\Source\Editor\Windows\Interface\CSoundListEditor.h" />
     <ClInclude Include="..\Source\Editor\Windows\Interface\CustomWidget.h" />
     <ClInclude Include="..\Source\Editor\Windows\Interface\DockWindow.h" />

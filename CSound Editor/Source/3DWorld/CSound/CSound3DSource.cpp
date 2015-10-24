@@ -38,6 +38,8 @@ CSound3DSource::CSound3DSource()
 	SetupAABB();
 	transform->SetWorldPosition(glm::vec3(0, 1, 0));
 
+	forceUpdateSoundParameters = false;
+	useVirtualPosition = false;
 	soundModel = nullptr;
 	player = nullptr;
 	Init();
@@ -59,7 +61,7 @@ void CSound3DSource::Init()
 	elevation = 0;
 	positionCameraSpace = glm::vec3(0);
 	soundVolume = 100;
-	soundFallOff = 100;
+	soundFallOff = 20;
 
 	timer = nullptr;
 	SubscribeToEvent("model-changed");
@@ -94,14 +96,6 @@ void CSound3DSource::Update()
 	if (motion)
 		ComputeControlProperties();
 	UpdateControlChannels(motion);
-}
-
-void CSound3DSource::UpdateSurfaceArea()
-{
-	auto game = CSoundEditor::GetGame();
-	auto ID = Manager::GetColor()->GetUKeyFromColor(GetColorID());
-	surfaceArea = game->objSurfaces->GetValue(ID);
-	surfaceCover = float(surfaceArea) / (Engine::Window->resolution.x * Engine::Window->resolution.y);
 }
 
 void CSound3DSource::SelectObject()
@@ -147,11 +141,6 @@ void CSound3DSource::ReloadScore()
 		player->Reload();
 }
 
-void CSound3DSource::SetVolume(unsigned int value)
-{
-	soundVolume = max(min(value, 100), 0);
-}
-
 void CSound3DSource::OnEvent(const string& eventID, void * data)
 {
 	if (eventID.compare("model-changed") == 0) {
@@ -175,9 +164,14 @@ void CSound3DSource::ComputeControlProperties()
 {
 	Transform* cameraTransform = Manager::GetScene()->GetActiveCamera()->transform;
 
-	auto cameraPos = cameraTransform->GetWorldPosition();
-	auto worldPosition = transform->GetWorldPosition();
-	positionCameraSpace = glm::rotate(glm::inverse(cameraTransform->GetWorldRotation()), worldPosition - cameraPos);
+	if (useVirtualPosition) {
+		positionCameraSpace = virtualCameraSpacePos;
+	}
+	else {
+		auto cameraPos = cameraTransform->GetWorldPosition();
+		auto worldPosition = transform->GetWorldPosition();
+		positionCameraSpace = glm::rotate(glm::inverse(cameraTransform->GetWorldRotation()), worldPosition - cameraPos);
+	}
 
 	// Compute Distance to camera
 	distanceToCamera = glm::length(positionCameraSpace);
@@ -198,8 +192,8 @@ void CSound3DSource::ComputeControlProperties()
 		// Compute Azimuth
 		float value = glm::dot(glm::vec3(0, 0, 1), targetProjection);
 		value = RESTRICT(value, -1, 1);
-		azimuth = acos(value) * TO_DEGREES;
-		if (positionCameraSpace.x > 0)
+		azimuth = 180 - acos(value) * TO_DEGREES;
+		if (positionCameraSpace.x < 0)
 			azimuth = -azimuth;
 
 		// ------------------------------------------------------------------------
@@ -221,11 +215,11 @@ void CSound3DSource::UpdateControlChannels(bool motion) const
 	// Update Control Channels
 	if (motion)
 	{
-		player->SetControl("kDistance", distanceToCamera);
-		player->SetControl("kAzimuth", azimuth);
-		player->SetControl("kElevation", elevation);
 		player->SetControl("kSurfaceCover", surfaceCover);
 	}
+	player->SetControl("kDistance", distanceToCamera);
+	player->SetControl("kAzimuth", azimuth);
+	player->SetControl("kElevation", elevation);
 	player->SetControl("kAttenuation", soundIntensity);
 	player->SetControl("kVolume", soundVolume / 100.0f);
 }
@@ -281,4 +275,25 @@ float CSound3DSource::GetSoundIntensity() const
 const glm::vec3 & CSound3DSource::GetCameraSpacePosition() const
 {
 	return positionCameraSpace;
+}
+
+void CSound3DSource::SetVirtualCameraSpacePosition(glm::vec3 cameraSpacePosition)
+{
+	virtualCameraSpacePos = cameraSpacePosition;
+}
+
+void CSound3DSource::SetSurfaceArea(unsigned int visibleAreaInPixels)
+{
+	surfaceArea = visibleAreaInPixels;
+	surfaceCover = float(surfaceArea) / Engine::Window->GetResolution();
+}
+
+void CSound3DSource::SetVolume(unsigned int value)
+{
+	soundVolume = max(min(value, 100), 0);
+}
+
+void CSound3DSource::UseVirtalPosition(bool value)
+{
+	useVirtualPosition = value;
 }

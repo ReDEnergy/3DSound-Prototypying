@@ -10,6 +10,7 @@
 
 #include <Manager/Manager.h>
 #include <Manager/ShaderManager.h>
+#include <Manager/ColorManager.h>
 #include <UI/ColorPicking/ColorPicking.h>
 
 #include <GPU/Shader.h>
@@ -18,6 +19,8 @@
 #include <GPU/FrameBuffer.h>
 
 #include <3DWorld/Game.h>
+#include <3DWorld/CSound/CSoundScene.h>
+#include <3DWorld/CSound/CSound3DSource.h>
 #include <CSoundEditor.h>
 
 SurfaceArea::SurfaceArea()
@@ -44,10 +47,20 @@ void SurfaceArea::Update()
 	ssbo->BindBuffer(0);
 	glBindImageTexture(0, Manager::GetPicker()->FBO->GetTextureID(0), 0, GL_FALSE, 0, GL_READ_ONLY, GL_RGBA32F);
 	glDispatchCompute(GLuint(UPPER_BOUND(Engine::Window->resolution.x, WORK_GROUP_SIZE)), GLuint(UPPER_BOUND(Engine::Window->resolution.y, WORK_GROUP_SIZE)), 1);
-	glFinish();
 	glMemoryBarrier(GL_ALL_BARRIER_BITS);
+	glFinish();
 
 	ReadData();
+
+
+	// ------------------------------------------------------------------------
+	// Update Scene Information
+	for (auto S3D : CSoundEditor::GetScene()->GetEntries())
+	{
+		auto ID = Manager::GetColor()->GetUKeyFromColor(S3D->GetColorID());
+		if (counter[ID])
+			S3D->SetSurfaceArea(counter[ID]);
+	}
 }
 
 unsigned int SurfaceArea::GetValue(unsigned int ID) const

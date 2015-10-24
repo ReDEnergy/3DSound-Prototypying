@@ -16,6 +16,7 @@ class CustomWidget
 
 		virtual void Init();
 		virtual void Hide();
+		virtual void Toggle();
 		virtual void Close() {};
 
 		void AddWidget(QWidget *widget);

@@ -23,6 +23,7 @@ HrtfTest::HrtfTest()
 	setWindowTitle("Record HRTF Test");
 	InitUI();
 
+	config = new HrtfTestConfig();
 	recorder = new HrtfRecorder();
 
 	bool exist = QDir("HRTF-Tests").exists();
@@ -47,21 +48,50 @@ void HrtfTest::InitUI()
 	sampleGenerator = new HrtfTestGenerator();
 
 	{
+		bool started = false;
 		auto *button = new QPushButton();
 		button->setText("Start Test");
 		button->setMinimumHeight(30);
 		qtLayout->addWidget(button);
-		QObject::connect(button, &QPushButton::clicked, this, &HrtfTest::Start);
+		QObject::connect(button, &QPushButton::clicked, this, [button, this]() {
+			if (button->text().compare("Start Test") == 0) {
+				button->setText("Stop Test");
+				Start();
+			}
+			else {
+				Manager::GetEvent()->EmitAsync("stop-HRTF-test");
+				button->setText("Start Test");
+			}
+		});
 	}
 
+	// ------------------------------------------------------------------------
+	// Help Info
+
 	{
-		auto *button = new QPushButton();
-		button->setText("Stop Test");
-		button->setMinimumHeight(30);
-		qtLayout->addWidget(button);
-		QObject::connect(button, &QPushButton::clicked, this, []() {
-			Manager::GetEvent()->EmitAsync("stop-HRTF-test");
-		});
+		auto info = new QLabel("Keyboard keys [Use Numpad]");
+		info->setAlignment(Qt::AlignCenter);
+		info->setMargin(5);
+		info->setFont(QFont("Arial", 10, QFont::Bold));
+		qtLayout->addWidget(info);
+
+		info = new QLabel("4, 6 => chnage azimuth left/right");
+		qtLayout->addWidget(info);
+		info = new QLabel("2, 8 => chnage elevation down/up");
+		qtLayout->addWidget(info);
+		info = new QLabel("5 => center azimuth, elevation to [0, 0]");
+		qtLayout->addWidget(info);
+		info = new QLabel("Enter => submit answer");
+		qtLayout->addWidget(info);
+
+		azimuthAnswer = new SimpleFloatInput("Response azimuth:", "deg", 2, true);
+		elevationAnswer = new SimpleFloatInput("Response elevation:", "deg", 2, true);
+
+		auto wrap = new CustomWidget();
+		wrap->layout()->setContentsMargins(0, 20, 0, 20);
+		wrap->AddWidget(azimuthAnswer);
+		wrap->AddWidget(elevationAnswer);
+		qtLayout->addWidget(wrap);
 	}
 
 	// ------------------------------------------------------------------------
@@ -98,6 +128,7 @@ void HrtfTest::InitUI()
 	configArea->AddWidget(randomIterations);
 
 	auto showAdvancedConfig = new SimpleCheckBox("Advanced mode:", false);
+	showAdvancedConfig->setContentsMargins(0, 0, 0, 10);
 	showAdvancedConfig->OnUserEdit([this](bool value) {
 		value ? configArea->AddWidget(advanceConfig) : advanceConfig->DetachFromParent();
 	});
@@ -110,7 +141,6 @@ void HrtfTest::InitUI()
 	advanceConfig->AddWidget(randomValues);
 
 	wait4Input = new SimpleCheckBox("Wait for user input:", true);
-	wait4Input->SetLabelWidth(100);
 	advanceConfig->AddWidget(wait4Input);
 
 	prepareTime = new SimpleFloatInput("Prepare time:", "sec");
@@ -159,28 +189,27 @@ void HrtfTest::Start()
 		return;
 	}
 
-	static HrtfTestConfig config;
-	config.randomTest = randomValues->GetValue();
-	config.prepareTime = prepareTime->GetValue();
-	config.randomIterations = randomIterations->GetValue();
-	config.samplePlaybackDuration = sampleDuration->GetValue();
-	config.sampleInterval = sampleInterval->GetValue();
-	config.waitForInput = wait4Input->GetValue();
-	config.testName = testName->text().trimmed().toStdString();
+	config->randomTest = randomValues->GetValue();
+	config->prepareTime = prepareTime->GetValue();
+	config->randomIterations = randomIterations->GetValue();
+	config->samplePlaybackDuration = sampleDuration->GetValue();
+	config->sampleInterval = sampleInterval->GetValue();
+	config->waitForInput = wait4Input->GetValue();
+	config->testName = testName->text().trimmed().toStdString();
 
-	if (config.randomTest)
+	if (config->randomTest)
 	{
-		config.azimuthValues = sortableAzimuth->GetValues();
-		config.elevationValues = sortableElevation->GetValues();
+		config->azimuthValues = sortableAzimuth->GetValues();
+		config->elevationValues = sortableElevation->GetValues();
 	}
-	else {
-		config.azimuthValues = sampleGenerator->GetAzimuthValues();
-		config.elevationValues = sampleGenerator->GetElevationValues();
+	else {	  
+		config->azimuthValues = sampleGenerator->GetAzimuthValues();
+		config->elevationValues = sampleGenerator->GetElevationValues();
 	}
 
 	answerPanel->SetupAnswerPanel(sortableAzimuth->GetValues(), sortableElevation->GetValues());
 
-	Manager::GetEvent()->EmitAsync("start-HRTF-test", (void*)(&config));
+	Manager::GetEvent()->EmitAsync("start-HRTF-test", (void*)config);
 
 	AddWidget(answerPanel);
 	configArea->DetachFromParent();
@@ -287,13 +316,15 @@ void HrtfTest::KeyResponseInfo() const
 {
 	auto azimuth = sortableAzimuth->GetValues()[keyOffsetX];
 	auto elevation = sortableElevation->GetValues()[keyOffsetY];
-	printf("[%f, %f]\n", keyOffsetX, keyOffsetY, azimuth, elevation);
+	azimuthAnswer->SetValue(azimuth);
+	elevationAnswer->SetValue(elevation);
 }
 
 void HrtfTest::ResetAnswerKeyOffset()
 {
 	keyOffsetX = sortableAzimuth->GetValues().size() / 2;
 	keyOffsetY = sortableElevation->GetValues().size() / 2;
+	KeyResponseInfo();
 }
 
 void HrtfTest::SendKeyboardAnswer() const

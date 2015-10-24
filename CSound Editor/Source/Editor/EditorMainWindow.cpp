@@ -170,6 +170,7 @@ void EditorMainWindow::SetupUI(QMainWindow *MainWindow) {
 
 	// ************************************************************************
 	// Toolbar
+
 	QToolBar *toolbar = new QToolBar();
 	toolbar->setWindowTitle("Toolbar");
 
@@ -252,10 +253,8 @@ void EditorMainWindow::SetupUI(QMainWindow *MainWindow) {
 		toolbar->addWidget(button);
 
 		appWindows["HRTFTest"] = new HrtfTest();
-		auto HRTFWindow = appWindows["HRTFTest"];
-		QObject::connect(button, &QToolButton::clicked, this, [HRTFWindow]() {
-			if (HRTFWindow)
-				HRTFWindow->show();
+		QObject::connect(button, &QToolButton::clicked, this, [this]() {
+			appWindows["HRTFTest"]->Toggle();
 		});
 	}
 
@@ -265,11 +264,9 @@ void EditorMainWindow::SetupUI(QMainWindow *MainWindow) {
 		button->setText("Moving Plane");
 		toolbar->addWidget(button);
 
-		bool *state = new bool(false);
-		QObject::connect(button, &QToolButton::clicked, this, [state]() {
-			*state = !(*state);
-			auto event = *state ? "start-moving-plane" : "stop-moving-plane";
-			Manager::GetEvent()->EmitAsync(event);
+		appWindows["MovingPlane"] = new MovingPlaneWindow();
+		QObject::connect(button, &QToolButton::clicked, this, [this]() {
+			appWindows["MovingPlane"]->Toggle();
 		});
 	}
 
@@ -291,7 +288,7 @@ void EditorMainWindow::SetupUI(QMainWindow *MainWindow) {
 	// Padding Scene
 	{
 		QWidget *empty = new QWidget();
-		empty->setMinimumWidth(500);
+		empty->setMinimumWidth(600);
 		empty->setMinimumHeight(30);
 		toolbar->addWidget(empty);
 	}
@@ -307,8 +304,9 @@ void EditorMainWindow::SetupUI(QMainWindow *MainWindow) {
 		dropdown->addItem("None", QVariant("none"));
 		dropdown->addItem("HRTF2", QVariant("hrtf-output"));
 		dropdown->addItem("Stereo", QVariant("stereo-output"));
+		dropdown->setCurrentIndex(1);
 
-		QWidget* widget = Wrap("Output", 35, dropdown);
+		QWidget* widget = Wrap("Global output", 65, dropdown);
 		toolbar->addWidget(widget);
 
 		void (QComboBox::* indexChangedSignal)(int index) = &QComboBox::currentIndexChanged;

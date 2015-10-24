@@ -10,26 +10,32 @@ class SSBO;
 #include <include/glm.h>
 #include <Event/EventListener.h>
 
-class PlaneIntersection
+class SceneIntersection
 	: public EventListener
 {
 	public:
-		PlaneIntersection();
-		~PlaneIntersection() {};
+		SceneIntersection();
+		~SceneIntersection() {};
 
-		void SetPlaneTransform(const Transform* const planeTransform);
+		void Start();
+		void Stop();
+		void SetSphereSize(float sphereSize);
+		void Update();
 
 	private:
-		void Update();
 		void OnEvent(EventType eventID, void *data);
 
 	private:
-		SSBO<glm::vec3> *ssbo;
+		SSBO<glm::ivec4> *ssbo;
 
 		const Transform* planeTransform;
-		Shader *computeShader;
-		unsigned int plane_origin;
+		float sphereSize;
+
+		// Shader uniforms
+		unsigned int sphere_size;
 		unsigned int plane_direction;
-		FrameBuffer *gameFBO;
+		Shader *computeShader;
+
+		const FrameBuffer *gameFBO;
 		Texture* visualization;
 };

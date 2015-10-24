@@ -110,7 +110,8 @@ float linearDepth(sampler2D depthTexture, vec2 coord) {
 
 vec4 viewDepth(sampler2D depthTexture, vec2 coord) {
 	float dist = texture(depthTexture, coord).x;
-	float d = pow(dist , pow(2, 12));
+	float d = pow(dist , zFar);
+	// float d = pow(dist , pow(2, 12));
 	return vec4(d, d, d, 1.0);
 }
 

@@ -27,7 +27,6 @@ void HrtfTestAnswerPanel::InitUI()
 	qtLayout->setContentsMargins(5, 5, 5, 5);
 	qtLayout->setAlignment(Qt::AlignTop);
 	setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
-
 }
 
 void HrtfTestAnswerPanel::SetupAnswerPanel(vector<float> azimuthSamples, vector<float> elevationSamples)

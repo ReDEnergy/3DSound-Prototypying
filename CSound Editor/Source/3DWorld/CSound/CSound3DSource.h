@@ -34,6 +34,10 @@ class CSound3DSource
 		const glm::vec3 & GetCameraSpacePosition() const;
 
 		void SetVolume(unsigned int value = 100);
+		void UseVirtalPosition(bool value);
+		void SetVirtualCameraSpacePosition(glm::vec3 cameraSpacePosition);
+
+		void SetSurfaceArea(unsigned int visibleAreaInPixels);
 
 		void SelectObject();
 		void PlayScore();
@@ -58,5 +62,8 @@ class CSound3DSource
 		float soundIntensity;
 		unsigned int soundVolume;
 
+		bool forceUpdateSoundParameters;
+		bool useVirtualPosition;
 		glm::vec3 positionCameraSpace;
+		glm::vec3 virtualCameraSpacePos;
 };

@@ -110,6 +110,10 @@ void SceneObjectProperties::InitUI()
 		qtLayout->addWidget(worldScale);
 
 		worldQuat = new GLMVecComponent<glm::quat>("Quat:", glm::quat());
+		worldQuat->OnUserEdit([this](glm::quat val) {
+			gameObj->transform->SetWorldRotation(val);
+		});
+
 		qtLayout->addWidget(worldQuat);
 	}
 
@@ -159,11 +163,8 @@ void SceneObjectProperties::Update()
 		cameraSpacePosition->SetValue(gameObj->GetCameraSpacePosition());
 		surfaceAreaInput->SetValue(gameObj->GetSurfaceArea());
 		surfaceCoverInput->SetValue(gameObj->GetSurfaceCover());
-		azimuthInput->SetValue(gameObj->GetAzimuthToCamera());
-		elevationInput->SetValue(gameObj->GetElevationToCamera());
 		distanceToCameraInput->SetValue(gameObj->GetDistanceToCamera());
 		soundVolume->SetValue(gameObj->GetSoundVolume());
-		soundIntensity->SetValue(gameObj->GetSoundIntensity());
 	}
 
 	if (forceUpdate || selectedMotion) {
@@ -173,6 +174,10 @@ void SceneObjectProperties::Update()
 		worldScale->SetValue(gameObj->transform->GetScale());
 		worldEuler->SetValue(gameObj->transform->GetRotationEuler360());
 	}
+
+	azimuthInput->SetValue(gameObj->GetAzimuthToCamera());
+	elevationInput->SetValue(gameObj->GetElevationToCamera());
+	soundIntensity->SetValue(gameObj->GetSoundIntensity());
 }
 
 void SceneObjectProperties::ForceUpdate()

@@ -52,6 +52,9 @@
     <Filter Include="3DWorld\Compute">
       <UniqueIdentifier>{02d9d6f0-38a1-40f4-b5b1-0ca546c3357a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Editor\Windows\Features\MovingPlane">
+      <UniqueIdentifier>{b6b99cb4-798b-4717-a6ab-7d64919d386c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Source\3DWorld\CSound\CSound3DSource.cpp">
@@ -140,16 +143,10 @@
     <ClCompile Include="..\Source\Editor\Events\UIEvents.cpp">
       <Filter>Editor\Events</Filter>
     </ClCompile>
-    <ClCompile Include="..\Source\3DWorld\Scripts\MovingPlane.cpp">
-      <Filter>3DWorld\Scripts</Filter>
-    </ClCompile>
     <ClCompile Include="..\Source\3DWorld\Scripts\GrowingSphere.cpp">
       <Filter>3DWorld\Scripts</Filter>
     </ClCompile>
     <ClCompile Include="..\Source\3DWorld\Compute\SurfaceArea.cpp">
-      <Filter>3DWorld\Compute</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Source\3DWorld\Compute\PlaneIntersection.cpp">
       <Filter>3DWorld\Compute</Filter>
     </ClCompile>
     <ClCompile Include="..\Source\Editor\Windows\Interface\QtSortableInput.cpp">
@@ -160,6 +157,15 @@
     </ClCompile>
     <ClCompile Include="..\Source\Editor\Windows\Features\HrtfTestAnswerPanel.cpp">
       <Filter>Editor\Windows\Features</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\3DWorld\Scripts\MovingPlaneScript.cpp">
+      <Filter>3DWorld\Scripts</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\Editor\Windows\Features\MovingPlane\MovingPlaneWindow.cpp">
+      <Filter>Editor\Windows\Features\MovingPlane</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\3DWorld\Compute\SceneIntersection.cpp">
+      <Filter>3DWorld\Compute</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -284,16 +290,10 @@
     <ClInclude Include="..\Source\Editor\Events\UIEvents.h">
       <Filter>Editor\Events</Filter>
     </ClInclude>
-    <ClInclude Include="..\Source\3DWorld\Scripts\MovingPlane.h">
-      <Filter>3DWorld\Scripts</Filter>
-    </ClInclude>
     <ClInclude Include="..\Source\3DWorld\Scripts\GrowingSphere.h">
       <Filter>3DWorld\Scripts</Filter>
     </ClInclude>
     <ClInclude Include="..\Source\3DWorld\Compute\SurfaceArea.h">
-      <Filter>3DWorld\Compute</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Source\3DWorld\Compute\PlaneIntersection.h">
       <Filter>3DWorld\Compute</Filter>
     </ClInclude>
     <ClInclude Include="..\Source\Editor\Windows\Interface\QtSortableInput.h">
@@ -304,6 +304,18 @@
     </ClInclude>
     <ClInclude Include="..\Source\Editor\Windows\Features\HrtfTestAnswerPanel.h">
       <Filter>Editor\Windows\Features</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\3DWorld\Scripts\MovingPlaneConfig.h">
+      <Filter>3DWorld\Scripts</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\3DWorld\Scripts\MovingPlaneScript.h">
+      <Filter>3DWorld\Scripts</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Editor\Windows\Features\MovingPlane\MovingPlaneWindow.h">
+      <Filter>Editor\Windows\Features\MovingPlane</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\3DWorld\Compute\SceneIntersection.h">
+      <Filter>3DWorld\Compute</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

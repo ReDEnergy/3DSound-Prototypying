@@ -30,9 +30,11 @@ using namespace std;
 
 CSoundScene::CSoundScene()
 {
+	sceneFile = "";
 	defaultScore = nullptr;
 	playback = false;
 	SubscribeToEvent(EventType::EDITOR_OBJECT_REMOVED);
+	_3DSources = nullptr;
 }
 
 CSoundScene::~CSoundScene()
@@ -46,14 +48,13 @@ void CSoundScene::Init()
 	SetDefaultScore(SoundManager::GetCSManager()->GetScore("simple"));
 	Clear();
 	auto obj = CreateSource();
-	sceneFile = "";
+	SetOutputModel("hrtf-output");
 }
 
 void CSoundScene::Update()
 {
-	for (auto S3D : _3DSources->GetEntries()) {
-		S3D->UpdateSurfaceArea();
-	}
+	//for (auto S3D : _3DSources->GetEntries()) {
+	//}
 }
 
 void CSoundScene::Clear()

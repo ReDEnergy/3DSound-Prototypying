@@ -4,6 +4,7 @@
 // Engine
 #include <Event/EventListener.h>
 
+struct HrtfTestConfig;
 
 class CSoundComponentProperty;
 class CSound3DSource;
@@ -14,6 +15,7 @@ class QtSortableInput;
 class SimpleCheckBox;
 
 class QKeyEvent;
+
 
 class HrtfTest
 	: public CustomWidget
@@ -37,8 +39,13 @@ class HrtfTest
 
 	private:
 
+		HrtfTestConfig *config;
+
 		HrtfTestGenerator *sampleGenerator;
 		HrtfTestAnswerPanel *answerPanel;
+
+		SimpleFloatInput *azimuthAnswer;
+		SimpleFloatInput *elevationAnswer;
 
 		CustomWidget *configArea;
 		CustomWidget *advanceConfig;
@@ -52,7 +59,6 @@ class HrtfTest
 		QtSortableInput *sortableAzimuth;
 		SimpleCheckBox *wait4Input;
 		SimpleCheckBox *randomValues;
-		QPushButton **buttons;
 
 		int keyOffsetX = 0;
 		int keyOffsetY = 0;

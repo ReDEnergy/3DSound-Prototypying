@@ -49,13 +49,12 @@ vec4 DebugView(vec2 text_coord) {
 void main() {
 	vec2 text_coord = gl_FragCoord.xy / resolution;
 
-	vec4 diffuse = texture(u_texture_0, text_coord);
-	
-	out_color = diffuse;
+	out_color = texture(u_texture_0, text_coord);
 
 	if (debug_view == 1)
 	{
-		out_color += DebugView(text_coord);	
+		// out_color += DebugView(text_coord);	
+		out_color += texture(u_texture_5, text_coord).rgba;
 	}
 	
 	if (active_selection)
@@ -78,7 +77,8 @@ float linearDepth(sampler2D depthTexture, vec2 coord) {
 
 vec4 viewDepth(sampler2D depthTexture, vec2 coord) {
 	float dist = texture(depthTexture, coord).x;
-	float d = pow(dist , 128);
+	float d = pow(dist , zFar);
+	// float d = pow(dist , 128);
 	return vec4(d, d, d, 1.0);
 }
 

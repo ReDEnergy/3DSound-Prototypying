@@ -76,12 +76,14 @@ void GameWindow::Render()
 	// No need to clear because we write a texture to the entire screen
 	FrameBuffer::Unbind();
 	FrameBuffer::Clear();
-	glDepthMask(GL_FALSE);
+
 	glDisable(GL_DEPTH_TEST);
+	glDepthMask(GL_FALSE);
 
 	{
 		Shader *Composition = Manager::GetShader()->GetShader("composition");
 		Composition->Use();
+
 		glUniform2f(Composition->loc_resolution, (float)Engine::Window->resolution.x, (float)Engine::Window->resolution.y);
 		glUniform1i(Composition->active_selection, Manager::GetPicker()->HasActiveSelection());
 		glUniform1i(Composition->loc_debug_view, Manager::GetDebug()->GetActiveState());

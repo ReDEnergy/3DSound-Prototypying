@@ -35,9 +35,18 @@ void CustomWidget::Hide()
 	hide();
 }
 
+void CustomWidget::Toggle()
+{
+	if (isVisible())
+		Hide();
+	else
+		show();
+}
+
 void CustomWidget::AddWidget(QWidget * widget)
 {
-	qtLayout->addWidget(widget);
+	if (widget)
+		qtLayout->addWidget(widget);
 }
 
 void CustomWidget::DetachFromParent()

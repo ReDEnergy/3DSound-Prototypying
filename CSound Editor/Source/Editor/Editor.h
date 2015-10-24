@@ -16,6 +16,7 @@
 #include <Editor/Windows/Editors/PropertyEditor.h>
 #include <Editor/Windows/Editors/SceneObjectProperties.h>
 #include <Editor/Windows/Features/HrtfTest.h>
+#include <Editor/Windows/Features/MovingPlane/MovingPlaneWindow.h>
 #include <Editor/Windows/Interface/QtListTemplates.h>
 #include <Editor/Windows/Interface/DockWindow.h>
 #include <Editor/Windows/Interface/CustomWidget.h>

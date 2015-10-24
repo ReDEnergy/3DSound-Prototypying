@@ -106,7 +106,9 @@ class SimpleFloatInput
 			precision = min(precision, 6);
 			toPrecision = pow(10, precision);
 
-			format = new char[20];
+			auto inputLength = strlen(unit) + 10;
+			format = new char[inputLength];
+			inputBuffer = new char[inputLength];
 			sprintf(format, "%%.%df %s", precision, unit);
 
 			{
@@ -121,7 +123,7 @@ class SimpleFloatInput
 
 				QObject::connect(prop, &QLineEdit::editingFinished, this, [&]() {
 					auto value = prop->text();
-					value.replace(QRegExp("[a-zA-Z ]+"), "");
+					value.replace(QRegExp("[a-zA-Z \\/]+"), "");
 					SetValue(value.toFloat());
 				});
 
@@ -129,7 +131,10 @@ class SimpleFloatInput
 			}
 		}
 
-		~SimpleFloatInput() {};
+		~SimpleFloatInput() {
+			delete inputBuffer;
+			delete format;
+		};
 
 		void SetLabelWidth(int width)
 		{
@@ -153,9 +158,8 @@ class SimpleFloatInput
 			if (!acceptNegativeValues && this->value < 0)
 				this->value = abs(this->value);
 
-			char buff[20];
-			sprintf(buff, format, this->value);
-			prop->setText(buff);
+			sprintf(inputBuffer, format, this->value);
+			prop->setText(inputBuffer);
 
 			if (updateFunc)
 				updateFunc(this->value);
@@ -175,6 +179,7 @@ class SimpleFloatInput
 			float value;
 			int toPrecision;
 			char *format;
+			char *inputBuffer;
 			QLabel *qLabel;
 			QLineEdit *prop;
 			function<void(float)> updateFunc;

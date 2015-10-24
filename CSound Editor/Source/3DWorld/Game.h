@@ -47,6 +47,4 @@ class Game : public World,
 
 		vector<Camera*>		sceneCameras;
 		unsigned int		activeSceneCamera;
-
-		SurfaceArea *objSurfaces;
 };
