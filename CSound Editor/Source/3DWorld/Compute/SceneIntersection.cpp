@@ -59,11 +59,15 @@ SceneIntersection::SceneIntersection()
 
 void SceneIntersection::Start()
 {
+	if (!computeShader)
+		return;
 	SubscribeToEvent(EventType::FRAME_AFTER_RENDERING);
 }
 
 void SceneIntersection::Stop()
 {
+	if (!computeShader)
+		return;
 	SetSphereSize(0);
 	UnsubscribeFrom(EventType::FRAME_AFTER_RENDERING);
 }
@@ -82,7 +86,7 @@ void SceneIntersection::Update()
 	auto camera = Manager::GetScene()->GetActiveCamera();
 
 	auto cameraPos = camera->transform->GetWorldPosition();
-	auto planePos = cameraPos + -camera->transform->GetLocalOZVector() * 3.0f;
+	auto planePos = cameraPos - camera->transform->GetLocalOZVector() * 3.0f;
 	auto direction = -camera->transform->GetLocalOZVector();
 	glUniform3f(plane_direction, direction.x, direction.y, direction.z);
 	glUniform1f(sphere_size, sphereSize);

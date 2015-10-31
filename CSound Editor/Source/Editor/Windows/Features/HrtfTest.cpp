@@ -48,19 +48,18 @@ void HrtfTest::InitUI()
 	sampleGenerator = new HrtfTestGenerator();
 
 	{
-		bool started = false;
-		auto *button = new QPushButton();
-		button->setText("Start Test");
-		button->setMinimumHeight(30);
-		qtLayout->addWidget(button);
-		QObject::connect(button, &QPushButton::clicked, this, [button, this]() {
-			if (button->text().compare("Start Test") == 0) {
-				button->setText("Stop Test");
+		buttonStartStop = new QPushButton();
+		buttonStartStop->setText("Start Test");
+		buttonStartStop->setMinimumHeight(30);
+		qtLayout->addWidget(buttonStartStop);
+		QObject::connect(buttonStartStop, &QPushButton::clicked, this, [this]() {
+			if (buttonStartStop->text().compare("Start Test") == 0) {
+				buttonStartStop->setText("Stop Test");
 				Start();
 			}
 			else {
 				Manager::GetEvent()->EmitAsync("stop-HRTF-test");
-				button->setText("Start Test");
+				buttonStartStop->setText("Start Test");
 			}
 		});
 	}
@@ -223,13 +222,14 @@ void HrtfTest::Stop()
 		qtLayout->addWidget(configArea);
 	}
 	answerPanel->DetachFromParent();
+	buttonStartStop->setText("Start Test");
 }
 
 void HrtfTest::ResetConfig()
 {
 	prepareTime->SetValue(3);
-	sampleDuration->SetValue(200.0f);
-	sampleInterval->SetValue(3.0f); 
+	sampleDuration->SetValue(1000.0f);
+	sampleInterval->SetValue(2.0f); 
 	randomIterations->SetValue(1);
 	sortableElevation->SetValue("-60, -30, 0, 30, 60");
 	sortableAzimuth->SetValue("-90, -60, -30, 0, 30, 60, 90");

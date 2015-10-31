@@ -79,7 +79,7 @@ void MovingPlaneScript::Stop()
 	Manager::GetScene()->RemoveObject(visiblePlane);
 	CSoundEditor::GetScene()->Stop();
 	UnsubscribeFrom(EventType::FRAME_UPDATE);
-	dynamicEvents->Remove(scanPauseEvent);
+	dynamicEvents->Remove(*scanPauseEvent);
 }
 
 void MovingPlaneScript::ClearEvents()
@@ -121,7 +121,7 @@ void MovingPlaneScript::Reset()
 	{
 		UnsubscribeFrom(EventType::FRAME_UPDATE);
 		Manager::GetScene()->RemoveObject(visiblePlane);
-		dynamicEvents->Add(scanPauseEvent);
+		dynamicEvents->Add(*scanPauseEvent);
 
 		visiblePlane->transform->SetWorldPosition(virtualPlane->transform->GetWorldPosition());
 		visiblePlane->transform->SetWorldRotation(virtualPlane->transform->GetWorldRotation());
@@ -144,7 +144,7 @@ void MovingPlaneScript::OnEvent(const string & eventID, void * data)
 	if (eventID.compare("Resume-Moving-Plane") == 0) {
 		SubscribeToEvent(EventType::FRAME_UPDATE);
 		Manager::GetScene()->AddObject(visiblePlane);
-		dynamicEvents->Remove(scanPauseEvent);
+		dynamicEvents->Remove(*scanPauseEvent);
 	}
 	if (eventID.compare("Stop-Moving-Plane") == 0) {
 		Stop();

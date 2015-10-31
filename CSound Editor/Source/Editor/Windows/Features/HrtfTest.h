@@ -39,6 +39,8 @@ class HrtfTest
 
 	private:
 
+		QPushButton* buttonStartStop;
+
 		HrtfTestConfig *config;
 
 		HrtfTestGenerator *sampleGenerator;

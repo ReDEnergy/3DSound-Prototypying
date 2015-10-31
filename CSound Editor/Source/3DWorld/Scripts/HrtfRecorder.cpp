@@ -89,7 +89,7 @@ void HrtfRecorder::Start(HrtfTestConfig config)
 	uint azSize = config.azimuthValues.size();
 	uint elSize = config.elevationValues.size();
 
-	uint nrSamples = config.randomTest ? azSize * elSize : azSize;
+	uint nrSamples = config.randomTest ? azSize * elSize * config.randomIterations : azSize;
 
 	// Setup answers list
 	for (unsigned int i = 0; i < nrSamples; i++) {
@@ -119,7 +119,6 @@ void HrtfRecorder::Start(HrtfTestConfig config)
 
 		for (uint k = 0; k < config.randomIterations; k++)
 		{
-			swap(values[1], values[2]);
 			shuffle(values.begin(), values.end(), default_random_engine(seed));
 			for (auto v : values) {
 				positions.push_back(ComputePosition(v.x, v.y));
@@ -153,7 +152,7 @@ void HrtfRecorder::Start(HrtfTestConfig config)
 
 
 	// Sample index
-	dynamicEvents->Add(prepareEvent);
+	dynamicEvents->Add(*prepareEvent);
 	cout << "Test starting in " << config.prepareTime << " seconds. Please be ready" << endl;
 	timelinePos = 0;
 }
@@ -186,7 +185,7 @@ bool HrtfRecorder::VerifyAnswer(float azimuth, float elevation)
 glm::vec3 HrtfRecorder::ComputePosition(float azimuth, float elevation)
 {
 	auto cameraPos = sceneCamera->transform->GetWorldPosition();
-	float dist = cameraPos.z;
+	float dist = -cameraPos.z;
 	glm::vec3 offset;
 
 	float tanElev = tan(elevation * TO_RADIANS);
@@ -203,7 +202,7 @@ glm::vec3 HrtfRecorder::ComputePosition(float azimuth, float elevation)
 	{
 		float ox = tan(azimuth * TO_RADIANS);
 		float oy = tanElev / cos(azimuth * TO_RADIANS);
-		offset = glm::vec3(ox, -oy, -1) * dist;
+		offset = glm::vec3(ox, oy, -1) * dist;
 	}
 
 	gameObj->transform->SetLocalPosition(offset);
@@ -213,9 +212,9 @@ glm::vec3 HrtfRecorder::ComputePosition(float azimuth, float elevation)
 
 void HrtfRecorder::ClearEvents()
 {
-	dynamicEvents->Remove(playbackEvent);
-	dynamicEvents->Remove(waitEvent);
-	dynamicEvents->Remove(prepareEvent);
+	dynamicEvents->Remove(*playbackEvent);
+	dynamicEvents->Remove(*waitEvent);
+	dynamicEvents->Remove(*prepareEvent);
 }
 
 void HrtfRecorder::PlayCurrentSample()
@@ -228,8 +227,8 @@ void HrtfRecorder::PlayCurrentSample()
 	startTimeCurrentTest = glfwGetTime();
 	gameObj->transform->SetWorldPosition(positions[timelinePos]);
 	gameObj->SetVolume(100);
-	dynamicEvents->Add(playbackEvent);
-	dynamicEvents->Remove(waitEvent);
+	dynamicEvents->Add(*playbackEvent);
+	dynamicEvents->Remove(*waitEvent);
 	printf("[TEST %d] started\n", timelinePos + 1);
 }
 
@@ -242,9 +241,9 @@ void HrtfRecorder::WaitForNextSample()
 
 	gameObj->transform->SetWorldPosition(sceneCamera->transform->GetWorldPosition() + glm::vec3(0, 0, 100));
 	gameObj->SetVolume(0);
-	dynamicEvents->Remove(playbackEvent);
+	dynamicEvents->Remove(*playbackEvent);
 
-	dynamicEvents->Add(waitEvent);
+	dynamicEvents->Add(*waitEvent);
 	printf("Prepare: [TEST %d]\t", timelinePos + 2);
 	cout << "playback in " << waitEvent->GetTriggerInterval() << " sec" << endl;
 }
@@ -391,7 +390,7 @@ void HrtfRecorder::OnEvent(const string& eventID, void * data)
 
 	if (eventID.compare(playbackEvent->GetChannel()) == 0) {
 		gameObj->transform->SetWorldPosition(sceneCamera->transform->GetWorldPosition() + glm::vec3(0, 0, 100));
-		dynamicEvents->Remove(playbackEvent);
+		dynamicEvents->Remove(*playbackEvent);
 
 		if (config.waitForInput) {
 			return;
@@ -409,7 +408,7 @@ void HrtfRecorder::OnEvent(const string& eventID, void * data)
 
 	// Start playback
 	if (eventID.compare(prepareEvent->GetChannel()) == 0) {
-		dynamicEvents->Remove(prepareEvent);
+		dynamicEvents->Remove(*prepareEvent);
 		CSoundEditor::GetScene()->Play();
 		PlayCurrentSample();
 	}

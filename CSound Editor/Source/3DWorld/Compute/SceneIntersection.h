@@ -20,9 +20,9 @@ class SceneIntersection
 		void Start();
 		void Stop();
 		void SetSphereSize(float sphereSize);
-		void Update();
 
 	private:
+		void Update();
 		void OnEvent(EventType eventID, void *data);
 
 	private:
