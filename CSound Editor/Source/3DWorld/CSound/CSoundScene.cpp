@@ -12,6 +12,7 @@
 // Engine library
 #include <include/glm.h>
 #include <include/glm_utils.h>
+#include <Core/Camera/Camera.h>
 #include <Component/Mesh.h>
 #include <Component/Transform/Transform.h>
 #include <Manager/Manager.h>
@@ -201,10 +202,11 @@ void CSoundScene::SaveSceneAs(const char* path)
 	// Save Scene
 
 	xml_node nodeScene = doc->append_child("scene");
+	xml_node objects = nodeScene.append_child("objects");
 
 	for (auto S3D : _3DSources->GetEntries())
 	{
-		auto sourceNode = nodeScene.append_child("object");
+		auto sourceNode = objects.append_child("object");
 
 		CreateNode("name", S3D->GetName(), sourceNode);
 		if (S3D->mesh) {
@@ -221,6 +223,35 @@ void CSoundScene::SaveSceneAs(const char* path)
 		CreateNode("position", pos.c_str(), transformNode);
 		CreateNode("quaternion", quat.c_str(), transformNode);
 		CreateNode("scale", scale.c_str(), transformNode);
+	}
+
+	// Save Camera Information
+	{
+		xml_node cameraInfo = nodeScene.append_child("camera");
+
+		auto transformNode = cameraInfo.append_child("transform");
+
+		auto camera = Manager::GetScene()->GetActiveCamera();
+
+		auto pos = glm::Serialize<glm::vec3>(camera->transform->GetWorldPosition());
+		auto rot = glm::Serialize<glm::vec3>(camera->transform->GetRotationEuler360());
+
+		CreateNode("position", pos.c_str(), transformNode);
+		CreateNode("rotation", rot.c_str(), transformNode);
+
+		auto projectionInfo = cameraInfo.append_child("projection");
+		auto PI = camera->GetProjectionInfo();
+		if (PI.isPerspective) {
+			CreateNode("fov", PI.FoV, projectionInfo);
+			CreateNode("aspect-ratio", PI.aspectRatio, projectionInfo);
+		}
+		else {
+			CreateNode("width", PI.width, projectionInfo);
+			CreateNode("height", PI.height, projectionInfo);
+		}
+		CreateNode("zNear", PI.zNear, projectionInfo);
+		CreateNode("zFar", PI.zFar, projectionInfo);
+		CreateNode("persepective", PI.isPerspective, projectionInfo);
 	}
 
 	///////////////////////////////////////////////////////////////////////////
@@ -241,8 +272,9 @@ void CSoundScene::LoadScene(const char* fileName)
 	// Load Scene
 
 	xml_node nodeScene = doc->child("scene");
+	xml_node objects = nodeScene.child("objects");
 
-	for (auto nodeObj : nodeScene.children())
+	for (auto nodeObj : objects.children())
 	{
 		auto name = nodeObj.child_value("name");
 		auto meshID = nodeObj.child_value("meshID");
@@ -263,6 +295,34 @@ void CSoundScene::LoadScene(const char* fileName)
 			cout << "[ERROR] SoundModel ID: " << scoreID << " could not be found!" << endl;
 		}
 	}
+
+	// Read Camera Info
+	{
+		xml_node cameraInfo = nodeScene.child("camera");
+
+		auto camera = Manager::GetScene()->GetActiveCamera();
+
+		auto transformNode = cameraInfo.child("transform");
+		Serialization::ReadTransform(transformNode, *camera->transform);
+
+		auto PI = camera->GetProjectionInfo();
+
+		auto projectionNode = cameraInfo.child("projection");
+		PI.isPerspective = projectionNode.child("persepective").text().as_bool();
+		if (PI.isPerspective) {
+			PI.FoV = projectionNode.child("fov").text().as_float();
+			PI.aspectRatio = projectionNode.child("aspect-ratio").text().as_float();
+		}
+		else {
+			PI.width = projectionNode.child("width").text().as_float();
+			PI.height = projectionNode.child("height").text().as_float();
+		}
+		PI.zFar = projectionNode.child("zFar").text().as_float();
+		PI.zNear = projectionNode.child("zNear").text().as_float();
+
+		camera->SetProjection(PI);
+	}
+
 }
 
 void CSoundScene::TrackScore(CSoundScore * score)

@@ -102,7 +102,7 @@
 			<op>,</op>
 			<control>kAzimuth</control>
 			<control>kElevation</control>
-			<text>, "CSound/hrtf/hrtf-48000-left.dat", "CSound/hrtf/hrtf-48000-right.dat"</text>		
+			<text>, "CSound/hrtf/hrtf-44100-left.dat", "CSound/hrtf/hrtf-44100-right.dat"</text>		
 		</content>
 	</component>		
 
@@ -116,11 +116,46 @@
 	</component>		
 	
 	<component>
+		<name>stereo panning 3 left</name>
+		<content>
+			<out>aleft</out>
+			<op>=</op>
+			<in>aout</in>
+			<op>*</op>
+			<in>cos(kPanFactor * $M_PI_2)</in>
+		</content>
+	</component>		
+
+	<component>
+		<name>stereo panning 3 right</name>
+		<content>
+			<out>aright</out>
+			<op>=</op>
+			<in>aout</in>
+			<op>*</op>
+			<in>sin(kPanFactor * $M_PI_2)</in>
+		</content>
+	</component>		
+
+	<component>
+		<name>pan2</name>
+		<content>
+			<out>aleft</out>
+			<out>aright</out>
+			<function>pan2</function>
+			<in>aout</in>
+			<in>kPanFactor</in>
+			<in>0</in>
+		</content>
+	</component>
+	
+	<component>
 		<name>output stereo</name>
 		<content>
 			<function>outs</function>
 			<in>aleft</in>
 			<in>aright</in>
 		</content>
-	</component>		
+	</component>
+
 </components>

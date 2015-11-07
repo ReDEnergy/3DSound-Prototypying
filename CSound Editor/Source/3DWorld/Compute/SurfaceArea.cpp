@@ -38,7 +38,15 @@ SurfaceArea::SurfaceArea()
 
 void SurfaceArea::Update()
 {
-	if (gameCamera->transform->GetMotionState() == false) return;
+	bool motion = false;
+	motion |= gameCamera->transform->GetMotionState();
+	if (motion == false) {
+		auto selectedObject = Manager::GetPicker()->GetSelectedObject();
+		if (selectedObject) {
+			motion |= selectedObject->transform->GetMotionState();
+		}
+		if (!motion) return;
+	}
 
 	computeShader->Use();
 	int WORK_GROUP_SIZE = 32;
@@ -58,9 +66,9 @@ void SurfaceArea::Update()
 	for (auto S3D : CSoundEditor::GetScene()->GetEntries())
 	{
 		auto ID = Manager::GetColor()->GetUKeyFromColor(S3D->GetColorID());
-		if (counter[ID])
-			S3D->SetSurfaceArea(counter[ID]);
+		S3D->SetSurfaceArea(counter[ID]);
 	}
+
 }
 
 unsigned int SurfaceArea::GetValue(unsigned int ID) const

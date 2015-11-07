@@ -19,7 +19,6 @@ class CSound3DSource
 
 		void SetSoundModel(CSoundScore* soundModel);
 		void Update();
-		void UpdateSurfaceArea();
 		void ComputeControlProperties();
 
 		const char* GetRender() const;
@@ -29,6 +28,7 @@ class CSound3DSource
 		float GetDistanceToCamera() const;
 		float GetElevationToCamera() const;
 		float GetAzimuthToCamera() const;
+		float GetPanningFactor() const;
 		float GetSoundIntensity() const;
 		unsigned int GetSoundVolume() const;
 		const glm::vec3 & GetCameraSpacePosition() const;
@@ -53,10 +53,12 @@ class CSound3DSource
 		CSoundPlayer *player;
 		SimpleTimer *timer;
 
+		bool forceUpdate;
 		float distanceToCamera;
 		unsigned int surfaceArea;
 		float surfaceCover;
 		float elevation;
+		float panningFactor;
 		float azimuth;
 		float soundFallOff;
 		float soundIntensity;

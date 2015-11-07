@@ -44,7 +44,6 @@ void InstrumentComposer::QtItemClicked(QListWidgetItem * item)
 	CSoundListEditor::QtItemClicked(item);
 	auto data = qtList->GetItemData(item);
 	GUI::Get<ComponentComposer>(QT_INSTACE::COMPONENT_COMPOSER)->SetContext(data);
-	GUI::Get<TextPreviewWindow>(QT_INSTACE::TEXT_PREVIEW)->RenderText(data->GetRender());
 }
 
 InstrumentEditorList::InstrumentEditorList()

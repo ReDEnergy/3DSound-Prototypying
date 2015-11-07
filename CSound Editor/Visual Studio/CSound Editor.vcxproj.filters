@@ -52,8 +52,20 @@
     <Filter Include="3DWorld\Compute">
       <UniqueIdentifier>{02d9d6f0-38a1-40f4-b5b1-0ca546c3357a}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Editor\Windows\Features\MovingPlane">
+    <Filter Include="Editor\Windows\Features\Moving Plane">
       <UniqueIdentifier>{b6b99cb4-798b-4717-a6ab-7d64919d386c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Editor\Windows\Features\Expanding Sphere">
+      <UniqueIdentifier>{a2c54a78-aaeb-4f6e-9811-1a6c41c00476}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Editor\Windows\General">
+      <UniqueIdentifier>{00f7f4f2-9bee-455f-ad57-49291ff613c4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Editor\Windows\Features\Headphone Test">
+      <UniqueIdentifier>{aa8a4908-a14a-4e74-89f7-c209f184528c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Utils">
+      <UniqueIdentifier>{b7dc9fed-4752-42e8-ba14-ed58a6cb0771}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -134,17 +146,8 @@
     <ClCompile Include="..\Source\Editor\Windows\Editors\SceneObjectProperties.cpp">
       <Filter>Editor\Windows\Editors</Filter>
     </ClCompile>
-    <ClCompile Include="..\Source\Editor\Windows\Features\HrtfTest.cpp">
-      <Filter>Editor\Windows\Features</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Source\3DWorld\Scripts\HrtfRecorder.cpp">
-      <Filter>3DWorld\Scripts</Filter>
-    </ClCompile>
     <ClCompile Include="..\Source\Editor\Events\UIEvents.cpp">
       <Filter>Editor\Events</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Source\3DWorld\Scripts\GrowingSphere.cpp">
-      <Filter>3DWorld\Scripts</Filter>
     </ClCompile>
     <ClCompile Include="..\Source\3DWorld\Compute\SurfaceArea.cpp">
       <Filter>3DWorld\Compute</Filter>
@@ -152,20 +155,38 @@
     <ClCompile Include="..\Source\Editor\Windows\Interface\QtSortableInput.cpp">
       <Filter>Editor\Windows\Interface</Filter>
     </ClCompile>
-    <ClCompile Include="..\Source\Editor\Windows\Features\HrtfTestGenerator.cpp">
-      <Filter>Editor\Windows\Features</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Source\Editor\Windows\Features\HrtfTestAnswerPanel.cpp">
-      <Filter>Editor\Windows\Features</Filter>
-    </ClCompile>
     <ClCompile Include="..\Source\3DWorld\Scripts\MovingPlaneScript.cpp">
       <Filter>3DWorld\Scripts</Filter>
     </ClCompile>
-    <ClCompile Include="..\Source\Editor\Windows\Features\MovingPlane\MovingPlaneWindow.cpp">
-      <Filter>Editor\Windows\Features\MovingPlane</Filter>
-    </ClCompile>
     <ClCompile Include="..\Source\3DWorld\Compute\SceneIntersection.cpp">
       <Filter>3DWorld\Compute</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\Editor\Windows\Features\Expanding Sphere\ExpandingSphereWindow.cpp">
+      <Filter>Editor\Windows\Features\Expanding Sphere</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\Editor\Windows\Features\Moving Plane\MovingPlaneWindow.cpp">
+      <Filter>Editor\Windows\Features\Moving Plane</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\3DWorld\Scripts\ExpandingSphereScript.cpp">
+      <Filter>3DWorld\Scripts</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\Editor\Windows\Interface\QtInput.cpp">
+      <Filter>Editor\Windows\Interface</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\Editor\Windows\General\AboutWindow.cpp">
+      <Filter>Editor\Windows\General</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\Editor\Windows\Features\Headphone Test\HeadphoneTestAnswerPanel.cpp">
+      <Filter>Editor\Windows\Features\Headphone Test</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\Editor\Windows\Features\Headphone Test\HeadphoneTestGenerator.cpp">
+      <Filter>Editor\Windows\Features\Headphone Test</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\Editor\Windows\Features\Headphone Test\HeadphoneTestWindow.cpp">
+      <Filter>Editor\Windows\Features\Headphone Test</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\3DWorld\Scripts\HeadphoneTestScript.cpp">
+      <Filter>3DWorld\Scripts</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -281,17 +302,8 @@
     <ClInclude Include="..\Source\Editor\Windows\Interface\QtInput.h">
       <Filter>Editor\Windows\Interface</Filter>
     </ClInclude>
-    <ClInclude Include="..\Source\Editor\Windows\Features\HrtfTest.h">
-      <Filter>Editor\Windows\Features</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Source\3DWorld\Scripts\HrtfRecorder.h">
-      <Filter>3DWorld\Scripts</Filter>
-    </ClInclude>
     <ClInclude Include="..\Source\Editor\Events\UIEvents.h">
       <Filter>Editor\Events</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Source\3DWorld\Scripts\GrowingSphere.h">
-      <Filter>3DWorld\Scripts</Filter>
     </ClInclude>
     <ClInclude Include="..\Source\3DWorld\Compute\SurfaceArea.h">
       <Filter>3DWorld\Compute</Filter>
@@ -299,23 +311,41 @@
     <ClInclude Include="..\Source\Editor\Windows\Interface\QtSortableInput.h">
       <Filter>Editor\Windows\Interface</Filter>
     </ClInclude>
-    <ClInclude Include="..\Source\Editor\Windows\Features\HrtfTestGenerator.h">
-      <Filter>Editor\Windows\Features</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Source\Editor\Windows\Features\HrtfTestAnswerPanel.h">
-      <Filter>Editor\Windows\Features</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Source\3DWorld\Scripts\MovingPlaneConfig.h">
-      <Filter>3DWorld\Scripts</Filter>
-    </ClInclude>
     <ClInclude Include="..\Source\3DWorld\Scripts\MovingPlaneScript.h">
       <Filter>3DWorld\Scripts</Filter>
     </ClInclude>
-    <ClInclude Include="..\Source\Editor\Windows\Features\MovingPlane\MovingPlaneWindow.h">
-      <Filter>Editor\Windows\Features\MovingPlane</Filter>
-    </ClInclude>
     <ClInclude Include="..\Source\3DWorld\Compute\SceneIntersection.h">
       <Filter>3DWorld\Compute</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Editor\Windows\Features\Expanding Sphere\ExpandingSphereWindow.h">
+      <Filter>Editor\Windows\Features\Expanding Sphere</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Editor\Windows\Features\Moving Plane\MovingPlaneWindow.h">
+      <Filter>Editor\Windows\Features\Moving Plane</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\3DWorld\Scripts\SoundModelsConfig.h">
+      <Filter>3DWorld\Scripts</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\3DWorld\Scripts\ExpandingSphereScript.h">
+      <Filter>3DWorld\Scripts</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Editor\Windows\General\AboutWindow.h">
+      <Filter>Editor\Windows\General</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Utils\utils.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Editor\Windows\Features\Headphone Test\HeadphoneTestAnswerPanel.h">
+      <Filter>Editor\Windows\Features\Headphone Test</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Editor\Windows\Features\Headphone Test\HeadphoneTestGenerator.h">
+      <Filter>Editor\Windows\Features\Headphone Test</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Editor\Windows\Features\Headphone Test\HeadphoneTestWindow.h">
+      <Filter>Editor\Windows\Features\Headphone Test</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\3DWorld\Scripts\HeadphoneTestScript.h">
+      <Filter>3DWorld\Scripts</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

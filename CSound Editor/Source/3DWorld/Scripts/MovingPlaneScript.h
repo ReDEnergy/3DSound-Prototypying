@@ -15,6 +15,7 @@ struct MovingPlaneConfig;
 class MovingPlaneScript
 	: public EventListener
 {
+
 	public:
 		MovingPlaneScript();
 		virtual ~MovingPlaneScript() {};

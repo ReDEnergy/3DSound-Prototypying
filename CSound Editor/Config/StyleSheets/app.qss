@@ -1,3 +1,6 @@
+QWidget {
+}
+
 QComboBox {
 	height: 22px;
 	margin-left: 0px;

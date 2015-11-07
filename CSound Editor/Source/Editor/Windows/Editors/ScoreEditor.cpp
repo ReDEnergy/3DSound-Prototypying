@@ -24,7 +24,9 @@ void ScoreComposer::Update()
 {
 	if (activeContext) {
 		activeContext->Save();
+		GUI::Get<TextPreviewWindow>(QT_INSTACE::TEXT_PREVIEW)->RenderText(activeContext->GetRender());
 	}
+	
 	Manager::GetEvent()->EmitAsync("model-changed", activeContext);
 }
 
@@ -78,4 +80,11 @@ void ScoreEditor::InitUI()
 void ScoreEditor::Init()
 {
 	composer->Init();
+}
+
+void ScoreEditor::Update()
+{
+	auto activeContext = composer->GetActiveContext();
+	if (activeContext)
+		GUI::Get<TextPreviewWindow>(QT_INSTACE::TEXT_PREVIEW)->RenderText(activeContext->GetRender());
 }

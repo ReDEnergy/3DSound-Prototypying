@@ -93,7 +93,9 @@ void EditorMainWindow::closeEvent(QCloseEvent * event)
 
 void EditorMainWindow::SetupUI(QMainWindow *MainWindow) {
 
-	MainWindow->setWindowTitle("Sound Engine");
+	setWindowIcon(QIcon("Resources/Icons/colorwheel.png"));
+
+	MainWindow->setWindowTitle("Sound Engine (v0.1.8)");
 
 	MainWindow->resize(1280, 720);
 
@@ -158,6 +160,23 @@ void EditorMainWindow::SetupUI(QMainWindow *MainWindow) {
 	// Menu Entry
 	{
 		QMenu *menu = new QMenu(menuBar);
+		menu->setTitle("Scene");
+		menuBar->addAction(menu->menuAction());
+
+		// Submenu buttons
+		QAction *action = new QAction(MainWindow);
+		action->setText("Clear Scene");
+		menu->addAction(action);
+
+		QObject::connect(action, &QAction::triggered, this, []() {
+			CSoundEditor::GetScene()->Clear();
+			GUI::Get<SceneWindow>(QT_INSTACE::SCENE_EDITOR)->Clear();
+		});
+	}
+
+	// Menu Entry
+	{
+		QMenu *menu = new QMenu(menuBar);
 		menu->setTitle("Tools");
 		menuBar->addAction(menu->menuAction());
 
@@ -166,6 +185,24 @@ void EditorMainWindow::SetupUI(QMainWindow *MainWindow) {
 		action->setText("Reload StyleSheets");
 		menu->addAction(action);
 		QObject::connect(action, &QAction::triggered, this, &EditorMainWindow::ReloadStyleSheets);
+	}
+
+	// Menu Entry
+	{
+		QMenu *menu = new QMenu(menuBar);
+		menu->setTitle("Help");
+		menuBar->addAction(menu->menuAction());
+
+		// Submenu buttons
+		QAction *action = new QAction(MainWindow);
+		action->setText("About");
+		menu->addAction(action);
+
+		appWindows["About"] = new AboutWindow();
+
+		QObject::connect(action, &QAction::triggered, this, [&]() {
+			appWindows["About"]->Toggle();
+		});
 	}
 
 	// ************************************************************************
@@ -234,56 +271,45 @@ void EditorMainWindow::SetupUI(QMainWindow *MainWindow) {
 		});
 	}
 
-	// Clear Scene
+	// Headphone Test
 	{
 		QToolButton *button = new QToolButton();
-		button->setText("Clear Scene");
+		button->setText("Headphone Test");
+		button->setIcon(QIcon("Resources/Icons/speaker.png"));
+		button->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
 		toolbar->addWidget(button);
 
-		QObject::connect(button, &QToolButton::clicked, this, []() {
-			CSoundEditor::GetScene()->Clear();
-			GUI::Get<SceneWindow>(QT_INSTACE::SCENE_EDITOR)->Clear();
-		});
-	}
-
-	// Record HRTF Test
-	{
-		QToolButton *button = new QToolButton();
-		button->setText("Test HRTF");
-		toolbar->addWidget(button);
-
-		appWindows["HRTFTest"] = new HrtfTest();
+		appWindows["HeadphoneTest"] = new HeadphoneTestWindow();
 		QObject::connect(button, &QToolButton::clicked, this, [this]() {
-			appWindows["HRTFTest"]->Toggle();
+			appWindows["HeadphoneTest"]->Toggle();
 		});
 	}
 
 	// Moving Plane
-	{
-		QToolButton *button = new QToolButton();
-		button->setText("Moving Plane");
-		toolbar->addWidget(button);
+	//{
+	//	QToolButton *button = new QToolButton();
+	//	button->setText("Moving Plane");
+	//	toolbar->addWidget(button);
 
-		appWindows["MovingPlane"] = new MovingPlaneWindow();
-		QObject::connect(button, &QToolButton::clicked, this, [this]() {
-			appWindows["MovingPlane"]->Toggle();
-		});
-	}
+	//	appWindows["MovingPlane"] = new MovingPlaneWindow();
+	//	QObject::connect(button, &QToolButton::clicked, this, [this]() {
+	//		appWindows["MovingPlane"]->Toggle();
+	//	});
+	//}
 
 	// Expanding Sphere
 	{
 		QToolButton *button = new QToolButton();
 		button->setText("Expanding Sphere");
+		button->setIcon(QIcon("Resources/Icons/target.png"));
+		button->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
 		toolbar->addWidget(button);
 
-		bool *state = new bool(false);
-		QObject::connect(button, &QToolButton::clicked, this, [state]() {
-			*state = !(*state);
-			auto event = *state ? "start-expanding-sphere" : "stop-expanding-sphere";
-			Manager::GetEvent()->EmitAsync(event);
+		appWindows["ExpandingPlane"] = new ExpandingSphereWindow();
+		QObject::connect(button, &QToolButton::clicked, this, [this]() {
+			appWindows["ExpandingPlane"]->Toggle();
 		});
 	}
-
 
 	// Padding Scene
 	{
@@ -303,7 +329,8 @@ void EditorMainWindow::SetupUI(QMainWindow *MainWindow) {
 
 		dropdown->addItem("None", QVariant("none"));
 		dropdown->addItem("HRTF2", QVariant("hrtf-output"));
-		dropdown->addItem("Stereo", QVariant("stereo-output"));
+		dropdown->addItem("Stereo", QVariant("stereo-panning"));
+		dropdown->addItem("PAN2", QVariant("pan2"));
 		dropdown->setCurrentIndex(1);
 
 		QWidget* widget = Wrap("Global output", 65, dropdown);
@@ -313,6 +340,7 @@ void EditorMainWindow::SetupUI(QMainWindow *MainWindow) {
 		QObject::connect(dropdown, indexChangedSignal, this, [&](int index) {
 			auto data = dropdown->currentData().toString().toStdString();
 			CSoundEditor::GetScene()->SetOutputModel(data.c_str());
+			dockWindows["ScoreEditor"]->Update();
 		});
 
 	}

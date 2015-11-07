@@ -13,20 +13,17 @@ class CSoundEditorApp : public QApplication
 public:
 	CSoundEditorApp(int argc, char *argv[])
 		: QApplication(argc, argv)
-	{
-	}
+	{	}
 
 	void Init() {
 		auto window = Singleton<EditorMainWindow>::Instance();
 		window->Run(this);
 		//this->exec();
-	};
+	}
 
 	void lastWindowClosed() {
 		cout << "LAST WINDOW CLOSED" << endl;
-		int a;
-		cin >> a;
-	};
+	}
 };
 
 int main(int argc, char *argv[])

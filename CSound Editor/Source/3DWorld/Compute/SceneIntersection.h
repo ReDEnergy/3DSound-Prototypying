@@ -1,4 +1,9 @@
 #pragma once
+#include <vector>
+#include <functional>
+#include <list>
+
+class CSound3DSource;
 
 class Transform;
 class Shader;
@@ -19,7 +24,8 @@ class SceneIntersection
 
 		void Start();
 		void Stop();
-		void SetSphereSize(float sphereSize);
+		void SetSphereSize(float sphereRadius);
+		void OnUpdate(function<void(const vector<CSound3DSource*>&)> onUpdate);
 
 	private:
 		void Update();
@@ -27,9 +33,11 @@ class SceneIntersection
 
 	private:
 		SSBO<glm::ivec4> *ssbo;
+		vector<glm::vec4> centerPoints;
+		vector<CSound3DSource*> objects;
 
 		const Transform* planeTransform;
-		float sphereSize;
+		float sphereRadius;
 
 		// Shader uniforms
 		unsigned int sphere_size;
@@ -38,4 +46,6 @@ class SceneIntersection
 
 		const FrameBuffer *gameFBO;
 		Texture* visualization;
+
+		list<function<void(const vector<CSound3DSource*>&)>> callbacks;
 };

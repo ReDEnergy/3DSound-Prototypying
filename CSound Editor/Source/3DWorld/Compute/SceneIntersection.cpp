@@ -45,7 +45,7 @@ SceneIntersection::SceneIntersection()
 		plane_direction = computeShader->GetUniformLocation("plane_direction");
 	});
 
-	sphereSize = 0;
+	sphereRadius = 0;
 	auto rezolution = gameFBO->GetResolution();
 
 	visualization = new Texture();
@@ -68,13 +68,18 @@ void SceneIntersection::Stop()
 {
 	if (!computeShader)
 		return;
-	SetSphereSize(0);
+	SetSphereSize(0.05f);
 	UnsubscribeFrom(EventType::FRAME_AFTER_RENDERING);
 }
 
-void SceneIntersection::SetSphereSize(float sphereSize)
+void SceneIntersection::SetSphereSize(float sphereRadius)
 {
-	this->sphereSize = max(sphereSize, 0.05f);
+	this->sphereRadius = max(sphereRadius, 0.05f);
+}
+
+void SceneIntersection::OnUpdate(function<void(const vector<CSound3DSource*>&)> onUpdate)
+{
+	callbacks.push_back(onUpdate);
 }
 
 void SceneIntersection::Update()
@@ -89,7 +94,7 @@ void SceneIntersection::Update()
 	auto planePos = cameraPos - camera->transform->GetLocalOZVector() * 3.0f;
 	auto direction = -camera->transform->GetLocalOZVector();
 	glUniform3f(plane_direction, direction.x, direction.y, direction.z);
-	glUniform1f(sphere_size, sphereSize);
+	glUniform1f(sphere_size, sphereRadius);
 	gameFBO->SendResolution(computeShader);
 	camera->BindPosition(computeShader->loc_eye_pos);
 
@@ -108,10 +113,11 @@ void SceneIntersection::Update()
 	// Compute Virtual 3D position - average of 3D points intersected by the sphere/plane for an object
 	auto size = ssbo->GetSize();
 	auto values = ssbo->GetBuffer();
-	vector<glm::vec4> positions;
 
 	// Used for computing world position from view position
 	//auto invView = glm::inverse(camera->GetViewMatrix());
+	centerPoints.clear();
+	objects.clear();
 
 	for (uint i = 0; i < size; i++) {
 		if (values[i].w) {
@@ -124,31 +130,30 @@ void SceneIntersection::Update()
 			//worldPos.w = float(i);
 
 			averageViewSpacePos.w = float(i);
-			positions.push_back(averageViewSpacePos);
+			centerPoints.push_back(averageViewSpacePos);
 		}
 	}
 
 	// ------------------------------------------------------------------------
-	// Update Scene Information
-	for (auto S3D : CSoundEditor::GetScene()->GetEntries())
-	{
-		S3D->SetVolume(0);
-	}
+	// Get Objects and asign virtual camera space center position
 
-	if (positions.size()) {
-		for (auto const &pos : positions)
+	if (centerPoints.size()) {
+		objects.reserve(centerPoints.size());
+
+		for (auto const &pos : centerPoints)
 		{
 			auto obj = Manager::GetColor()->GetObjectByID((unsigned int)pos.w);
 			auto source = dynamic_cast<CSound3DSource*>(obj);
 			if (source)
 			{
-				//cout << "[World pos]\t" << pos << endl;
-				source->SetVolume(100);
-				source->UseVirtalPosition(true);
 				source->SetVirtualCameraSpacePosition(glm::vec3(pos));
-				source->ComputeControlProperties();
+				objects.push_back(source);
 			}
 		}
+	}
+
+	for (auto callback : callbacks) {
+		callback(objects);
 	}
 }
 

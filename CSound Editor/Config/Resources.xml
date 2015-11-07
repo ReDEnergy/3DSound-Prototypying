@@ -52,6 +52,22 @@
 
 <!-- Audio -->
 <audio>
+	<soundfx>
+		<path>Effects</path>
+		<file>Ticks.wav</file>
+		<effects>
+			<fx>
+				<name>tick</name>
+				<start>0.4</start>
+				<end>0.6</end>
+			</fx>
+			<fx>
+				<name>tick2</name>
+				<start>0.9</start>
+				<end>1.2</end>
+			</fx>		
+		</effects>
+	</soundfx>
 </audio>
 
 <!-- GameObjects -->

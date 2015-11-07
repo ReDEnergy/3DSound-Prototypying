@@ -1,0 +1,12 @@
+<config>
+	<CsOptions>
+		<option>+rtaudio=alsa -o dac</option>
+		<option>-B 64</option>
+		<option>-b 2048</option>
+	</CsOptions>
+	<InstrumentOptions>
+		<option>sr = 44100</option>
+		<option>ksmps = 7</option>
+		<option>nchnls = 2</option>
+	</InstrumentOptions>
+</config>

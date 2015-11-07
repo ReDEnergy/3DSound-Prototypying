@@ -4,7 +4,7 @@
 #include <3DWorld/Csound/CSoundScene.h>
 
 #include <3DWorld/Compute/SceneIntersection.h>
-#include <3DWorld/Scripts/MovingPlaneConfig.h>
+#include <3DWorld/Scripts/SoundModelsConfig.h>
 
 #include <Csound/CSoundComponentProperty.h>
 #include <Csound/CSoundManager.h>
@@ -88,6 +88,15 @@ void MovingPlaneScript::ClearEvents()
 
 void MovingPlaneScript::Update()
 {
+	// In view/camera space forward is oriented towards the -Z axis
+	auto forward = -glm::vec3(0, 0, 1);
+
+	auto vPlaneTransform = virtualPlane->transform;
+	auto position = vPlaneTransform->GetLocalPosition() + forward * Engine::GetLastFrameTime() * config->travelSpeed;
+	vPlaneTransform->SetLocalPosition(position);
+	vPlaneTransform->SetWorldPosition(vPlaneTransform->GetWorldPosition());
+	vPlaneTransform->SetWorldRotation(vPlaneTransform->GetWorldRotation());
+
 	// View offset represents the distance between the plane and the computational model
 	// The computation is based on the camera view space distance provided by the rendering pipeline
 	// Since the visible plane/sphere affects the view space (like a wall in the rendering target) 
@@ -95,14 +104,6 @@ void MovingPlaneScript::Update()
 	// guarantee that the plane/spehere will not have an effect on the computation model
 
 	float viewOffset = 0.1f;
-
-	// In view/camera space forward is oriented towards the -Z axis
-	auto forward = -glm::vec3(0, 0, 1);
-
-	auto position = virtualPlane->transform->GetLocalPosition() + forward * Engine::GetLastFrameTime() * config->travelSpeed;
-	virtualPlane->transform->SetLocalPosition(position);
-	visiblePlane->transform->SetWorldPosition(virtualPlane->transform->GetWorldPosition());
-	visiblePlane->transform->SetWorldRotation(virtualPlane->transform->GetWorldRotation());
 
 	// -pozition.z is actually a positive number since camera space is in -Z area
 	computeIntersection->SetSphereSize(-position.z - viewOffset);
@@ -124,7 +125,6 @@ void MovingPlaneScript::Reset()
 		dynamicEvents->Add(*scanPauseEvent);
 
 		visiblePlane->transform->SetWorldPosition(virtualPlane->transform->GetWorldPosition());
-		visiblePlane->transform->SetWorldRotation(virtualPlane->transform->GetWorldRotation());
 	}
 	virtualPlane->transform->SetLocalPosition(glm::vec3(0, 0, 0.5f));
 }

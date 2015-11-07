@@ -247,8 +247,8 @@ xcopy /y /d "..\..\libs\Engine\$(PlatformTarget)\$(Configuration)\*.dll" "$(OutD
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="..\Source\3DWorld\Scripts\GrowingSphere.cpp" />
-    <ClCompile Include="..\Source\3DWorld\Scripts\HrtfRecorder.cpp" />
+    <ClCompile Include="..\Source\3DWorld\Scripts\ExpandingSphereScript.cpp" />
+    <ClCompile Include="..\Source\3DWorld\Scripts\HeadphoneTestScript.cpp" />
     <ClCompile Include="..\Source\3DWorld\Scripts\MovingPlaneScript.cpp" />
     <ClCompile Include="..\Source\CSoundEditor.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
@@ -271,13 +271,16 @@ xcopy /y /d "..\..\libs\Engine\$(PlatformTarget)\$(Configuration)\*.dll" "$(OutD
     <ClCompile Include="..\Source\Editor\Windows\Editors\PropertyEditor.cpp" />
     <ClCompile Include="..\Source\Editor\Windows\Editors\SceneObjectProperties.cpp" />
     <ClCompile Include="..\Source\Editor\Windows\Editors\ScoreEditor.cpp" />
-    <ClCompile Include="..\Source\Editor\Windows\Features\HrtfTest.cpp" />
-    <ClCompile Include="..\Source\Editor\Windows\Features\HrtfTestAnswerPanel.cpp" />
-    <ClCompile Include="..\Source\Editor\Windows\Features\HrtfTestGenerator.cpp" />
-    <ClCompile Include="..\Source\Editor\Windows\Features\MovingPlane\MovingPlaneWindow.cpp" />
+    <ClCompile Include="..\Source\Editor\Windows\Features\Expanding Sphere\ExpandingSphereWindow.cpp" />
+    <ClCompile Include="..\Source\Editor\Windows\Features\Headphone Test\HeadphoneTestWindow.cpp" />
+    <ClCompile Include="..\Source\Editor\Windows\Features\Headphone Test\HeadphoneTestAnswerPanel.cpp" />
+    <ClCompile Include="..\Source\Editor\Windows\Features\Headphone Test\HeadphoneTestGenerator.cpp" />
+    <ClCompile Include="..\Source\Editor\Windows\Features\Moving Plane\MovingPlaneWindow.cpp" />
+    <ClCompile Include="..\Source\Editor\Windows\General\AboutWindow.cpp" />
     <ClCompile Include="..\Source\Editor\Windows\Interface\CustomWidget.cpp" />
     <ClCompile Include="..\Source\Editor\Windows\Interface\DockWindow.cpp" />
     <ClCompile Include="..\Source\Editor\Windows\Interface\EditorList.cpp" />
+    <ClCompile Include="..\Source\Editor\Windows\Interface\QtInput.cpp" />
     <ClCompile Include="..\Source\Editor\Windows\Interface\QtSortableInput.cpp" />
     <ClCompile Include="..\Source\Editor\Windows\Lists\ComponentList.cpp" />
     <ClCompile Include="..\Source\Editor\Windows\Lists\InstrumentList.cpp" />
@@ -295,10 +298,10 @@ xcopy /y /d "..\..\libs\Engine\$(PlatformTarget)\$(Configuration)\*.dll" "$(OutD
     <ClInclude Include="..\Source\3DWorld\CSound\CSoundScene.h" />
     <ClInclude Include="..\Source\3DWorld\Game.h" />
     <ClInclude Include="..\Source\3DWorld\Input\GameInput.h" />
-    <ClInclude Include="..\Source\3DWorld\Scripts\GrowingSphere.h" />
-    <ClInclude Include="..\Source\3DWorld\Scripts\HrtfRecorder.h" />
+    <ClInclude Include="..\Source\3DWorld\Scripts\ExpandingSphereScript.h" />
+    <ClInclude Include="..\Source\3DWorld\Scripts\HeadphoneTestScript.h" />
     <ClInclude Include="..\Source\3DWorld\Scripts\MovingPlaneScript.h" />
-    <ClInclude Include="..\Source\3DWorld\Scripts\MovingPlaneConfig.h" />
+    <ClInclude Include="..\Source\3DWorld\Scripts\SoundModelsConfig.h" />
     <ClInclude Include="..\Source\CSoundEditor.h" />
     <ClInclude Include="..\Source\Editor\Editor.h" />
     <ClInclude Include="..\Source\Editor\EditorForward.h" />
@@ -315,10 +318,12 @@ xcopy /y /d "..\..\libs\Engine\$(PlatformTarget)\$(Configuration)\*.dll" "$(OutD
     <ClInclude Include="..\Source\Editor\Windows\Editors\PropertyEditor.h" />
     <ClInclude Include="..\Source\Editor\Windows\Editors\SceneObjectProperties.h" />
     <ClInclude Include="..\Source\Editor\Windows\Editors\ScoreEditor.h" />
-    <ClInclude Include="..\Source\Editor\Windows\Features\HrtfTest.h" />
-    <ClInclude Include="..\Source\Editor\Windows\Features\HrtfTestAnswerPanel.h" />
-    <ClInclude Include="..\Source\Editor\Windows\Features\HrtfTestGenerator.h" />
-    <ClInclude Include="..\Source\Editor\Windows\Features\MovingPlane\MovingPlaneWindow.h" />
+    <ClInclude Include="..\Source\Editor\Windows\Features\Expanding Sphere\ExpandingSphereWindow.h" />
+    <ClInclude Include="..\Source\Editor\Windows\Features\Headphone Test\HeadphoneTestWindow.h" />
+    <ClInclude Include="..\Source\Editor\Windows\Features\Headphone Test\HeadphoneTestAnswerPanel.h" />
+    <ClInclude Include="..\Source\Editor\Windows\Features\Headphone Test\HeadphoneTestGenerator.h" />
+    <ClInclude Include="..\Source\Editor\Windows\Features\Moving Plane\MovingPlaneWindow.h" />
+    <ClInclude Include="..\Source\Editor\Windows\General\AboutWindow.h" />
     <ClInclude Include="..\Source\Editor\Windows\Interface\CSoundListEditor.h" />
     <ClInclude Include="..\Source\Editor\Windows\Interface\CustomWidget.h" />
     <ClInclude Include="..\Source\Editor\Windows\Interface\DockWindow.h" />
@@ -339,6 +344,7 @@ xcopy /y /d "..\..\libs\Engine\$(PlatformTarget)\$(Configuration)\*.dll" "$(OutD
     <ClInclude Include="..\Source\include\qt_utils.h" />
     <ClInclude Include="..\Source\templates\ReferenceCounter.h" />
     <ClInclude Include="..\Source\templates\singleton.h" />
+    <ClInclude Include="..\Source\Utils\utils.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -93,8 +93,9 @@ void CSound3DSource::Update()
 {
 	Transform* cameraTransform = Manager::GetScene()->GetActiveCamera()->transform;
 	bool motion = transform->GetMotionState() || cameraTransform->GetMotionState();
-	if (motion)
+	if (motion) {
 		ComputeControlProperties();
+	}
 	UpdateControlChannels(motion);
 }
 
@@ -179,8 +180,11 @@ void CSound3DSource::ComputeControlProperties()
 	// ------------------------------------------------------------------------
 	// Compute Sqare Attenuation
 
-	soundIntensity = (soundFallOff - min(soundFallOff, distanceToCamera)) / soundFallOff;
-	soundIntensity *= soundIntensity;
+	soundIntensity = 0;
+	if (surfaceCover) {
+		soundIntensity = (soundFallOff - min(soundFallOff, distanceToCamera)) / soundFallOff;
+		soundIntensity *= soundIntensity;
+	}
 
 	// Camera Space
 	if (distanceToCamera)
@@ -205,6 +209,12 @@ void CSound3DSource::ComputeControlProperties()
 		if (positionCameraSpace.y < 0)
 			elevation = -elevation;
 	}
+
+	// Used for stereo panning
+	// 0.5 means center
+	// 0 only left channel
+	// 1 only right channel
+	panningFactor = azimuth / 180.0f + 0.5f;
 }
 
 void CSound3DSource::UpdateControlChannels(bool motion) const
@@ -213,10 +223,8 @@ void CSound3DSource::UpdateControlChannels(bool motion) const
 
 	// ------------------------------------------------------------------------
 	// Update Control Channels
-	if (motion)
-	{
-		player->SetControl("kSurfaceCover", surfaceCover);
-	}
+	player->SetControl("kPanFactor", panningFactor);
+	player->SetControl("kSurfaceCover", surfaceCover);
 	player->SetControl("kDistance", distanceToCamera);
 	player->SetControl("kAzimuth", azimuth);
 	player->SetControl("kElevation", elevation);
@@ -260,6 +268,11 @@ float CSound3DSource::GetElevationToCamera() const
 float CSound3DSource::GetAzimuthToCamera() const
 {
 	return azimuth;
+}
+
+float CSound3DSource::GetPanningFactor() const
+{
+	return panningFactor;
 }
 
 unsigned int CSound3DSource::GetSoundVolume() const

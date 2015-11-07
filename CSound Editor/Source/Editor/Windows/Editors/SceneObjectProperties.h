@@ -35,11 +35,16 @@ class SceneObjectProperties
 		GLMVecComponent<glm::vec3> *worldEuler;
 		GLMVecComponent<glm::vec3> *worldScale;
 		GLMVecComponent<glm::quat> *worldQuat;
-		
+
+		GLMVecComponent<glm::vec3> *cameraPosition;
+		GLMVecComponent<glm::vec3> *cameraRotation;
+		SimpleFloatInput *camerFoV;
+
 		SimpleFloatInput *soundVolume;
 		SimpleFloatInput *soundIntensity;
 		SimpleFloatInput *azimuthInput;
 		SimpleFloatInput *elevationInput;
+		SimpleFloatInput *panningFactor;
 		SimpleFloatInput *distanceToCameraInput;
 		SimpleFloatInput *surfaceCoverInput;
 		SimpleFloatInput *surfaceAreaInput;

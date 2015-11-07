@@ -21,6 +21,8 @@ class CustomWidget
 
 		void AddWidget(QWidget *widget);
 		void DetachFromParent();
+		void SetAsToolWindow();
+		void SetIcon(const char* fileName);
 
 		void ReloadStyleSheet();
 		void LoadStyleSheet(const char* fileLocation);

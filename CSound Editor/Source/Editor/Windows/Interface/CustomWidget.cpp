@@ -8,6 +8,7 @@
 #include <QtCore/QFile>
 
 #include <CSoundEditor.h>
+#include <QIcon>
 
 using namespace std;
 
@@ -15,6 +16,8 @@ static unsigned int windowNumber = 0;
 
 CustomWidget::CustomWidget(QBoxLayout::Direction direction)
 {
+	SetIcon("colorwheel.png");
+
 	qtLayout = new QBoxLayout(direction);
 	qtLayout->setMargin(0);
 	qtLayout->setSpacing(5);
@@ -56,6 +59,18 @@ void CustomWidget::DetachFromParent()
 		widgetParent->layout()->removeWidget(this);
 		this->setParent(nullptr);
 	}
+}
+
+void CustomWidget::SetAsToolWindow()
+{
+	setWindowFlags(Qt::Tool | Qt::WindowStaysOnTopHint);
+}
+
+void CustomWidget::SetIcon(const char * fileName)
+{
+	string path("Resources/Icons/");
+	path += fileName;
+	setWindowIcon(QIcon(path.c_str()));
 }
 
 void CustomWidget::ReloadStyleSheet()

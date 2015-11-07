@@ -34,6 +34,7 @@ class ScoreEditor : public DockWindow
 		~ScoreEditor();
 
 		void Init();
+		void Update();
 
 	private:
 		void InitUI();

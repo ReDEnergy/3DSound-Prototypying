@@ -39,18 +39,19 @@
 	</instrument>	
 
 	<instrument>
-		<name>test-hrtf</name>
+		<name>headphone-test</name>
 		<components>
 			<component>sound source</component>
 			<component>sound loop</component>
 			<component>volume</component>
-			<component>hrtf2</component>
-			<component>output stereo</component>
 		</components>
 	</instrument>		
 </instruments>
 
 <blocks>
+	<instrument>
+		<name>none</name>
+	</instrument>
 	<instrument>
 		<name>hrtf-output</name>
 		<components>
@@ -59,6 +60,23 @@
 		</components>
 	</instrument>
 	<instrument>
-		<name>none</name>
+		<name>pan2</name>
+		<controls>
+			<control>kPanFactor</control>
+		</controls>
+		<components>
+			<component>pan2</component>
+			<component>output stereo</component>
+		</components>
+	</instrument>	<instrument>
+		<name>stereo-panning</name>
+		<controls>
+			<control>kPanFactor</control>
+		</controls>
+		<components>
+			<component>stereo panning 3 left</component>
+			<component>stereo panning 3 right</component>
+			<component>output stereo</component>
+		</components>
 	</instrument>
 </blocks>

@@ -83,6 +83,38 @@ void SceneObjectProperties::InitUI()
 	}
 
 	{
+		auto zone = new QLabel("Camera properties");
+		zone->setAlignment(Qt::AlignCenter);
+		zone->setMargin(5);
+		zone->setFont(QFont("Arial", 10, QFont::Bold));
+		qtLayout->addWidget(zone);
+	}
+
+	{
+		cameraPosition = new GLMVecComponent<glm::vec3>("Position:", glm::vec3());
+		cameraPosition->OnUserEdit([](glm::vec3 val) {
+			Manager::GetScene()->GetActiveCamera()->transform->SetWorldPosition(val);
+		});
+		qtLayout->addWidget(cameraPosition);
+
+		cameraRotation = new GLMVecComponent<glm::vec3>("Rotation:", glm::vec3());
+		cameraRotation->OnUserEdit([](glm::vec3 val) {
+			Manager::GetScene()->GetActiveCamera()->transform->SetWorldRotation(val);
+		});
+		qtLayout->addWidget(cameraRotation);
+
+		camerFoV = new SimpleFloatInput("Camera FoV", "degrees", 0);
+		camerFoV->AcceptNegativeValues(false);
+		camerFoV->OnUserEdit([](float value) {
+			auto cam = Manager::GetScene()->GetActiveCamera();
+			auto PI = cam->GetProjectionInfo();
+			PI.FoV = max(10, value) / PI.aspectRatio;
+			Manager::GetScene()->GetActiveCamera()->SetProjection(PI);
+		});
+		qtLayout->addWidget(camerFoV);
+	}
+
+	{
 		auto zone = new QLabel("Absolute properties");
 		zone->setAlignment(Qt::AlignCenter);
 		zone->setMargin(5);
@@ -113,7 +145,6 @@ void SceneObjectProperties::InitUI()
 		worldQuat->OnUserEdit([this](glm::quat val) {
 			gameObj->transform->SetWorldRotation(val);
 		});
-
 		qtLayout->addWidget(worldQuat);
 	}
 
@@ -143,6 +174,9 @@ void SceneObjectProperties::InitUI()
 		elevationInput = new SimpleFloatInput("Elevation:", "deg", 2, true);
 		qtLayout->addWidget(elevationInput);
 
+		panningFactor = new SimpleFloatInput("Panning factor:", "", 2, true);
+		qtLayout->addWidget(panningFactor);
+
 		distanceToCameraInput = new SimpleFloatInput("Distance to:", "meters", 2, true);
 		qtLayout->addWidget(distanceToCameraInput);
 
@@ -157,15 +191,26 @@ void SceneObjectProperties::InitUI()
 void SceneObjectProperties::Update()
 {
 	bool selectedMotion = gameObj->transform->GetMotionState();
-	bool cameraMotion = Manager::GetScene()->GetActiveCamera()->transform->GetMotionState();
-	if (selectedMotion || cameraMotion) {
+	auto cameraTransform = Manager::GetScene()->GetActiveCamera()->transform;
+	bool cameraMotion = cameraTransform->GetMotionState();
+
+	if (cameraMotion) {
+		cameraPosition->SetValue(cameraTransform->GetWorldPosition());
+		cameraRotation->SetValue(cameraTransform->GetRotationEuler360());
+	}
+
+	//if (selectedMotion || cameraMotion) {
 		gameObj->ComputeControlProperties();
 		cameraSpacePosition->SetValue(gameObj->GetCameraSpacePosition());
 		surfaceAreaInput->SetValue(gameObj->GetSurfaceArea());
 		surfaceCoverInput->SetValue(gameObj->GetSurfaceCover());
 		distanceToCameraInput->SetValue(gameObj->GetDistanceToCamera());
 		soundVolume->SetValue(gameObj->GetSoundVolume());
-	}
+		azimuthInput->SetValue(gameObj->GetAzimuthToCamera());
+		elevationInput->SetValue(gameObj->GetElevationToCamera());
+		soundIntensity->SetValue(gameObj->GetSoundIntensity());
+		panningFactor->SetValue(gameObj->GetPanningFactor());
+	//}
 
 	if (forceUpdate || selectedMotion) {
 		gameObj->transform->GetWorldPosition();
@@ -174,23 +219,22 @@ void SceneObjectProperties::Update()
 		worldScale->SetValue(gameObj->transform->GetScale());
 		worldEuler->SetValue(gameObj->transform->GetRotationEuler360());
 	}
-
-	azimuthInput->SetValue(gameObj->GetAzimuthToCamera());
-	elevationInput->SetValue(gameObj->GetElevationToCamera());
-	soundIntensity->SetValue(gameObj->GetSoundIntensity());
 }
 
 void SceneObjectProperties::ForceUpdate()
 {
-	forceUpdate = true;
-	Update();
+	if (forceUpdate == false)
+	{
+		forceUpdate = true;
+		Update();
 
-	auto meshID = gameObj->mesh->GetMeshID();
-	auto typeIndex = meshType->findData(QVariant(meshID));
-	if (typeIndex >= 0)
-		meshType->setCurrentIndex(typeIndex);
+		auto meshID = gameObj->mesh->GetMeshID();
+		auto typeIndex = meshType->findData(QVariant(meshID));
+		if (typeIndex >= 0)
+			meshType->setCurrentIndex(typeIndex);
 
-	forceUpdate = false;
+		forceUpdate = false;
+	}
 }
 
 void SceneObjectProperties::OnEvent(EventType Event, void * data)

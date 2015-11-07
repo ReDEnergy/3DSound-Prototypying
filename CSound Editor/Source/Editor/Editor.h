@@ -15,8 +15,10 @@
 #include <Editor/Windows/Editors/ScoreEditor.h>
 #include <Editor/Windows/Editors/PropertyEditor.h>
 #include <Editor/Windows/Editors/SceneObjectProperties.h>
-#include <Editor/Windows/Features/HrtfTest.h>
-#include <Editor/Windows/Features/MovingPlane/MovingPlaneWindow.h>
+#include <Editor/Windows/Features/Headphone Test/HeadphoneTestWindow.h>
+#include <Editor/Windows/Features/Moving Plane/MovingPlaneWindow.h>
+#include <Editor/Windows/Features/Expanding Sphere/ExpandingSphereWindow.h>
+#include <Editor/Windows/General/AboutWindow.h>
 #include <Editor/Windows/Interface/QtListTemplates.h>
 #include <Editor/Windows/Interface/DockWindow.h>
 #include <Editor/Windows/Interface/CustomWidget.h>

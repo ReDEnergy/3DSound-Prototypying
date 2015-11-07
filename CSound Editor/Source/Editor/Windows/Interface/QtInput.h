@@ -9,7 +9,6 @@
 #include <Editor/QT/Utils.h>
 
 #include <QLabel>
-#include <QLayout>
 #include <QLineEdit>
 #include <QEvent>
 #include <QCheckBox>
@@ -95,151 +94,79 @@ class GLMVecComponent
 class SimpleFloatInput
 	: public CustomWidget
 {
+	private:
+		SimpleFloatInput();
+
 	public:
-		SimpleFloatInput(const char* label, const char* unit = "", unsigned int precision = 2, bool readOnly = false)
-		{
-			acceptNegativeValues = true;
+		
+		SimpleFloatInput(const char* label, const char* unit = "", unsigned int precision = 2, bool readOnly = false);
+		~SimpleFloatInput();
 
-			qtLayout->setDirection(QBoxLayout::LeftToRight);
-			qtLayout->setSpacing(0);
+		void SetLabelWidth(int width);
+		void SetReadOnly(bool value);
+		void SetValue(float value);
 
-			precision = min(precision, 6);
-			toPrecision = pow(10, precision);
+		void OnUserEdit(function<void(float)> func);
 
-			auto inputLength = strlen(unit) + 10;
-			format = new char[inputLength];
-			inputBuffer = new char[inputLength];
-			sprintf(format, "%%.%df %s", precision, unit);
+		void AcceptNegativeValues(bool value);
+		float GetValue();
 
-			{
-				qLabel = new QLabel(label);
-				qLabel->setMinimumWidth(80);
-				qLabel->setAlignment(Qt::AlignVCenter | Qt::AlignLeft);
-
-				prop = new QLineEdit();
-				prop->setReadOnly(readOnly);
-				qtLayout->addWidget(qLabel);
-				qtLayout->addWidget(prop);
-
-				QObject::connect(prop, &QLineEdit::editingFinished, this, [&]() {
-					auto value = prop->text();
-					value.replace(QRegExp("[a-zA-Z \\/]+"), "");
-					SetValue(value.toFloat());
-				});
-
-				SetValue(0);
-			}
-		}
-
-		~SimpleFloatInput() {
-			delete inputBuffer;
-			delete format;
-		};
-
-		void SetLabelWidth(int width)
-		{
-			qLabel->setMinimumWidth(width);
-		}
-
-		void SetReadOnly(bool value)
-		{
-			prop->setReadOnly(value);
-		}
-
-		void OnUserEdit(function<void(float)> func)
-		{
-			updateFunc = func;
-		}
-
-		void SetValue(float value)
-		{
-			this->value = int(value * toPrecision) / (float)toPrecision;
-
-			if (!acceptNegativeValues && this->value < 0)
-				this->value = abs(this->value);
-
-			sprintf(inputBuffer, format, this->value);
-			prop->setText(inputBuffer);
-
-			if (updateFunc)
-				updateFunc(this->value);
-		}
-
-		void AcceptNegativeValues(bool value)
-		{
-			acceptNegativeValues = value;
-		}
-
-		float GetValue() {
-			return value;
-		}
-
-		private:
-			bool acceptNegativeValues;
-			float value;
-			int toPrecision;
-			char *format;
-			char *inputBuffer;
-			QLabel *qLabel;
-			QLineEdit *prop;
-			function<void(float)> updateFunc;
+	private:
+		bool acceptNegativeValues;
+		float value;
+		int toPrecision;
+		char *format;
+		char *inputBuffer;
+		QLabel *qLabel;
+		QLineEdit *prop;
+		function<void(float)> updateFunc;
 };
 
 
 class SimpleCheckBox
 	: public CustomWidget
 {
+	private:
+		SimpleCheckBox();
+
 	public:
-		SimpleCheckBox(const char* label, bool checked = false)
-		{
-			qtLayout->setDirection(QBoxLayout::LeftToRight);
-			qtLayout->setSpacing(0);
-
-			{
-				qLabel = new QLabel(label);
-				qLabel->setMinimumWidth(80);
-				qLabel->setAlignment(Qt::AlignVCenter | Qt::AlignLeft);
-
-				prop = new QCheckBox();
-				qtLayout->addWidget(qLabel);
-				qtLayout->addWidget(prop);
-
-				QObject::connect(prop, &QCheckBox::clicked, this, [&](bool checked) {
-					SetValue(checked);
-				});
-
-				SetValue(checked);
-			}
-		}
-
+		SimpleCheckBox(const char* label, bool checked = false);
 		~SimpleCheckBox() {};
 
-		void SetLabelWidth(int width)
-		{
-			qLabel->setMinimumWidth(width);
-		}
+		void SetLabelWidth(int width);
+		void SetValue(bool checked);
 
-		void OnUserEdit(function<void(bool)> func)
-		{
-			updateFunc = func;
-		}
-
-		void SetValue(bool checked)
-		{
-			value = checked;
-			prop->setCheckState(checked ? Qt::CheckState::Checked : Qt::CheckState::Unchecked);
-			if (updateFunc)
-				updateFunc(value);
-		}
-
-		bool GetValue()
-		{
-			return value;
-		}
+		void OnUserEdit(function<void(bool)> func);
+		bool GetValue();
 
 	private:
 		bool value;
 		QLabel *qLabel;
 		QCheckBox *prop;
 		function<void(bool)> updateFunc;
+};
+
+class SimpleDropDown
+	: public CustomWidget
+{
+	private:
+		SimpleDropDown();
+
+	public:
+		SimpleDropDown(const char* label);
+		~SimpleDropDown() {};
+
+		void AddOption(const char* name, QVariant value);
+
+		void SetLabelWidth(int width);
+		void SetValue(unsigned int index);
+
+		void OnChange(function<void(QVariant)> func);
+		bool GetValue();
+
+	private:
+		unsigned int activeIndex;
+		QLabel *qLabel;
+		QComboBox *dropdown;
+		function<void(QVariant)> updateFunc;
 };

@@ -12,7 +12,7 @@
 #include <templates/singleton.h>
 
 #include <3DWorld/Scripts/MovingPlaneScript.h>
-#include <3DWorld/Scripts/GrowingSphere.h>
+#include <3DWorld/Scripts/ExpandingSphereScript.h>
 
 Game::Game() {
 }
@@ -31,7 +31,7 @@ void Game::Init()
 	gameCamera->SetPerspective(40, aspectRation, 0.1f, 250);
 	gameCamera->SetPosition(glm::vec3(0, 3, -7));
 	gameCamera->SplitFrustum(5);
-	gameCamera->transform->SetMoveSpeed(10);
+	gameCamera->transform->SetMoveSpeed(1.4f);
 
 	freeCamera = new Camera();
 	freeCamera->SetPerspective(40, aspectRation, 0.1f, 250);
@@ -73,7 +73,7 @@ void Game::Init()
 	Manager::GetScene()->Update();
 
 	new MovingPlaneScript();
-	new GrowingSphere();
+	new ExpandingSphereScript();
 	new SurfaceArea();
 
 	wglSwapIntervalEXT(1);
