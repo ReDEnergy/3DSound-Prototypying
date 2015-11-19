@@ -35,7 +35,7 @@ bool CSoundPlayer::Init()
 {
 	Clean();
 	csound = new Csound();
-	string filename = "Resources//" + string(score->GetName()) + ".csd";
+	string filename = "Resources//CSound//Scores//" + string(score->GetName()) + ".csd";
 	int error = csound->Compile((char*)filename.c_str());
 
 	if (error) {

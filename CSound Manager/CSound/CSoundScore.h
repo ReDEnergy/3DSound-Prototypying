@@ -27,7 +27,5 @@ class DLLExport CSoundScore
 		void Init();
 
 	private:
-		string _valueCsOptions;
-		string _valueInstrumentOptions;
 		pugi::xml_document *doc;
 };

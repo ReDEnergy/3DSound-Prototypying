@@ -20,6 +20,8 @@ CSoundComponent::CSoundComponent(const CSoundComponent &Comp)
 	for (auto P : Comp.entries) {
 		Add(new CSoundComponentProperty(*P));
 	}
+
+	controls = Comp.controls;
 	ResumeUpdate();
 
 	InitControlChannels();
@@ -28,29 +30,6 @@ CSoundComponent::CSoundComponent(const CSoundComponent &Comp)
 
 CSoundComponent::~CSoundComponent()
 {
-}
-
-void CSoundComponent::Init(const pugi::xml_node &component)
-{
-	SetName(component.child_value("name"));
-	PreventUpdate();
-
-	auto content = component.child("content");
-	for (auto &entry : content.children()) {
-
-		const char* tag = entry.name();
-		const char* default = entry.text().get();
-
-		CSoundComponentProperty *CP = new CSoundComponentProperty(this);
-		CP->SetName(tag);
-		CP->SetDefault(default);
-		Add(CP);
-
-		SoundManager::GetCSManager()->RegisterType(tag);
-	}
-
-	ResumeUpdate();
-	Update();
 }
 
 void CSoundComponent::Update()
@@ -87,6 +66,15 @@ void CSoundComponent::InitControlChannels()
 			controlChannels.push_back(prop->GetDefaultValue());
 		}
 	}
+
+	for (auto &chn : controls) {
+		controlChannels.push_back(chn);
+	}
+}
+
+void CSoundComponent::AddControlChannel(const char * channel)
+{
+	controls.push_back(channel);
 }
 
 const vector<string>& CSoundComponent::GetControlChannels() const

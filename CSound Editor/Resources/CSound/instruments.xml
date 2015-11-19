@@ -61,22 +61,22 @@
 	</instrument>
 	<instrument>
 		<name>pan2</name>
-		<controls>
-			<control>kPanFactor</control>
-		</controls>
 		<components>
 			<component>pan2</component>
 			<component>output stereo</component>
 		</components>
-	</instrument>	<instrument>
+	</instrument>
+	<instrument>
 		<name>stereo-panning</name>
-		<controls>
-			<control>kPanFactor</control>
-		</controls>
 		<components>
 			<component>stereo panning 3 left</component>
 			<component>stereo panning 3 right</component>
 			<component>output stereo</component>
 		</components>
 	</instrument>
-</blocks>
+	<instrument>
+		<name>global-output</name>
+		<components>
+			<component>global-output</component>
+		</components>
+	</instrument></blocks>

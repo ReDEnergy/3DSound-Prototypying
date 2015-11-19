@@ -8,6 +8,7 @@
 #include <QtCore/QFile>
 
 #include <CSoundEditor.h>
+#include <Editor/QtEditor.h>
 #include <QIcon>
 
 using namespace std;
@@ -68,9 +69,12 @@ void CustomWidget::SetAsToolWindow()
 
 void CustomWidget::SetIcon(const char * fileName)
 {
-	string path("Resources/Icons/");
-	path += fileName;
-	setWindowIcon(QIcon(path.c_str()));
+	setWindowIcon(*QtEditor::GetIcon(fileName));
+}
+
+void CustomWidget::SetStyleID(const char * ID)
+{
+	setObjectName(ID);
 }
 
 void CustomWidget::ReloadStyleSheet()

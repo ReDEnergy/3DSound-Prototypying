@@ -15,6 +15,7 @@
 #include <3DWorld/Scripts/ExpandingSphereScript.h>
 
 Game::Game() {
+
 }
 
 Game::~Game() {
@@ -28,7 +29,7 @@ void Game::Init()
 
 	// Cameras
 	gameCamera = new Camera();
-	gameCamera->SetPerspective(40, aspectRation, 0.1f, 250);
+	gameCamera->SetPerspective(80 / aspectRation, aspectRation, 0.1f, 250);
 	gameCamera->SetPosition(glm::vec3(0, 3, -7));
 	gameCamera->SplitFrustum(5);
 	gameCamera->transform->SetMoveSpeed(1.4f);

@@ -23,6 +23,7 @@ class CustomWidget
 		void DetachFromParent();
 		void SetAsToolWindow();
 		void SetIcon(const char* fileName);
+		void SetStyleID(const char* ID);
 
 		void ReloadStyleSheet();
 		void LoadStyleSheet(const char* fileLocation);

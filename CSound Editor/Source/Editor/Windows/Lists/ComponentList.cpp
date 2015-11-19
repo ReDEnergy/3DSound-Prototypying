@@ -1,6 +1,7 @@
 #include "ComponentList.h"
 
 #include <Editor/Windows/Interface/QtListTemplates.h>
+#include <Editor/Windows/Editors/ComponentComposer.h>
 #include <Editor/Windows/TextPreview.h>
 #include <Editor/GUI.h>
 
@@ -27,7 +28,9 @@ void ComponentList::Init()
 void ComponentList::QtItemClicked(QListWidgetItem * item)
 {
 	EditorList::QtItemClicked(item);
+	auto data = ((ListItem*)item)->GetData();
 	GUI::Get<TextPreviewWindow>(QT_INSTACE::TEXT_PREVIEW)->RenderText(((ListItem*)item)->GetData()->GetRender());
+	//GUI::Get<ComponentComposer>(QT_INSTACE::COMPONENT_COMPOSER)->SetContext(data);
 }
 
 void ComponentList::QtItemRenamed(QListWidgetItem * item)

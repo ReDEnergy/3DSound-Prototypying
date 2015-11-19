@@ -25,10 +25,15 @@ struct HeadphoneTestConfig
 		testName = "";
 		azimuthValues = { -60, 0, 60 };
 		elevationValues = { -60, 0, 60 };
+
+		for (auto i = 0; i < 5; i++) {
+			outputTested[i] = 0;
+		}
 	}
 
 	bool waitForInput;
 	bool randomTest;
+	bool outputTested[5];
 	float prepareTime;
 	float samplePlaybackDuration;
 	float sampleInterval;
@@ -38,12 +43,31 @@ struct HeadphoneTestConfig
 	string testName;
 };
 
+enum class OUTPUT_METHOD {
+	HRTF2,
+	INDIVIDUAL_HRTF,
+	STEREO,
+};
+
 struct AnswerEntry
 {
+	AnswerEntry() {
+		responseTime = 0;
+		correct = false;
+		outputType = 0;
+	}
+
 	glm::vec2 source;
 	glm::vec2 answer;
 	float responseTime; // seconds
 	bool correct;
+	unsigned int outputType;
+};
+
+struct TestEntry
+{
+	glm::vec3 position;
+	unsigned int outputType;
 };
 
 class HeadphoneTestScript
@@ -73,7 +97,7 @@ class HeadphoneTestScript
 	private:
 		CSound3DSource *gameObj;
 		unsigned int timelinePos;
-		vector<glm::vec3> positions;
+		vector<TestEntry> testEntries;
 		vector<AnswerEntry> answers;
 		TimerEvent<string> *playbackEvent;
 		TimerEvent<string> *waitEvent;

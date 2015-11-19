@@ -8,11 +8,12 @@
 
 CSoundManager* SoundManager::csManager = nullptr;
 CSoundInstrumentBlock* SoundManager::globalOutputModel = nullptr;
+uint SoundManager::globalOutputModelIndex = 0;
 
 void SoundManager::Init()
 {
 	csManager = Singleton<CSoundManager>::Instance();
-	csManager->Init();
+	csManager->LoadConfig();
 }
 
 CSoundManager* SoundManager::GetCSManager()
@@ -25,7 +26,17 @@ void SoundManager::SetGlobalOutputModel(const char * model)
 	globalOutputModel = csManager->blocks->Get(model);
 }
 
+void SoundManager::SetGlobalOutputModelIndex(unsigned int index)
+{
+	globalOutputModelIndex = index;
+}
+
 CSoundInstrumentBlock * SoundManager::GetGlobalOutputModel()
 {
 	return globalOutputModel;
+}
+
+unsigned int SoundManager::GetGlobalOutputModelIndex()
+{
+	return globalOutputModelIndex;
 }

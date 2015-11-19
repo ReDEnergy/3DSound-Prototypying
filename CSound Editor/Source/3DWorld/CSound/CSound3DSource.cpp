@@ -2,6 +2,7 @@
 #include <iostream>
 
 #include <CSoundEditor.h>
+#include <SoundManager.h>
 #include <3DWorld/CSound/CSoundScene.h>
 #include <3DWorld/Game.h>
 #include <3DWorld/Compute/SurfaceArea.h>
@@ -62,6 +63,8 @@ void CSound3DSource::Init()
 	positionCameraSpace = glm::vec3(0);
 	soundVolume = 100;
 	soundFallOff = 20;
+	elevationPanningFactor = 0;
+	azimuthPanningFactor = 0;
 
 	timer = nullptr;
 	SubscribeToEvent("model-changed");
@@ -181,10 +184,10 @@ void CSound3DSource::ComputeControlProperties()
 	// Compute Sqare Attenuation
 
 	soundIntensity = 0;
-	if (surfaceCover) {
+	//if (surfaceCover) {
 		soundIntensity = (soundFallOff - min(soundFallOff, distanceToCamera)) / soundFallOff;
 		soundIntensity *= soundIntensity;
-	}
+	//}
 
 	// Camera Space
 	if (distanceToCamera)
@@ -210,11 +213,12 @@ void CSound3DSource::ComputeControlProperties()
 			elevation = -elevation;
 	}
 
-	// Used for stereo panning
-	// 0.5 means center
-	// 0 only left channel
-	// 1 only right channel
-	panningFactor = azimuth / 180.0f + 0.5f;
+	// Compute azimuth and elevation panning factors
+	// 0 only left channel, 1 only right channel
+	azimuthPanningFactor = azimuth / 180 + 0.5f;
+	// 0 only bottom, 1 only top
+	elevationPanningFactor = elevation / 90 + 0.5f;
+	elevationPanningFactor = min(max(elevationPanningFactor, 0), 1);
 }
 
 void CSound3DSource::UpdateControlChannels(bool motion) const
@@ -223,7 +227,9 @@ void CSound3DSource::UpdateControlChannels(bool motion) const
 
 	// ------------------------------------------------------------------------
 	// Update Control Channels
-	player->SetControl("kPanFactor", panningFactor);
+	player->SetControl("kOutput", (float)SoundManager::GetGlobalOutputModelIndex());
+	player->SetControl("kAzPanFactor", azimuthPanningFactor);
+	player->SetControl("kElPanFactor", elevationPanningFactor);
 	player->SetControl("kSurfaceCover", surfaceCover);
 	player->SetControl("kDistance", distanceToCamera);
 	player->SetControl("kAzimuth", azimuth);
@@ -270,9 +276,14 @@ float CSound3DSource::GetAzimuthToCamera() const
 	return azimuth;
 }
 
-float CSound3DSource::GetPanningFactor() const
+float CSound3DSource::GetAzimuthPanningFactor() const
 {
-	return panningFactor;
+	return azimuthPanningFactor;
+}
+
+float CSound3DSource::GetElevationPanningFactor() const
+{
+	return elevationPanningFactor;
 }
 
 unsigned int CSound3DSource::GetSoundVolume() const
@@ -304,6 +315,12 @@ void CSound3DSource::SetSurfaceArea(unsigned int visibleAreaInPixels)
 void CSound3DSource::SetVolume(unsigned int value)
 {
 	soundVolume = max(min(value, 100), 0);
+}
+
+void CSound3DSource::SetControlChannel(const char * channel, float value) const
+{
+	if (!player->IsPlaying()) return;
+	player->SetControl(channel, value);
 }
 
 void CSound3DSource::UseVirtalPosition(bool value)

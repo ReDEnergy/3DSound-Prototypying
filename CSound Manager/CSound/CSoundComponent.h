@@ -1,11 +1,8 @@
 #pragma once
-#include <unordered_map>
-
-#include <include/pugixml.h>
+#include <vector>
 
 #include <CSound/CSoundEntity.h>
 #include <CSound/CSoundForward.h>
-#include <CSound/CsoundComponent.h>
 #include <CSound/CSoundComponentProperty.h>
 #include <CSound/Templates/CSoundList.h>
 
@@ -18,10 +15,9 @@ class DLLExport CSoundComponent
 		CSoundComponent(const CSoundComponent &Comp);
 		~CSoundComponent();
 
-		void Init(const pugi::xml_node & component);
-
 		void Update();
 		void InitControlChannels();
+		void AddControlChannel(const char* channel);
 
 		const vector<string>& GetControlChannels() const;
 
@@ -34,4 +30,5 @@ class DLLExport CSoundComponent
 	private:
 		CSoundInstrument *parent;
 		vector<string> controlChannels;
+		vector<string> controls;
 };

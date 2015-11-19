@@ -24,7 +24,7 @@
 		<content>
 			<out>ain</out>
 			<function>soundin</function>
-			<in>"Audio/noise.wav"</in>
+			<in>"../../Audio/noise.wav"</in>
 		</content>
 	</component>		
 	<component>
@@ -47,8 +47,8 @@
 			<control>kPitch</control>
 			<control>kTrigger</control>
 			<op>,</op>
-			<constant>0.5</constant>		<!-- iDuration -->
-			<constant>0</constant>			<!-- iFade -->
+			<constant>5</constant>		<!-- iDuration -->
+			<constant>0</constant>		<!-- iFade -->
 		</content>
 	</component>
 
@@ -102,7 +102,7 @@
 			<op>,</op>
 			<control>kAzimuth</control>
 			<control>kElevation</control>
-			<text>, "CSound/hrtf/hrtf-44100-left.dat", "CSound/hrtf/hrtf-44100-right.dat"</text>		
+			<text>, "../hrtf/hrtf-44100-left.dat", "../hrtf/hrtf-44100-right.dat"</text>		
 		</content>
 	</component>		
 
@@ -113,42 +113,8 @@
 			<in>aout</in>
 			<in>aout</in>
 		</content>
-	</component>		
-	
-	<component>
-		<name>stereo panning 3 left</name>
-		<content>
-			<out>aleft</out>
-			<op>=</op>
-			<in>aout</in>
-			<op>*</op>
-			<in>cos(kPanFactor * $M_PI_2)</in>
-		</content>
-	</component>		
+	</component>	
 
-	<component>
-		<name>stereo panning 3 right</name>
-		<content>
-			<out>aright</out>
-			<op>=</op>
-			<in>aout</in>
-			<op>*</op>
-			<in>sin(kPanFactor * $M_PI_2)</in>
-		</content>
-	</component>		
-
-	<component>
-		<name>pan2</name>
-		<content>
-			<out>aleft</out>
-			<out>aright</out>
-			<function>pan2</function>
-			<in>aout</in>
-			<in>kPanFactor</in>
-			<in>0</in>
-		</content>
-	</component>
-	
 	<component>
 		<name>output stereo</name>
 		<content>
@@ -156,6 +122,114 @@
 			<in>aleft</in>
 			<in>aright</in>
 		</content>
+	</component>	
+	
+	<component>
+		<name>stereo panning 3 left</name>
+		<controls>
+			<control>kAzPanFactor</control>
+		</controls>
+		<content>
+			<out>aleft</out>
+			<op>=</op>
+			<in>aout</in>
+			<op>*</op>
+			<in>cos(kAzPanFactor * $M_PI_2)</in>
+		</content>
+	</component>		
+
+	<component>
+		<name>stereo panning 3 right</name>
+		<controls>
+			<control>kAzPanFactor</control>
+		</controls>
+		<content>
+			<out>aright</out>
+			<op>=</op>
+			<in>aout</in>
+			<op>*</op>
+			<in>sin(kAzPanFactor * $M_PI_2)</in>
+		</content>
+	</component>		
+
+	<component>
+		<name>pan2</name>
+		<controls>
+			<control>kAzPanFactor</control>
+		</controls>
+		<content>
+			<out>aleft</out>
+			<out>aright</out>
+			<function>pan2</function>
+			<in>aout</in>
+			<in>kAzPanFactor</in>
+			<in>0</in>
+		</content>
 	</component>
+	
+	<component>
+		<name>output 6 channel</name>
+		<content>
+			<function>outch</function>
+			<out>1</out>
+			<out>aleft</out>
+			<out>2</out>
+			<out>aright</out>
+			<out>3</out>
+			<out>aleft</out>
+			<out>4</out>
+			<out>aright</out>
+			<out>5</out>
+			<out>abottomleft</out>
+			<out>6</out>
+			<out>abottomright</out>
+		</content>
+	</component>
+	
+	<component>
+		<name>global-output</name>
+		<controls>
+			<control>kAzimuth</control>
+			<control>kElevation</control>
+			<control>kAzPanFactor</control>
+			<control>kElPanFactor</control>
+			<control>kElBias</control>
+			<control>kOutput</control>
+			<control>kRearGain</control>
+		</controls>
+		<content>
+			<text>
+	if (kOutput == 0) then
+		aleft = aout
+		aright = aout
+	elseif ((kOutput & 1) != 0) then
+		aleft, aright hrtfmove2 aout, kAzimuth, kElevation , "../hrtf/hrtf-44100-left.dat", "../hrtf/hrtf-44100-right.dat"
+	elseif ((kOutput & 2) != 0) then
+		aleft = aout * cos(kAzPanFactor * $M_PI_2)
+		aright = aout * sin(kAzPanFactor * $M_PI_2)
+	elseif ((kOutput & 4) != 0) then
+		aleft, aright hrtfmove2 aout , kAzimuth, kElevation,</text>
+			<in>"../ind_hrtf/hrtf-44100-left.dat"</in>
+			<in>"../ind_hrtf/hrtf-44100-right.dat"</in>
+			<text>
+	elseif ((kOutput & 8) != 0) then
+		aleft, aright pan2 aout, kAzPanFactor, 1
+	elseif ((kOutput & 16) != 0) then
+		aleft, aright hrtfmove2 aout, kAzimuth, 0 , "../hrtf/hrtf-44100-left.dat", "../hrtf/hrtf-44100-right.dat"
+		kTopGain = kElPanFactor * (1 + kElBias)
+		kBottomGain = (1 - kElPanFactor) * (1 - kElBias) * kRearGain
+		atopleft = aleft * kTopGain
+		abottomleft = aleft * kBottomGain
+		atopright = aright * kTopGain
+		abottomright = aright * kBottomGain
+		outch 1, atopleft, 2, atopright, 5, abottomleft, 6, abottomright
+	endif
+	if ((kOutput & 16) == 0) then
+		outs aleft, aright
+	endif
+			</text>
+		</content>
+	</component>
+	
 
 </components>

@@ -14,8 +14,9 @@ class DLLExport CSoundInstrumentBlock
 		~CSoundInstrumentBlock();
 
 		void Update();
-		vector<string> GetControlChannels() const;
+		void AddControlChannel(const char* channel);
+		const vector<string>& GetControlChannels() const;
 
 	private:
-		unordered_map<string, bool> channels;
+		vector<string> channels;
 };

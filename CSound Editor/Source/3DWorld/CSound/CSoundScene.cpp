@@ -34,8 +34,9 @@ CSoundScene::CSoundScene()
 	sceneFile = "";
 	defaultScore = nullptr;
 	playback = false;
+	_3DSources = new EntityStorage<CSound3DSource>("3DSource ");
+
 	SubscribeToEvent(EventType::EDITOR_OBJECT_REMOVED);
-	_3DSources = nullptr;
 }
 
 CSoundScene::~CSoundScene()
@@ -45,17 +46,26 @@ CSoundScene::~CSoundScene()
 
 void CSoundScene::Init()
 {
-	_3DSources = new EntityStorage<CSound3DSource>("3DSource ");
 	SetDefaultScore(SoundManager::GetCSManager()->GetScore("simple"));
-	Clear();
 	auto obj = CreateSource();
-	SetOutputModel("hrtf-output");
+	SetOutputModel("global-output");
 }
 
 void CSoundScene::Update()
 {
-	//for (auto S3D : _3DSources->GetEntries()) {
-	//}
+}
+
+void CSoundScene::UpdateScores()
+{
+	for (auto SS : sceneScores.GetEntities()) {
+		SS->Update();
+		SS->Save();
+	}
+
+	// Update player in scene
+	for (auto S3D : _3DSources->GetEntries()) {
+		S3D->ReloadScore();
+	}
 }
 
 void CSoundScene::Clear()
@@ -82,6 +92,14 @@ void CSoundScene::Stop()
 	playback = false;
 	for (auto source : _3DSources->GetEntries()) {
 		source->StopScore();
+	}
+}
+
+void CSoundScene::SetCSoundControl(const char * channel, float value) const
+{
+	if (!playback) return;
+	for (auto S3D : _3DSources->GetEntries()) {
+		S3D->SetControlChannel(channel, value);
 	}
 }
 

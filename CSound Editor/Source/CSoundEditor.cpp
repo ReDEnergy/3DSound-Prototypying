@@ -14,6 +14,7 @@ Game * CSoundEditor::game = nullptr;
 namespace RESOURCE_PATH {
 	const string ROOT = "Resources\\";
 	const string CONFIG = "Config\\";
+	const string QTICONS = "Resources/Icons/";
 	const string STYLESHEET = CONFIG + "StyleSheets\\";
 }
 

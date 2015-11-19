@@ -159,7 +159,7 @@ class SimpleDropDown
 		void AddOption(const char* name, QVariant value);
 
 		void SetLabelWidth(int width);
-		void SetValue(unsigned int index);
+		void SetIndex(unsigned int index);
 
 		void OnChange(function<void(QVariant)> func);
 		bool GetValue();

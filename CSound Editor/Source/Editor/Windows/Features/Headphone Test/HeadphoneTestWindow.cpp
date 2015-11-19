@@ -23,16 +23,10 @@ static HeadphoneTestScript *recorder;
 HeadphoneTestWindow::HeadphoneTestWindow()
 {
 	LoadStyleSheet("hrtf-test.qss");
-	setWindowTitle("Record HRTF Test");
-	InitUI();
+	setWindowTitle("Headphone Test");
 
 	config = new HeadphoneTestConfig();
 	recorder = new HeadphoneTestScript();
-
-	bool exist = QDir("HRTF-Tests").exists();
-	if (!exist) {
-		QDir().mkdir("HRTF-Tests");
-	}
 
 	SubscribeToEvent("HRTF-test-end");
 
@@ -63,6 +57,9 @@ HeadphoneTestWindow::HeadphoneTestWindow()
 		customTests.push_back(test);
 	}
 
+	testStarted = false;
+
+	InitUI();
 }
 
 void HeadphoneTestWindow::InitUI()
@@ -84,14 +81,7 @@ void HeadphoneTestWindow::InitUI()
 		buttonStartStop->setMinimumHeight(30);
 		qtLayout->addWidget(buttonStartStop);
 		QObject::connect(buttonStartStop, &QPushButton::clicked, this, [this]() {
-			if (buttonStartStop->text().compare("Start Test") == 0) {
-				buttonStartStop->setText("Stop Test");
-				Start();
-			}
-			else {
-				Manager::GetEvent()->EmitAsync("stop-HRTF-test");
-				buttonStartStop->setText("Start Test");
-			}
+			testStarted ? Manager::GetEvent()->EmitAsync("stop-HRTF-test") : Start();
 		});
 	}
 
@@ -197,6 +187,22 @@ void HeadphoneTestWindow::InitUI()
 	});
 	advanceConfig->AddWidget(randomIterations);
 
+	// Test output models
+
+	testHRTF = new SimpleCheckBox("Test HRTF:", true);
+	testHRTF->SetLabelWidth(100);
+	advanceConfig->AddWidget(testHRTF);
+
+	testIndividualHRTF = new SimpleCheckBox("Individual HRTF:", true);
+	testIndividualHRTF->SetLabelWidth(100);
+	advanceConfig->AddWidget(testIndividualHRTF);
+
+	testStereoPanning = new SimpleCheckBox("Stereo Panning:", true);
+	testStereoPanning->SetLabelWidth(100);
+	advanceConfig->AddWidget(testStereoPanning);
+
+	// Time config
+
 	prepareTime = new SimpleFloatInput("Prepare time:", "sec");
 	prepareTime->AcceptNegativeValues(false);
 	advanceConfig->AddWidget(prepareTime);
@@ -208,6 +214,8 @@ void HeadphoneTestWindow::InitUI()
 	sampleInterval = new SimpleFloatInput("Sample interval:", "sec");
 	sampleInterval->AcceptNegativeValues(false);
 	advanceConfig->AddWidget(sampleInterval);
+
+	// Values config
 
 	sortableAzimuth = new QtSortableInput("Azimut values:", 0);
 	sortableAzimuth->OnUserEdit([this](const vector<float>& vec) {
@@ -233,7 +241,7 @@ void HeadphoneTestWindow::InitUI()
 
 	// ------------------------------------------------------------------------
 	// Init Configuration
-	ResetConfig();
+	SetConfig(customTests[1]);
 }
 
 void HeadphoneTestWindow::Start()
@@ -241,8 +249,24 @@ void HeadphoneTestWindow::Start()
 	if (randomValues->GetValue() == false && sampleGenerator->GetNumberOfSamples() == 0)
 	{
 		cout << "Please add at least 1 sample" << endl;
+		Stop();
 		return;
 	}
+
+	config->outputTested[1] = testHRTF->GetValue();
+	config->outputTested[2] = testStereoPanning->GetValue();
+	config->outputTested[3] = testIndividualHRTF->GetValue();
+	if (!(config->outputTested[1] || config->outputTested[2] || config->outputTested[3])) {
+		Stop();
+		return;
+	}
+
+	bool exist = QDir("Headphone Test Results").exists();
+	if (!exist) {
+		QDir().mkdir("Headphone Test Results");
+	}
+
+	testStarted = true;
 
 	config->randomTest = randomValues->GetValue();
 	config->prepareTime = prepareTime->GetValue();
@@ -266,6 +290,7 @@ void HeadphoneTestWindow::Start()
 
 	Manager::GetEvent()->EmitAsync("start-HRTF-test", (void*)config);
 
+	buttonStartStop->setText("Stop Test");
 	AddWidget(answerPanel);
 	configArea->DetachFromParent();
 	ResetAnswerKeyOffset();
@@ -273,6 +298,7 @@ void HeadphoneTestWindow::Start()
 
 void HeadphoneTestWindow::Stop()
 {
+	testStarted = false;
 	if (configArea->parent() != this)
 	{
 		qtLayout->addWidget(configArea);
@@ -313,6 +339,7 @@ void HeadphoneTestWindow::OnEvent(const string & eventID, void * data)
 
 void HeadphoneTestWindow::keyPressEvent(QKeyEvent * event)
 {
+	if (!testStarted) return;
 	switch (event->key())
 	{
 	case Qt::Key::Key_4:
@@ -373,10 +400,6 @@ void HeadphoneTestWindow::keyPressEvent(QKeyEvent * event)
 	default:
 		break;
 	}
-}
-
-void HeadphoneTestWindow::keyReleaseEvent(QKeyEvent * event)
-{
 }
 
 void HeadphoneTestWindow::KeyResponseInfo() const

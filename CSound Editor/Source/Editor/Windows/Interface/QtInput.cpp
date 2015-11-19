@@ -172,8 +172,9 @@ void SimpleDropDown::SetLabelWidth(int width)
 	qLabel->setFixedWidth(width);
 }
 
-void SimpleDropDown::SetValue(unsigned int index)
+void SimpleDropDown::SetIndex(unsigned int index)
 {
+	dropdown->setCurrentIndex(index);
 }
 
 void SimpleDropDown::OnChange(function<void(QVariant)> func)

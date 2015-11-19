@@ -33,7 +33,6 @@ class HeadphoneTestWindow
 		void ResetConfig();
 		void OnEvent(const string& eventID, void *data);
 		void keyPressEvent(QKeyEvent * event);
-		void keyReleaseEvent(QKeyEvent * event);
 		void KeyResponseInfo() const;
 		void ResetAnswerKeyOffset();
 		void SendKeyboardAnswer() const;
@@ -54,6 +53,7 @@ class HeadphoneTestWindow
 		CustomWidget *configArea;
 		CustomWidget *advanceConfig;
 		QLineEdit *testName;
+		QLineEdit *indivHrtfFile;
 		SimpleFloatInput *prepareTime;
 		SimpleFloatInput *sampleDuration;
 		SimpleFloatInput *sampleInterval;
@@ -63,7 +63,11 @@ class HeadphoneTestWindow
 		QtSortableInput *sortableAzimuth;
 		SimpleCheckBox *wait4Input;
 		SimpleCheckBox *randomValues;
+		SimpleCheckBox *testHRTF;
+		SimpleCheckBox *testStereoPanning;
+		SimpleCheckBox *testIndividualHRTF;
 
 		int keyOffsetX = 0;
 		int keyOffsetY = 0;
+		bool testStarted;
 };

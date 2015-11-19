@@ -1,11 +1,14 @@
 ﻿#include "CSoundScore.h"
 
 #include <sstream>
+#include <iostream>
 
 #include <include/pugixml.h>
 #include <include/utils.h>
 
 #include <CSound/CSoundInstrument.h>
+#include <CSound/CSoundManager.h>
+#include <CSound/SoundManager.h>
 
 CSoundScore::CSoundScore()
 {
@@ -33,20 +36,13 @@ CSoundScore::~CSoundScore() {
 
 void CSoundScore::Init()
 {
-	_valueCsOptions = string(
-		"\n+rtaudio=alsa -o dac" \
-		"\n-B 64" \
-		"\n-b 2048\n\t");
-
-	_valueInstrumentOptions = string(
-		"\nksmps = 8 \
-		\nnchnls = 2\n");
-
 	doc = nullptr;
 }
 
 void CSoundScore::Update()
 {
+	auto CsManager = SoundManager::GetCSManager();
+
 	SAFE_FREE(doc);
 	doc = new pugi::xml_document();
 
@@ -56,13 +52,13 @@ void CSoundScore::Update()
 	// Generate CsOptions
 	pugi::xml_node CsOptions = CsSynthesizer.append_child("CsOptions");
 
-	CsOptions.append_child(pugi::node_pcdata).set_value(_valueCsOptions.c_str());
+	CsOptions.append_child(pugi::node_pcdata).set_value(CsManager->GetCsOptionsRender());
 
 	// ----------------------
 	// Generate CsInstruments
 	pugi::xml_node CsInstruments = CsSynthesizer.append_child("CsInstruments");
 
-	CsInstruments.append_child(pugi::node_pcdata).set_value(_valueInstrumentOptions.c_str());
+	CsInstruments.append_child(pugi::node_pcdata).set_value(CsManager->GetInstrumentOptionsRender());
 
 	uint instrumentID = 1;
 	for (auto I : entries) {
@@ -94,7 +90,7 @@ void CSoundScore::Update()
 
 	// Save rendering
 	std::stringstream ss;
-	doc->save(ss);
+	doc->save(ss, "\t", pugi::format_no_escapes);
 
 	render = ss.str();
 
@@ -111,6 +107,6 @@ void CSoundScore::Save()
 
 	// ----------------------
 	// Save File
-	string filename = "Resources//" + name + ".csd";
-	doc->save_file(filename.c_str());
+	string filename = "Resources//CSound//Scores//" + name + ".csd";
+	doc->save_file(filename.c_str(), "\t", pugi::format_no_escapes);
 }

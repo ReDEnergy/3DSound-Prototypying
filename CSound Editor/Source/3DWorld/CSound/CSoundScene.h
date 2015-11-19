@@ -16,26 +16,36 @@ class CSoundScene
 
 	public:
 		void Init();
+
+		// Scene Update
 		void Update();
+		void UpdateScores();
+
+		// Save/Load/Clear
 		void Clear();
+		void AutoSave();
 		void LoadScene(const char* fileName);
 		bool SaveScene();
 		void SaveSceneAs(const char* fileName);
+
+		// Playback audio
 		void Play();
 		void Stop();
+		void SetCSoundControl(const char* channel, float value) const;
 
+		// Scene Management
+		void AddSource(CSound3DSource * S3D);
 		bool Rename(CSound3DSource* S3D, const char* newName);
 		void Remove(CSound3DSource* S3D);
-
-		void AddSource(CSound3DSource * S3D);
 		CSound3DSource *CreateSource();
-		CSoundScore *GetDefaultScore();
 		const vector<CSound3DSource*>& GetEntries() const;
+
+		// Audio settings
+		CSoundScore *GetDefaultScore();
 		void SetDefaultScore(CSoundScore *score);
 		void SetOutputModel(const char* name);
 
-		void AutoSave();
-
+		// Tracking
 		void TrackScore(CSoundScore* score);
 		void TrackInstrument(CSoundInstrument * instr);
 		void UnTrackScore(CSoundScore* score);

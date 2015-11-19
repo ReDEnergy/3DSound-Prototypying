@@ -1,0 +1,51 @@
+QWidget {
+}
+
+QWidget#CSoundOptions {
+	min-width: 350px;
+	max-width: 350px;
+	padding-top: 10px;
+}
+
+.QLabel[deviceID] {
+	font-weight: bold;
+	max-width: 50px;
+	min-height: 18px;
+}
+
+.QLabel[deviceName] {
+	height: 40px;
+	min-width: 200px;
+}
+
+.QLabel[channels] {
+	max-width: 70px;
+	color: #E55B2E;
+	font-weight: bold;
+}
+
+QWidget[dropdownLine] QLabel {
+	max-width: 80px;
+	min-width: 120px;
+	padding-left: 10px;
+	font-weight: bold;
+	color: #2E5BE5;
+}
+
+QWidget[dropdownLine] QComboBox {
+	height: 22px;
+	padding-left: 10px;
+}
+
+QWidget[dropdownLine] QComboBox:selected {
+	color: blue;
+}
+
+QWidget[dropdownLine] QComboBox QAbstractItemView::items {
+	padding-left: 10px;
+}
+
+QWidget[dropdownLine] QComboBox QAbstractItemView::item {
+	height: 22px;
+	padding-left: 10px;
+}

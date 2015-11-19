@@ -11,8 +11,8 @@ class Game;
 class CSoundEditor
 {
 	private:
-		CSoundEditor() {};
-		~CSoundEditor() {};
+		CSoundEditor() = delete;
+		~CSoundEditor() = delete;
 
 	public:
 		static void Init();

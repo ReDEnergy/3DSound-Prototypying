@@ -6,7 +6,7 @@
 #include <3DWorld/CSound/CsoundScene.h>
 
 #include <Editor/QT/Utils.h>
-
+#include <Editor/QtEditor.h>
 #include <Editor/GUI.h>
 
 #include <Editor/Windows/SceneWindow.h>
@@ -15,10 +15,13 @@
 #include <Editor/Windows/Editors/ScoreEditor.h>
 #include <Editor/Windows/Editors/PropertyEditor.h>
 #include <Editor/Windows/Editors/SceneObjectProperties.h>
+#include <Editor/Windows/Editors/CameraPropertyEditor.h>
+#include <Editor/Windows/Editors/CSoundControlWindow.h>
 #include <Editor/Windows/Features/Headphone Test/HeadphoneTestWindow.h>
 #include <Editor/Windows/Features/Moving Plane/MovingPlaneWindow.h>
 #include <Editor/Windows/Features/Expanding Sphere/ExpandingSphereWindow.h>
 #include <Editor/Windows/General/AboutWindow.h>
+#include <Editor/Windows/General/CSoundOptionsWindow.h>
 #include <Editor/Windows/Interface/QtListTemplates.h>
 #include <Editor/Windows/Interface/DockWindow.h>
 #include <Editor/Windows/Interface/CustomWidget.h>

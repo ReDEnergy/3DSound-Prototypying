@@ -35,12 +35,13 @@ static CSound3DSource* defaultObject;
 
 SceneObjectProperties::SceneObjectProperties()
 {
-	setWindowTitle("Properties");
-	//GUI::Set(QT_INSTACE::PROPERTY_EDITOR, (void*) this);
+	setWindowTitle("Object Properties");
 	forceUpdate = false;
 	defaultObject = new CSound3DSource();
 	gameObj = defaultObject;
+
 	InitUI();
+
 	SubscribeToEvent(EventType::EDITOR_OBJECT_SELECTED);
 	SubscribeToEvent(EventType::EDITOR_NO_SELECTION);
 }
@@ -80,38 +81,6 @@ void SceneObjectProperties::InitUI()
 		auto widget = Wrap(label, meshType);
 		widget->layout()->setSpacing(15);
 		qtLayout->addWidget(widget);
-	}
-
-	{
-		auto zone = new QLabel("Camera properties");
-		zone->setAlignment(Qt::AlignCenter);
-		zone->setMargin(5);
-		zone->setFont(QFont("Arial", 10, QFont::Bold));
-		qtLayout->addWidget(zone);
-	}
-
-	{
-		cameraPosition = new GLMVecComponent<glm::vec3>("Position:", glm::vec3());
-		cameraPosition->OnUserEdit([](glm::vec3 val) {
-			Manager::GetScene()->GetActiveCamera()->transform->SetWorldPosition(val);
-		});
-		qtLayout->addWidget(cameraPosition);
-
-		cameraRotation = new GLMVecComponent<glm::vec3>("Rotation:", glm::vec3());
-		cameraRotation->OnUserEdit([](glm::vec3 val) {
-			Manager::GetScene()->GetActiveCamera()->transform->SetWorldRotation(val);
-		});
-		qtLayout->addWidget(cameraRotation);
-
-		camerFoV = new SimpleFloatInput("Camera FoV", "degrees", 0);
-		camerFoV->AcceptNegativeValues(false);
-		camerFoV->OnUserEdit([](float value) {
-			auto cam = Manager::GetScene()->GetActiveCamera();
-			auto PI = cam->GetProjectionInfo();
-			PI.FoV = max(10, value) / PI.aspectRatio;
-			Manager::GetScene()->GetActiveCamera()->SetProjection(PI);
-		});
-		qtLayout->addWidget(camerFoV);
 	}
 
 	{
@@ -174,8 +143,11 @@ void SceneObjectProperties::InitUI()
 		elevationInput = new SimpleFloatInput("Elevation:", "deg", 2, true);
 		qtLayout->addWidget(elevationInput);
 
-		panningFactor = new SimpleFloatInput("Panning factor:", "", 2, true);
-		qtLayout->addWidget(panningFactor);
+		azimuthPanningFactor = new SimpleFloatInput("Azimuth pan:", "", 2, true);
+		qtLayout->addWidget(azimuthPanningFactor);
+
+		elevationPanningFactor = new SimpleFloatInput("Elevation pan:", "", 2, true);
+		qtLayout->addWidget(elevationPanningFactor);
 
 		distanceToCameraInput = new SimpleFloatInput("Distance to:", "meters", 2, true);
 		qtLayout->addWidget(distanceToCameraInput);
@@ -194,11 +166,6 @@ void SceneObjectProperties::Update()
 	auto cameraTransform = Manager::GetScene()->GetActiveCamera()->transform;
 	bool cameraMotion = cameraTransform->GetMotionState();
 
-	if (cameraMotion) {
-		cameraPosition->SetValue(cameraTransform->GetWorldPosition());
-		cameraRotation->SetValue(cameraTransform->GetRotationEuler360());
-	}
-
 	//if (selectedMotion || cameraMotion) {
 		gameObj->ComputeControlProperties();
 		cameraSpacePosition->SetValue(gameObj->GetCameraSpacePosition());
@@ -209,7 +176,8 @@ void SceneObjectProperties::Update()
 		azimuthInput->SetValue(gameObj->GetAzimuthToCamera());
 		elevationInput->SetValue(gameObj->GetElevationToCamera());
 		soundIntensity->SetValue(gameObj->GetSoundIntensity());
-		panningFactor->SetValue(gameObj->GetPanningFactor());
+		azimuthPanningFactor->SetValue(gameObj->GetAzimuthPanningFactor());
+		elevationPanningFactor->SetValue(gameObj->GetElevationPanningFactor());
 	//}
 
 	if (forceUpdate || selectedMotion) {

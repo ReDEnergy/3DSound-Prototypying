@@ -257,6 +257,7 @@ xcopy /y /d "..\..\libs\Engine\$(PlatformTarget)\$(Configuration)\*.dll" "$(OutD
     <ClCompile Include="..\Source\Editor\EditorMainWindow.cpp" />
     <ClCompile Include="..\Source\Editor\Events\UIEvents.cpp" />
     <ClCompile Include="..\Source\Editor\GUI.cpp" />
+    <ClCompile Include="..\Source\Editor\QtEditor.cpp" />
     <ClCompile Include="..\Source\Editor\QT\Utils.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
@@ -265,8 +266,10 @@ xcopy /y /d "..\..\libs\Engine\$(PlatformTarget)\$(Configuration)\*.dll" "$(OutD
     </ClCompile>
     <ClCompile Include="..\Source\Editor\UI\FilePicker.cpp" />
     <ClCompile Include="..\Source\Editor\UI\GUIEntity.cpp" />
+    <ClCompile Include="..\Source\Editor\Windows\Editors\CameraPropertyEditor.cpp" />
     <ClCompile Include="..\Source\Editor\Windows\Editors\ComponentComposer.cpp" />
     <ClCompile Include="..\Source\Editor\Windows\Editors\ComponentEditor.cpp" />
+    <ClCompile Include="..\Source\Editor\Windows\Editors\CSoundControlWindow.cpp" />
     <ClCompile Include="..\Source\Editor\Windows\Editors\InstrumentEditor.cpp" />
     <ClCompile Include="..\Source\Editor\Windows\Editors\PropertyEditor.cpp" />
     <ClCompile Include="..\Source\Editor\Windows\Editors\SceneObjectProperties.cpp" />
@@ -277,6 +280,7 @@ xcopy /y /d "..\..\libs\Engine\$(PlatformTarget)\$(Configuration)\*.dll" "$(OutD
     <ClCompile Include="..\Source\Editor\Windows\Features\Headphone Test\HeadphoneTestGenerator.cpp" />
     <ClCompile Include="..\Source\Editor\Windows\Features\Moving Plane\MovingPlaneWindow.cpp" />
     <ClCompile Include="..\Source\Editor\Windows\General\AboutWindow.cpp" />
+    <ClCompile Include="..\Source\Editor\Windows\General\CSoundOptionsWindow.cpp" />
     <ClCompile Include="..\Source\Editor\Windows\Interface\CustomWidget.cpp" />
     <ClCompile Include="..\Source\Editor\Windows\Interface\DockWindow.cpp" />
     <ClCompile Include="..\Source\Editor\Windows\Interface\EditorList.cpp" />
@@ -308,12 +312,15 @@ xcopy /y /d "..\..\libs\Engine\$(PlatformTarget)\$(Configuration)\*.dll" "$(OutD
     <ClInclude Include="..\Source\Editor\EditorMainWindow.h" />
     <ClInclude Include="..\Source\Editor\Events\UIEvents.h" />
     <ClInclude Include="..\Source\Editor\GUI.h" />
+    <ClInclude Include="..\Source\Editor\QtEditor.h" />
     <ClInclude Include="..\Source\Editor\QTForward.h" />
     <ClInclude Include="..\Source\Editor\QT\Utils.h" />
     <ClInclude Include="..\Source\Editor\UI\FilePicker.h" />
     <ClInclude Include="..\Source\Editor\UI\GUIEntity.h" />
+    <ClInclude Include="..\Source\Editor\Windows\Editors\CameraPropertyEditor.h" />
     <ClInclude Include="..\Source\Editor\Windows\Editors\ComponentComposer.h" />
     <ClInclude Include="..\Source\Editor\Windows\Editors\ComponentEditor.h" />
+    <ClInclude Include="..\Source\Editor\Windows\Editors\CSoundControlWindow.h" />
     <ClInclude Include="..\Source\Editor\Windows\Editors\InstrumentEditor.h" />
     <ClInclude Include="..\Source\Editor\Windows\Editors\PropertyEditor.h" />
     <ClInclude Include="..\Source\Editor\Windows\Editors\SceneObjectProperties.h" />
@@ -324,6 +331,7 @@ xcopy /y /d "..\..\libs\Engine\$(PlatformTarget)\$(Configuration)\*.dll" "$(OutD
     <ClInclude Include="..\Source\Editor\Windows\Features\Headphone Test\HeadphoneTestGenerator.h" />
     <ClInclude Include="..\Source\Editor\Windows\Features\Moving Plane\MovingPlaneWindow.h" />
     <ClInclude Include="..\Source\Editor\Windows\General\AboutWindow.h" />
+    <ClInclude Include="..\Source\Editor\Windows\General\CSoundOptionsWindow.h" />
     <ClInclude Include="..\Source\Editor\Windows\Interface\CSoundListEditor.h" />
     <ClInclude Include="..\Source\Editor\Windows\Interface\CustomWidget.h" />
     <ClInclude Include="..\Source\Editor\Windows\Interface\DockWindow.h" />

@@ -61,5 +61,6 @@ class QTextDocument;
 class QTextLayout;
 class QStandardItemModel;
 class QWindow;
+class QIcon;
 
 class QRegExpValidator;

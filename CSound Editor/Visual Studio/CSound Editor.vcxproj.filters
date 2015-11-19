@@ -188,6 +188,18 @@
     <ClCompile Include="..\Source\3DWorld\Scripts\HeadphoneTestScript.cpp">
       <Filter>3DWorld\Scripts</Filter>
     </ClCompile>
+    <ClCompile Include="..\Source\Editor\Windows\Editors\CameraPropertyEditor.cpp">
+      <Filter>Editor\Windows\Editors</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\Editor\Windows\General\CSoundOptionsWindow.cpp">
+      <Filter>Editor\Windows\General</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\Editor\QtEditor.cpp">
+      <Filter>Editor</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\Editor\Windows\Editors\CSoundControlWindow.cpp">
+      <Filter>Editor\Windows\Editors</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Source\3DWorld\CSound\CSound3DSource.h">
@@ -346,6 +358,18 @@
     </ClInclude>
     <ClInclude Include="..\Source\3DWorld\Scripts\HeadphoneTestScript.h">
       <Filter>3DWorld\Scripts</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Editor\Windows\Editors\CameraPropertyEditor.h">
+      <Filter>Editor\Windows\Editors</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Editor\Windows\General\CSoundOptionsWindow.h">
+      <Filter>Editor\Windows\General</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Editor\QtEditor.h">
+      <Filter>Editor</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Editor\Windows\Editors\CSoundControlWindow.h">
+      <Filter>Editor\Windows\Editors</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

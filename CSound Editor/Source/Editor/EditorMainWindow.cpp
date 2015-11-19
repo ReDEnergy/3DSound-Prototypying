@@ -7,6 +7,7 @@
 // QT objects
 #include <QMenuBar>
 #include <QToolBar>
+#include <QTimer>
 #include <QToolButton>
 #include <QComboBox>
 #include <QStyledItemDelegate>
@@ -24,8 +25,6 @@
 #include <Manager/ResourceManager.h>
 #include <Manager/EventSystem.h>
 #include <Core/Engine.h>
-
-uint frame = 0;
 
 EditorMainWindow::EditorMainWindow(QWidget *parent)
 	: QMainWindow(parent)
@@ -64,9 +63,9 @@ void EditorMainWindow::Run(QApplication *app)
 	float fps = 24;
 	this->app = app;
 
-	//qtTimer = new QTimer(0);
-	//qtTimer->setInterval(1000 / fps);
-	//qtTimer->start();
+	qtTimer = new QTimer(0);
+	qtTimer->setInterval(1000 / fps);
+	qtTimer->start();
 
 	//connect(qtTimer, &QTimer::timeout, this, &EditorMainWindow::Update);
 
@@ -93,9 +92,9 @@ void EditorMainWindow::closeEvent(QCloseEvent * event)
 
 void EditorMainWindow::SetupUI(QMainWindow *MainWindow) {
 
-	setWindowIcon(QIcon("Resources/Icons/colorwheel.png"));
+	setWindowIcon(*QtEditor::GetIcon("colorwheel.png"));
 
-	MainWindow->setWindowTitle("Sound Engine (v0.1.8)");
+	MainWindow->setWindowTitle("Sound Engine v0.2.0");
 
 	MainWindow->resize(1280, 720);
 
@@ -136,6 +135,7 @@ void EditorMainWindow::SetupUI(QMainWindow *MainWindow) {
 		{
 			QAction *action = new QAction(MainWindow);
 			action->setText("Exit");
+			action->setIcon(*QtEditor::GetIcon("power.png"));
 			menuEngine->addAction(action);
 			QObject::connect(action, &QAction::triggered, this, &EditorMainWindow::close);
 		}
@@ -143,6 +143,7 @@ void EditorMainWindow::SetupUI(QMainWindow *MainWindow) {
 		{
 			QAction *action = new QAction(MainWindow);
 			action->setText("Save As...");
+			action->setIcon(*QtEditor::GetIcon("memorycard.png"));
 			menuEngine->addAction(action);
 
 			QObject::connect(action, &QAction::triggered, this, [picker]() {
@@ -166,6 +167,7 @@ void EditorMainWindow::SetupUI(QMainWindow *MainWindow) {
 		// Submenu buttons
 		QAction *action = new QAction(MainWindow);
 		action->setText("Clear Scene");
+		action->setIcon(*QtEditor::GetIcon("denied.png"));
 		menu->addAction(action);
 
 		QObject::connect(action, &QAction::triggered, this, []() {
@@ -181,12 +183,44 @@ void EditorMainWindow::SetupUI(QMainWindow *MainWindow) {
 		menuBar->addAction(menu->menuAction());
 
 		// Submenu buttons
-		QAction *action = new QAction(MainWindow);
-		action->setText("Reload StyleSheets");
-		menu->addAction(action);
-		QObject::connect(action, &QAction::triggered, this, &EditorMainWindow::ReloadStyleSheets);
+		{
+			QAction *action = new QAction(MainWindow);
+			action->setText("Reload StyleSheets");
+			action->setIcon(*QtEditor::GetIcon("cmyk.png"));
+			menu->addAction(action);
+			QObject::connect(action, &QAction::triggered, this, &EditorMainWindow::ReloadStyleSheets);
+		}
+
+		// Submenu buttons
+		{
+			QAction *action = new QAction(MainWindow);
+			action->setText("Reload CSound Config");
+			action->setIcon(*QtEditor::GetIcon("loading.png"));
+			menu->addAction(action);
+			QObject::connect(action, &QAction::triggered, this, []() {
+				SoundManager::Init();
+			});
+		}
 	}
 
+	// Menu Entry
+	{
+		QMenu *menu = new QMenu(menuBar);
+		menu->setTitle("CSound");
+		menuBar->addAction(menu->menuAction());
+
+		// Submenu buttons
+		QAction *action = new QAction(MainWindow);
+		action->setText("Options");
+		action->setIcon(*QtEditor::GetIcon("gear.png"));
+		menu->addAction(action);
+
+		appWindows["CSoundOptions"] = new CSoundOptionsWindow();
+
+		QObject::connect(action, &QAction::triggered, this, [&]() {
+			appWindows["CSoundOptions"]->Toggle();
+		});
+	}
 	// Menu Entry
 	{
 		QMenu *menu = new QMenu(menuBar);
@@ -196,6 +230,7 @@ void EditorMainWindow::SetupUI(QMainWindow *MainWindow) {
 		// Submenu buttons
 		QAction *action = new QAction(MainWindow);
 		action->setText("About");
+		action->setIcon(*QtEditor::GetIcon("chat.png"));
 		menu->addAction(action);
 
 		appWindows["About"] = new AboutWindow();
@@ -215,32 +250,34 @@ void EditorMainWindow::SetupUI(QMainWindow *MainWindow) {
 	{
 		QToolButton *button = new QToolButton();
 		button->setText("Play");
-		button->setMaximumWidth(50);
-		toolbar->addWidget(button);
-
+		button->setMaximumWidth(80);
+		button->setIcon(*QtEditor::GetIcon("play.png"));
+		button->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
 		QObject::connect(button, &QToolButton::clicked, this, []() {
 			CSoundEditor::GetScene()->Play();
 		});
+		toolbar->addWidget(button);
 	}
 
 	// Stop Audio
 	{
 		QToolButton *button = new QToolButton();
 		button->setText("Stop");
-		button->setMaximumWidth(50);
-		toolbar->addWidget(button);
-
+		button->setMaximumWidth(80);
+		button->setIcon(*QtEditor::GetIcon("volume_disabled.png"));
+		button->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
 		QObject::connect(button, &QToolButton::clicked, this, []() {
 			CSoundEditor::GetScene()->Stop();
 		});
+		toolbar->addWidget(button);
 	}
 
 	// Save Scene
 	{
 		QToolButton *button = new QToolButton();
 		button->setText("Save Scene");
-		toolbar->addWidget(button);
-
+		button->setIcon(*QtEditor::GetIcon("download.png"));
+		button->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
 		QObject::connect(button, &QToolButton::clicked, this, []() {
 			auto result = CSoundEditor::GetScene()->SaveScene();
 			if (!result) {
@@ -250,13 +287,15 @@ void EditorMainWindow::SetupUI(QMainWindow *MainWindow) {
 				}
 			}
 		});
+		toolbar->addWidget(button);
 	}
 
 	// Load Scene
 	{
 		QToolButton *button = new QToolButton();
 		button->setText("Load Scene");
-		toolbar->addWidget(button);
+		button->setIcon(*QtEditor::GetIcon("upload.png"));
+		button->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
 
 		QObject::connect(picker, &QFileDialog::fileSelected, this, [picker] (const QString & file) {
 			if (!picker->IsSaving())
@@ -269,20 +308,22 @@ void EditorMainWindow::SetupUI(QMainWindow *MainWindow) {
 		QObject::connect(button, &QToolButton::clicked, this, [picker]() {
 			picker->OpenForLoad();
 		});
+		toolbar->addWidget(button);
 	}
 
 	// Headphone Test
 	{
 		QToolButton *button = new QToolButton();
 		button->setText("Headphone Test");
-		button->setIcon(QIcon("Resources/Icons/speaker.png"));
+		button->setIcon(*QtEditor::GetIcon("speaker.png"));
 		button->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
-		toolbar->addWidget(button);
 
 		appWindows["HeadphoneTest"] = new HeadphoneTestWindow();
 		QObject::connect(button, &QToolButton::clicked, this, [this]() {
 			appWindows["HeadphoneTest"]->Toggle();
 		});
+
+		toolbar->addWidget(button);
 	}
 
 	// Moving Plane
@@ -301,14 +342,15 @@ void EditorMainWindow::SetupUI(QMainWindow *MainWindow) {
 	{
 		QToolButton *button = new QToolButton();
 		button->setText("Expanding Sphere");
-		button->setIcon(QIcon("Resources/Icons/target.png"));
+		button->setIcon(*QtEditor::GetIcon("target.png"));
 		button->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
-		toolbar->addWidget(button);
 
 		appWindows["ExpandingPlane"] = new ExpandingSphereWindow();
 		QObject::connect(button, &QToolButton::clicked, this, [this]() {
 			appWindows["ExpandingPlane"]->Toggle();
 		});
+
+		toolbar->addWidget(button);
 	}
 
 	// Padding Scene
@@ -327,20 +369,33 @@ void EditorMainWindow::SetupUI(QMainWindow *MainWindow) {
 		QStyledItemDelegate* itemDelegate = new QStyledItemDelegate();
 		dropdown->setItemDelegate(itemDelegate);
 
-		dropdown->addItem("None", QVariant("none"));
-		dropdown->addItem("HRTF2", QVariant("hrtf-output"));
-		dropdown->addItem("Stereo", QVariant("stereo-panning"));
-		dropdown->addItem("PAN2", QVariant("pan2"));
-		dropdown->setCurrentIndex(1);
+		dropdown->addItem("None", QVariant(-1));
+		dropdown->addItem("Mono", QVariant(0));
+		dropdown->addItem("HRTF2", QVariant(1));
+		dropdown->addItem("Stereo", QVariant(2));
+		dropdown->addItem("ind-HRTF", QVariant(4));
+		dropdown->addItem("PAN2", QVariant(8));
+		dropdown->addItem("Quad", QVariant(16));
 
+		// Default is HRTF
+		dropdown->setCurrentIndex(2);
+		SoundManager::SetGlobalOutputModelIndex(1);
+
+		// Add widget
 		QWidget* widget = Wrap("Global output", 65, dropdown);
 		toolbar->addWidget(widget);
 
 		void (QComboBox::* indexChangedSignal)(int index) = &QComboBox::currentIndexChanged;
 		QObject::connect(dropdown, indexChangedSignal, this, [&](int index) {
-			auto data = dropdown->currentData().toString().toStdString();
-			CSoundEditor::GetScene()->SetOutputModel(data.c_str());
-			dockWindows["ScoreEditor"]->Update();
+			if (index == 0) {
+				SoundManager::SetGlobalOutputModelIndex(1024);
+				CSoundEditor::GetScene()->SetOutputModel("none");
+				return;
+			} else if (SoundManager::GetGlobalOutputModelIndex() == 1024) {
+				CSoundEditor::GetScene()->SetOutputModel("global-output");
+			}
+			auto data = dropdown->currentData().toUInt();
+			SoundManager::SetGlobalOutputModelIndex(data);
 		});
 
 	}
@@ -379,6 +434,8 @@ void EditorMainWindow::SetupUI(QMainWindow *MainWindow) {
 	dockWindows["GameWindow"] = new GameWindow();
 
 	dockWindows["ObjectProperty"] = new SceneObjectProperties();
+	dockWindows["CameraProperty"] = new CameraPropertyEditor();
+	dockWindows["CSoundControl"] = new CSoundControlWindow();
 
 	//// Left Dock
 	MainWindow->addDockWidget(Qt::DockWidgetArea::LeftDockWidgetArea, dockWindows["SceneWindow"], Qt::Orientation::Vertical);
@@ -386,6 +443,8 @@ void EditorMainWindow::SetupUI(QMainWindow *MainWindow) {
 	MainWindow->addDockWidget(Qt::DockWidgetArea::LeftDockWidgetArea, dockWindows["InstrumentEditor"], Qt::Orientation::Horizontal);
 	MainWindow->addDockWidget(Qt::DockWidgetArea::LeftDockWidgetArea, dockWindows["ComponentEditor"], Qt::Orientation::Vertical);
 	MainWindow->tabifyDockWidget(dockWindows["ComponentEditor"], dockWindows["ObjectProperty"]);
+	MainWindow->tabifyDockWidget(dockWindows["ComponentEditor"], dockWindows["CameraProperty"]);
+	MainWindow->tabifyDockWidget(dockWindows["ComponentEditor"], dockWindows["CSoundControl"]);
 
 	MainWindow->addDockWidget(Qt::DockWidgetArea::LeftDockWidgetArea, dockWindows["TextPreview"], Qt::Orientation::Horizontal);
 	MainWindow->tabifyDockWidget(dockWindows["TextPreview"], dockWindows["GameWindow"]);
@@ -397,6 +456,9 @@ void EditorMainWindow::SetupUI(QMainWindow *MainWindow) {
 	MainWindow->addDockWidget(Qt::DockWidgetArea::RightDockWidgetArea, dockWindows["ComponentList"], Qt::Orientation::Vertical);
 	MainWindow->addDockWidget(Qt::DockWidgetArea::RightDockWidgetArea, dockWindows["InstrumentList"], Qt::Orientation::Vertical);
 	MainWindow->addDockWidget(Qt::DockWidgetArea::RightDockWidgetArea, dockWindows["ScoreList"], Qt::Orientation::Vertical);
+
+	// Activate Windows
+	dockWindows["ObjectProperty"]->raise();
 }
 
 void EditorMainWindow::Update()

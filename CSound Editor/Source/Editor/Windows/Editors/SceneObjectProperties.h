@@ -6,13 +6,7 @@
 #include <include/glm.h>
 #include <Event/EventListener.h>
 
-
-class CSoundComponentProperty;
 class CSound3DSource;
-
-#include <QLayout>
-#include <QLineEdit>
-#include <QLabel>
 
 class SceneObjectProperties
 	: public DockWindow
@@ -36,19 +30,15 @@ class SceneObjectProperties
 		GLMVecComponent<glm::vec3> *worldScale;
 		GLMVecComponent<glm::quat> *worldQuat;
 
-		GLMVecComponent<glm::vec3> *cameraPosition;
-		GLMVecComponent<glm::vec3> *cameraRotation;
-		SimpleFloatInput *camerFoV;
-
 		SimpleFloatInput *soundVolume;
 		SimpleFloatInput *soundIntensity;
 		SimpleFloatInput *azimuthInput;
 		SimpleFloatInput *elevationInput;
-		SimpleFloatInput *panningFactor;
+		SimpleFloatInput *azimuthPanningFactor;
+		SimpleFloatInput *elevationPanningFactor;
 		SimpleFloatInput *distanceToCameraInput;
 		SimpleFloatInput *surfaceCoverInput;
 		SimpleFloatInput *surfaceAreaInput;
-
 
 		CSound3DSource *gameObj;
 

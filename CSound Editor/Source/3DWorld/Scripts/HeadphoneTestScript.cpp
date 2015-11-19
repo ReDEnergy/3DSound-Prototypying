@@ -56,11 +56,19 @@ HeadphoneTestScript::HeadphoneTestScript()
 void HeadphoneTestScript::Start(HeadphoneTestConfig config)
 {
 	this->config = config;
-
 	Stop();
+
+	// Get the number of output method tested
+	unsigned int nrOutputMethodTested = 0;
+	for (uint k = 0; k < 5; k++)
+	{
+		if (config.outputTested[k])
+			nrOutputMethodTested++;
+	}
+
 	started = true;
 
-	// Settup Scene
+	// Setup Scene
 	CSoundEditor::GetScene()->Clear();
 	Manager::GetEvent()->EmitAsync("UI-clear-scene");
 
@@ -74,7 +82,7 @@ void HeadphoneTestScript::Start(HeadphoneTestConfig config)
 	sceneCamera->transform = new FreezeTransform(*sceneCamera->transform);
 
 	gameObj = new CSound3DSource();
-	gameObj->SetName("HRTF source");
+	gameObj->SetName("3D source");
 	sceneCamera->AddChild(gameObj);
 
 	// Event configure
@@ -83,34 +91,36 @@ void HeadphoneTestScript::Start(HeadphoneTestConfig config)
 	waitEvent->SetNewInterval(config.sampleInterval);
 
 	// Clear test buffers
-	positions.clear();
+	testEntries.clear();
 	answers.clear();
 
 	uint azSize = config.azimuthValues.size();
 	uint elSize = config.elevationValues.size();
 
 	uint nrSamples = config.randomTest ? azSize * elSize * config.randomIterations : azSize;
+	nrSamples *= nrOutputMethodTested;
 
 	// Setup answers list
-	for (unsigned int i = 0; i < nrSamples; i++) {
-		AnswerEntry A;
-		A.source = glm::vec2(0);
-		A.responseTime = 0;
-		A.correct = false;
-		A.answer = glm::vec2(0);
-		answers.push_back(A);
-	}
-
+	answers.resize(nrSamples);
 
 	// Generate random test
-	if (config.randomTest) {
+	if (config.randomTest)
+	{
+		// x - azimuth
+		// y - elevation
+		// z - output method used (Hrtf, Stereo, individual Hrtf, etc.)
+		vector<glm::vec3> values;
 
-		vector<glm::vec2> values;
 		for (uint i = 0; i < azSize; i++)
 		{
 			for (uint j = 0; j < elSize; j++)
 			{
-				values.push_back(glm::vec2(config.azimuthValues[i], config.elevationValues[j]));
+				for (uint k = 0; k < 5; k++)
+				{
+					if (config.outputTested[k]) {
+						values.push_back(glm::vec3(config.azimuthValues[i], config.elevationValues[j], k));
+					}
+				}
 			}
 		}
 
@@ -121,8 +131,12 @@ void HeadphoneTestScript::Start(HeadphoneTestConfig config)
 		{
 			shuffle(values.begin(), values.end(), default_random_engine(seed));
 			for (auto v : values) {
-				positions.push_back(ComputePosition(v.x, v.y));
+				TestEntry TE;
+				TE.position = ComputePosition(v.x, v.y);
+				TE.outputType = uint(v.z);
+				testEntries.push_back(TE);
 				answers[sampleID].source = glm::vec2(v);
+				answers[sampleID].outputType = (uint)v.z;
 				sampleID++;
 			}
 		}
@@ -130,8 +144,18 @@ void HeadphoneTestScript::Start(HeadphoneTestConfig config)
 	else {
 		for (unsigned int i = 0; i < nrSamples; i++)
 		{
-			positions.push_back(ComputePosition(config.azimuthValues[i], config.elevationValues[i]));
-			answers[i].source = glm::vec2(config.azimuthValues[i], config.elevationValues[i]);
+			TestEntry TE;
+			TE.position = ComputePosition(config.azimuthValues[i], config.elevationValues[i]);
+
+			for (uint k = 0; k < 5; k++)
+			{
+				if (config.outputTested[k]) {
+					TE.outputType = k;
+					testEntries.push_back(TE);
+					answers[i].source = glm::vec2(config.azimuthValues[i], config.elevationValues[i]);
+					answers[i].outputType = k;
+				}
+			}
 		}
 	}
 
@@ -143,18 +167,15 @@ void HeadphoneTestScript::Start(HeadphoneTestConfig config)
 			instr->Update();
 		}
 	}
-	score->Save();
-	//auto instr = score->GetEntries().front();
-	//instr->SetDuration((int)ceil(positions.size() * sampleDuration));
-	gameObj->SetSoundModel(score);
 
+	score->Save();
+	gameObj->SetSoundModel(score);
 
 	// Setup Scene
 	sceneCamera->RemoveChild(gameObj);
 	CSoundEditor::GetScene()->AddSource(gameObj);
 	Manager::GetPicker()->SetSelectedObject(gameObj);
 	Manager::GetEvent()->EmitAsync("UI-add-object", gameObj);
-
 
 	// Sample index
 	dynamicEvents->Add(*prepareEvent);
@@ -173,12 +194,13 @@ bool HeadphoneTestScript::VerifyAnswer(float azimuth, float elevation)
 	cout << "[ANSWER] " << A.answer << endl;
 
 	if (A.source == A.answer) {
-		cout << "[ANSWER] - CORRECT" << endl << endl;
+		cout << "[ANSWER] - CORRECT\n";
 		A.correct = true;
 	}
 	else {
-		cout << "[ANSWER] - WRONG" << endl << endl;
+		cout << "[ANSWER] - WRONG\n";
 	}
+	cout << "[OutputType] " << A.outputType << endl << endl;
 
 	A.responseTime = float(glfwGetTime() - startTimeCurrentTest);
 
@@ -224,13 +246,16 @@ void HeadphoneTestScript::ClearEvents()
 
 void HeadphoneTestScript::PlayCurrentSample()
 {
-	if (timelinePos >= positions.size()) {
+	if (timelinePos >= testEntries.size()) {
 		Stop();
 		return;
 	}
 
 	startTimeCurrentTest = glfwGetTime();
-	gameObj->transform->SetWorldPosition(positions[timelinePos]);
+	gameObj->transform->SetWorldPosition(testEntries[timelinePos].position);
+	SoundManager::SetGlobalOutputModelIndex(0);
+	if (testEntries[timelinePos].outputType)
+		SoundManager::SetGlobalOutputModelIndex(1 << (testEntries[timelinePos].outputType - 1));
 	gameObj->SetVolume(100);
 	dynamicEvents->Add(*playbackEvent);
 	dynamicEvents->Remove(*waitEvent);
@@ -239,7 +264,7 @@ void HeadphoneTestScript::PlayCurrentSample()
 
 void HeadphoneTestScript::WaitForNextSample()
 {
-	if (timelinePos + 1 >= positions.size()) {
+	if (timelinePos + 1 >= testEntries.size()) {
 		Stop();
 		return;
 	}
@@ -289,7 +314,7 @@ void HeadphoneTestScript::SaveTestAnswers() const
 	char timeString[32];
 	strftime(timeString, 32, "%d-%b [%Hh%Mm].txt", std::localtime(&now));
 
-	string fileName = "HRTF-Tests/" + (config.testName.size() ? config.testName + " " : "") + timeString;
+	string fileName = "Headphone Test Results/" + (config.testName.size() ? config.testName + " " : "") + timeString;
 
 	FILE *F = fopen(fileName.c_str(), "w");
 
@@ -342,6 +367,7 @@ void HeadphoneTestScript::SaveTestAnswers() const
 		}
 
 		fprintf(F, "----------------------\n");
+		fprintf(F, "output type: %d\n", A.outputType);
 		fprintf(F, "Location:\t %.2f\t%.2f\n", A.source.x, A.source.y);
 		fprintf(F, "Response:\t %.2f\t%.2f\n", A.answer.x, A.answer.y);
 		fprintf(F, "Time:\t %.3f seconds\n\n", A.responseTime);
@@ -356,7 +382,7 @@ void HeadphoneTestScript::ExportTestResultsAsCSV() const
 	char timeString[32];
 	strftime(timeString, 32, "%d-%b [%Hh%Mm].csv", std::localtime(&now));
 
-	string fileName = "HRTF-Tests/" + (config.testName.size() ? config.testName + " " : "") + timeString;
+	string fileName = "Headphone Test Results/" + (config.testName.size() ? config.testName + " " : "") + timeString;
 
 	FILE *F = fopen(fileName.c_str(), "w");
 
@@ -366,13 +392,14 @@ void HeadphoneTestScript::ExportTestResultsAsCSV() const
 		return;
 	}
 
-	fprintf(F, "Test number,Source Azimuth,Source Elevation,Response Azimuth,Response Elevation,Response time\n");
+	fprintf(F, "Test number,Output Method,Source Azimuth,Source Elevation,Response Azimuth,Response Elevation,Response time\n");
 
 	unsigned int index = 0;
 	for (auto &A : answers)
 	{
 		index++;
 		fprintf(F, "%d,", index);
+		fprintf(F, "%d,", A.outputType);
 		fprintf(F, "%.2f,%.2f,", A.source.x, A.source.y);
 		fprintf(F, "%.2f,%.2f,", A.answer.x, A.answer.y);
 		fprintf(F, "%.2f\n", A.responseTime);

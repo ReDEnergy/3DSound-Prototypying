@@ -28,12 +28,14 @@ class CSound3DSource
 		float GetDistanceToCamera() const;
 		float GetElevationToCamera() const;
 		float GetAzimuthToCamera() const;
-		float GetPanningFactor() const;
+		float GetAzimuthPanningFactor() const;
+		float GetElevationPanningFactor() const;
 		float GetSoundIntensity() const;
 		unsigned int GetSoundVolume() const;
 		const glm::vec3 & GetCameraSpacePosition() const;
 
 		void SetVolume(unsigned int value = 100);
+		void SetControlChannel(const char* channel, float value) const;
 		void UseVirtalPosition(bool value);
 		void SetVirtualCameraSpacePosition(glm::vec3 cameraSpacePosition);
 
@@ -58,7 +60,8 @@ class CSound3DSource
 		unsigned int surfaceArea;
 		float surfaceCover;
 		float elevation;
-		float panningFactor;
+		float azimuthPanningFactor;
+		float elevationPanningFactor;
 		float azimuth;
 		float soundFallOff;
 		float soundIntensity;

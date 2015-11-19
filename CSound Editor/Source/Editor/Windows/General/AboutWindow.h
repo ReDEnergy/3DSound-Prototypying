@@ -10,6 +10,4 @@ class AboutWindow
 
 	private:
 		void InitUI();
-
-	private:
 };

@@ -1,12 +1,14 @@
 <config>
 	<CsOptions>
-		<option>+rtaudio=alsa -o dac</option>
-		<option>-B 64</option>
-		<option>-b 2048</option>
+		<rtaudio>-+rtaudio=Portaudio</rtaudio>
+		<dac>-o dac0</dac>
+		<hwbuf>-B 64</hwbuf>
+		<iobuf>-b 2048</iobuf>
 	</CsOptions>
 	<InstrumentOptions>
-		<option>sr = 44100</option>
-		<option>ksmps = 7</option>
-		<option>nchnls = 2</option>
+		<sr>44100</sr>
+		<ksmps>7</ksmps>
+		<nchnls>2</nchnls>
+		<nchnls_i>1</nchnls_i>
 	</InstrumentOptions>
 </config>

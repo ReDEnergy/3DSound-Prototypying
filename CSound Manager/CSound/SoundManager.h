@@ -13,10 +13,15 @@ class DLLExport SoundManager
 
 		static void Init();
 		static CSoundManager* GetCSManager();
+
 		static void SetGlobalOutputModel(const char* model);
+		static void SetGlobalOutputModelIndex(unsigned int index);
+
 		static CSoundInstrumentBlock* GetGlobalOutputModel();
+		static unsigned int GetGlobalOutputModelIndex();
 
 	private:
 		static CSoundManager* csManager;
 		static CSoundInstrumentBlock *globalOutputModel;
+		static uint globalOutputModelIndex;
 };

@@ -14,18 +14,16 @@ CSoundInstrumentBlock::~CSoundInstrumentBlock() {
 
 void CSoundInstrumentBlock::Update()
 {
-	channels.clear();
-
 	for (auto E : entries) {
 		for (auto chn : E->GetControlChannels()) {
-			channels[chn];
+			channels.push_back(chn);
 		}
 	}
 
 	render.clear();
 
-	for (auto &C : channels) {
-		render.append("\n\t" + C.first + " chnget \"" + C.first + "\"");
+	for (auto &chn : channels) {
+		render.append("\n\t" + chn + " chnget \"" + chn + "\"");
 	}
 
 	render.append("\n");
@@ -41,11 +39,12 @@ void CSoundInstrumentBlock::Update()
 #endif
 }
 
-vector<string> CSoundInstrumentBlock::GetControlChannels() const
+void CSoundInstrumentBlock::AddControlChannel(const char* channel)
 {
-	vector<string> chns;
-	for (auto &channel : channels) {
-		chns.push_back(channel.first);
-	}
-	return chns;
+	channels.push_back(channel);
+}
+
+const vector<string>& CSoundInstrumentBlock::GetControlChannels() const
+{
+	return channels;
 }

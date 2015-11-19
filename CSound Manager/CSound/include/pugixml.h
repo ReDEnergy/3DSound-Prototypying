@@ -31,4 +31,17 @@ namespace pugi
 		return node;
 	}
 
+	inline xml_node CreateNode(const char* name, float value, xml_node &parent)
+	{
+		auto node = parent.append_child(name);
+		node.append_child(pugi::node_pcdata).set_value(std::to_string(value).c_str());
+		return node;
+	}
+
+	inline xml_node CreateNode(const char* name, bool value, xml_node &parent)
+	{
+		auto node = parent.append_child(name);
+		node.append_child(pugi::node_pcdata).set_value(value ? "true" : "false");
+		return node;
+	}
 }
