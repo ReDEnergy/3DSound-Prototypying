@@ -31,7 +31,6 @@ CustomWidget::CustomWidget(QBoxLayout::Direction direction)
 
 void CustomWidget::Init()
 {
-	cout << "Init" << endl;
 }
 
 void CustomWidget::Hide()
@@ -64,7 +63,7 @@ void CustomWidget::DetachFromParent()
 
 void CustomWidget::SetAsToolWindow()
 {
-	setWindowFlags(Qt::Tool | Qt::WindowStaysOnTopHint);
+	setWindowFlags(Qt::WindowType::Tool | Qt::WindowType::WindowStaysOnTopHint);
 }
 
 void CustomWidget::SetIcon(const char * fileName)

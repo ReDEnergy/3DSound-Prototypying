@@ -66,8 +66,9 @@ void CSoundPlayer::Play()
 {
 	if (csound) {
 		ThreadID = csoundCreateThread(csThread, this);
+		//perfThread = new CsoundPerformanceThread(csound);
+		//perfThread->Play();
 	}
-	//perfThread->Play();
 }
 
 bool CSoundPlayer::IsPlaying()

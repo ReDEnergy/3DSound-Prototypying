@@ -30,7 +30,7 @@
 
 CameraPropertyEditor::CameraPropertyEditor()
 {
-	setWindowTitle("Camera Properties");
+	setWindowTitle("Camera");
 	InitUI();
 	SubscribeToEvent(EventType::FRAME_AFTER_RENDERING);
 }

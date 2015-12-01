@@ -35,7 +35,7 @@ static CSound3DSource* defaultObject;
 
 SceneObjectProperties::SceneObjectProperties()
 {
-	setWindowTitle("Object Properties");
+	setWindowTitle("Object");
 	forceUpdate = false;
 	defaultObject = new CSound3DSource();
 	gameObj = defaultObject;

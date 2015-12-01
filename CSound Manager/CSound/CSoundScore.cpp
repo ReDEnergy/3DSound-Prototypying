@@ -12,12 +12,14 @@
 
 CSoundScore::CSoundScore()
 {
+	useSourceCode = false;
 	SetName("Sound Source");
 	Init();
 }
 
 CSoundScore::CSoundScore(const CSoundScore & score)
 {
+	useSourceCode = false;
 	SetName(score.GetName());
 	render.reserve(1000);
 
@@ -28,7 +30,7 @@ CSoundScore::CSoundScore(const CSoundScore & score)
 	}
 	ResumeUpdate();
 	Update();
-	Save();
+	SaveToFile();
 }
 
 CSoundScore::~CSoundScore() {
@@ -91,22 +93,45 @@ void CSoundScore::Update()
 	// Save rendering
 	std::stringstream ss;
 	doc->save(ss, "\t", pugi::format_no_escapes);
-
 	render = ss.str();
-
-#ifdef CSOUND_DEBUG
-	cout << "Render => " << endl;
-	cout << render << endl << endl;
-#endif
 }
 
-void CSoundScore::Save()
+void CSoundScore::SaveToFile()
 {
-	if (doc == nullptr)
-		Update();
-
-	// ----------------------
-	// Save File
 	string filename = "Resources//CSound//Scores//" + name + ".csd";
-	doc->save_file(filename.c_str(), "\t", pugi::format_no_escapes);
+	
+	if (useSourceCode) {
+		auto F = fopen(filename.c_str(), "w");
+		fprintf(F, "%s", sourceCode.c_str());
+		fclose(F);
+	}
+	else {
+		doc->save_file(filename.c_str(), "\t", pugi::format_no_escapes);
+	}
+}
+
+bool CSoundScore::HasSourceCode() const
+{
+	return false;
+}
+
+const string& CSoundScore::GetSourceCode() const
+{
+	return sourceCode;
+}
+
+void CSoundScore::SetSourceCode(string& code)
+{
+	if (code.length() == 0) {
+		if (useSourceCode) {
+			useSourceCode = false;
+			sourceCode = "";
+			SaveToFile();
+		}
+	}
+	else {
+		useSourceCode = true;
+		sourceCode = std::move(code);
+		SaveToFile();
+	}
 }

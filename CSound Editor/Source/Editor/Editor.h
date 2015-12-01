@@ -28,6 +28,7 @@
 #include <Editor/Windows/Lists/ComponentList.h>
 #include <Editor/Windows/Lists/InstrumentList.h>
 #include <Editor/Windows/Lists/ScoreList.h>
+#include <Editor/Windows/Code/CodeEditorWindow.h>
 #include <Editor/Windows/TextPreview.h>
 #include <Editor/Windows/OpenGL/GameWindow.h>
 

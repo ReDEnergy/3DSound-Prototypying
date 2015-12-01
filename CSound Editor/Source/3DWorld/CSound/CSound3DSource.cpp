@@ -107,6 +107,21 @@ void CSound3DSource::SelectObject()
 	Manager::GetPicker()->SetSelectedObject(this);
 }
 
+bool CSound3DSource::GetPlaybackState() const
+{
+	return player->IsPlaying();
+}
+
+bool CSound3DSource::TooglePlayback()
+{
+	if (player->IsPlaying()) {
+		StopScore();
+		return false;
+	}
+	PlayScore();
+	return true;
+}
+
 void CSound3DSource::PlayScore()
 {
 	if (player && player->IsPlaying() == false) {

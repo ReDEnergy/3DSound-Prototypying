@@ -25,7 +25,7 @@ void TextPreviewWindow::InitUI()
 
 	QFont font;
 	QFontMetrics metrics(font);
-	qtTextEdit->setTabStopWidth(4 * metrics.width(' '));
+	qtTextEdit->setTabStopWidth(8 * metrics.width(' '));
 
 	qtLayout->addWidget(qtTextEdit);
 

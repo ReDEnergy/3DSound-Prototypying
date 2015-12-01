@@ -23,7 +23,7 @@ ScoreComposer::ScoreComposer()
 void ScoreComposer::Update()
 {
 	if (activeContext) {
-		activeContext->Save();
+		activeContext->SaveToFile();
 		GUI::Get<TextPreviewWindow>(QT_INSTACE::TEXT_PREVIEW)->RenderText(activeContext->GetRender());
 	}
 	

@@ -18,6 +18,7 @@ CSoundManager::CSoundManager()
 	components	= new EntityStorage<CSoundComponent>("component ");
 	blocks		= new EntityStorage<CSoundInstrumentBlock>("block ");
 
+	//csoundSetGlobalEnv("OPCODE6DIR64", "Resources/CSound");
 	auto csound = csoundCreate(NULL);
 	csoundSetRTAudioModule(csound, "Portaudio");
 
@@ -185,7 +186,7 @@ void CSoundManager::LoadScores()
 		}
 		score->ResumeUpdate();
 		score->Update();
-		score->Save();
+		score->SaveToFile();
 	}
 
 	SAFE_FREE(doc);
@@ -220,7 +221,8 @@ CSoundScore * CSoundManager::CreateScore()
 	auto name = scores->Create();
 	auto S = scores->Get(name.c_str());
 	S->SetName(name.c_str());
-	S->Save();
+	S->Update();
+	S->SaveToFile();
 	return S;
 }
 

@@ -168,21 +168,25 @@
 	</component>
 	
 	<component>
-		<name>output 6 channel</name>
+		<name>output 8 channel</name>
 		<content>
 			<function>outch</function>
 			<out>1</out>
-			<out>aleft</out>
+			<out>aout</out>
 			<out>2</out>
-			<out>aright</out>
+			<out>aout</out>
 			<out>3</out>
-			<out>aleft</out>
+			<out>aout</out>
 			<out>4</out>
-			<out>aright</out>
+			<out>aout</out>
 			<out>5</out>
-			<out>abottomleft</out>
+			<out>aout</out>
 			<out>6</out>
-			<out>abottomright</out>
+			<out>aout</out>
+			<out>7</out>
+			<out>aout</out>
+			<out>8</out>
+			<out>aout</out>
 		</content>
 	</component>
 	
@@ -222,7 +226,7 @@
 		abottomleft = aleft * kBottomGain
 		atopright = aright * kTopGain
 		abottomright = aright * kBottomGain
-		outch 1, atopleft, 2, atopright, 5, abottomleft, 6, abottomright
+		outch 1, atopleft, 2, atopright, 3, abottomleft, 4, abottomright, 5, abottomleft, 6, abottomright, 7, abottomleft, 8, abottomright
 	endif
 	if ((kOutput & 16) == 0) then
 		outs aleft, aright

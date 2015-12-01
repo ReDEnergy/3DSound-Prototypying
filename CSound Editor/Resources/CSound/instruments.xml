@@ -44,6 +44,17 @@
 			<component>sound source</component>
 			<component>sound loop</component>
 			<component>volume</component>
+			<component>global-output</component>
+		</components>
+	</instrument>
+
+	<instrument>
+		<name>sound-test</name>
+		<components>
+			<component>sound source</component>
+			<component>sound loop</component>
+			<component>volume</component>
+			<component>output 8 channel</component>
 		</components>
 	</instrument>		
 </instruments>
@@ -79,4 +90,5 @@
 		<components>
 			<component>global-output</component>
 		</components>
-	</instrument></blocks>
+	</instrument>
+</blocks>

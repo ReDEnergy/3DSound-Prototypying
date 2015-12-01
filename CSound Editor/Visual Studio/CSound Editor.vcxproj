@@ -266,6 +266,7 @@ xcopy /y /d "..\..\libs\Engine\$(PlatformTarget)\$(Configuration)\*.dll" "$(OutD
     </ClCompile>
     <ClCompile Include="..\Source\Editor\UI\FilePicker.cpp" />
     <ClCompile Include="..\Source\Editor\UI\GUIEntity.cpp" />
+    <ClCompile Include="..\Source\Editor\Windows\Code\CodeEditorWindow.cpp" />
     <ClCompile Include="..\Source\Editor\Windows\Editors\CameraPropertyEditor.cpp" />
     <ClCompile Include="..\Source\Editor\Windows\Editors\ComponentComposer.cpp" />
     <ClCompile Include="..\Source\Editor\Windows\Editors\ComponentEditor.cpp" />
@@ -317,6 +318,7 @@ xcopy /y /d "..\..\libs\Engine\$(PlatformTarget)\$(Configuration)\*.dll" "$(OutD
     <ClInclude Include="..\Source\Editor\QT\Utils.h" />
     <ClInclude Include="..\Source\Editor\UI\FilePicker.h" />
     <ClInclude Include="..\Source\Editor\UI\GUIEntity.h" />
+    <ClInclude Include="..\Source\Editor\Windows\Code\CodeEditorWindow.h" />
     <ClInclude Include="..\Source\Editor\Windows\Editors\CameraPropertyEditor.h" />
     <ClInclude Include="..\Source\Editor\Windows\Editors\ComponentComposer.h" />
     <ClInclude Include="..\Source\Editor\Windows\Editors\ComponentEditor.h" />

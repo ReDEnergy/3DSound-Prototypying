@@ -59,7 +59,7 @@ void CSoundScene::UpdateScores()
 {
 	for (auto SS : sceneScores.GetEntities()) {
 		SS->Update();
-		SS->Save();
+		SS->SaveToFile();
 	}
 
 	// Update player in scene
@@ -170,7 +170,7 @@ void CSoundScene::SetOutputModel(const char * name)
 	for (auto SS : sceneScores.GetEntities()) {
 		SS->ResumeUpdate();
 		SS->Update();
-		SS->Save();
+		SS->SaveToFile();
 	}
 
 	// Update player in scene

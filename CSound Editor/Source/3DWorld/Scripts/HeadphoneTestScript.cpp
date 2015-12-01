@@ -159,16 +159,8 @@ void HeadphoneTestScript::Start(HeadphoneTestConfig config)
 		}
 	}
 
-	// Setup sound
-	auto sampleDuration = config.samplePlaybackDuration + config.sampleInterval;
+	// Setup sound score
 	auto score = SoundManager::GetCSManager()->GetScore("headphone-test");
-	for (auto SI : score->GetEntries()) {
-		for (auto instr : SI->GetEntries()) {
-			instr->Update();
-		}
-	}
-
-	score->Save();
 	gameObj->SetSoundModel(score);
 
 	// Setup Scene
@@ -193,7 +185,7 @@ bool HeadphoneTestScript::VerifyAnswer(float azimuth, float elevation)
 	cout << "[SOURCE] " << A.source << endl;
 	cout << "[ANSWER] " << A.answer << endl;
 
-	if (A.source == A.answer) {
+	if (A.responseTime && A.source == A.answer) {
 		cout << "[ANSWER] - CORRECT\n";
 		A.correct = true;
 	}
@@ -332,6 +324,7 @@ void HeadphoneTestScript::SaveTestAnswers() const
 	unsigned int correctElevation = 0;
 	unsigned int size = answers.size();
 	unsigned int index = 0;
+	unsigned int unanswered = 0;
 
 	for (auto &A : answers) {
 		if (A.correct) {
@@ -340,8 +333,13 @@ void HeadphoneTestScript::SaveTestAnswers() const
 			correctElevation++;
 		}
 		else {
-			if (A.source.x == A.answer.x) correctAzimuth++;
-			if (A.source.y == A.answer.y) correctElevation++;
+			if (A.responseTime) {
+				if (A.source.x == A.answer.x) correctAzimuth++;
+				if (A.source.y == A.answer.y) correctElevation++;
+			}
+			else {
+				unanswered++;
+			}
 		}
 	}
 
@@ -351,6 +349,7 @@ void HeadphoneTestScript::SaveTestAnswers() const
 	fprintf(F, "----------------------\n");
 	fprintf(F, "Correct Azimuth:\t %d\n", correctAzimuth);
 	fprintf(F, "Correct Elevation:\t %d\n", correctElevation);
+	fprintf(F, "Tests not answered:\t %d\n", unanswered);
 
 	fprintf(F, "\n");
 

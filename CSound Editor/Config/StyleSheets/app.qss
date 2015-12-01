@@ -4,6 +4,10 @@ QDockWidget {
 }
 */
 
+QMainWindow::separator {
+	width: 2px;
+}
+
 QWidget {
 }
 

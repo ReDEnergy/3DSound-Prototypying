@@ -2,6 +2,8 @@
 #include <Editor/Windows/Interface/CustomWidget.h>
 
 class SimpleDropDown;
+class CSound3DSource;
+class QPushButton;
 
 class CSoundOptionsWindow
 	: public CustomWidget
@@ -14,6 +16,8 @@ class CSoundOptionsWindow
 		void InitUI();
 
 	private:
+		CSound3DSource *testSource;
 		SimpleDropDown *dropdownDevice;
 		SimpleDropDown *dropdownChannels;
+		QPushButton *testAudioButton;
 };

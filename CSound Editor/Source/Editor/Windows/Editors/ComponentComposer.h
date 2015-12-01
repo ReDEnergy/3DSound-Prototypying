@@ -26,7 +26,6 @@ class ComponentComposer
 		virtual ~ComponentComposer() {};
 
 	public:
-		void Init();
 		void Update();
 		void AddItem();
 		void ListCleared();

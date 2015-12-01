@@ -1,5 +1,6 @@
 #include "CSoundOptionsWindow.h"
 
+#include <3DWorld/CSound/CSound3DSource.h>
 #include <3DWorld/CSound/CSoundScene.h>
 
 #include <Editor/Windows/Interface/QtInput.h>
@@ -10,6 +11,7 @@
 
 #include <CSound/CSoundManager.h>
 #include <CSound/SoundManager.h>
+#include <CSound/CSoundScore.h>
 
 // QT
 #include <QLabel>
@@ -20,9 +22,13 @@
 CSoundOptionsWindow::CSoundOptionsWindow()
 {
 	LoadStyleSheet("csound-options-window.qss");
-	setWindowTitle("CSound Options");
+	setWindowTitle("CSound Default Options");
 	setObjectName("CSoundOptions");
 	SetIcon("gear.png");
+	setWindowFlags(Qt::WindowType::CustomizeWindowHint | Qt::WindowStaysOnTopHint | Qt::WindowType::WindowCloseButtonHint);
+
+	testSource = new CSound3DSource();
+	testSource->SetSoundModel(SoundManager::GetCSManager()->GetScore("sound-test"));
 
 	InitUI();
 }
@@ -42,6 +48,7 @@ void CSoundOptionsWindow::InitUI()
 	for (auto device : devices)
 	{
 		auto w = new CustomWidget(QBoxLayout::Direction::LeftToRight);
+		w->setObjectName("deviceLine");
 
 		auto l = new QLabel((string("[ ") + device->deviceID + " ]\t").c_str());
 		l->setProperty("deviceID", "0");
@@ -58,15 +65,26 @@ void CSoundOptionsWindow::InitUI()
 		qtLayout->addWidget(w);
 		dropdownDevice->AddOption(device->deviceID, QVariant(index));
 		index++;
-	};
+	}
 
 	dropdownDevice->OnChange([&](QVariant qindex) {
 		auto devices = SoundManager::GetCSManager()->GetOutputDevices();
 		auto index = qindex.toUInt();
 		string outValue("-o ");
 		outValue += devices[index]->deviceID;
+
+		// Update default parameters
 		SoundManager::GetCSManager()->SetCsOptionsParameter("dac", outValue.c_str());
+		SoundManager::GetCSManager()->SetCsInstrumentOption("nchnls", devices[index]->supportedChannels);
+
+		// Also update the second dropdown
 		dropdownChannels->SetIndex((devices[index]->supportedChannels / 2) - 1);
+
+		// Update the scene and testing score
+		CSoundEditor::GetScene()->UpdateScores();
+		testSource->GetScore()->Update();
+		testSource->GetScore()->SaveToFile();
+		testSource->ReloadScore();
 	});
 
 	qtLayout->addWidget(dropdownDevice);
@@ -79,11 +97,20 @@ void CSoundOptionsWindow::InitUI()
 	dropdownChannels->AddOption("6 channels", 6);
 	dropdownChannels->AddOption("8 channels", 8);
 
-	dropdownChannels->OnChange([](QVariant value) {
+	dropdownChannels->OnChange([this](QVariant value) {
 		SoundManager::GetCSManager()->SetCsInstrumentOption("nchnls", value.toUInt());
-		CSoundEditor::GetScene()->UpdateScores();
 	});
 
 	qtLayout->addWidget(dropdownChannels);
 
+
+	testAudioButton = new QPushButton();
+	testAudioButton->setText("Test Audio");
+
+	QObject::connect(testAudioButton, &QPushButton::pressed, this, [this]() {
+		auto state = testSource->TooglePlayback();
+		state ? testAudioButton->setText("Stop Test") : testAudioButton->setText("Test Audio");;
+	});
+
+	qtLayout->addWidget(testAudioButton);
 }

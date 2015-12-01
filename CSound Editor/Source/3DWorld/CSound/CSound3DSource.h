@@ -42,6 +42,9 @@ class CSound3DSource
 		void SetSurfaceArea(unsigned int visibleAreaInPixels);
 
 		void SelectObject();
+
+		bool GetPlaybackState() const;
+		bool TooglePlayback();
 		void PlayScore();
 		void PlayScore(float deltaTime);
 		void StopScore();

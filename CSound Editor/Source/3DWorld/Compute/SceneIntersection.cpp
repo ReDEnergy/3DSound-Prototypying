@@ -105,7 +105,6 @@ void SceneIntersection::Update()
 	glBindImageTexture(2, Manager::GetPicker()->FBO->GetTextureID(0), 0, GL_FALSE, 0, GL_READ_ONLY, GL_RGBA32F);
 	glBindImageTexture(3, gameFBO->GetTextureID(0), 0, GL_FALSE, 0, GL_READ_WRITE, GL_RGBA32F);
 	glDispatchCompute(GLuint(UPPER_BOUND(rezolution.x, WORK_GROUP_SIZE)), GLuint(UPPER_BOUND(rezolution.y, WORK_GROUP_SIZE)), 1);
-	glFinish();
 	glMemoryBarrier(GL_ALL_BARRIER_BITS);
 
 	ssbo->ReadBuffer();

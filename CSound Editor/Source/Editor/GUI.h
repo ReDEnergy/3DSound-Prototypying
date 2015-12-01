@@ -4,6 +4,7 @@
 using namespace std;
 
 enum class QT_INSTACE {
+	CODE_EDITOR_WINDOW,
 	TEXT_PREVIEW,
 	INSTRUMENT_COMPOSER,
 	INSTRUMENT_LIST,

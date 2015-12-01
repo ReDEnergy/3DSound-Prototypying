@@ -7,6 +7,7 @@
 #include <Editor/Windows/Interface/QtListTemplates.h>
 #include <Editor/Windows/Lists/ScoreList.h>
 #include <Editor/Windows/TextPreview.h>
+#include <Editor/Windows/Code/CodeEditorWindow.h>
 #include <Editor/GUI.h>
 #include <CSoundEditor.h>
 #include <3DWorld/CSound/CSound3DSource.h>
@@ -202,9 +203,11 @@ void SceneWindow::OpenPopupMenu(const QPoint & pos)
 
 void SceneWindow::QtItemClicked(QTreeWidgetItem *item, int column)
 {
-	((SceneItem*)item)->GetData()->SelectObject();
-	GUI::Get<ScoreComposer>(QT_INSTACE::SCORE_COMPOSER)->SetContext(((SceneItem*)item)->GetData()->GetScore());
-	GUI::Get<TextPreviewWindow>(QT_INSTACE::TEXT_PREVIEW)->RenderText(((SceneItem*)item)->GetData()->GetRender());
+	auto Data = ((SceneItem*)item)->GetData();
+	Data->SelectObject();
+	GUI::Get<ScoreComposer>(QT_INSTACE::SCORE_COMPOSER)->SetContext(Data->GetScore());
+	GUI::Get<TextPreviewWindow>(QT_INSTACE::TEXT_PREVIEW)->RenderText(Data->GetRender());
+	GUI::Get<CodeEditorWindow>(QT_INSTACE::CODE_EDITOR_WINDOW)->SetContext(Data->GetScore());
 }
 
 void SceneWindow::QtItemRenamed(QListWidgetItem * item)

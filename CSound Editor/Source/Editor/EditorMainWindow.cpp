@@ -1,7 +1,7 @@
 #include "EditorMainWindow.h"
 
 #include <functional> 
-
+#include <stdlib.h>
 #include <Editor/Editor.h>
 
 // QT objects
@@ -94,7 +94,7 @@ void EditorMainWindow::SetupUI(QMainWindow *MainWindow) {
 
 	setWindowIcon(*QtEditor::GetIcon("colorwheel.png"));
 
-	MainWindow->setWindowTitle("Sound Engine v0.2.0");
+	MainWindow->setWindowTitle("Sound Engine v0.2.1");
 
 	MainWindow->resize(1280, 720);
 
@@ -422,6 +422,7 @@ void EditorMainWindow::SetupUI(QMainWindow *MainWindow) {
 	// ************************************************************************
 	// Attach windows
 	dockWindows["TextPreview"] = new TextPreviewWindow();
+	dockWindows["CodeEditor"] = new CodeEditorWindow();
 	dockWindows["ComponentList"] = new ComponentList();
 	dockWindows["InstrumentList"] = new InstrumentList();
 	dockWindows["ScoreList"] = new ScoreList();
@@ -447,10 +448,12 @@ void EditorMainWindow::SetupUI(QMainWindow *MainWindow) {
 	MainWindow->tabifyDockWidget(dockWindows["ComponentEditor"], dockWindows["CSoundControl"]);
 
 	MainWindow->addDockWidget(Qt::DockWidgetArea::LeftDockWidgetArea, dockWindows["TextPreview"], Qt::Orientation::Horizontal);
+	MainWindow->tabifyDockWidget(dockWindows["TextPreview"], dockWindows["CodeEditor"]);
 	MainWindow->tabifyDockWidget(dockWindows["TextPreview"], dockWindows["GameWindow"]);
 
 	dockWindows["GameWindow"]->setFloating(true);
 	dockWindows["GameWindow"]->setFloating(false);
+	dockWindows["GameWindow"]->raise();
 
 	// Right Dock
 	MainWindow->addDockWidget(Qt::DockWidgetArea::RightDockWidgetArea, dockWindows["ComponentList"], Qt::Orientation::Vertical);

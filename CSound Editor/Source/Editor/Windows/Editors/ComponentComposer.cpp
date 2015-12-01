@@ -20,14 +20,10 @@ static const string op("op");
 
 ComponentComposer::ComponentComposer()
 {
-	setWindowTitle("Component Editor");
+	setWindowTitle("Components");
 	GUI::Set(QT_INSTACE::COMPONENT_COMPOSER, (void*) this);
 
 	InitUI();
-}
-
-void ComponentComposer::Init()
-{
 }
 
 void ComponentComposer::Update()
@@ -129,7 +125,6 @@ ComponentPropertyEntry::~ComponentPropertyEntry()
 
 void ComponentPropertyEntry::QtItemValueChange()
 {
-	cout << input->text().toStdString() << endl;
 	if (input->text().compare(appData->GetValue())) {
 		appData->SetValue(input->text().toStdString().c_str());
 		input->setText(appData->GetValue());

@@ -27,6 +27,12 @@
 		</instruments>
 	</score>	
 	
+	<score>
+		<name>sound-test</name>
+		<instruments>
+			<instrument>sound-test</instrument>
+		</instruments>
+	</score>		
 </scores>
 
 

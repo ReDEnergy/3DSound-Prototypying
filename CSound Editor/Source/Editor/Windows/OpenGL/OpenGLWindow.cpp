@@ -201,13 +201,13 @@ void OpenGLWindow::wheelEvent(QWheelEvent * e)
 void OpenGLWindow::focusInEvent(QFocusEvent * e)
 {
 	focused = true;
-	cout << "[Window] Focus In" << endl;
+	//cout << "[Window] Focus In" << endl;
 }
 
 void OpenGLWindow::focusOutEvent(QFocusEvent * e)
 {
 	focused = false;
-	cout << "[Window] Focus Out" << endl;
+	//cout << "[Window] Focus Out" << endl;
 	ShowCursor();
 }
 

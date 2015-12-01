@@ -41,7 +41,7 @@ void main()
 	imageStore(diffuseMap, pixel, diffuse + vec4(outColor, 0, 0, 0));
 
 	// Save position information
-	if (outColor)
+	if (outColor != 0)
 	{
 		vec4 color = imageLoad(colorMap, pixel);
 		uint index = uint(color.z * 5) * 256 + uint(color.y * 15) * 16 + uint(color.x * 15);

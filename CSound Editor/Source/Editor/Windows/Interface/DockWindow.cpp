@@ -34,7 +34,6 @@ DockWindow::DockWindow()
 
 void DockWindow::Init()
 {
-	cout << "Init" << endl;
 }
 
 void DockWindow::Hide()

@@ -67,6 +67,9 @@
     <Filter Include="Utils">
       <UniqueIdentifier>{b7dc9fed-4752-42e8-ba14-ed58a6cb0771}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Editor\Windows\Code">
+      <UniqueIdentifier>{39d1a028-be11-4e6b-b261-e1451c583732}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Source\3DWorld\CSound\CSound3DSource.cpp">
@@ -199,6 +202,9 @@
     </ClCompile>
     <ClCompile Include="..\Source\Editor\Windows\Editors\CSoundControlWindow.cpp">
       <Filter>Editor\Windows\Editors</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\Editor\Windows\Code\CodeEditorWindow.cpp">
+      <Filter>Editor\Windows\Code</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -370,6 +376,9 @@
     </ClInclude>
     <ClInclude Include="..\Source\Editor\Windows\Editors\CSoundControlWindow.h">
       <Filter>Editor\Windows\Editors</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Editor\Windows\Code\CodeEditorWindow.h">
+      <Filter>Editor\Windows\Code</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

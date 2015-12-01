@@ -2,8 +2,8 @@
 	<CsOptions>
 		<rtaudio>-+rtaudio=Portaudio</rtaudio>
 		<dac>-o dac0</dac>
-		<hwbuf>-B 64</hwbuf>
-		<iobuf>-b 2048</iobuf>
+		<hwbuf>-B 2048</hwbuf>
+		<iobuf>-b 32</iobuf>
 	</CsOptions>
 	<InstrumentOptions>
 		<sr>44100</sr>

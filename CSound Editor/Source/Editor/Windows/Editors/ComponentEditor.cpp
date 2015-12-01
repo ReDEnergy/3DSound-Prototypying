@@ -20,7 +20,7 @@
 
 ComponentEditor::ComponentEditor()
 {
-	setWindowTitle("Component Editor");
+	setWindowTitle("Components");
 	InitUI();
 }
 
