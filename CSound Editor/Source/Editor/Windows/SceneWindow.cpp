@@ -24,7 +24,7 @@ typedef QTListItem<CSoundScore> DropItem;
 
 SceneWindow::SceneWindow()
 {
-	setWindowTitle("SceneWindow");
+	setWindowTitle("Scene Objects");
 
 	InitUI();
 	CreatePopupMenu();

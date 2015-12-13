@@ -10,15 +10,13 @@
 CSoundInstrument::CSoundInstrument()
 {
 	SetName("New Instrument");
-	render.reserve(1000);
-	duration = 1000;
+	duration = 100000;
 	parent = nullptr;
 }
 
 CSoundInstrument::CSoundInstrument(const CSoundInstrument & instr)
 {
 	SetName(instr.GetName());
-	render.reserve(1000);
 	parent = nullptr;
 	duration = instr.duration;
 

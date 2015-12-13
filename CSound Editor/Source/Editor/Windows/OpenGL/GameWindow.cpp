@@ -4,6 +4,7 @@
 #include <Editor/GUI.h>
 #include <3DWorld/Game.h>
 #include <3DWorld/CSound/CSoundScene.h>
+#include <Utils/GPU.h>
 
 #include <CSoundEditor.h>
 

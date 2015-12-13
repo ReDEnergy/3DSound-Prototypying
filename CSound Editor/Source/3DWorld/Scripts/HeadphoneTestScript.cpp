@@ -185,6 +185,8 @@ bool HeadphoneTestScript::VerifyAnswer(float azimuth, float elevation)
 	cout << "[SOURCE] " << A.source << endl;
 	cout << "[ANSWER] " << A.answer << endl;
 
+	A.responseTime = float(glfwGetTime() - startTimeCurrentTest);
+
 	if (A.responseTime && A.source == A.answer) {
 		cout << "[ANSWER] - CORRECT\n";
 		A.correct = true;
@@ -193,8 +195,6 @@ bool HeadphoneTestScript::VerifyAnswer(float azimuth, float elevation)
 		cout << "[ANSWER] - WRONG\n";
 	}
 	cout << "[OutputType] " << A.outputType << endl << endl;
-
-	A.responseTime = float(glfwGetTime() - startTimeCurrentTest);
 
 	WaitForNextSample();
 	

@@ -22,7 +22,7 @@ static HeadphoneTestScript *recorder;
 
 HeadphoneTestWindow::HeadphoneTestWindow()
 {
-	LoadStyleSheet("hrtf-test.qss");
+	LoadStyleSheet("headphone-test.css");
 	setWindowTitle("Headphone Test");
 
 	config = new HeadphoneTestConfig();
@@ -67,6 +67,7 @@ void HeadphoneTestWindow::InitUI()
 	qtLayout->setSpacing(5);
 	qtLayout->setContentsMargins(5, 5, 5, 5);
 	qtLayout->setAlignment(Qt::AlignTop);
+	qtLayout->setDirection(QBoxLayout::LeftToRight);
 
 	answerPanel = new HeadphoneTestAnswerPanel();
 	answerPanel->OnButtonClick([](float azimuth, float elevation) {
@@ -75,11 +76,15 @@ void HeadphoneTestWindow::InitUI()
 
 	sampleGenerator = new HeadphoneTestGenerator();
 
+	sectionLeft = new CustomWidget(QBoxLayout::TopToBottom);
+	sectionLeft->setObjectName("sectionLeft");
+	sectionLeft->setContentsMargins(5, 5, 5, 5);
+
 	{
 		buttonStartStop = new QPushButton();
 		buttonStartStop->setText("Start Test");
 		buttonStartStop->setMinimumHeight(30);
-		qtLayout->addWidget(buttonStartStop);
+		sectionLeft->AddWidget(buttonStartStop);
 		QObject::connect(buttonStartStop, &QPushButton::clicked, this, [this]() {
 			testStarted ? Manager::GetEvent()->EmitAsync("stop-HRTF-test") : Start();
 		});
@@ -95,7 +100,7 @@ void HeadphoneTestWindow::InitUI()
 		info->setAlignment(Qt::AlignCenter);
 		info->setMargin(5);
 		info->setFont(QFont("Arial", 10, QFont::Bold));
-		qtLayout->addWidget(info);
+		sectionLeft->AddWidget(info);
 
 		auto block = new QPlainTextEdit();
 		block->setFont(QFont("Times New Roman", 10));
@@ -105,7 +110,7 @@ void HeadphoneTestWindow::InitUI()
 		block->insertPlainText(" 5      - center azimuth, elevation to [0, 0]\n");
 		block->insertPlainText(" Enter - submit answer");
 		block->setFixedHeight(75);
-		qtLayout->addWidget(block);
+		sectionLeft->AddWidget(block);
 
 		azimuthAnswer = new SimpleFloatInput("Response azimuth:", "deg", 2, true);
 		elevationAnswer = new SimpleFloatInput("Response elevation:", "deg", 2, true);
@@ -115,21 +120,21 @@ void HeadphoneTestWindow::InitUI()
 		wrap->layout()->setContentsMargins(0, 20, 0, 20);
 		wrap->AddWidget(azimuthAnswer);
 		wrap->AddWidget(elevationAnswer);
-		qtLayout->addWidget(wrap);
+		sectionLeft->AddWidget(wrap);
 	}
 
 	// ------------------------------------------------------------------------
 	// Configuration Panel
 
-	configArea = new CustomWidget();
-	configArea->setSizePolicy(QSizePolicy::Policy::Expanding, QSizePolicy::Policy::Fixed);
+	generalConfigPanel = new CustomWidget();
+	generalConfigPanel->setSizePolicy(QSizePolicy::Policy::Expanding, QSizePolicy::Policy::Fixed);
 
 	{
 		auto zone = new QLabel("Configure Test");
 		zone->setSizePolicy(QSizePolicy::Policy::Expanding, QSizePolicy::Policy::Fixed);
 		zone->setAlignment(Qt::AlignCenter);
 		zone->setFont(QFont("Arial", 10, QFont::Bold));
-		configArea->AddWidget(zone);
+		generalConfigPanel->AddWidget(zone);
 	}
 
 	{
@@ -142,7 +147,7 @@ void HeadphoneTestWindow::InitUI()
 		testName = new QLineEdit();
 		W->AddWidget(label);
 		W->AddWidget(testName);
-		configArea->AddWidget(W);
+		generalConfigPanel->AddWidget(W);
 	}
 
 	auto dropdown = new SimpleDropDown("Custom test");
@@ -153,31 +158,54 @@ void HeadphoneTestWindow::InitUI()
 	dropdown->OnChange([&](QVariant value) {
 		SetConfig(customTests[value.toUInt()]);
 	});
-	configArea->AddWidget(dropdown);
+	generalConfigPanel->AddWidget(dropdown);
+
+
+	showAdvancedConfig = new SimpleCheckBox("Advanced mode:", false);
+	showAdvancedConfig->setContentsMargins(0, 0, 0, 10);
+	showAdvancedConfig->SetLabelWidth(100);
+	showAdvancedConfig->OnUserEdit([this](bool value) {
+		if (value) {
+			AddWidget(configArea);
+		}
+		else {
+			configArea->DetachFromParent();
+			adjustSize();
+		}
+	});
+	generalConfigPanel->AddWidget(showAdvancedConfig);
+
+	sectionLeft->AddWidget(generalConfigPanel);
+	AddWidget(sectionLeft);
 
 	// ------------------------------------------------------------------------
 	// Advanced Configurations
 
-	advanceConfig = new CustomWidget();
+	// All configuration options will be display inside the config area
+	configArea = new CustomWidget(QBoxLayout::Direction::LeftToRight);
+	configArea->setObjectName("configArea");
 
-	auto showAdvancedConfig = new SimpleCheckBox("Advanced mode:", false);
-	showAdvancedConfig->setContentsMargins(0, 0, 0, 10);
-	showAdvancedConfig->SetLabelWidth(100);
-	showAdvancedConfig->OnUserEdit([this](bool value) {
-		value ? configArea->AddWidget(advanceConfig) : advanceConfig->DetachFromParent();
-	});
-	configArea->AddWidget(showAdvancedConfig);
+	advanceConfigPanel = new CustomWidget();
+	advanceConfigPanel->setObjectName("advancedConfigPanel");
+	advanceConfigPanel->setContentsMargins(5, 5, 5, 5);
 
 	randomValues = new SimpleCheckBox("Random Values:", true);
 	randomValues->SetLabelWidth(100);
 	randomValues->OnUserEdit([this](bool value) {
-		value ? sampleGenerator->DetachFromParent() : advanceConfig->AddWidget(sampleGenerator);
+		if (value) {
+			sampleGenerator->DetachFromParent();
+			configArea->adjustSize();
+			adjustSize();
+		}
+		else {
+			configArea->AddWidget(sampleGenerator);
+		}
 	});
-	advanceConfig->AddWidget(randomValues);
+	advanceConfigPanel->AddWidget(randomValues);
 
 	wait4Input = new SimpleCheckBox("Wait for user input:", true);
 	wait4Input->SetLabelWidth(100);
-	advanceConfig->AddWidget(wait4Input);
+	advanceConfigPanel->AddWidget(wait4Input);
 
 	randomIterations = new SimpleFloatInput("Random iterations:", "iterations", 0);
 	randomIterations->AcceptNegativeValues(false);
@@ -185,35 +213,35 @@ void HeadphoneTestWindow::InitUI()
 		if (value == 0)
 			randomIterations->SetValue(1);
 	});
-	advanceConfig->AddWidget(randomIterations);
+	advanceConfigPanel->AddWidget(randomIterations);
 
 	// Test output models
 
 	testHRTF = new SimpleCheckBox("Test HRTF:", true);
 	testHRTF->SetLabelWidth(100);
-	advanceConfig->AddWidget(testHRTF);
+	advanceConfigPanel->AddWidget(testHRTF);
 
 	testIndividualHRTF = new SimpleCheckBox("Individual HRTF:", true);
 	testIndividualHRTF->SetLabelWidth(100);
-	advanceConfig->AddWidget(testIndividualHRTF);
+	advanceConfigPanel->AddWidget(testIndividualHRTF);
 
 	testStereoPanning = new SimpleCheckBox("Stereo Panning:", true);
 	testStereoPanning->SetLabelWidth(100);
-	advanceConfig->AddWidget(testStereoPanning);
+	advanceConfigPanel->AddWidget(testStereoPanning);
 
 	// Time config
 
 	prepareTime = new SimpleFloatInput("Prepare time:", "sec");
 	prepareTime->AcceptNegativeValues(false);
-	advanceConfig->AddWidget(prepareTime);
+	advanceConfigPanel->AddWidget(prepareTime);
 
 	sampleDuration = new SimpleFloatInput("Sample duration:", "sec");
 	sampleDuration->AcceptNegativeValues(false);
-	advanceConfig->AddWidget(sampleDuration);
+	advanceConfigPanel->AddWidget(sampleDuration);
 
 	sampleInterval = new SimpleFloatInput("Sample interval:", "sec");
 	sampleInterval->AcceptNegativeValues(false);
-	advanceConfig->AddWidget(sampleInterval);
+	advanceConfigPanel->AddWidget(sampleInterval);
 
 	// Values config
 
@@ -221,23 +249,23 @@ void HeadphoneTestWindow::InitUI()
 	sortableAzimuth->OnUserEdit([this](const vector<float>& vec) {
 		sampleGenerator->SetupGenerator(vec, sortableElevation->GetValues());
 	});
-	advanceConfig->AddWidget(sortableAzimuth);
+	advanceConfigPanel->AddWidget(sortableAzimuth);
 
 	sortableElevation = new QtSortableInput("Elevation values:", 0);
 	sortableElevation->OnUserEdit([this](const vector<float>& vec) {
 		sampleGenerator->SetupGenerator(sortableAzimuth->GetValues(), vec);
 	});
-	advanceConfig->AddWidget(sortableElevation);
+	advanceConfigPanel->AddWidget(sortableElevation);
 
 	{
 		auto *button = new QPushButton();
 		button->setText("Reset Configuration");
 		button->setMinimumHeight(30);
-		advanceConfig->AddWidget(button);
+		advanceConfigPanel->AddWidget(button);
 		QObject::connect(button, &QPushButton::clicked, this, &HeadphoneTestWindow::ResetConfig);
 	}
 
-	qtLayout->addWidget(configArea);
+	configArea->AddWidget(advanceConfigPanel);
 
 	// ------------------------------------------------------------------------
 	// Init Configuration
@@ -291,20 +319,23 @@ void HeadphoneTestWindow::Start()
 	Manager::GetEvent()->EmitAsync("start-HRTF-test", (void*)config);
 
 	buttonStartStop->setText("Stop Test");
-	AddWidget(answerPanel);
 	configArea->DetachFromParent();
+	generalConfigPanel->DetachFromParent();
+	AddWidget(answerPanel);
 	ResetAnswerKeyOffset();
 }
 
 void HeadphoneTestWindow::Stop()
 {
 	testStarted = false;
-	if (configArea->parent() != this)
+	if (showAdvancedConfig->GetValue())
 	{
-		qtLayout->addWidget(configArea);
+		AddWidget(configArea);
 	}
+	sectionLeft->AddWidget(generalConfigPanel);
 	answerPanel->DetachFromParent();
 	buttonStartStop->setText("Start Test");
+	adjustSize();
 }
 
 void HeadphoneTestWindow::SetConfig(HeadphoneTestConfig * config)

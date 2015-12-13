@@ -31,6 +31,7 @@ class DLLExport CSoundPlayer
 
 		void* ThreadID;
 		unordered_map<string, MYFLT*> channels;
+		unordered_map<string, int> invalidChannels;
 		// TODO csnd6.lib missing
 		CsoundPerformanceThread* perfThread;
 

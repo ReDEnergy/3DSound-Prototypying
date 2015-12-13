@@ -21,7 +21,6 @@ CSoundScore::CSoundScore(const CSoundScore & score)
 {
 	useSourceCode = false;
 	SetName(score.GetName());
-	render.reserve(1000);
 
 	Init();
 	PreventUpdate();

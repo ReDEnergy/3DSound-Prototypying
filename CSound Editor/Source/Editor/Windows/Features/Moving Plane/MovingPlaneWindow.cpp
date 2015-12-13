@@ -15,7 +15,7 @@
 
 MovingPlaneWindow::MovingPlaneWindow()
 {
-	LoadStyleSheet("moving-plane.qss");
+	LoadStyleSheet("moving-plane.css");
 	setWindowTitle("Moving Plane Sound Model");
 	InitUI();
 

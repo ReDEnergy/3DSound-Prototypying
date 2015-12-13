@@ -54,7 +54,7 @@ InstrumentEditorList::InstrumentEditorList()
 
 InstrumentEditor::InstrumentEditor()
 {
-	setWindowTitle("Instrument Editor");
+	setWindowTitle("Components");
 	InitUI();
 }
 

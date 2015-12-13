@@ -21,7 +21,7 @@
 
 CSoundOptionsWindow::CSoundOptionsWindow()
 {
-	LoadStyleSheet("csound-options-window.qss");
+	LoadStyleSheet("csound-options-window.css");
 	setWindowTitle("CSound Default Options");
 	setObjectName("CSoundOptions");
 	SetIcon("gear.png");

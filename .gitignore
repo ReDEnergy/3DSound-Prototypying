@@ -7,3 +7,5 @@ lib
 **/Visual Studio/Debug
 **/Saves
 **/Resources/*.csd
+/CSound Editor/Resources/CSound/Scores
+/CSound Editor/Headphone Test Results

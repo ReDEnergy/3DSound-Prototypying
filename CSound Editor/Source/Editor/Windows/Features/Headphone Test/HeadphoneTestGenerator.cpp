@@ -26,7 +26,7 @@ void HeadphoneTestGenerator::InitUI()
 	qtLayout->setContentsMargins(5, 5, 5, 5);
 	qtLayout->setAlignment(Qt::AlignTop);
 	setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
-
+	
 	{
 		auto zone = new QLabel("Create Test Case");
 		zone->setAlignment(Qt::AlignCenter);

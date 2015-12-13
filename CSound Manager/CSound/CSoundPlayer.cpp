@@ -49,6 +49,7 @@ bool CSoundPlayer::Init()
 
 void CSoundPlayer::Clean()
 {
+	invalidChannels.clear();
 	PERF_STATUS = false;
 	if (ThreadID) {
 		csoundJoinThread(ThreadID);
@@ -110,8 +111,23 @@ void CSoundPlayer::SetControl(const char* channelName, float value)
 {
 	if (!PERF_STATUS || !csound) return;
 
-	if (channels.find(channelName) != channels.end())
+	if (channels.find(channelName) != channels.end()) {
 		*channels[channelName] = value;
+	}
+	else {
+		if (invalidChannels.find(channelName) != invalidChannels.end()) {
+			return;
+		}
+		else {
+			double *value;
+			if (csound->GetChannelPtr(value, channelName, CSOUND_INPUT_CHANNEL | CSOUND_CONTROL_CHANNEL) == 0) {
+				channels[channelName] = value;
+			}
+			else {
+				invalidChannels[channelName] = 1;
+			}
+		}
+	}
 }
 
 uintptr_t csThread(void *data)

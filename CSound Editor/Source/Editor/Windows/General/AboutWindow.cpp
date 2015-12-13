@@ -13,7 +13,7 @@
 
 AboutWindow::AboutWindow()
 {
-	LoadStyleSheet("about-window.qss");
+	LoadStyleSheet("about-window.css");
 	setWindowTitle("About");
 	SetIcon("chat.png");
 	setFixedSize(300, 150);

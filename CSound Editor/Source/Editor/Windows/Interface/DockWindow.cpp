@@ -29,7 +29,7 @@ DockWindow::DockWindow()
 
 	QObject::connect(this, &QDockWidget::topLevelChanged, this, &DockWindow::DockedEvent);
 
-	LoadStyleSheet("stylesheet.qss");
+	LoadStyleSheet("stylesheet.css");
 }
 
 void DockWindow::Init()

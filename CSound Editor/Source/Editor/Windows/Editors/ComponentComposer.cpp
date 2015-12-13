@@ -20,7 +20,7 @@ static const string op("op");
 
 ComponentComposer::ComponentComposer()
 {
-	setWindowTitle("Components");
+	setWindowTitle("Component");
 	GUI::Set(QT_INSTACE::COMPONENT_COMPOSER, (void*) this);
 
 	InitUI();

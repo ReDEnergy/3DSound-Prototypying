@@ -50,8 +50,10 @@ class HeadphoneTestWindow
 		SimpleFloatInput *azimuthAnswer;
 		SimpleFloatInput *elevationAnswer;
 
+		CustomWidget *sectionLeft;
 		CustomWidget *configArea;
-		CustomWidget *advanceConfig;
+		CustomWidget *generalConfigPanel;
+		CustomWidget *advanceConfigPanel;
 		QLineEdit *testName;
 		QLineEdit *indivHrtfFile;
 		SimpleFloatInput *prepareTime;
@@ -61,6 +63,8 @@ class HeadphoneTestWindow
 		SimpleFloatInput *numberOfSamples;
 		QtSortableInput *sortableElevation;
 		QtSortableInput *sortableAzimuth;
+
+		SimpleCheckBox *showAdvancedConfig;
 		SimpleCheckBox *wait4Input;
 		SimpleCheckBox *randomValues;
 		SimpleCheckBox *testHRTF;

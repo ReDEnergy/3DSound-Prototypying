@@ -105,6 +105,8 @@ class SimpleFloatInput
 		void SetLabelWidth(int width);
 		void SetReadOnly(bool value);
 		void SetValue(float value);
+		void SetPrecision(float precision);
+		void SetUnit(const char* unit);
 
 		void OnUserEdit(function<void(float)> func);
 
@@ -114,6 +116,7 @@ class SimpleFloatInput
 	private:
 		bool acceptNegativeValues;
 		float value;
+		int precision;
 		int toPrecision;
 		char *format;
 		char *inputBuffer;

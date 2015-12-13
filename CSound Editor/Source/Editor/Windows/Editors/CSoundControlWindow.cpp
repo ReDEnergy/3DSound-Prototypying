@@ -32,9 +32,11 @@
 #include <QLayout>
 #include <QPushButton>
 #include <QStyledItemDelegate>
+#include <QGroupBox>
 
 CSoundControlWindow::CSoundControlWindow()
 {
+	LoadStyleSheet("csound-control-window.css");
 	setWindowTitle("Sound Control");
 	InitUI();
 
@@ -55,8 +57,11 @@ void CSoundControlWindow::InitUI()
 		qtLayout->addWidget(zone);
 	}
 
+	controls = new CustomWidget();
+	controls->setObjectName("ControlsPanel");
+
 	{
-		elevationPanningBias = new SimpleFloatInput("Elevation Bias:", "", 2);
+		elevationPanningBias = CreateControl("Elevation Bias", "kElBias");
 		elevationPanningBias->OnUserEdit([this](float value) {
 			if (value > 1.0f) {
 				elevationPanningBias->SetValue(1);
@@ -67,11 +72,10 @@ void CSoundControlWindow::InitUI()
 				return;
 			}
 		});
-		qtLayout->addWidget(elevationPanningBias);
 	}
 
 	{
-		rearChannelGain = new SimpleFloatInput("Rear Gain:", "", 2);
+		rearChannelGain = CreateControl("Rear Gain", "kRearGain");
 		rearChannelGain->AcceptNegativeValues(false);
 		rearChannelGain->SetValue(1);
 		rearChannelGain->OnUserEdit([this](float value) {
@@ -79,14 +83,80 @@ void CSoundControlWindow::InitUI()
 				rearChannelGain->SetValue(10);
 			}
 		});
-		qtLayout->addWidget(rearChannelGain);
 	}
+
+	auto separator = new QWidget();
+	separator->setObjectName("Separator");
+
+	auto definePanel = new QVBoxLayout();
+	definePanel->setObjectName("DefinePanel");
+	{
+		{
+			auto widget = new CustomWidget(QBoxLayout::Direction::LeftToRight);
+			auto viewLabel = new QLabel();
+			viewLabel->setText("View Name");
+			viewLabel->setProperty("DefineLabel", 0);
+			newViewName = new QLineEdit();
+			widget->AddWidget(viewLabel);
+			widget->AddWidget(newViewName);
+			definePanel->addWidget(widget);
+		}
+
+		{
+			auto widget = new CustomWidget(QBoxLayout::Direction::LeftToRight);
+			auto nameLabel = new QLabel();
+			nameLabel->setText("Csound Channel");
+			nameLabel->setProperty("DefineLabel", 0);
+			newChannelName = new QLineEdit();
+			widget->AddWidget(nameLabel);
+			widget->AddWidget(newChannelName);
+			definePanel->addWidget(widget);
+		}
+
+		{
+			auto button = new QPushButton();
+			button->setText("Add");
+			definePanel->addWidget(button);
+			QObject::connect(button, &QPushButton::clicked, this, [&]() {
+				auto name = newViewName->text().toStdString();
+				auto chn = newChannelName->text().toStdString();
+				if (name.length() && chn.length()) {
+					CreateControl(name.c_str(), chn.c_str());
+				}
+			});
+		}
+	}
+
+	auto groupBox = new QGroupBox();
+	groupBox->setTitle("Create new control");
+	groupBox->setLayout(definePanel);
+
+
+	qtLayout->addWidget(controls);
+	qtLayout->addWidget(separator);
+	qtLayout->addWidget(groupBox);
+}
+
+SimpleFloatInput* CSoundControlWindow::CreateControl(const char * name, const char * channel)
+{
+	if (controlChannels.find(channel) == controlChannels.end())
+	{
+		auto control = new SimpleFloatInput(name, "", 2);
+		control->SetValue(0);
+		controls->AddWidget(control);
+		controlChannels[channel] = control;
+		return control;
+	}
+
+	return nullptr;
 }
 
 void CSoundControlWindow::OnEvent(EventType Event, void * data)
 {
-	if (Event == EventType::FRAME_AFTER_RENDERING) {
-		CSoundEditor::GetScene()->SetCSoundControl("kRearGain", rearChannelGain->GetValue());
-		CSoundEditor::GetScene()->SetCSoundControl("kElBias", elevationPanningBias->GetValue());
+	if (Event == EventType::FRAME_AFTER_RENDERING)
+	{
+		for (auto &CC : controlChannels) {
+			CSoundEditor::GetScene()->SetCSoundControl(CC.first.c_str(), CC.second->GetValue());
+		}
 	}
 }

@@ -15,7 +15,7 @@
 
 ExpandingSphereWindow::ExpandingSphereWindow()
 {
-	LoadStyleSheet("moving-plane.qss");
+	LoadStyleSheet("moving-plane.css");
 	setWindowTitle("Expaning Sphere Sound Model");
 	InitUI();
 

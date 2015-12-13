@@ -63,7 +63,7 @@ ScoreEditorList::ScoreEditorList()
 
 ScoreEditor::ScoreEditor()
 {
-	setWindowTitle("Score Editor");
+	setWindowTitle("Instruments");
 	InitUI();
 }
 

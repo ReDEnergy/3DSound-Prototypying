@@ -94,7 +94,7 @@ void EditorMainWindow::SetupUI(QMainWindow *MainWindow) {
 
 	setWindowIcon(*QtEditor::GetIcon("colorwheel.png"));
 
-	MainWindow->setWindowTitle("Sound Engine v0.2.1");
+	MainWindow->setWindowTitle("Sound Engine v0.2.2");
 
 	MainWindow->resize(1280, 720);
 
@@ -486,7 +486,7 @@ void EditorMainWindow::ReloadStyleSheets()
 	}
 
 	// Set general app stylesheet
-	QFile File(CSoundEditor::GetStyleSheetFilePath("app.qss").c_str());
+	QFile File(CSoundEditor::GetStyleSheetFilePath("app.css").c_str());
 	File.open(QFile::ReadOnly);
 	QString StyleSheet = QLatin1String(File.readAll());
 	setStyleSheet(StyleSheet);

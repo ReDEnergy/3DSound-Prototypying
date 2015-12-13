@@ -13,14 +13,8 @@ SimpleFloatInput::SimpleFloatInput(const char * label, const char * unit, unsign
 	qtLayout->setDirection(QBoxLayout::LeftToRight);
 	qtLayout->setSpacing(0);
 
-	precision = min(precision, 6);
-	toPrecision = pow(10, precision);
-
-	auto inputLength = strlen(unit) + 10;
-	format = new char[inputLength];
-	inputBuffer = new char[inputLength];
-	sprintf(format, "%%.%df %s", precision, unit);
-
+	SetPrecision(precision);
+	SetUnit(unit);
 	{
 		qLabel = new QLabel(label);
 		qLabel->setMinimumWidth(80);
@@ -74,6 +68,20 @@ void SimpleFloatInput::SetValue(float value)
 
 	if (updateFunc)
 		updateFunc(this->value);
+}
+
+void SimpleFloatInput::SetPrecision(float precision)
+{
+	this->precision = min(precision, 6);
+	toPrecision = pow(10, this->precision);
+}
+
+void SimpleFloatInput::SetUnit(const char * unit)
+{
+	auto inputLength = strlen(unit) + 10;
+	format = new char[inputLength];
+	inputBuffer = new char[inputLength];
+	sprintf(format, "%%.%df %s", precision, unit);
 }
 
 void SimpleFloatInput::AcceptNegativeValues(bool value)
