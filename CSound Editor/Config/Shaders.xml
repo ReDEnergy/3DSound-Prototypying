@@ -2,7 +2,7 @@
 <!-- Shaders -->
 <!-- Template
 <shader>
-	<name></name>
+	name=""
 	<path></path>
 	<vertex></vertex>
 	<fragment></fragment>
@@ -13,62 +13,61 @@
 </shader>
 -->
 <shaders>
-	<shader>
-		<name>simple</name>
+	<shader name="simple">
 		<vertex>MVP.Texture.VS</vertex>
 		<fragment>Simple.FS</fragment>
 	</shader>
-	<shader>
-		<name>screen</name>
+
+	<shader name="screen">
 		<vertex>Screen.VS</vertex>
 		<fragment>Screen.FS</fragment>
 	</shader>
-	<shader>
-		<name>debug</name>
+
+	<shader name="debug">
 		<vertex>Model.Texture.VS</vertex>
 		<fragment>Debug.FS</fragment>
 	</shader>
-	<shader>
-		<name>default</name>
+
+	<shader name="default">
 		<vertex>MVP.Texture.VS</vertex>
 		<fragment>Default.FS</fragment>
 	</shader>
-	<shader>
-		<name>deferred</name>
+
+	<shader name="deferred">
 		<vertex>MVP.VS</vertex>
 		<fragment>Deferred.Light.FS</fragment>
 	</shader>	
-	<shader>
-		<name>rendertargets</name>
+
+	<shader name="rendertargets">
 		<vertex>R2T.VS</vertex>
 		<fragment>R2T.FS</fragment>
 	</shader>	
-	<shader>
-		<name>composition</name>
+
+	<shader name="composition">
 		<vertex>Screen.VS</vertex>
 		<fragment>Composition.FS</fragment>
 	</shader>
-	<shader>
-		<name>font</name>
+
+	<shader name="font">
 		<vertex>Font/Default.VS</vertex>
 		<fragment>Font/Default.FS</fragment>
 	</shader>
-	<shader>
-		<name>shadow</name>
+
+	<shader name="shadow">
 		<vertex>MVP.Texture.VS</vertex>
 		<fragment>Depth.FS</fragment>
 	</shader>	
-	<shader>
-		<name>ColorSurface</name>
+
+	<shader name="ColorSurface">
 		<compute>Compute/ColorSurface.CS</compute>
 	</shader>
-	<shader>
-		<name>SceneIntersection</name>
+
+	<shader name="SceneIntersection">
 		<compute>Compute/SceneIntersection.CS</compute>
 	</shader>
-	<shader>
-		<name>ClearBuffer</name>
+
+	<shader name="ClearBuffer">
 		<compute>Compute/ClearBuffer.CS</compute>
 	</shader>
-	
+
 </shaders>
