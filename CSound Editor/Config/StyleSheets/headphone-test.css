@@ -1,0 +1,49 @@
+QWidget {
+	/*border: 1px solid red;*/
+}
+
+QPushButton {
+	min-height: 30px;
+}
+
+QLabel {
+	min-width: 100px;
+	min-height: 20px;
+}
+
+QLineEdit {
+	min-height: 20px;
+	min-width: 150px;
+}
+
+QComboBox {
+	height: 22px;
+	margin-left: 0px;
+	padding-left: 10px;
+}
+
+QComboBox QAbstractItemView::item {
+	height: 22px;
+}
+
+QWidget#sectionLeft {
+	max-height: 400px;
+	max-width: 260px;
+	border: 1px solid #CCC;
+}
+
+QWidget#configArea {
+	border: 1px solid #CCC;
+}
+
+QWidget#advancedConfigPanel {
+	max-width: 260px;
+	max-height: 400px;
+	padding: 5px;
+}
+
+QWidget#configArea QPushButton {
+}
+
+QWidget#configArea QPushButton:hover {
+}

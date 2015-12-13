@@ -1,0 +1,32 @@
+QWidget {
+}
+
+QWidget#Separator
+{
+	min-height: 20px;
+}
+
+QWidget#ControlsPanel QWidget {
+}
+
+QGroupBox::title {
+	color: #666;
+}
+
+QGroupBox {
+	/*margin-top: 50px;*/
+}
+
+.QLabel {
+	min-width: 110px;
+}
+
+QWidget#DefinePanel {
+	margin-top: 50px;
+	border: 1px solid #CCC;
+}
+
+.QLabel[DefineLabel] {
+	min-width: 110px;
+	position: relative;
+}
