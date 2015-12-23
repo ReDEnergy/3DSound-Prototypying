@@ -17,7 +17,7 @@ class CSound3DSource
 		CSound3DSource(const CSound3DSource& ref);
 		~CSound3DSource();
 
-		void SetSoundModel(CSoundScore* soundModel);
+		void SetSoundModel(CSoundScore* soundModel, bool trackScore = true);
 		void Update();
 		void ComputeControlProperties();
 
@@ -35,7 +35,7 @@ class CSound3DSource
 		const glm::vec3 & GetCameraSpacePosition() const;
 
 		void SetVolume(unsigned int value = 100);
-		void SetControlChannel(const char* channel, float value) const;
+		void SetControlChannel(const char* channel, float value, bool forceUpdate = false) const;
 		void UseVirtalPosition(bool value);
 		void SetVirtualCameraSpacePosition(glm::vec3 cameraSpacePosition);
 

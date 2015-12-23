@@ -79,13 +79,15 @@ CSound3DSource::~CSound3DSource()
 	cout << "DELETED SOURCE" << endl;
 }
 
-void CSound3DSource::SetSoundModel(CSoundScore * soundModel)
+void CSound3DSource::SetSoundModel(CSoundScore * soundModel, bool trackScore)
 {
 	// TODO: Tracking should be done only by the scene manager
-	if (this->soundModel)
-		CSoundEditor::GetScene()->UnTrackScore(this->soundModel);
+	if (trackScore) {
+		if (this->soundModel)
+			CSoundEditor::GetScene()->UnTrackScore(this->soundModel);
+		CSoundEditor::GetScene()->TrackScore(soundModel);
+	}
 	this->soundModel = soundModel;
- 	CSoundEditor::GetScene()->TrackScore(soundModel);
 
 	SAFE_FREE(player);
 	player = new CSoundPlayer(soundModel);
@@ -228,9 +230,12 @@ void CSound3DSource::ComputeControlProperties()
 			elevation = -elevation;
 	}
 
-	// Compute azimuth and elevation panning factors
+	// Compute azimuth panning factor
 	// 0 only left channel, 1 only right channel
 	azimuthPanningFactor = azimuth / 180 + 0.5f;
+	azimuthPanningFactor = min(max(azimuthPanningFactor, 0), 1);
+
+	// Compute elevation panning factor
 	// 0 only bottom, 1 only top
 	elevationPanningFactor = elevation / 90 + 0.5f;
 	elevationPanningFactor = min(max(elevationPanningFactor, 0), 1);
@@ -332,10 +337,9 @@ void CSound3DSource::SetVolume(unsigned int value)
 	soundVolume = max(min(value, 100), 0);
 }
 
-void CSound3DSource::SetControlChannel(const char * channel, float value) const
+void CSound3DSource::SetControlChannel(const char * channel, float value, bool forceUpdate) const
 {
-	if (!player->IsPlaying()) return;
-	player->SetControl(channel, value);
+	player->SetControl(channel, value, forceUpdate);
 }
 
 void CSound3DSource::UseVirtalPosition(bool value)
