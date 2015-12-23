@@ -6,14 +6,26 @@
 
 #include <CSound/CSoundForward.h>
 
-
-struct AudioDevice
+namespace pugi
 {
-	char deviceName[64];
-	char deviceID[64];
-	char realTimeModule[64];
-	int supportedChannels;
-	int isOutput;
+	class xml_document;
+};
+
+class AudioDevice
+{
+	public:
+		AudioDevice();
+
+	public:
+		char deviceName[64];
+		char deviceID[64];
+		char realTimeModule[64];
+		int supportedChannels;
+		int isOutput;
+		uint index;
+		uint nrActiveChannels;
+		int mapping[8];
+		bool changed;
 };
 
 class DLLExport CSoundManager
@@ -24,6 +36,7 @@ class DLLExport CSoundManager
 
 	public:
 		void LoadConfig();
+		void SaveConfigFile();
 		void Clear();
 		CSoundScore* CreateScore();
 		CSoundScore* GetScore(const char *name) const;
@@ -34,9 +47,13 @@ class DLLExport CSoundManager
 
 		const vector<AudioDevice*>& GetOutputDevices() const;
 
+		AudioDevice* GetActiveDac() const;
+		uint GetActiveDacID() const;
 		const char* GetCsOptionsRender() const;
 		const char* GetInstrumentOptionsRender() const;
+		unsigned int GetInstrumentOption(const char* propertyName) const;
 
+		void SetActiveDac(uint dacID);
 		void SetCsOptionsParameter(const char* property, const char* value);
 		void SetCsInstrumentOption(const char * property, unsigned int value);
 
@@ -56,6 +73,9 @@ class DLLExport CSoundManager
 		EntityStorage<CSoundInstrumentBlock> *blocks;
 
 	private:
+		pugi::xml_document *configXML;
+
+		uint activeDacID;
 		unsigned int controlSamples;
 		unordered_map<string, char> propertyTypes;
 		vector<AudioDevice*> outputDevices;

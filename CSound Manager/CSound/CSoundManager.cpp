@@ -1,5 +1,9 @@
 ﻿#include "CSoundManager.h"
 
+#include <iostream>
+#include <string>
+#include <sstream>
+
 #include <include/pugixml.h>
 #include <include/utils.h>
 
@@ -13,6 +17,8 @@
 
 CSoundManager::CSoundManager()
 {
+	activeDacID = -1;
+
 	scores		= new EntityStorage<CSoundScore>("score ");
 	instruments	= new EntityStorage<CSoundInstrument>("instrument ");
 	components	= new EntityStorage<CSoundComponent>("component ");
@@ -27,7 +33,11 @@ CSoundManager::CSoundManager()
 	CS_AUDIODEVICE *devices = new CS_AUDIODEVICE[nrDevices];
 	csoundGetAudioDevList(csound, devices, 1);
 	for (int i = 0; i < nrDevices; i++) {
-		outputDevices.push_back((AudioDevice*)(&(devices[i])));
+		auto AD = new AudioDevice();
+		memcpy(AD, &devices[i], sizeof(CS_AUDIODEVICE));
+		AD->index = i;
+		AD->nrActiveChannels = AD->supportedChannels;
+		outputDevices.push_back(AD);
 	}
 }
 
@@ -52,7 +62,7 @@ void CSoundManager::Clear()
 
 void CSoundManager::LoadScoreConfig()
 {
-	auto configXML = pugi::LoadXML("Resources//CSound//score-config.xml");
+	configXML = pugi::LoadXML("Resources//CSound//score-config.xml");
 
 	auto config = configXML->child("config");
 
@@ -66,10 +76,39 @@ void CSoundManager::LoadScoreConfig()
 		instrumentOptions[option.name()] = option.text().as_uint();
 	}
 
+	// General
+
+	auto general = config.child("general");
+	auto dacID = general.child("dac").text().as_uint();
+
+	if (dacID < outputDevices.size()) {
+		outputDevices[dacID]->nrActiveChannels = general.child("channels").text().as_uint();
+	} else {
+		dacID = 0;
+		outputDevices[dacID]->nrActiveChannels = outputDevices[dacID]->supportedChannels;
+	}
+
+	auto devices = general.child("devices");
+	for (auto deviceNode : devices) {
+		auto ID = deviceNode.attribute("id").as_uint();
+		if (ID < outputDevices.size()) {
+			auto device = outputDevices[ID];
+			auto mapping = deviceNode.child_value("mapping");
+			if (mapping) {
+				istringstream iss(mapping);
+				for (int i = 0; i < device->supportedChannels; i++) {
+					iss >> device->mapping[i];
+				}
+			}
+			device->changed = true;
+		}
+	}
+
+	SetActiveDac(dacID);
+	SetCsInstrumentOption("nchnls", outputDevices[activeDacID]->supportedChannels);
 	RenderCsOptions();
 	RenderInstrumentOptions();
-
-	SAFE_FREE(configXML);
+	//SAFE_FREE(configXML);
 }
 
 void CSoundManager::LoadTemplates()
@@ -192,6 +231,73 @@ void CSoundManager::LoadScores()
 	SAFE_FREE(doc);
 }
 
+void CSoundManager::SaveConfigFile()
+{
+	auto config = configXML->child("config");
+
+	// ------------------------------------------
+	// CsOptions
+
+	auto CsOptions = config.child("CsOptions");
+	config.remove_child(CsOptions);
+	CsOptions = config.append_child("CsOptions");
+	for (auto &option : csOptions)
+	{
+		auto node = CsOptions.append_child(option.first.c_str());
+		node.append_child(pugi::node_pcdata).set_value(option.second.c_str());
+	}
+
+	// ------------------------------------------
+	// Instrument Options
+
+	auto InstrOptions = config.child("InstrumentOptions");
+	config.remove_child(InstrOptions);
+	InstrOptions = config.append_child("InstrumentOptions");
+	for (auto &option : instrumentOptions)
+	{
+		auto node = InstrOptions.append_child(option.first.c_str());
+		node.append_child(pugi::node_pcdata).set_value(to_string(option.second).c_str());
+	}
+
+	// ------------------------------------------
+	// Device options
+
+	uint deviceID = 0;
+
+	auto generalNode = config.child("general");
+
+	auto activeDacNode = generalNode.child("dac");
+	activeDacNode.text().set(activeDacID);
+
+	auto nrActiveChnNode = generalNode.child("channels");
+	nrActiveChnNode.text().set(outputDevices[activeDacID]->nrActiveChannels);
+
+	auto devicesNode = generalNode.child("devices");
+	generalNode.remove_child("devices");
+	devicesNode = generalNode.append_child("devices");
+
+	for (auto device : outputDevices)
+	{
+		if (device->changed)
+		{
+			auto deviceNode = devicesNode.append_child("dac");
+			auto att = deviceNode.append_attribute("id");
+			att.set_value(deviceID);
+
+			string buffer;
+			auto mapping = deviceNode.append_child("mapping");
+
+			for (auto i = 0; i < device->supportedChannels; i++) {
+				buffer += to_string(device->mapping[i]) + " ";
+			}
+			mapping.append_child(pugi::node_pcdata).set_value(buffer.c_str());
+		}
+		deviceID++;
+	}
+
+	configXML->save_file("Resources//CSound//score-config.xml", "\t", pugi::format_default);
+}
+
 void CSoundManager::RenderCsOptions()
 {
 	csOptionsRender.clear();
@@ -250,30 +356,74 @@ const vector<AudioDevice*>& CSoundManager::GetOutputDevices() const
 	return outputDevices;
 }
 
+AudioDevice * CSoundManager::GetActiveDac() const
+{
+	return outputDevices[activeDacID];
+}
+
+unsigned int CSoundManager::GetActiveDacID() const
+{
+	return activeDacID;
+}
+
 const char * CSoundManager::GetCsOptionsRender() const
 {
 	return csOptionsRender.c_str();
+}
+
+void CSoundManager::SetActiveDac(uint dacID)
+{
+	if (dacID == activeDacID)
+		return;
+	activeDacID = dacID;
+	string outValue("-o ");
+	outValue += outputDevices[dacID]->deviceID;
+	SetCsOptionsParameter("dac", outValue.c_str());
 }
 
 void CSoundManager::SetCsOptionsParameter(const char * property, const char * value)
 {
 	auto item = csOptions.find(property);
 	if (item != csOptions.end()) {
+		int cmp = (*item).second.compare(value);
+		if (cmp == 0)
+			return;
 		(*item).second = value;
 	}
 	RenderCsOptions();
+	SaveConfigFile();
 }
 
 void CSoundManager::SetCsInstrumentOption(const char * property, unsigned int value)
 {
 	auto item = instrumentOptions.find(property);
 	if (item != instrumentOptions.end()) {
+		if ((*item).second == value)
+			return;
 		(*item).second = value;
 	}
 	RenderInstrumentOptions();
+	SaveConfigFile();
 }
 
 const char * CSoundManager::GetInstrumentOptionsRender() const
 {
 	return csInstrOptionsRender.c_str();
+}
+
+unsigned int CSoundManager::GetInstrumentOption(const char *propertyName) const
+{
+	auto item = instrumentOptions.find(propertyName);
+	if (item != instrumentOptions.end()) {
+			return (*item).second;
+	}
+	return -1;
+}
+
+AudioDevice::AudioDevice()
+{
+	changed = false;
+	for (auto i = 0; i < 8; i++) {
+		mapping[i] = i;
+	}
 }
