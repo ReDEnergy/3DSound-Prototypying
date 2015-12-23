@@ -22,6 +22,7 @@ DockWindow::DockWindow()
 	qtLayout = new QBoxLayout(QBoxLayout::Direction::TopToBottom);
 	qtLayout->setSpacing(5);
 	qtLayout->setContentsMargins(0, 0, 0, 0);
+	qtLayout->setAlignment(Qt::AlignTop);
 
 	QWidget* layoutWidget = new QWidget();
 	layoutWidget->setLayout(qtLayout);

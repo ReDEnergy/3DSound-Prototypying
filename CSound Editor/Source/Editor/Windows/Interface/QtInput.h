@@ -160,6 +160,10 @@ class SimpleDropDown
 		~SimpleDropDown() {};
 
 		void AddOption(const char* name, QVariant value);
+		void RemoveOption(uint index);
+		void RemoveOptions();
+		void ResumeCallbacks();
+		void StopCallbacks();
 
 		void SetLabelWidth(int width);
 		void SetIndex(unsigned int index);
@@ -168,6 +172,7 @@ class SimpleDropDown
 		bool GetValue();
 
 	private:
+		bool update;
 		unsigned int activeIndex;
 		QLabel *qLabel;
 		QComboBox *dropdown;

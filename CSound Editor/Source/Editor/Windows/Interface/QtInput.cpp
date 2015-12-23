@@ -17,6 +17,7 @@ SimpleFloatInput::SimpleFloatInput(const char * label, const char * unit, unsign
 	SetUnit(unit);
 	{
 		qLabel = new QLabel(label);
+		qLabel->setObjectName("SimpleFloatInputLabel");
 		qLabel->setMinimumWidth(80);
 		qLabel->setAlignment(Qt::AlignVCenter | Qt::AlignLeft);
 
@@ -105,6 +106,7 @@ SimpleCheckBox::SimpleCheckBox(const char * label, bool checked)
 	{
 		qLabel = new QLabel(label);
 		qLabel->setMinimumWidth(100);
+		qLabel->setObjectName("SimpleCheckBoxLabel");
 		qLabel->setAlignment(Qt::AlignVCenter | Qt::AlignLeft);
 
 		prop = new QCheckBox();
@@ -148,6 +150,9 @@ bool SimpleCheckBox::GetValue()
 
 SimpleDropDown::SimpleDropDown(const char * label)
 {
+	update = true;
+	setProperty("SimpleDropDown", "");
+
 	qtLayout->setDirection(QBoxLayout::LeftToRight);
 	qtLayout->setSpacing(0);
 
@@ -165,7 +170,7 @@ SimpleDropDown::SimpleDropDown(const char * label)
 
 	void (QComboBox::* indexChangedSignal)(int index) = &QComboBox::currentIndexChanged;
 	QObject::connect(dropdown, indexChangedSignal, this, [&](int index) {
-		if (updateFunc)
+		if (updateFunc && update)
 			updateFunc(dropdown->itemData(index));
 	});
 }
@@ -173,6 +178,27 @@ SimpleDropDown::SimpleDropDown(const char * label)
 void SimpleDropDown::AddOption(const char *name, QVariant value)
 {
 	dropdown->addItem(name, value);
+}
+
+void SimpleDropDown::RemoveOption(uint index)
+{
+	dropdown->removeItem(index);
+}
+
+void SimpleDropDown::RemoveOptions()
+{
+	update = false;
+	dropdown->clear();
+}
+
+void SimpleDropDown::ResumeCallbacks()
+{
+	update = true;
+}
+
+void SimpleDropDown::StopCallbacks()
+{
+	update = false;
 }
 
 void SimpleDropDown::SetLabelWidth(int width)

@@ -1,34 +1,46 @@
-QWidget {
-}
-
 QWidget#CSoundOptions {
-	min-width: 350px;
-	max-width: 350px;
 }
 
-QWidget::separator {
-	background: red;
-	width: 2px;
+/**
+ * Devices Panel
+ */
+
+QWidget[SimpleDropDown] {
+	margin: 0;
+	min-height: 24px;
+}
+ 
+QWidget#DevicesPanel {
+	min-width: 300px;
+	max-width: 300px;
+	border: 1px solid #CCC;
 }
 
-.QLabel[deviceID] {
-	font-weight: bold;
+QWidget#DevicesPanel QPushButton {
+	min-height: 30px;
+	max-height: 30px;
+}
+
+QWidget#DevicesPanel QLabel[deviceID] {
+	min-width: 50px;
 	max-width: 50px;
+	font-weight: bold;
 	min-height: 18px;
 }
 
-.QLabel[deviceName] {
+QWidget#DevicesPanel QLabel[deviceName] {
 	height: 40px;
-	min-width: 200px;
+	min-width: 150px;
 }
 
-.QLabel[channels] {
+QWidget#DevicesPanel QLabel[channels] {
+	min-width: 70px;
 	max-width: 70px;
 	color: #E55B2E;
 	font-weight: bold;
 }
 
-QWidget[dropdownLine] QLabel {
+QWidget#DevicesPanel QWidget[SimpleDropDown] QLabel {
 	max-width: 80px;
 	min-width: 120px;
 	padding-left: 10px;
@@ -36,25 +48,160 @@ QWidget[dropdownLine] QLabel {
 	color: #2E5BE5;
 }
 
-QWidget[dropdownLine] QComboBox {
-	height: 22px;
+QWidget#DevicesPanel QWidget[SimpleDropDown] QComboBox {
+	min-height: 22px;
 	padding-left: 10px;
 }
 
-QWidget[dropdownLine] QComboBox:selected {
+QWidget#DevicesPanel QWidget[SimpleDropDown] QComboBox:selected {
 	color: blue;
 }
 
-QWidget[dropdownLine] QComboBox QAbstractItemView::items {
+QWidget#DevicesPanel QWidget[SimpleDropDown] QComboBox QAbstractItemView::items {
 	padding-left: 10px;
 }
 
-QWidget[dropdownLine] QComboBox QAbstractItemView::item {
-	height: 22px;
+QWidget#DevicesPanel QWidget[SimpleDropDown] QComboBox QAbstractItemView::item {
+	height: 24px;
 	padding-left: 10px;
 }
 
-QPushButton {
-	margin: 10px 0 0 0;
+QWidget#DevicesPanel QLabel#title {
 	min-height: 30px;
+	max-height: 30px;
+	font-weight: bold;
+}
+
+QWidget#DeviceSelection {
+}
+
+/**
+ * Channel Mapping Panel
+ */
+
+QWidget#DeviceConfigPanel {
+	min-width: 350px;
+	border: 1px solid #CCC;
+}
+
+QWidget#DeviceConfigPanel QPushButton {
+	color: black;
+	height: 26px;
+	border: none;
+}
+
+QWidget#DeviceConfigPanel QLabel#title {
+	min-height: 30px;
+	max-height: 30px;
+	margin: 5px 0 0 0;
+	font-weight: bold;
+}
+
+QWidget#DeviceConfigPanel QPushButton[playback] {
+	min-width: 50px;
+	max-width: 50px;
+	border: 1px solid #CCC;
+	font-weight: bold;
+}
+
+QWidget#DeviceConfigPanel QPushButton[playback="false"] {
+	color: black;
+}
+
+QWidget#DeviceConfigPanel QPushButton[playback="true"] {
+	background: red;
+	color: white;
+}
+
+QWidget#DeviceConfigPanel QPushButton[playback]:pressed {
+	color: #000;
+}
+
+QWidget#DeviceConfigPanel QWidget#channelMapLine QLabel {
+	max-width: 20px;
+}
+
+QWidget#DeviceConfigPanel QLabel[channelID] {
+	min-width: 20px;
+	max-width: 20px;
+	max-height: 26px;
+	color: #FFF;
+	font-weight: bold;
+	text-align: center;
+	background: #333;
+}
+
+QWidget#DeviceConfigPanel QLabel[channelColor="0"] {
+	background: #49EE7A;
+}
+
+QWidget#DeviceConfigPanel QLabel[channelColor="1"] {
+	background: #9CD236;
+}
+
+QWidget#DeviceConfigPanel QLabel[channelColor="2"] {
+	background: #EE7A49;
+}
+
+QWidget#DeviceConfigPanel QLabel[channelColor="3"] {
+	background: #EE496A;
+}
+
+QWidget#DeviceConfigPanel QLabel[channelColor="4"] {
+	background: #49BCEE;
+}
+
+QWidget#DeviceConfigPanel QLabel[channelColor="5"] {
+	background: #496AEE;
+}
+
+QWidget#DeviceConfigPanel QLabel[channelColor="6"] {
+	background: #CD49EE;
+}
+
+QWidget#DeviceConfigPanel QLabel[channelColor="7"] {
+	background: #49EEDD;
+}
+
+QWidget#DeviceConfigPanel QPushButton[channelColor] {
+	padding: 0 0 0 15px;
+	background: #FFF;
+	font-weight: bold;
+	text-align: left;
+}
+
+QWidget#DeviceConfigPanel QPushButton[channelColor="0"] {
+	background: #49EE7A;
+}
+
+QWidget#DeviceConfigPanel QPushButton[channelColor="1"] {
+	background: #9CD236;
+}
+
+QWidget#DeviceConfigPanel QPushButton[channelColor="2"] {
+	background: #EE7A49;
+}
+
+QWidget#DeviceConfigPanel QPushButton[channelColor="3"] {
+	background: #EE496A;
+}
+
+QWidget#DeviceConfigPanel QPushButton[channelColor="4"] {
+	background: #49BCEE;
+}
+
+QWidget#DeviceConfigPanel QPushButton[channelColor="5"] {
+	background: #496AEE;
+}
+
+QWidget#DeviceConfigPanel QPushButton[channelColor="6"] {
+	background: #CD49EE;
+}
+
+QWidget#DeviceConfigPanel QPushButton[channelColor="7"] {
+	background: #49EEDD;
+}
+
+QWidget#DeviceConfigPanel QPushButton:pressed {
+	background: white;
 }

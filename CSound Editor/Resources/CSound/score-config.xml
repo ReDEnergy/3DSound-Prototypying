@@ -1,14 +1,30 @@
+<?xml version="1.0"?>
 <config>
+	<general>
+		<dac>6</dac>
+		<channels>8</channels>
+		<devices>
+			<dac id="0">
+				<mapping>1 0 </mapping>
+			</dac>
+			<dac id="3">
+				<mapping>1 0 </mapping>
+			</dac>
+			<dac id="6">
+				<mapping>1 0 3 2 4 5 6 7 </mapping>
+			</dac>
+		</devices>
+	</general>
 	<CsOptions>
+		<dac>-o dac6</dac>
 		<rtaudio>-+rtaudio=Portaudio</rtaudio>
-		<dac>-o dac0</dac>
 		<hwbuf>-B 2048</hwbuf>
 		<iobuf>-b 32</iobuf>
 	</CsOptions>
 	<InstrumentOptions>
 		<sr>44100</sr>
 		<ksmps>7</ksmps>
-		<nchnls>2</nchnls>
+		<nchnls>8</nchnls>
 		<nchnls_i>1</nchnls_i>
 	</InstrumentOptions>
 </config>
