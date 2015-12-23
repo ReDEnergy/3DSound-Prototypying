@@ -24,7 +24,7 @@ class DLLExport CSoundPlayer
 		void Stop();
 
 		void InitControlChannels();
-		void SetControl(const char* channelName, float value);
+		void SetControl(const char* channelName, float value, bool forceUpdate = false);
 
 	private:
 		CSoundScore *score;

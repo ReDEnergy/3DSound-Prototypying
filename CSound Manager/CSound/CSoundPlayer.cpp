@@ -107,9 +107,9 @@ void CSoundPlayer::InitControlChannels()
 	}
 }
 
-void CSoundPlayer::SetControl(const char* channelName, float value)
+void CSoundPlayer::SetControl(const char* channelName, float value, bool forceUpdate)
 {
-	if (!PERF_STATUS || !csound) return;
+	if (!forceUpdate && (!PERF_STATUS || !csound)) return;
 
 	if (channels.find(channelName) != channels.end()) {
 		*channels[channelName] = value;
