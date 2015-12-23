@@ -6,6 +6,7 @@
 #include <Editor/Windows/Features/Headphone Test/HeadphoneTestAnswerPanel.h>
 #include <3DWorld/Scripts/HeadphoneTestScript.h>
 
+#include <include/utils.h>
 #include <Manager/Manager.h>
 #include <Manager/EventSystem.h>
 
@@ -38,6 +39,7 @@ HeadphoneTestWindow::HeadphoneTestWindow()
 		test->azimuthValues = { -60, 0, 60 };
 		test->elevationValues = { -60, 0, 60 };
 		test->randomIterations = 4;
+		test->outputTested = 7;
 		customTests.push_back(test);
 	}
 
@@ -46,6 +48,7 @@ HeadphoneTestWindow::HeadphoneTestWindow()
 		test->azimuthValues = { -90, -60, -30, 0, 30, 60, 90 };
 		test->elevationValues = { 0 };
 		test->randomIterations = 4;
+		test->outputTested = 7;
 		customTests.push_back(test);
 	}
 
@@ -54,6 +57,16 @@ HeadphoneTestWindow::HeadphoneTestWindow()
 		test->azimuthValues = { -90, -60, -30, 0, 30, 60, 90 };
 		test->elevationValues = { -60, -30, 0, 30, 60 };
 		test->randomIterations = 4;
+		test->outputTested = 7;
+		customTests.push_back(test);
+	}
+
+	{
+		auto *test = new HeadphoneTestConfig();
+		test->azimuthValues = { -60, 0, 60 };
+		test->elevationValues = { -60, 0, 60 };
+		test->randomIterations = 2;
+		SET_BIT(test->outputTested, 4);
 		customTests.push_back(test);
 	}
 
@@ -83,7 +96,6 @@ void HeadphoneTestWindow::InitUI()
 	{
 		buttonStartStop = new QPushButton();
 		buttonStartStop->setText("Start Test");
-		buttonStartStop->setMinimumHeight(30);
 		sectionLeft->AddWidget(buttonStartStop);
 		QObject::connect(buttonStartStop, &QPushButton::clicked, this, [this]() {
 			testStarted ? Manager::GetEvent()->EmitAsync("stop-HRTF-test") : Start();
@@ -95,15 +107,12 @@ void HeadphoneTestWindow::InitUI()
 
 	{
 		auto info = new QLabel("Keyboard keys [Numpad]");
-		info->setMinimumHeight(30);
-		info->setSizePolicy(QSizePolicy::Policy::Expanding, QSizePolicy::Policy::Fixed);
+		info->setProperty("HeadlineSection", "");
 		info->setAlignment(Qt::AlignCenter);
-		info->setMargin(5);
-		info->setFont(QFont("Arial", 10, QFont::Bold));
+		info->setSizePolicy(QSizePolicy::Policy::Expanding, QSizePolicy::Policy::Fixed);
 		sectionLeft->AddWidget(info);
 
 		auto block = new QPlainTextEdit();
-		block->setFont(QFont("Times New Roman", 10));
 		block->setReadOnly(true);
 		block->insertPlainText(" 4, 8  - chnage azimuth left/right\n");
 		block->insertPlainText(" 2, 8  - chnage elevation down/up\n");
@@ -112,8 +121,8 @@ void HeadphoneTestWindow::InitUI()
 		block->setFixedHeight(75);
 		sectionLeft->AddWidget(block);
 
-		azimuthAnswer = new SimpleFloatInput("Response azimuth:", "deg", 2, true);
-		elevationAnswer = new SimpleFloatInput("Response elevation:", "deg", 2, true);
+		azimuthAnswer = new SimpleFloatInput("Azimuth response:", "deg", 2, true);
+		elevationAnswer = new SimpleFloatInput("Elevation response:", "deg", 2, true);
 
 		auto wrap = new CustomWidget();
 		wrap->setSizePolicy(QSizePolicy::Policy::Expanding, QSizePolicy::Policy::Fixed);
@@ -131,9 +140,9 @@ void HeadphoneTestWindow::InitUI()
 
 	{
 		auto zone = new QLabel("Configure Test");
-		zone->setSizePolicy(QSizePolicy::Policy::Expanding, QSizePolicy::Policy::Fixed);
+		zone->setProperty("HeadlineSection", "");
 		zone->setAlignment(Qt::AlignCenter);
-		zone->setFont(QFont("Arial", 10, QFont::Bold));
+		zone->setSizePolicy(QSizePolicy::Policy::Expanding, QSizePolicy::Policy::Fixed);
 		generalConfigPanel->AddWidget(zone);
 	}
 
@@ -143,7 +152,6 @@ void HeadphoneTestWindow::InitUI()
 		W->setSizePolicy(QSizePolicy::Policy::Expanding, QSizePolicy::Policy::Fixed);
 
 		auto label = new QLabel("Test Name: ");
-		label->setMinimumWidth(95);
 		testName = new QLineEdit();
 		W->AddWidget(label);
 		W->AddWidget(testName);
@@ -151,10 +159,10 @@ void HeadphoneTestWindow::InitUI()
 	}
 
 	auto dropdown = new SimpleDropDown("Custom test");
-	dropdown->SetLabelWidth(100);
-	dropdown->AddOption("Test 1", QVariant(1));
-	dropdown->AddOption("Test 2", QVariant(2));
-	dropdown->AddOption("Test 3", QVariant(3));
+	for (uint i = 1; i < customTests.size(); i++)
+	{
+		dropdown->AddOption((string("Test ") + to_string(i)).c_str(), QVariant(i));
+	}
 	dropdown->OnChange([&](QVariant value) {
 		SetConfig(customTests[value.toUInt()]);
 	});
@@ -163,7 +171,6 @@ void HeadphoneTestWindow::InitUI()
 
 	showAdvancedConfig = new SimpleCheckBox("Advanced mode:", false);
 	showAdvancedConfig->setContentsMargins(0, 0, 0, 10);
-	showAdvancedConfig->SetLabelWidth(100);
 	showAdvancedConfig->OnUserEdit([this](bool value) {
 		if (value) {
 			AddWidget(configArea);
@@ -190,7 +197,6 @@ void HeadphoneTestWindow::InitUI()
 	advanceConfigPanel->setContentsMargins(5, 5, 5, 5);
 
 	randomValues = new SimpleCheckBox("Random Values:", true);
-	randomValues->SetLabelWidth(100);
 	randomValues->OnUserEdit([this](bool value) {
 		if (value) {
 			sampleGenerator->DetachFromParent();
@@ -204,7 +210,6 @@ void HeadphoneTestWindow::InitUI()
 	advanceConfigPanel->AddWidget(randomValues);
 
 	wait4Input = new SimpleCheckBox("Wait for user input:", true);
-	wait4Input->SetLabelWidth(100);
 	advanceConfigPanel->AddWidget(wait4Input);
 
 	randomIterations = new SimpleFloatInput("Random iterations:", "iterations", 0);
@@ -218,16 +223,16 @@ void HeadphoneTestWindow::InitUI()
 	// Test output models
 
 	testHRTF = new SimpleCheckBox("Test HRTF:", true);
-	testHRTF->SetLabelWidth(100);
 	advanceConfigPanel->AddWidget(testHRTF);
 
 	testIndividualHRTF = new SimpleCheckBox("Individual HRTF:", true);
-	testIndividualHRTF->SetLabelWidth(100);
 	advanceConfigPanel->AddWidget(testIndividualHRTF);
 
 	testStereoPanning = new SimpleCheckBox("Stereo Panning:", true);
-	testStereoPanning->SetLabelWidth(100);
 	advanceConfigPanel->AddWidget(testStereoPanning);
+
+	testCustomQuadPanning = new SimpleCheckBox("Quad Panning:", false);
+	advanceConfigPanel->AddWidget(testCustomQuadPanning);
 
 	// Time config
 
@@ -260,7 +265,6 @@ void HeadphoneTestWindow::InitUI()
 	{
 		auto *button = new QPushButton();
 		button->setText("Reset Configuration");
-		button->setMinimumHeight(30);
 		advanceConfigPanel->AddWidget(button);
 		QObject::connect(button, &QPushButton::clicked, this, &HeadphoneTestWindow::ResetConfig);
 	}
@@ -281,10 +285,13 @@ void HeadphoneTestWindow::Start()
 		return;
 	}
 
-	config->outputTested[1] = testHRTF->GetValue();
-	config->outputTested[2] = testStereoPanning->GetValue();
-	config->outputTested[3] = testIndividualHRTF->GetValue();
-	if (!(config->outputTested[1] || config->outputTested[2] || config->outputTested[3])) {
+	config->outputTested = 0;
+	config->outputTested |= int(testHRTF->GetValue());
+	config->outputTested |= int(testStereoPanning->GetValue()) << 1;
+	config->outputTested |= int(testIndividualHRTF->GetValue()) << 2;
+	config->outputTested |= int(testCustomQuadPanning->GetValue()) << 4;
+
+	if (config->outputTested == 0) {
 		Stop();
 		return;
 	}
@@ -346,6 +353,11 @@ void HeadphoneTestWindow::SetConfig(HeadphoneTestConfig * config)
 	sampleInterval->SetValue(config->sampleInterval);
 	randomIterations->SetValue(config->randomIterations);
 	wait4Input->SetValue(config->waitForInput);
+
+	testHRTF->SetValue(GET_BIT(config->outputTested, 0));
+	testStereoPanning->SetValue(GET_BIT(config->outputTested, 1));
+	testIndividualHRTF->SetValue(GET_BIT(config->outputTested, 2));
+	testCustomQuadPanning->SetValue(GET_BIT(config->outputTested, 4));
 
 	auto value = Utils::Join(config->azimuthValues);
 	sortableAzimuth->SetValue(value.c_str());

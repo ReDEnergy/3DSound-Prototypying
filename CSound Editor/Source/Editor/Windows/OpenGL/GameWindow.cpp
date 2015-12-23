@@ -66,7 +66,6 @@ void GameWindow::Init()
 
 void GameWindow::Update()
 {
-	CSoundEditor::GetScene()->Update();
 }
 
 void GameWindow::Render()

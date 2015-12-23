@@ -94,7 +94,7 @@ void EditorMainWindow::SetupUI(QMainWindow *MainWindow) {
 
 	setWindowIcon(*QtEditor::GetIcon("colorwheel.png"));
 
-	MainWindow->setWindowTitle("Sound Engine v0.2.2");
+	MainWindow->setWindowTitle("Sound Engine v0.2.3");
 
 	MainWindow->resize(1280, 720);
 
@@ -376,6 +376,7 @@ void EditorMainWindow::SetupUI(QMainWindow *MainWindow) {
 		dropdown->addItem("ind-HRTF", QVariant(4));
 		dropdown->addItem("PAN2", QVariant(8));
 		dropdown->addItem("Quad", QVariant(16));
+		dropdown->addItem("Multi-8", QVariant(32));
 
 		// Default is HRTF
 		dropdown->setCurrentIndex(2);

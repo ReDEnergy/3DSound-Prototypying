@@ -51,8 +51,27 @@ void CSoundScene::Init()
 	SetOutputModel("global-output");
 }
 
-void CSoundScene::Update()
+void CSoundScene::TriggerCSoundRebuild()
 {
+	// Run Update() only once for each instrument and score
+	for (auto SS : sceneScores.GetEntities()) {
+		SS->PreventUpdate();
+	}
+
+	for (auto SI : sceneInstruments.GetEntities()) {
+		SI->Update();
+	}
+
+	for (auto SS : sceneScores.GetEntities()) {
+		SS->ResumeUpdate();
+		SS->Update();
+		SS->SaveToFile();
+	}
+
+	// Update player in scene
+	for (auto S3D : _3DSources->GetEntries()) {
+		S3D->ReloadScore();
+	}
 }
 
 void CSoundScene::UpdateScores()
@@ -157,26 +176,7 @@ void CSoundScene::SetDefaultScore(CSoundScore * score)
 void CSoundScene::SetOutputModel(const char * name)
 {
 	SoundManager::SetGlobalOutputModel(name);
-
-	// Run Update() only once for each instrument and score
-	for (auto SS : sceneScores.GetEntities()) {
-		SS->PreventUpdate();
-	}
-
-	for (auto SI : sceneInstruments.GetEntities()) {
-		SI->Update();
-	}
-
-	for (auto SS : sceneScores.GetEntities()) {
-		SS->ResumeUpdate();
-		SS->Update();
-		SS->SaveToFile();
-	}
-
-	// Update player in scene
-	for (auto S3D : _3DSources->GetEntries()) {
-		S3D->ReloadScore();
-	}
+	TriggerCSoundRebuild();
 }
 
 void CSoundScene::AutoSave()

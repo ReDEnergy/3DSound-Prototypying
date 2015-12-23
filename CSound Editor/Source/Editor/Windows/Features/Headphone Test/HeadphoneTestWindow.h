@@ -70,6 +70,7 @@ class HeadphoneTestWindow
 		SimpleCheckBox *testHRTF;
 		SimpleCheckBox *testStereoPanning;
 		SimpleCheckBox *testIndividualHRTF;
+		SimpleCheckBox *testCustomQuadPanning;
 
 		int keyOffsetX = 0;
 		int keyOffsetY = 0;

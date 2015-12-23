@@ -47,7 +47,6 @@ void CSoundControlWindow::InitUI()
 {
 	qtLayout->setSpacing(5);
 	qtLayout->setContentsMargins(20, 10, 20, 10);
-	qtLayout->setAlignment(Qt::AlignTop);
 
 	{
 		auto zone = new QLabel("CSound Simulation Control");

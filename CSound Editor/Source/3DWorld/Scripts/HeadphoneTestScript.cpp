@@ -60,9 +60,9 @@ void HeadphoneTestScript::Start(HeadphoneTestConfig config)
 
 	// Get the number of output method tested
 	unsigned int nrOutputMethodTested = 0;
-	for (uint k = 0; k < 5; k++)
+	for (uint k = 0; k < 8; k++)
 	{
-		if (config.outputTested[k])
+		if (GET_BIT(config.outputTested, k))
 			nrOutputMethodTested++;
 	}
 
@@ -115,9 +115,9 @@ void HeadphoneTestScript::Start(HeadphoneTestConfig config)
 		{
 			for (uint j = 0; j < elSize; j++)
 			{
-				for (uint k = 0; k < 5; k++)
+				for (uint k = 0; k < 8; k++)
 				{
-					if (config.outputTested[k]) {
+					if (GET_BIT(config.outputTested, k)) {
 						values.push_back(glm::vec3(config.azimuthValues[i], config.elevationValues[j], k));
 					}
 				}
@@ -147,9 +147,9 @@ void HeadphoneTestScript::Start(HeadphoneTestConfig config)
 			TestEntry TE;
 			TE.position = ComputePosition(config.azimuthValues[i], config.elevationValues[i]);
 
-			for (uint k = 0; k < 5; k++)
+			for (uint k = 0; k < 8; k++)
 			{
-				if (config.outputTested[k]) {
+				if (GET_BIT(config.outputTested, k)) {
 					TE.outputType = k;
 					testEntries.push_back(TE);
 					answers[i].source = glm::vec2(config.azimuthValues[i], config.elevationValues[i]);
@@ -160,7 +160,17 @@ void HeadphoneTestScript::Start(HeadphoneTestConfig config)
 	}
 
 	// Setup sound score
-	auto score = SoundManager::GetCSManager()->GetScore("headphone-test");
+	auto CsManager = SoundManager::GetCSManager();
+	auto score = CsManager->GetScore("headphone-test");
+	auto instrument = score->GetEntry("headphone-test");
+	instrument->UseGlobalOutput(false);
+	auto component = instrument->GetEntry("global-output");
+	auto entry = component->GetEntry("output4");
+	if (entry) {
+		auto val = SoundManager::GetChannelMapping(CsManager->GetActiveDac(), 4);
+		entry->SetValue(val);
+	}
+	score->SaveToFile();
 	gameObj->SetSoundModel(score);
 
 	// Setup Scene
@@ -247,11 +257,11 @@ void HeadphoneTestScript::PlayCurrentSample()
 	gameObj->transform->SetWorldPosition(testEntries[timelinePos].position);
 	SoundManager::SetGlobalOutputModelIndex(0);
 	if (testEntries[timelinePos].outputType)
-		SoundManager::SetGlobalOutputModelIndex(1 << (testEntries[timelinePos].outputType - 1));
+		SoundManager::SetGlobalOutputModelIndex(1 << testEntries[timelinePos].outputType);
 	gameObj->SetVolume(100);
 	dynamicEvents->Add(*playbackEvent);
 	dynamicEvents->Remove(*waitEvent);
-	printf("[TEST %d] started\n", timelinePos + 1);
+	cout << "[Started]" << endl;
 }
 
 void HeadphoneTestScript::WaitForNextSample()
@@ -266,7 +276,7 @@ void HeadphoneTestScript::WaitForNextSample()
 	dynamicEvents->Remove(*playbackEvent);
 
 	dynamicEvents->Add(*waitEvent);
-	printf("Prepare: [TEST %d]\t", timelinePos + 2);
+	printf("Prepare: [TEST %d/%d]\t", timelinePos + 2, testEntries.size());
 	cout << "playback in " << waitEvent->GetTriggerInterval() << " sec" << endl;
 }
 

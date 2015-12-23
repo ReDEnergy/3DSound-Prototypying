@@ -18,8 +18,8 @@ class CSoundScene
 		void Init();
 
 		// Scene Update
-		void Update();
 		void UpdateScores();
+		void TriggerCSoundRebuild();
 
 		// Save/Load/Clear
 		void Clear();

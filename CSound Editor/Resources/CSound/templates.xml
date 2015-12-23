@@ -191,6 +191,18 @@
 	</component>
 	
 	<component>
+		<name>channel-test</name>
+		<controls>
+			<control>kChannel</control>
+		</controls>
+		<content>
+			<text>outch</text>
+			<channel>kChannel</channel>
+			<text>, aout</text>
+		</content>
+	</component>
+
+	<component>
 		<name>global-output</name>
 		<controls>
 			<control>kAzimuth</control>
@@ -200,40 +212,67 @@
 			<control>kElBias</control>
 			<control>kOutput</control>
 			<control>kRearGain</control>
+			<control>kMulti8Az</control>
+			<control>kMulti8El</control>
 		</controls>
 		<content>
 			<text>
 	if (kOutput == 0) then
-		aleft = aout
-		aright = aout
+		outs aout, aout
 	elseif ((kOutput & 1) != 0) then
 		aleft, aright hrtfmove2 aout, kAzimuth, kElevation , "../hrtf/hrtf-44100-left.dat", "../hrtf/hrtf-44100-right.dat"
+		outs aleft, aright
 	elseif ((kOutput & 2) != 0) then
 		aleft = aout * cos(kAzPanFactor * $M_PI_2)
 		aright = aout * sin(kAzPanFactor * $M_PI_2)
+		outs aleft, aright
 	elseif ((kOutput & 4) != 0) then
 		aleft, aright hrtfmove2 aout , kAzimuth, kElevation,</text>
 			<in>"../ind_hrtf/hrtf-44100-left.dat"</in>
 			<in>"../ind_hrtf/hrtf-44100-right.dat"</in>
 			<text>
+		outs aleft, aright
 	elseif ((kOutput & 8) != 0) then
 		aleft, aright pan2 aout, kAzPanFactor, 1
+		outs aleft, aright
 	elseif ((kOutput & 16) != 0) then
 		aleft, aright hrtfmove2 aout, kAzimuth, 0 , "../hrtf/hrtf-44100-left.dat", "../hrtf/hrtf-44100-right.dat"
 		kTopGain = kElPanFactor * (1 + kElBias)
 		kBottomGain = (1 - kElPanFactor) * (1 - kElBias) * kRearGain
-		atopleft = aleft * kTopGain
-		abottomleft = aleft * kBottomGain
-		atopright = aright * kTopGain
-		abottomright = aright * kBottomGain
-		outch 1, atopleft, 2, atopright, 3, abottomleft, 4, abottomright, 5, abottomleft, 6, abottomright, 7, abottomleft, 8, abottomright
-	endif
-	if ((kOutput & 16) == 0) then
-		outs aleft, aright
-	endif
-			</text>
+		afrontleft = aleft * kTopGain
+		afrontright = aleft * kBottomGain
+		acenter = aright * kTopGain
+		asubwoofer = aright * kBottomGain
+		</text>
+			<output4>outch 1, afrontleft, 2, afrontright, 3, acenter, 4, asubwoofer</output4>
+		<text>
+	elseif ((kOutput & 32) != 0) then
+		aleft, aright hrtfmove2 aout, kAzimuth, 0 , "../hrtf/hrtf-44100-left.dat", "../hrtf/hrtf-44100-right.dat"
+		kAzFactor = kAzimuth / kMulti8Az
+		kElFactor = kElevation / kMulti8El + 0.5
+
+		kTopGain = kElFactor
+		kBottomGain = 1 - kElFactor
+
+		// Left side
+		kLeftSide = min(max(-kAzFactor, 1), 1)
+		afrontleft = aleft * kTopGain * kLeftSide
+		afrontright = aleft * kBottomGain * kLeftSide
+		kLeftSide = min(max(-kAzFactor + 1, 0), 1.5)
+		acenter = aleft * kTopGain * (1 - kLeftSide)
+		asubwoofer = aleft * kBottomGain * (1 - kLeftSide)
+
+		// Right side
+		kRrightPan = min(max(kAzFactor, 1), 1)
+		arearleft = aright * kTopGain * kRrightPan
+		arearright = aright * kBottomGain * kRrightPan
+		kRrightPan = min(max(kAzFactor - 1.0, 0), 1.5)
+		asideleft = aright * kTopGain * kRrightPan
+		
+		</text>
+			<output8>outch 1, afrontleft, 2, afrontright, 3, acenter, 4, asubwoofer, 5, arearleft, 6, arearright, 7, asideleft, 8, asideright</output8>
+			<text>
+	endif</text>
 		</content>
 	</component>
-	
-
 </components>

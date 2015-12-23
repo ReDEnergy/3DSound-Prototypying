@@ -25,15 +25,12 @@ struct HeadphoneTestConfig
 		testName = "";
 		azimuthValues = { -60, 0, 60 };
 		elevationValues = { -60, 0, 60 };
-
-		for (auto i = 0; i < 5; i++) {
-			outputTested[i] = 0;
-		}
+		outputTested = 0;	// bitset
 	}
 
 	bool waitForInput;
 	bool randomTest;
-	bool outputTested[5];
+	char outputTested;
 	float prepareTime;
 	float samplePlaybackDuration;
 	float sampleInterval;

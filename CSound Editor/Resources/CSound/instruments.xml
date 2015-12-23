@@ -53,8 +53,7 @@
 		<components>
 			<component>sound source</component>
 			<component>sound loop</component>
-			<component>volume</component>
-			<component>output 8 channel</component>
+			<component>channel-test</component>
 		</components>
 	</instrument>		
 </instruments>
