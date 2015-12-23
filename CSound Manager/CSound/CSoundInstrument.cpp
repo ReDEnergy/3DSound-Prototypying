@@ -1,5 +1,6 @@
 ﻿#include "CSoundInstrument.h"
 
+#include <iostream>
 #include <include/csound.h>
 
 #include <CSound/CSoundComponent.h>
@@ -10,14 +11,13 @@
 CSoundInstrument::CSoundInstrument()
 {
 	SetName("New Instrument");
-	duration = 100000;
-	parent = nullptr;
+	Init();
 }
 
 CSoundInstrument::CSoundInstrument(const CSoundInstrument & instr)
 {
+	Init();
 	SetName(instr.GetName());
-	parent = nullptr;
 	duration = instr.duration;
 
 	PreventUpdate();
@@ -26,6 +26,13 @@ CSoundInstrument::CSoundInstrument(const CSoundInstrument & instr)
 	}
 	ResumeUpdate();
 	Update();
+}
+
+void CSoundInstrument::Init()
+{
+	duration = 100000;
+	parent = nullptr;
+	useGlobalOutput = true;
 }
 
 CSoundInstrument::~CSoundInstrument() {
@@ -41,11 +48,12 @@ void CSoundInstrument::Update()
 		}
 	}
 
-	auto outputModel = SoundManager::GetGlobalOutputModel();
-
-	if (outputModel) {
-		for (auto chn : outputModel->GetControlChannels()) {
-			channels[chn];
+	if (useGlobalOutput) {
+		auto outputModel = SoundManager::GetGlobalOutputModel();
+		if (outputModel) {
+			for (auto chn : outputModel->GetControlChannels()) {
+				channels[chn];
+			}
 		}
 	}
 
@@ -62,17 +70,15 @@ void CSoundInstrument::Update()
 		render.append(C->GetRender());
 	}
 
-	if (outputModel) {
-		for (auto C : outputModel->GetEntries()) {
-			render.append("\n\t");
-			render.append(C->GetRender());
+	if (useGlobalOutput) {
+		auto outputModel = SoundManager::GetGlobalOutputModel();
+		if (outputModel) {
+			for (auto C : outputModel->GetEntries()) {
+				render.append("\n\t");
+				render.append(C->GetRender());
+			}
 		}
 	}
-
-#ifdef CSOUND_DEBUG
-	cout << "Render => " << endl;
-	cout << render << endl << endl;
-#endif
 
 	if (parent)
 		parent->Update();
@@ -116,4 +122,9 @@ void CSoundInstrument::SetDuration(unsigned int duration)
 	this->duration = duration;
 	if (parent)
 		parent->Update();
+}
+
+void CSoundInstrument::UseGlobalOutput(bool value)
+{
+	useGlobalOutput = value;
 }

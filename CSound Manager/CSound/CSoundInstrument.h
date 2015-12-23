@@ -24,7 +24,13 @@ class DLLExport CSoundInstrument
 		void SetParent(CSoundScore *score);
 		void SetDuration(unsigned int duration);
 
+		void UseGlobalOutput(bool value);
+
 	private:
+		void Init();
+
+	private:
+		bool useGlobalOutput;
 		unsigned int duration;
 		CSoundScore *parent;
 		unordered_map<string, MYFLT*> channels;
