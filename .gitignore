@@ -1,6 +1,5 @@
 bin
 lib
-/libs
 *.sdf
 *.opensdf
 **/Visual Studio/obj
