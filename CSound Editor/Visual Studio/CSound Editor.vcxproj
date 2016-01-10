@@ -158,8 +158,8 @@ xcopy /y /d "..\..\libs\Csound\$(PlatformTarget)\*.dll" "$(OutDir)"
 xcopy /y /d "..\..\CSound Manager\lib\$(PlatformTarget)\$(Configuration)\*.dll" "$(OutDir)"
 xcopy /y /d "..\..\CSound Manager\lib\$(PlatformTarget)\$(Configuration)\*.pdb" "$(OutDir)"
 
-xcopy /y /d "..\..\..\GameEngine\Engine\lib\$(PlatformTarget)\$(Configuration)\*.dll" "$(OutDir)"
-xcopy /y /d "..\..\..\GameEngine\Engine\lib\$(PlatformTarget)\$(Configuration)\*.pdb" "$(OutDir)"
+xcopy /y /d "..\..\..\..\GameEngine\Engine\lib\$(PlatformTarget)\$(Configuration)\*.dll" "$(OutDir)"
+xcopy /y /d "..\..\..\..\GameEngine\Engine\lib\$(PlatformTarget)\$(Configuration)\*.pdb" "$(OutDir)"
 xcopy /y /d "..\..\libs\Engine\$(PlatformTarget)\*.dll" "$(OutDir)"
 xcopy /y /d "..\..\libs\Engine\$(PlatformTarget)\$(Configuration)\*.dll" "$(OutDir)"
 </Command>
@@ -264,7 +264,7 @@ xcopy /y /d "..\..\libs\Engine\$(PlatformTarget)\$(Configuration)\*.dll" "$(OutD
     <ClCompile Include="..\Source\Editor\EditorMainWindow.cpp" />
     <ClCompile Include="..\Source\Editor\Events\UIEvents.cpp" />
     <ClCompile Include="..\Source\Editor\GUI.cpp" />
-    <ClCompile Include="..\Source\Editor\QtEditor.cpp" />
+    <ClCompile Include="..\Source\Editor\QtConfig.cpp" />
     <ClCompile Include="..\Source\Editor\QT\Utils.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
@@ -320,7 +320,7 @@ xcopy /y /d "..\..\libs\Engine\$(PlatformTarget)\$(Configuration)\*.dll" "$(OutD
     <ClInclude Include="..\Source\Editor\EditorMainWindow.h" />
     <ClInclude Include="..\Source\Editor\Events\UIEvents.h" />
     <ClInclude Include="..\Source\Editor\GUI.h" />
-    <ClInclude Include="..\Source\Editor\QtEditor.h" />
+    <ClInclude Include="..\Source\Editor\QtConfig.h" />
     <ClInclude Include="..\Source\Editor\QTForward.h" />
     <ClInclude Include="..\Source\Editor\QT\Utils.h" />
     <ClInclude Include="..\Source\Editor\UI\FilePicker.h" />

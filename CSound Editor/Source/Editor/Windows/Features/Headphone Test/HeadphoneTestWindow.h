@@ -4,6 +4,8 @@
 // Engine
 #include <Event/EventListener.h>
 
+#include <unordered_map>
+
 struct HeadphoneTestConfig;
 
 class CSoundComponentProperty;
@@ -67,10 +69,7 @@ class HeadphoneTestWindow
 		SimpleCheckBox *showAdvancedConfig;
 		SimpleCheckBox *wait4Input;
 		SimpleCheckBox *randomValues;
-		SimpleCheckBox *testHRTF;
-		SimpleCheckBox *testStereoPanning;
-		SimpleCheckBox *testIndividualHRTF;
-		SimpleCheckBox *testCustomQuadPanning;
+		unordered_map<string, SimpleCheckBox*> testTypes;
 
 		int keyOffsetX = 0;
 		int keyOffsetY = 0;

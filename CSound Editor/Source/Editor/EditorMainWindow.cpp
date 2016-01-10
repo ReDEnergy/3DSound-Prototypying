@@ -92,7 +92,7 @@ void EditorMainWindow::closeEvent(QCloseEvent * event)
 
 void EditorMainWindow::SetupUI(QMainWindow *MainWindow) {
 
-	setWindowIcon(*QtEditor::GetIcon("colorwheel.png"));
+	setWindowIcon(*QtConfig::GetIcon("colorwheel.png"));
 
 	MainWindow->setWindowTitle("Sound Engine v0.2.3");
 
@@ -135,7 +135,7 @@ void EditorMainWindow::SetupUI(QMainWindow *MainWindow) {
 		{
 			QAction *action = new QAction(MainWindow);
 			action->setText("Exit");
-			action->setIcon(*QtEditor::GetIcon("power.png"));
+			action->setIcon(*QtConfig::GetIcon("power.png"));
 			menuEngine->addAction(action);
 			QObject::connect(action, &QAction::triggered, this, &EditorMainWindow::close);
 		}
@@ -143,7 +143,7 @@ void EditorMainWindow::SetupUI(QMainWindow *MainWindow) {
 		{
 			QAction *action = new QAction(MainWindow);
 			action->setText("Save As...");
-			action->setIcon(*QtEditor::GetIcon("memorycard.png"));
+			action->setIcon(*QtConfig::GetIcon("memorycard.png"));
 			menuEngine->addAction(action);
 
 			QObject::connect(action, &QAction::triggered, this, [picker]() {
@@ -167,7 +167,7 @@ void EditorMainWindow::SetupUI(QMainWindow *MainWindow) {
 		// Submenu buttons
 		QAction *action = new QAction(MainWindow);
 		action->setText("Clear Scene");
-		action->setIcon(*QtEditor::GetIcon("denied.png"));
+		action->setIcon(*QtConfig::GetIcon("denied.png"));
 		menu->addAction(action);
 
 		QObject::connect(action, &QAction::triggered, this, []() {
@@ -186,7 +186,7 @@ void EditorMainWindow::SetupUI(QMainWindow *MainWindow) {
 		{
 			QAction *action = new QAction(MainWindow);
 			action->setText("Reload StyleSheets");
-			action->setIcon(*QtEditor::GetIcon("cmyk.png"));
+			action->setIcon(*QtConfig::GetIcon("cmyk.png"));
 			menu->addAction(action);
 			QObject::connect(action, &QAction::triggered, this, &EditorMainWindow::ReloadStyleSheets);
 		}
@@ -195,7 +195,7 @@ void EditorMainWindow::SetupUI(QMainWindow *MainWindow) {
 		{
 			QAction *action = new QAction(MainWindow);
 			action->setText("Reload CSound Config");
-			action->setIcon(*QtEditor::GetIcon("loading.png"));
+			action->setIcon(*QtConfig::GetIcon("loading.png"));
 			menu->addAction(action);
 			QObject::connect(action, &QAction::triggered, this, []() {
 				SoundManager::Init();
@@ -212,7 +212,7 @@ void EditorMainWindow::SetupUI(QMainWindow *MainWindow) {
 		// Submenu buttons
 		QAction *action = new QAction(MainWindow);
 		action->setText("Options");
-		action->setIcon(*QtEditor::GetIcon("gear.png"));
+		action->setIcon(*QtConfig::GetIcon("gear.png"));
 		menu->addAction(action);
 
 		appWindows["CSoundOptions"] = new CSoundOptionsWindow();
@@ -230,7 +230,7 @@ void EditorMainWindow::SetupUI(QMainWindow *MainWindow) {
 		// Submenu buttons
 		QAction *action = new QAction(MainWindow);
 		action->setText("About");
-		action->setIcon(*QtEditor::GetIcon("chat.png"));
+		action->setIcon(*QtConfig::GetIcon("chat.png"));
 		menu->addAction(action);
 
 		appWindows["About"] = new AboutWindow();
@@ -251,7 +251,7 @@ void EditorMainWindow::SetupUI(QMainWindow *MainWindow) {
 		QToolButton *button = new QToolButton();
 		button->setText("Play");
 		button->setMaximumWidth(80);
-		button->setIcon(*QtEditor::GetIcon("play.png"));
+		button->setIcon(*QtConfig::GetIcon("play.png"));
 		button->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
 		QObject::connect(button, &QToolButton::clicked, this, []() {
 			CSoundEditor::GetScene()->Play();
@@ -264,7 +264,7 @@ void EditorMainWindow::SetupUI(QMainWindow *MainWindow) {
 		QToolButton *button = new QToolButton();
 		button->setText("Stop");
 		button->setMaximumWidth(80);
-		button->setIcon(*QtEditor::GetIcon("volume_disabled.png"));
+		button->setIcon(*QtConfig::GetIcon("volume_disabled.png"));
 		button->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
 		QObject::connect(button, &QToolButton::clicked, this, []() {
 			CSoundEditor::GetScene()->Stop();
@@ -276,7 +276,7 @@ void EditorMainWindow::SetupUI(QMainWindow *MainWindow) {
 	{
 		QToolButton *button = new QToolButton();
 		button->setText("Save Scene");
-		button->setIcon(*QtEditor::GetIcon("download.png"));
+		button->setIcon(*QtConfig::GetIcon("download.png"));
 		button->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
 		QObject::connect(button, &QToolButton::clicked, this, []() {
 			auto result = CSoundEditor::GetScene()->SaveScene();
@@ -294,7 +294,7 @@ void EditorMainWindow::SetupUI(QMainWindow *MainWindow) {
 	{
 		QToolButton *button = new QToolButton();
 		button->setText("Load Scene");
-		button->setIcon(*QtEditor::GetIcon("upload.png"));
+		button->setIcon(*QtConfig::GetIcon("upload.png"));
 		button->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
 
 		QObject::connect(picker, &QFileDialog::fileSelected, this, [picker] (const QString & file) {
@@ -315,7 +315,7 @@ void EditorMainWindow::SetupUI(QMainWindow *MainWindow) {
 	{
 		QToolButton *button = new QToolButton();
 		button->setText("Headphone Test");
-		button->setIcon(*QtEditor::GetIcon("speaker.png"));
+		button->setIcon(*QtConfig::GetIcon("speaker.png"));
 		button->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
 
 		appWindows["HeadphoneTest"] = new HeadphoneTestWindow();
@@ -342,7 +342,7 @@ void EditorMainWindow::SetupUI(QMainWindow *MainWindow) {
 	{
 		QToolButton *button = new QToolButton();
 		button->setText("Expanding Sphere");
-		button->setIcon(*QtEditor::GetIcon("target.png"));
+		button->setIcon(*QtConfig::GetIcon("target.png"));
 		button->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
 
 		appWindows["ExpandingPlane"] = new ExpandingSphereWindow();
@@ -375,8 +375,9 @@ void EditorMainWindow::SetupUI(QMainWindow *MainWindow) {
 		dropdown->addItem("Stereo", QVariant(2));
 		dropdown->addItem("ind-HRTF", QVariant(4));
 		dropdown->addItem("PAN2", QVariant(8));
-		dropdown->addItem("Quad", QVariant(16));
+		dropdown->addItem("Quad-HRTF", QVariant(16));
 		dropdown->addItem("Multi-8", QVariant(32));
+		dropdown->addItem("Quad-Stereo", QVariant(64));
 
 		// Default is HRTF
 		dropdown->setCurrentIndex(2);
@@ -398,7 +399,6 @@ void EditorMainWindow::SetupUI(QMainWindow *MainWindow) {
 			auto data = dropdown->currentData().toUInt();
 			SoundManager::SetGlobalOutputModelIndex(data);
 		});
-
 	}
 
 	// Attach toobar to the main window

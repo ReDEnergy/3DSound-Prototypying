@@ -214,6 +214,9 @@
 			<control>kRearGain</control>
 			<control>kMulti8Az</control>
 			<control>kMulti8El</control>
+			<control>kDragFront</control>
+			<control>kFrontAmp</control>
+			<control>k8ChanPower</control>
 		</controls>
 		<content>
 			<text>
@@ -246,31 +249,44 @@
 		</text>
 			<output4>outch 1, afrontleft, 2, afrontright, 3, acenter, 4, asubwoofer</output4>
 		<text>
+	elseif ((kOutput & 64) != 0) then
+		aleft = aout * cos(kAzPanFactor * $M_PI_2)
+		aright = aout * sin(kAzPanFactor * $M_PI_2)
+		kTopGain = kElPanFactor * (1 + kElBias)
+		kBottomGain = (1 - kElPanFactor) * (1 - kElBias) * kRearGain
+		afrontleft = aleft * kTopGain
+		afrontright = aleft * kBottomGain
+		acenter = aright * kTopGain
+		asubwoofer = aright * kBottomGain
+		</text>
+			<output4-2>outch 1, afrontleft, 2, afrontright, 3, acenter, 4, asubwoofer</output4-2>
+		<text>		
 	elseif ((kOutput & 32) != 0) then
 		aleft, aright hrtfmove2 aout, kAzimuth, 0 , "../hrtf/hrtf-44100-left.dat", "../hrtf/hrtf-44100-right.dat"
-		kAzFactor = kAzimuth / kMulti8Az
-		kElFactor = kElevation / kMulti8El + 0.5
+		//kFactor = (90 - kAzimuth) / 90
+		kFactor = cos(kAzimuth * $M_PI / 180)
+		kFront = kFactor * kDragFront
+		kBack = 1 - kFront
 
-		kTopGain = kElFactor
-		kBottomGain = 1 - kElFactor
+		kFront = kFront * kFrontAmp * k8ChanPower
+		kBack = kBack * k8ChanPower
+
+		kUp = kElevation / kMulti8El + 0.5
+		kDown = 1 - kUp
 
 		// Left side
-		kLeftSide = min(max(-kAzFactor, 1), 1)
-		afrontleft = aleft * kTopGain * kLeftSide
-		afrontright = aleft * kBottomGain * kLeftSide
-		kLeftSide = min(max(-kAzFactor + 1, 0), 1.5)
-		acenter = aleft * kTopGain * (1 - kLeftSide)
-		asubwoofer = aleft * kBottomGain * (1 - kLeftSide)
+		aLeftFrontUp = aleft * kFront * kUp
+		aLeftFrontDown = aleft * kFront * kDown
+		aLeftBackUp = aleft * kBack * kUp
+		aLeftBackDown = aleft *kBack * kDown
 
 		// Right side
-		kRrightPan = min(max(kAzFactor, 1), 1)
-		arearleft = aright * kTopGain * kRrightPan
-		arearright = aright * kBottomGain * kRrightPan
-		kRrightPan = min(max(kAzFactor - 1.0, 0), 1.5)
-		asideleft = aright * kTopGain * kRrightPan
-		
+		aRightFrontUp = aright * kFront * kUp
+		aRightFrontDown = aright * kFront * kDown
+		aRightBackUp = aright * kBack * kUp
+		aRightBackDown = aright * kBack * kDown
 		</text>
-			<output8>outch 1, afrontleft, 2, afrontright, 3, acenter, 4, asubwoofer, 5, arearleft, 6, arearright, 7, asideleft, 8, asideright</output8>
+			<output8>outch 2, aLeftFrontUp, 1, aLeftFrontDown, 4, aLeftBackUp, 3, aLeftBackDown, 5, aRightFrontUp, 6, aRightFrontDown, 7, aRightBackUp, 8, aRightBackDown</output8>
 			<text>
 	endif</text>
 		</content>

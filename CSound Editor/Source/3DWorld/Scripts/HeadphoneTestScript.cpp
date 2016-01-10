@@ -1,9 +1,12 @@
 #include "HeadphoneTestScript.h"
 
 #include <ctime>
+#include <iostream>
 #include <algorithm>
 #include <random>
 #include <chrono>
+
+using namespace std;
 
 #include <3DWorld/Csound/CSound3DSource.h>
 #include <3DWorld/Csound/CSoundScene.h>
@@ -33,6 +36,7 @@ static TimerManager<string> *dynamicEvents;
 static ProjectionInfo cameraProjection;
 static Transform *savedTransform;
 
+using namespace std;
 
 HeadphoneTestScript::HeadphoneTestScript()
 {
@@ -165,11 +169,24 @@ void HeadphoneTestScript::Start(HeadphoneTestConfig config)
 	auto instrument = score->GetEntry("headphone-test");
 	instrument->UseGlobalOutput(false);
 	auto component = instrument->GetEntry("global-output");
+
 	auto entry = component->GetEntry("output4");
+	auto mapping4 = SoundManager::GetChannelMapping(CsManager->GetActiveDac(), 4);
 	if (entry) {
-		auto val = SoundManager::GetChannelMapping(CsManager->GetActiveDac(), 4);
+		entry->SetValue(mapping4);
+	}
+
+	entry = component->GetEntry("output4-2");
+	if (entry) {
+		entry->SetValue(mapping4);
+	}
+
+	entry = component->GetEntry("output8");
+	if (entry) {
+		auto val = SoundManager::GetChannelMapping(CsManager->GetActiveDac(), 8);
 		entry->SetValue(val);
 	}
+
 	score->SaveToFile();
 	gameObj->SetSoundModel(score);
 

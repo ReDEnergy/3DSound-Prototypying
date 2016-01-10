@@ -11,6 +11,7 @@ CSoundInstrumentBlock* SoundManager::globalOutputModel = nullptr;
 uint SoundManager::globalOutputModelIndex = 0;
 vector<string> SoundManager::standardChannels;
 vector<string> SoundManager::output8Channels;
+vector<string> SoundManager::output4Channels;
 
 SoundManager::SoundManager()
 {
@@ -27,14 +28,23 @@ void SoundManager::Init()
 	standardChannels.push_back("Side Left");
 	standardChannels.push_back("Side Right");
 
-	output8Channels.push_back("afrontleft");
-	output8Channels.push_back("afrontright");
-	output8Channels.push_back("acenter");
-	output8Channels.push_back("asubwoofer");
-	output8Channels.push_back("arearleft");
-	output8Channels.push_back("arearright");
-	output8Channels.push_back("asideleft");
-	output8Channels.push_back("asideright");
+	output4Channels.push_back("afrontleft");
+	output4Channels.push_back("afrontright");
+	output4Channels.push_back("acenter");
+	output4Channels.push_back("asubwoofer");
+	output4Channels.push_back("arearleft");
+	output4Channels.push_back("arearright");
+	output4Channels.push_back("asideleft");
+	output4Channels.push_back("asideright");
+
+	output8Channels.push_back("aLeftFrontUp");
+	output8Channels.push_back("aLeftFrontDown");
+	output8Channels.push_back("aLeftBackUp");
+	output8Channels.push_back("aLeftBackDown");
+	output8Channels.push_back("aRightFrontUp");
+	output8Channels.push_back("aRightFrontDown");
+	output8Channels.push_back("aRightBackUp");
+	output8Channels.push_back("aRightBackDown");
 
 	csManager = Singleton<CSoundManager>::Instance();
 	csManager->LoadConfig();
@@ -77,11 +87,14 @@ const char * SoundManager::GetChannelMapping(AudioDevice * device, unsigned int 
 	buff->append("outch ");
 	int limit = (channelCount - 1);
 
+	vector<string> *channelNames = &output4Channels;
+	if (channelCount == 8) channelNames = &output8Channels;
+
 	for (int i = 0; i < limit; i++)
 	{
-		*buff += to_string(device->mapping[i] + 1) + ", " + output8Channels[i] + ", ";
+		*buff += to_string(device->mapping[i] + 1) + ", " + (*channelNames)[i] + ", ";
 	}
-	*buff += to_string(device->mapping[channelCount - 1] + 1) + ", " + output8Channels[channelCount - 1];
+	*buff += to_string(device->mapping[channelCount - 1] + 1) + ", " + (*channelNames)[channelCount - 1];
 
 	return buff->c_str();
 }

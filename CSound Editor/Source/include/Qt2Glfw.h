@@ -1,4 +1,6 @@
 #pragma once
+#include <iostream>
+
 #include <include/gl.h>
 #include <unordered_map>
 
@@ -73,7 +75,7 @@ namespace Qt2Glfw
 		if (keyboardButtons.find(qtKey) != keyboardButtons.end())
 			return keyboardButtons.at(qtKey);
 
-		cout << "[WARNING] - KEY BINDING NOT FOUND";
+		std::cout << "[WARNING] - KEY BINDING NOT FOUND" << std::endl;
 		return 0;
 	}
 

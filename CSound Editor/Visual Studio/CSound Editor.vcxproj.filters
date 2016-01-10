@@ -197,14 +197,14 @@
     <ClCompile Include="..\Source\Editor\Windows\General\CSoundOptionsWindow.cpp">
       <Filter>Editor\Windows\General</Filter>
     </ClCompile>
-    <ClCompile Include="..\Source\Editor\QtEditor.cpp">
-      <Filter>Editor</Filter>
-    </ClCompile>
     <ClCompile Include="..\Source\Editor\Windows\Editors\CSoundControlWindow.cpp">
       <Filter>Editor\Windows\Editors</Filter>
     </ClCompile>
     <ClCompile Include="..\Source\Editor\Windows\Code\CodeEditorWindow.cpp">
       <Filter>Editor\Windows\Code</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\Editor\QtConfig.cpp">
+      <Filter>Editor\Windows</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -371,14 +371,14 @@
     <ClInclude Include="..\Source\Editor\Windows\General\CSoundOptionsWindow.h">
       <Filter>Editor\Windows\General</Filter>
     </ClInclude>
-    <ClInclude Include="..\Source\Editor\QtEditor.h">
-      <Filter>Editor</Filter>
-    </ClInclude>
     <ClInclude Include="..\Source\Editor\Windows\Editors\CSoundControlWindow.h">
       <Filter>Editor\Windows\Editors</Filter>
     </ClInclude>
     <ClInclude Include="..\Source\Editor\Windows\Code\CodeEditorWindow.h">
       <Filter>Editor\Windows\Code</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Editor\QtConfig.h">
+      <Filter>Editor\Windows</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -36,6 +36,7 @@ HeadphoneTestWindow::HeadphoneTestWindow()
 
 	{
 		auto *test = new HeadphoneTestConfig();
+		test->testID = "Test 1";
 		test->azimuthValues = { -60, 0, 60 };
 		test->elevationValues = { -60, 0, 60 };
 		test->randomIterations = 4;
@@ -45,6 +46,7 @@ HeadphoneTestWindow::HeadphoneTestWindow()
 
 	{
 		auto test = new HeadphoneTestConfig();
+		test->testID = "Test 2";
 		test->azimuthValues = { -90, -60, -30, 0, 30, 60, 90 };
 		test->elevationValues = { 0 };
 		test->randomIterations = 4;
@@ -54,6 +56,7 @@ HeadphoneTestWindow::HeadphoneTestWindow()
 
 	{
 		auto test = new HeadphoneTestConfig();
+		test->testID = "Test 3";
 		test->azimuthValues = { -90, -60, -30, 0, 30, 60, 90 };
 		test->elevationValues = { -60, -30, 0, 30, 60 };
 		test->randomIterations = 4;
@@ -63,10 +66,21 @@ HeadphoneTestWindow::HeadphoneTestWindow()
 
 	{
 		auto *test = new HeadphoneTestConfig();
+		test->testID = "Test Quad";
 		test->azimuthValues = { -60, 0, 60 };
 		test->elevationValues = { -60, 0, 60 };
 		test->randomIterations = 2;
 		SET_BIT(test->outputTested, 4);
+		customTests.push_back(test);
+	}
+
+	{
+		auto *test = new HeadphoneTestConfig();
+		test->testID = "Test 8 channels";
+		test->azimuthValues = { -60, 0, 60 };
+		test->elevationValues = { -60, 0, 60 };
+		test->randomIterations = 2;
+		SET_BIT(test->outputTested, 5);
 		customTests.push_back(test);
 	}
 
@@ -114,8 +128,8 @@ void HeadphoneTestWindow::InitUI()
 
 		auto block = new QPlainTextEdit();
 		block->setReadOnly(true);
-		block->insertPlainText(" 4, 8  - chnage azimuth left/right\n");
-		block->insertPlainText(" 2, 8  - chnage elevation down/up\n");
+		block->insertPlainText(" 4, 8  - change azimuth left/right\n");
+		block->insertPlainText(" 2, 8  - change elevation down/up\n");
 		block->insertPlainText(" 5      - center azimuth, elevation to [0, 0]\n");
 		block->insertPlainText(" Enter - submit answer");
 		block->setFixedHeight(75);
@@ -161,7 +175,7 @@ void HeadphoneTestWindow::InitUI()
 	auto dropdown = new SimpleDropDown("Custom test");
 	for (uint i = 1; i < customTests.size(); i++)
 	{
-		dropdown->AddOption((string("Test ") + to_string(i)).c_str(), QVariant(i));
+		dropdown->AddOption(customTests[i]->testID.c_str(), QVariant(i));
 	}
 	dropdown->OnChange([&](QVariant value) {
 		SetConfig(customTests[value.toUInt()]);
@@ -222,17 +236,23 @@ void HeadphoneTestWindow::InitUI()
 
 	// Test output models
 
-	testHRTF = new SimpleCheckBox("Test HRTF:", true);
-	advanceConfigPanel->AddWidget(testHRTF);
+	testTypes["HRTF"] = new SimpleCheckBox("Test HRTF:", true);
+	advanceConfigPanel->AddWidget(testTypes["HRTF"]);
 
-	testIndividualHRTF = new SimpleCheckBox("Individual HRTF:", true);
-	advanceConfigPanel->AddWidget(testIndividualHRTF);
+	testTypes["indivHRTF"] = new SimpleCheckBox("Individual HRTF:", true);
+	advanceConfigPanel->AddWidget(testTypes["indivHRTF"]);
 
-	testStereoPanning = new SimpleCheckBox("Stereo Panning:", true);
-	advanceConfigPanel->AddWidget(testStereoPanning);
+	testTypes["StereoPan"] = new SimpleCheckBox("Stereo Panning:", true);
+	advanceConfigPanel->AddWidget(testTypes["StereoPan"]);
 
-	testCustomQuadPanning = new SimpleCheckBox("Quad Panning:", false);
-	advanceConfigPanel->AddWidget(testCustomQuadPanning);
+	testTypes["QuadHRTF"] = new SimpleCheckBox("Quad HRTF:", false);
+	advanceConfigPanel->AddWidget(testTypes["QuadHRTF"]);
+
+	testTypes["QuadPan"] = new SimpleCheckBox("Quad Panning:", false);
+	advanceConfigPanel->AddWidget(testTypes["QuadPan"]);
+
+	testTypes["8ChanHRTF"] = new SimpleCheckBox("8 Channel:", false);
+	advanceConfigPanel->AddWidget(testTypes["8ChanHRTF"]);
 
 	// Time config
 
@@ -286,10 +306,12 @@ void HeadphoneTestWindow::Start()
 	}
 
 	config->outputTested = 0;
-	config->outputTested |= int(testHRTF->GetValue());
-	config->outputTested |= int(testStereoPanning->GetValue()) << 1;
-	config->outputTested |= int(testIndividualHRTF->GetValue()) << 2;
-	config->outputTested |= int(testCustomQuadPanning->GetValue()) << 4;
+	config->outputTested |= int(testTypes["HRTF"]->GetValue());
+	config->outputTested |= int(testTypes["StereoPan"]->GetValue()) << 1;
+	config->outputTested |= int(testTypes["indivHRTF"]->GetValue()) << 2;
+	config->outputTested |= int(testTypes["QuadHRTF"]->GetValue()) << 4;
+	config->outputTested |= int(testTypes["8ChanHRTF"]->GetValue()) << 5;
+	config->outputTested |= int(testTypes["QuadPan"]->GetValue()) << 6;
 
 	if (config->outputTested == 0) {
 		Stop();
@@ -354,10 +376,12 @@ void HeadphoneTestWindow::SetConfig(HeadphoneTestConfig * config)
 	randomIterations->SetValue(config->randomIterations);
 	wait4Input->SetValue(config->waitForInput);
 
-	testHRTF->SetValue(GET_BIT(config->outputTested, 0));
-	testStereoPanning->SetValue(GET_BIT(config->outputTested, 1));
-	testIndividualHRTF->SetValue(GET_BIT(config->outputTested, 2));
-	testCustomQuadPanning->SetValue(GET_BIT(config->outputTested, 4));
+	testTypes["HRTF"]->SetValue(GET_BIT(config->outputTested, 0));
+	testTypes["StereoPan"]->SetValue(GET_BIT(config->outputTested, 1));
+	testTypes["indivHRTF"]->SetValue(GET_BIT(config->outputTested, 2));
+	testTypes["QuadHRTF"]->SetValue(GET_BIT(config->outputTested, 4));
+	testTypes["8ChanHRTF"]->SetValue(GET_BIT(config->outputTested, 5));
+	testTypes["QuadPan"]->SetValue(GET_BIT(config->outputTested, 6));
 
 	auto value = Utils::Join(config->azimuthValues);
 	sortableAzimuth->SetValue(value.c_str());

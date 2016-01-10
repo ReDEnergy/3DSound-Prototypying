@@ -37,6 +37,7 @@ struct HeadphoneTestConfig
 	unsigned int randomIterations;
 	vector<float> azimuthValues;
 	vector<float> elevationValues;
+	string testID;
 	string testName;
 };
 

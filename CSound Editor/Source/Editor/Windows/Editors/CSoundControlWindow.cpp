@@ -84,6 +84,31 @@ void CSoundControlWindow::InitUI()
 		});
 	}
 
+	{
+		auto multi8El = CreateControl("Multi8El", "kMulti8El");
+		multi8El->AcceptNegativeValues(false);
+		multi8El->SetUnit("degrees");
+		multi8El->SetValue(120);
+	}
+
+	{
+		auto input = CreateControl("kDragFront", "kDragFront");
+		input->AcceptNegativeValues(false);
+		input->SetValue(1);
+	}
+
+	{
+		auto input = CreateControl("8ChanPower", "k8ChanPower");
+		input->AcceptNegativeValues(false);
+		input->SetValue(1.25);
+	}
+
+	{
+		auto input = CreateControl("FrontAmp", "kFrontAmp");
+		input->AcceptNegativeValues(false);
+		input->SetValue(1.5);
+	}
+
 	auto separator = new QWidget();
 	separator->setObjectName("Separator");
 

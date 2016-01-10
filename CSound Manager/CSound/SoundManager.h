@@ -29,6 +29,7 @@ class DLLExport SoundManager
 
 	private:
 		static vector<string> standardChannels;
+		static vector<string> output4Channels;
 		static vector<string> output8Channels;
 		static CSoundManager* csManager;
 		static CSoundInstrumentBlock *globalOutputModel;

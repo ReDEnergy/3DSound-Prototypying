@@ -1,74 +1,36 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.23107.0
+VisualStudioVersion = 14.0.24720.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CSound Editor", "CSound Editor.vcxproj", "{7995226B-0FB5-4AE8-B032-43C5D18D2DCE}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CSoundManager", "..\..\CSound Manager\Visual Studio\CSoundManager.vcxproj", "{E0952CA1-E7DF-460D-B453-7C172AB99577}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Engine", "..\..\..\GameEngine\Engine\Visual Studio\Engine.vcxproj", "{0392642F-3434-4217-960C-F6966699D17D}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
 		Debug|x86 = Debug|x86
-		Debug-Physics|x64 = Debug-Physics|x64
-		Debug-Physics|x86 = Debug-Physics|x86
 		Release|x64 = Release|x64
 		Release|x86 = Release|x86
-		Release-Physics|x64 = Release-Physics|x64
-		Release-Physics|x86 = Release-Physics|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{7995226B-0FB5-4AE8-B032-43C5D18D2DCE}.Debug|x64.ActiveCfg = Debug|x64
 		{7995226B-0FB5-4AE8-B032-43C5D18D2DCE}.Debug|x64.Build.0 = Debug|x64
 		{7995226B-0FB5-4AE8-B032-43C5D18D2DCE}.Debug|x86.ActiveCfg = Debug|Win32
 		{7995226B-0FB5-4AE8-B032-43C5D18D2DCE}.Debug|x86.Build.0 = Debug|Win32
-		{7995226B-0FB5-4AE8-B032-43C5D18D2DCE}.Debug-Physics|x64.ActiveCfg = Debug|x64
-		{7995226B-0FB5-4AE8-B032-43C5D18D2DCE}.Debug-Physics|x64.Build.0 = Debug|x64
-		{7995226B-0FB5-4AE8-B032-43C5D18D2DCE}.Debug-Physics|x86.ActiveCfg = Debug|Win32
-		{7995226B-0FB5-4AE8-B032-43C5D18D2DCE}.Debug-Physics|x86.Build.0 = Debug|Win32
 		{7995226B-0FB5-4AE8-B032-43C5D18D2DCE}.Release|x64.ActiveCfg = Release|x64
 		{7995226B-0FB5-4AE8-B032-43C5D18D2DCE}.Release|x64.Build.0 = Release|x64
 		{7995226B-0FB5-4AE8-B032-43C5D18D2DCE}.Release|x86.ActiveCfg = Release|Win32
 		{7995226B-0FB5-4AE8-B032-43C5D18D2DCE}.Release|x86.Build.0 = Release|Win32
-		{7995226B-0FB5-4AE8-B032-43C5D18D2DCE}.Release-Physics|x64.ActiveCfg = Release|x64
-		{7995226B-0FB5-4AE8-B032-43C5D18D2DCE}.Release-Physics|x64.Build.0 = Release|x64
-		{7995226B-0FB5-4AE8-B032-43C5D18D2DCE}.Release-Physics|x86.ActiveCfg = Release|Win32
-		{7995226B-0FB5-4AE8-B032-43C5D18D2DCE}.Release-Physics|x86.Build.0 = Release|Win32
 		{E0952CA1-E7DF-460D-B453-7C172AB99577}.Debug|x64.ActiveCfg = Debug|x64
 		{E0952CA1-E7DF-460D-B453-7C172AB99577}.Debug|x64.Build.0 = Debug|x64
 		{E0952CA1-E7DF-460D-B453-7C172AB99577}.Debug|x86.ActiveCfg = Debug|Win32
 		{E0952CA1-E7DF-460D-B453-7C172AB99577}.Debug|x86.Build.0 = Debug|Win32
-		{E0952CA1-E7DF-460D-B453-7C172AB99577}.Debug-Physics|x64.ActiveCfg = Debug|x64
-		{E0952CA1-E7DF-460D-B453-7C172AB99577}.Debug-Physics|x64.Build.0 = Debug|x64
-		{E0952CA1-E7DF-460D-B453-7C172AB99577}.Debug-Physics|x86.ActiveCfg = Debug|Win32
-		{E0952CA1-E7DF-460D-B453-7C172AB99577}.Debug-Physics|x86.Build.0 = Debug|Win32
 		{E0952CA1-E7DF-460D-B453-7C172AB99577}.Release|x64.ActiveCfg = Release|x64
 		{E0952CA1-E7DF-460D-B453-7C172AB99577}.Release|x64.Build.0 = Release|x64
 		{E0952CA1-E7DF-460D-B453-7C172AB99577}.Release|x86.ActiveCfg = Release|Win32
 		{E0952CA1-E7DF-460D-B453-7C172AB99577}.Release|x86.Build.0 = Release|Win32
-		{E0952CA1-E7DF-460D-B453-7C172AB99577}.Release-Physics|x64.ActiveCfg = Release|x64
-		{E0952CA1-E7DF-460D-B453-7C172AB99577}.Release-Physics|x64.Build.0 = Release|x64
-		{E0952CA1-E7DF-460D-B453-7C172AB99577}.Release-Physics|x86.ActiveCfg = Release|Win32
-		{E0952CA1-E7DF-460D-B453-7C172AB99577}.Release-Physics|x86.Build.0 = Release|Win32
-		{0392642F-3434-4217-960C-F6966699D17D}.Debug|x64.ActiveCfg = Debug|x64
-		{0392642F-3434-4217-960C-F6966699D17D}.Debug|x64.Build.0 = Debug|x64
-		{0392642F-3434-4217-960C-F6966699D17D}.Debug|x86.ActiveCfg = Debug|Win32
-		{0392642F-3434-4217-960C-F6966699D17D}.Debug|x86.Build.0 = Debug|Win32
-		{0392642F-3434-4217-960C-F6966699D17D}.Debug-Physics|x64.ActiveCfg = Debug-Physics|x64
-		{0392642F-3434-4217-960C-F6966699D17D}.Debug-Physics|x64.Build.0 = Debug-Physics|x64
-		{0392642F-3434-4217-960C-F6966699D17D}.Debug-Physics|x86.ActiveCfg = Debug-Physics|Win32
-		{0392642F-3434-4217-960C-F6966699D17D}.Debug-Physics|x86.Build.0 = Debug-Physics|Win32
-		{0392642F-3434-4217-960C-F6966699D17D}.Release|x64.ActiveCfg = Release|x64
-		{0392642F-3434-4217-960C-F6966699D17D}.Release|x64.Build.0 = Release|x64
-		{0392642F-3434-4217-960C-F6966699D17D}.Release|x86.ActiveCfg = Release|Win32
-		{0392642F-3434-4217-960C-F6966699D17D}.Release|x86.Build.0 = Release|Win32
-		{0392642F-3434-4217-960C-F6966699D17D}.Release-Physics|x64.ActiveCfg = Release-Physics|x64
-		{0392642F-3434-4217-960C-F6966699D17D}.Release-Physics|x64.Build.0 = Release-Physics|x64
-		{0392642F-3434-4217-960C-F6966699D17D}.Release-Physics|x86.ActiveCfg = Release-Physics|Win32
-		{0392642F-3434-4217-960C-F6966699D17D}.Release-Physics|x86.Build.0 = Release-Physics|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

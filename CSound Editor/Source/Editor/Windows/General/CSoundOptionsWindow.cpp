@@ -301,6 +301,16 @@ void CSoundOptionsWindow::SaveDevicesConfiguration()
 		auto val = SoundManager::GetChannelMapping(selectedDevice, selectedDevice->nrActiveChannels);
 		entry->SetValue(val);
 	}
+
+	if (selectedDevice->nrActiveChannels == 4) {
+		string componentName = "output" + to_string(selectedDevice->nrActiveChannels) + "-2";
+		auto entry = component->GetEntry(componentName.c_str());
+		if (entry) {
+			auto val = SoundManager::GetChannelMapping(selectedDevice, 4);
+			entry->SetValue(val);
+		}
+	}
+
 	UpdateScene();
 }
 

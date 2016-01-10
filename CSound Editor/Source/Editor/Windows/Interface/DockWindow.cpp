@@ -6,8 +6,7 @@
 
 #include <QtWidgets/QBoxLayout>
 #include <QtCore/QFile>
-
-#include <CSoundEditor.h>
+#include <Editor/QtConfig.h>
 
 using namespace std;
 
@@ -48,13 +47,10 @@ void DockWindow::ReloadStyleSheet()
 		LoadStyleSheet(styleSheet.c_str());
 }
 
-void DockWindow::LoadStyleSheet(const char * fileName)
+void DockWindow::LoadStyleSheet(const char * file)
 {
-	styleSheet = fileName;
-	QFile File(CSoundEditor::GetStyleSheetFilePath(fileName).c_str());
-	File.open(QFile::ReadOnly);
-	QString StyleSheet = QLatin1String(File.readAll());
-	setStyleSheet(StyleSheet);
+	styleSheet = file;
+	QtConfig::SetWidgetStyleSheet(this, file);
 }
 
 void DockWindow::DockedEvent(bool state)

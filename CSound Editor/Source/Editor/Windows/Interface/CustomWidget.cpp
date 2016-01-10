@@ -7,8 +7,7 @@
 #include <QtWidgets/QBoxLayout>
 #include <QtCore/QFile>
 
-#include <CSoundEditor.h>
-#include <Editor/QtEditor.h>
+#include <Editor/QtConfig.h>
 #include <QIcon>
 
 using namespace std;
@@ -68,7 +67,7 @@ void CustomWidget::SetAsToolWindow()
 
 void CustomWidget::SetIcon(const char * fileName)
 {
-	setWindowIcon(*QtEditor::GetIcon(fileName));
+	setWindowIcon(*QtConfig::GetIcon(fileName));
 }
 
 void CustomWidget::SetStyleID(const char * ID)
@@ -82,11 +81,8 @@ void CustomWidget::ReloadStyleSheet()
 		LoadStyleSheet(styleSheet.c_str());
 }
 
-void CustomWidget::LoadStyleSheet(const char * fileName)
+void CustomWidget::LoadStyleSheet(const char* file)
 {
-	styleSheet = fileName;
-	QFile File(CSoundEditor::GetStyleSheetFilePath(fileName).c_str());
-	File.open(QFile::ReadOnly);
-	QString StyleSheet = QLatin1String(File.readAll());
-	setStyleSheet(StyleSheet);
+	styleSheet = file;
+	QtConfig::SetWidgetStyleSheet(this, file);
 }

@@ -7,6 +7,7 @@
 
 #include <Editor/QT/Utils.h>
 #include <Editor/QtEditor.h>
+#include <Editor/QtConfig.h>
 #include <Editor/GUI.h>
 
 #include <Editor/Windows/SceneWindow.h>
