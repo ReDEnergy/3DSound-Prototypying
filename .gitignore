@@ -8,3 +8,4 @@ lib
 /CSound Editor/Resources/CSound/Scores
 /CSound Editor/Headphone Test Results
 /CSound Editor/Visual Studio/*.opendb
+/**/.vs
