@@ -133,11 +133,7 @@ xcopy /y /d "..\..\CSound Manager\lib\$(PlatformTarget)\$(Configuration)\*.dll" 
 xcopy /y /d "..\..\CSound Manager\lib\$(PlatformTarget)\$(Configuration)\*.pdb" "$(OutDir)"
 
 xcopy /y /d "..\..\libs\Engine\$(PlatformTarget)\*.dll" "$(OutDir)"
-xcopy /y /d "..\..\libs\Engine\$(PlatformTarget)\$(Configuration)\*.dll" "$(OutDir)"
-
-xcopy /y /d "..\..\..\GameEngine\Engine\lib\$(PlatformTarget)\$(Configuration)\*.dll" "$(OutDir)"
-xcopy /y /d "..\..\..\GameEngine\Engine\lib\$(PlatformTarget)\$(Configuration)\*.pdb" "$(OutDir)"
-</Command>
+xcopy /y /d "..\..\libs\Engine\$(PlatformTarget)\$(Configuration)\*.dll" "$(OutDir)"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -166,11 +162,7 @@ xcopy /y /d "..\..\CSound Manager\lib\$(PlatformTarget)\$(Configuration)\*.dll" 
 xcopy /y /d "..\..\CSound Manager\lib\$(PlatformTarget)\$(Configuration)\*.pdb" "$(OutDir)"
 
 xcopy /y /d "..\..\libs\Engine\$(PlatformTarget)\*.dll" "$(OutDir)"
-xcopy /y /d "..\..\libs\Engine\$(PlatformTarget)\$(Configuration)\*.dll" "$(OutDir)"
-
-xcopy /y /d "..\..\..\GameEngine\Engine\lib\$(PlatformTarget)\$(Configuration)\*.dll" "$(OutDir)"
-xcopy /y /d "..\..\..\GameEngine\Engine\lib\$(PlatformTarget)\$(Configuration)\*.pdb" "$(OutDir)"
-</Command>
+xcopy /y /d "..\..\libs\Engine\$(PlatformTarget)\$(Configuration)\*.dll" "$(OutDir)"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -203,11 +195,7 @@ xcopy /y /d "..\..\CSound Manager\lib\$(PlatformTarget)\$(Configuration)\*.dll" 
 xcopy /y /d "..\..\CSound Manager\lib\$(PlatformTarget)\$(Configuration)\*.pdb" "$(OutDir)"
 
 xcopy /y /d "..\..\libs\Engine\$(PlatformTarget)\*.dll" "$(OutDir)"
-xcopy /y /d "..\..\libs\Engine\$(PlatformTarget)\$(Configuration)\*.dll" "$(OutDir)"
-
-xcopy /y /d "..\..\..\GameEngine\Engine\lib\$(PlatformTarget)\$(Configuration)\*.dll" "$(OutDir)"
-xcopy /y /d "..\..\..\GameEngine\Engine\lib\$(PlatformTarget)\$(Configuration)\*.pdb" "$(OutDir)"
-</Command>
+xcopy /y /d "..\..\libs\Engine\$(PlatformTarget)\$(Configuration)\*.dll" "$(OutDir)"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -240,11 +228,7 @@ xcopy /y /d "..\..\CSound Manager\lib\$(PlatformTarget)\$(Configuration)\*.dll" 
 xcopy /y /d "..\..\CSound Manager\lib\$(PlatformTarget)\$(Configuration)\*.pdb" "$(OutDir)"
 
 xcopy /y /d "..\..\libs\Engine\$(PlatformTarget)\*.dll" "$(OutDir)"
-xcopy /y /d "..\..\libs\Engine\$(PlatformTarget)\$(Configuration)\*.dll" "$(OutDir)"
-
-xcopy /y /d "..\..\..\GameEngine\Engine\lib\$(PlatformTarget)\$(Configuration)\*.dll" "$(OutDir)"
-xcopy /y /d "..\..\..\GameEngine\Engine\lib\$(PlatformTarget)\$(Configuration)\*.pdb" "$(OutDir)"
-</Command>
+xcopy /y /d "..\..\libs\Engine\$(PlatformTarget)\$(Configuration)\*.dll" "$(OutDir)"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
