@@ -117,10 +117,13 @@
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
-      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <GenerateDebugInformation>false</GenerateDebugInformation>
     </Link>
     <PostBuildEvent>
       <Command>xcopy /y /d "..\..\libs\Qt\$(PlatformTarget)\$(Configuration)\*.dll" "$(OutDir)"
+xcopy /y /d /T "..\..\libs\Qt\$(PlatformTarget)\$(Configuration)" "$(OutDir)"
+xcopy /y /d "..\..\libs\Qt\$(PlatformTarget)\$(Configuration)\platforms" "$(OutDir)\platforms" 
+
 xcopy /y /d "..\..\libs\GL\$(PlatformTarget)\$(Configuration)\*.dll" "$(OutDir)"
 xcopy /y /d "..\..\libs\GLFW\$(PlatformTarget)\$(Configuration)\*.dll" "$(OutDir)"
 xcopy /y /d "..\..\libs\pugixml\$(PlatformTarget)\$(Configuration)\*.dll" "$(OutDir)"
@@ -129,10 +132,11 @@ xcopy /y /d "..\..\libs\Csound\$(PlatformTarget)\*.dll" "$(OutDir)"
 xcopy /y /d "..\..\CSound Manager\lib\$(PlatformTarget)\$(Configuration)\*.dll" "$(OutDir)"
 xcopy /y /d "..\..\CSound Manager\lib\$(PlatformTarget)\$(Configuration)\*.pdb" "$(OutDir)"
 
-xcopy /y /d "..\..\..\GameEngine\Engine\lib\$(PlatformTarget)\$(Configuration)\*.dll" "$(OutDir)"
-xcopy /y /d "..\..\..\GameEngine\Engine\lib\$(PlatformTarget)\$(Configuration)\*.pdb" "$(OutDir)"
 xcopy /y /d "..\..\libs\Engine\$(PlatformTarget)\*.dll" "$(OutDir)"
 xcopy /y /d "..\..\libs\Engine\$(PlatformTarget)\$(Configuration)\*.dll" "$(OutDir)"
+
+xcopy /y /d "..\..\..\GameEngine\Engine\lib\$(PlatformTarget)\$(Configuration)\*.dll" "$(OutDir)"
+xcopy /y /d "..\..\..\GameEngine\Engine\lib\$(PlatformTarget)\$(Configuration)\*.pdb" "$(OutDir)"
 </Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
@@ -146,10 +150,13 @@ xcopy /y /d "..\..\libs\Engine\$(PlatformTarget)\$(Configuration)\*.dll" "$(OutD
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
-      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <GenerateDebugInformation>false</GenerateDebugInformation>
     </Link>
     <PostBuildEvent>
       <Command>xcopy /y /d "..\..\libs\Qt\$(PlatformTarget)\$(Configuration)\*.dll" "$(OutDir)"
+xcopy /y /d /T "..\..\libs\Qt\$(PlatformTarget)\$(Configuration)" "$(OutDir)"
+xcopy /y /d "..\..\libs\Qt\$(PlatformTarget)\$(Configuration)\platforms" "$(OutDir)\platforms" 
+
 xcopy /y /d "..\..\libs\GL\$(PlatformTarget)\$(Configuration)\*.dll" "$(OutDir)"
 xcopy /y /d "..\..\libs\GLFW\$(PlatformTarget)\$(Configuration)\*.dll" "$(OutDir)"
 xcopy /y /d "..\..\libs\pugixml\$(PlatformTarget)\$(Configuration)\*.dll" "$(OutDir)"
@@ -158,10 +165,11 @@ xcopy /y /d "..\..\libs\Csound\$(PlatformTarget)\*.dll" "$(OutDir)"
 xcopy /y /d "..\..\CSound Manager\lib\$(PlatformTarget)\$(Configuration)\*.dll" "$(OutDir)"
 xcopy /y /d "..\..\CSound Manager\lib\$(PlatformTarget)\$(Configuration)\*.pdb" "$(OutDir)"
 
-xcopy /y /d "..\..\..\..\GameEngine\Engine\lib\$(PlatformTarget)\$(Configuration)\*.dll" "$(OutDir)"
-xcopy /y /d "..\..\..\..\GameEngine\Engine\lib\$(PlatformTarget)\$(Configuration)\*.pdb" "$(OutDir)"
 xcopy /y /d "..\..\libs\Engine\$(PlatformTarget)\*.dll" "$(OutDir)"
 xcopy /y /d "..\..\libs\Engine\$(PlatformTarget)\$(Configuration)\*.dll" "$(OutDir)"
+
+xcopy /y /d "..\..\..\GameEngine\Engine\lib\$(PlatformTarget)\$(Configuration)\*.dll" "$(OutDir)"
+xcopy /y /d "..\..\..\GameEngine\Engine\lib\$(PlatformTarget)\$(Configuration)\*.pdb" "$(OutDir)"
 </Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
@@ -177,12 +185,15 @@ xcopy /y /d "..\..\libs\Engine\$(PlatformTarget)\$(Configuration)\*.dll" "$(OutD
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
-      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <GenerateDebugInformation>false</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
     <PostBuildEvent>
       <Command>xcopy /y /d "..\..\libs\Qt\$(PlatformTarget)\$(Configuration)\*.dll" "$(OutDir)"
+xcopy /y /d /T "..\..\libs\Qt\$(PlatformTarget)\$(Configuration)" "$(OutDir)"
+xcopy /y /d "..\..\libs\Qt\$(PlatformTarget)\$(Configuration)\platforms" "$(OutDir)\platforms" 
+
 xcopy /y /d "..\..\libs\GL\$(PlatformTarget)\$(Configuration)\*.dll" "$(OutDir)"
 xcopy /y /d "..\..\libs\GLFW\$(PlatformTarget)\$(Configuration)\*.dll" "$(OutDir)"
 xcopy /y /d "..\..\libs\pugixml\$(PlatformTarget)\$(Configuration)\*.dll" "$(OutDir)"
@@ -191,10 +202,11 @@ xcopy /y /d "..\..\libs\Csound\$(PlatformTarget)\*.dll" "$(OutDir)"
 xcopy /y /d "..\..\CSound Manager\lib\$(PlatformTarget)\$(Configuration)\*.dll" "$(OutDir)"
 xcopy /y /d "..\..\CSound Manager\lib\$(PlatformTarget)\$(Configuration)\*.pdb" "$(OutDir)"
 
-xcopy /y /d "..\..\..\GameEngine\Engine\lib\$(PlatformTarget)\$(Configuration)\*.dll" "$(OutDir)"
-xcopy /y /d "..\..\..\GameEngine\Engine\lib\$(PlatformTarget)\$(Configuration)\*.pdb" "$(OutDir)"
 xcopy /y /d "..\..\libs\Engine\$(PlatformTarget)\*.dll" "$(OutDir)"
 xcopy /y /d "..\..\libs\Engine\$(PlatformTarget)\$(Configuration)\*.dll" "$(OutDir)"
+
+xcopy /y /d "..\..\..\GameEngine\Engine\lib\$(PlatformTarget)\$(Configuration)\*.dll" "$(OutDir)"
+xcopy /y /d "..\..\..\GameEngine\Engine\lib\$(PlatformTarget)\$(Configuration)\*.pdb" "$(OutDir)"
 </Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
@@ -210,12 +222,15 @@ xcopy /y /d "..\..\libs\Engine\$(PlatformTarget)\$(Configuration)\*.dll" "$(OutD
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
-      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <GenerateDebugInformation>false</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
     <PostBuildEvent>
       <Command>xcopy /y /d "..\..\libs\Qt\$(PlatformTarget)\$(Configuration)\*.dll" "$(OutDir)"
+xcopy /y /d /T "..\..\libs\Qt\$(PlatformTarget)\$(Configuration)" "$(OutDir)"
+xcopy /y /d "..\..\libs\Qt\$(PlatformTarget)\$(Configuration)\platforms" "$(OutDir)\platforms" 
+
 xcopy /y /d "..\..\libs\GL\$(PlatformTarget)\$(Configuration)\*.dll" "$(OutDir)"
 xcopy /y /d "..\..\libs\GLFW\$(PlatformTarget)\$(Configuration)\*.dll" "$(OutDir)"
 xcopy /y /d "..\..\libs\pugixml\$(PlatformTarget)\$(Configuration)\*.dll" "$(OutDir)"
@@ -224,10 +239,11 @@ xcopy /y /d "..\..\libs\Csound\$(PlatformTarget)\*.dll" "$(OutDir)"
 xcopy /y /d "..\..\CSound Manager\lib\$(PlatformTarget)\$(Configuration)\*.dll" "$(OutDir)"
 xcopy /y /d "..\..\CSound Manager\lib\$(PlatformTarget)\$(Configuration)\*.pdb" "$(OutDir)"
 
-xcopy /y /d "..\..\..\GameEngine\Engine\lib\$(PlatformTarget)\$(Configuration)\*.dll" "$(OutDir)"
-xcopy /y /d "..\..\..\GameEngine\Engine\lib\$(PlatformTarget)\$(Configuration)\*.pdb" "$(OutDir)"
 xcopy /y /d "..\..\libs\Engine\$(PlatformTarget)\*.dll" "$(OutDir)"
 xcopy /y /d "..\..\libs\Engine\$(PlatformTarget)\$(Configuration)\*.dll" "$(OutDir)"
+
+xcopy /y /d "..\..\..\GameEngine\Engine\lib\$(PlatformTarget)\$(Configuration)\*.dll" "$(OutDir)"
+xcopy /y /d "..\..\..\GameEngine\Engine\lib\$(PlatformTarget)\$(Configuration)\*.pdb" "$(OutDir)"
 </Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
