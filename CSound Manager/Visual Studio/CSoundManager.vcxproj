@@ -41,6 +41,7 @@
     <ClInclude Include="..\CSound\Templates\CSoundList.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\libs\Csound\csound\csPerfThread.cpp" />
     <ClCompile Include="..\CSound\CSoundComponent.cpp" />
     <ClCompile Include="..\CSound\CSoundComponentProperty.cpp" />
     <ClCompile Include="..\CSound\CSoundEntity.cpp" />
@@ -54,7 +55,7 @@
     <ClCompile Include="..\CSound\SoundManager.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{E0952CA1-E7DF-460D-B453-7C172AB99577}</ProjectGuid>
+    <ProjectGuid>{0392642F-3434-4217-960C-F6966699D17D}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>Engine</RootNamespace>
     <TargetPlatformVersion>8.1</TargetPlatformVersion>
@@ -87,21 +88,29 @@
     <Import Project="Property Sheets\Csound.props" />
     <Import Project="Property Sheets\include.props" />
     <Import Project="Property Sheets\pugixml.props" />
+    <Import Project="Property Sheets\libsndfile.props" />
+    <Import Project="Property Sheets\pthread.props" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <Import Project="Property Sheets\Csound.props" />
     <Import Project="Property Sheets\include.props" />
     <Import Project="Property Sheets\pugixml.props" />
+    <Import Project="Property Sheets\libsndfile.props" />
+    <Import Project="Property Sheets\pthread.props" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <Import Project="Property Sheets\Csound.props" />
     <Import Project="Property Sheets\include.props" />
     <Import Project="Property Sheets\pugixml.props" />
+    <Import Project="Property Sheets\libsndfile.props" />
+    <Import Project="Property Sheets\pthread.props" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <Import Project="Property Sheets\Csound.props" />
     <Import Project="Property Sheets\include.props" />
     <Import Project="Property Sheets\pugixml.props" />
+    <Import Project="Property Sheets\libsndfile.props" />
+    <Import Project="Property Sheets\pthread.props" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">

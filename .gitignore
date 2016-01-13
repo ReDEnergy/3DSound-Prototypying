@@ -11,3 +11,4 @@ lib
 /CSound Editor/Visual Studio/*.opendb
 /CSound Editor/Resources/CSound/Scores/*.csd
 /CSound Editor/Visual Studio/*.opensdf
+/libs/Engine/Engine

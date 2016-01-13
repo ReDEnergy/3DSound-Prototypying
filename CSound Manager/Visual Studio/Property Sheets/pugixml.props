@@ -4,7 +4,7 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup>
     <IncludePath>$(IncludePath)</IncludePath>
-    <LibraryPath>..\..\libs\pugixml\$(PlatformTarget)\$(Configuration);D:\Dropbox\Projects\CSound Editor\libs\pugixml\x86\Debug;$(LibraryPath)</LibraryPath>
+    <LibraryPath>..\..\libs\pugixml\$(PlatformTarget)\$(Configuration);$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup>
     <Link>

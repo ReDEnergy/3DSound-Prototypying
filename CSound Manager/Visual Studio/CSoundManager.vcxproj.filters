@@ -34,6 +34,9 @@
     <ClCompile Include="..\CSound\DLL\dllmain.cpp">
       <Filter>DLL</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\libs\Csound\csound\csPerfThread.cpp">
+      <Filter>csPerfThread</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\CSound\include\dll_export.h">
@@ -115,6 +118,9 @@
     </Filter>
     <Filter Include="Serialization">
       <UniqueIdentifier>{aa897e80-02a2-4c23-a33a-c8ee4162b5e5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="csPerfThread">
+      <UniqueIdentifier>{9ea40a93-f81f-40b2-8d27-3dea0e83072d}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

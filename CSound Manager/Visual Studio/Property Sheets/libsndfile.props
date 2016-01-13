@@ -3,12 +3,13 @@
   <ImportGroup Label="PropertySheets" />
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup>
-    <LibraryPath>..\..\libs\Csound\$(PlatformTarget);..\..\libs\Csound\pthread\$(PlatformTarget);$(LibraryPath)</LibraryPath>
-    <IncludePath>..\..\libs\Csound;$(IncludePath)</IncludePath>
+    <LibraryPath>..\..\libs\Csound\libsndfile\$(PlatformTarget);$(LibraryPath)</LibraryPath>
+    <_PropertySheetDisplayName>libsndfile</_PropertySheetDisplayName>
+    <IncludePath>..\..\libs\Csound\libsndfile\;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup>
     <Link>
-      <AdditionalDependencies>csound64.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>libsndfile-1.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup />

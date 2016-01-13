@@ -4,7 +4,7 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup>
     <ExecutablePath>$(ExecutablePath)</ExecutablePath>
-    <IncludePath>..;..\CSound;..\CSound\PCH;..\..\libs;$(IncludePath)</IncludePath>
+    <IncludePath>..;..\CSound;..\..\libs;$(IncludePath)</IncludePath>
     <LibraryPath>$(LibraryPath)</LibraryPath>
     <_PropertySheetDisplayName>include</_PropertySheetDisplayName>
   </PropertyGroup>
