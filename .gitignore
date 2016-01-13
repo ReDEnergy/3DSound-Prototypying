@@ -1,12 +1,13 @@
 bin
 lib
 *.sdf
+*.suo
+**/.vs
 **/Visual Studio/obj
 **/Visual Studio/Debug
 **/Saves
 **/Resources/*.csd
 /CSound Editor/Headphone Test Results
 /CSound Editor/Visual Studio/*.opendb
-/**/.vs
 /CSound Editor/Resources/CSound/Scores/*.csd
 /CSound Editor/Visual Studio/*.opensdf
