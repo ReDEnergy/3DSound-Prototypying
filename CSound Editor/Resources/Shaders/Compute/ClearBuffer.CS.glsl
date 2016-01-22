@@ -1,10 +1,9 @@
 #version 430
+layout(local_size_x = 16) in;
 
 layout(std430, binding = 0) buffer SSBO {
 	uint counter[];
 };
-
-layout(local_size_x = 16) in;
 
 void main()
 {
