@@ -16,6 +16,8 @@ AboutWindow::AboutWindow()
 	LoadStyleSheet("about-window.css");
 	setWindowTitle("About");
 	SetIcon("chat.png");
+	SetOnTop();
+
 	setFixedSize(300, 150);
 
 	InitUI();

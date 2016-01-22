@@ -31,7 +31,7 @@ CSoundOptionsWindow::CSoundOptionsWindow()
 	setWindowTitle("CSound Default Options");
 	setObjectName("CSoundOptions");
 	SetIcon("gear.png");
-	setWindowFlags(Qt::WindowType::CustomizeWindowHint | Qt::WindowStaysOnTopHint | Qt::WindowType::WindowCloseButtonHint);
+	SetOnTop();
 
 	InitUI();
 
