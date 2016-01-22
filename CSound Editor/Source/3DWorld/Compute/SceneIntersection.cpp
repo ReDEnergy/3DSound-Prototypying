@@ -27,6 +27,8 @@
 #include <GPU/Texture.h>
 #include <GPU/FrameBuffer.h>
 
+#include <Utils/OpenGL.h>
+
 SceneIntersection::SceneIntersection()
 {
 	gameFBO = CSoundEditor::GetGame()->FBO;;
@@ -43,7 +45,11 @@ SceneIntersection::SceneIntersection()
 	{
 		sphere_size = computeShader->GetUniformLocation("sphere_size");
 		plane_direction = computeShader->GetUniformLocation("plane_direction");
+		auto offset_loc = computeShader->GetUniformLocation("colorID_step");
+		auto ecodeSize = Manager::GetColor()->GetChannelsEncodeSize();
+		glUniform3iv(offset_loc, 1, glm::value_ptr(ecodeSize));
 	});
+	computeShader->Reload();
 
 	sphereRadius = 0;
 	auto rezolution = gameFBO->GetResolution();
@@ -84,7 +90,8 @@ void SceneIntersection::OnUpdate(function<void(const vector<CSound3DSource*>&)> 
 
 void SceneIntersection::Update()
 {
-	int WORK_GROUP_SIZE = 32;
+	ssbo->ClearBuffer();
+
 	computeShader->Use();
 
 	auto rezolution = gameFBO->GetResolution();
@@ -98,15 +105,12 @@ void SceneIntersection::Update()
 	gameFBO->SendResolution(computeShader);
 	camera->BindPosition(computeShader->loc_eye_pos);
 
-	ssbo->ClearBuffer();
 	ssbo->BindBuffer(0);
 	glBindImageTexture(0, visualization->GetTextureID(), 0, GL_FALSE, 0, GL_WRITE_ONLY, GL_R8UI);
 	glBindImageTexture(1, gameFBO->GetTextureID(3), 0, GL_FALSE, 0, GL_READ_ONLY, GL_RGBA32F);
 	glBindImageTexture(2, Manager::GetPicker()->FBO->GetTextureID(0), 0, GL_FALSE, 0, GL_READ_ONLY, GL_RGBA32F);
 	glBindImageTexture(3, gameFBO->GetTextureID(0), 0, GL_FALSE, 0, GL_READ_WRITE, GL_RGBA32F);
-	glDispatchCompute(GLuint(UPPER_BOUND(rezolution.x, WORK_GROUP_SIZE)), GLuint(UPPER_BOUND(rezolution.y, WORK_GROUP_SIZE)), 1);
-	glMemoryBarrier(GL_ALL_BARRIER_BITS);
-
+	OpenGL::DispatchCompute(rezolution.x, rezolution.y, 1, 32);
 	ssbo->ReadBuffer();
 
 	// Compute Virtual 3D position - average of 3D points intersected by the sphere/plane for an object
