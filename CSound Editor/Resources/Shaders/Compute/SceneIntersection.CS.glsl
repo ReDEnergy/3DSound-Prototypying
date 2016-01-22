@@ -13,6 +13,7 @@ layout(std430, binding = 0) buffer ssbo {
 uniform vec3 plane_direction;
 uniform float sphere_size;
 uniform vec3 eye_position;
+uniform ivec3 colorID_step;
 
 void main()
 {
@@ -44,7 +45,7 @@ void main()
 	if (outColor != 0)
 	{
 		vec4 color = imageLoad(colorMap, pixel);
-		uint index = uint(color.z * 5) * 256 + uint(color.y * 15) * 16 + uint(color.x * 15);
+		uint index =  uint(color.x * colorID_step.x) + uint(color.y * colorID_step.y) * 16 + uint(color.z * colorID_step.z) * 256;
 		atomicAdd(center[index].x, int(pos.x * 1000));
 		atomicAdd(center[index].y, int(pos.y * 1000));
 		atomicAdd(center[index].z, int(pos.z * 1000));

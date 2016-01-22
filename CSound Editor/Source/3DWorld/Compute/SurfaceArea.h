@@ -26,5 +26,5 @@ class SurfaceArea
 		SSBO<unsigned int> *ssbo;
 		const unsigned int *counter;
 		const Camera* gameCamera;
-		const Shader* computeShader;
+		Shader* computeShader;
 };
