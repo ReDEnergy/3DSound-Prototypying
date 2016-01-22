@@ -55,7 +55,7 @@
     <ClCompile Include="..\CSound\SoundManager.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{0392642F-3434-4217-960C-F6966699D17D}</ProjectGuid>
+    <ProjectGuid>{E0952CA1-E7DF-460D-B453-7C172AB99577}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>Engine</RootNamespace>
     <TargetPlatformVersion>8.1</TargetPlatformVersion>

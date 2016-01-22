@@ -28,6 +28,11 @@ class AudioDevice
 		bool changed;
 };
 
+struct CsoundInstrumentOption {
+	string name;
+	unsigned int value;
+};
+
 class DLLExport CSoundManager
 {
 	protected:
@@ -83,5 +88,5 @@ class DLLExport CSoundManager
 		string csOptionsRender;
 		string csInstrOptionsRender;
 		unordered_map<string, string> csOptions;
-		unordered_map<string, unsigned int> instrumentOptions;
+		unordered_map<string, CsoundInstrumentOption> instrumentOptions;
 };

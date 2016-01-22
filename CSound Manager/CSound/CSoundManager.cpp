@@ -73,7 +73,13 @@ void CSoundManager::LoadScoreConfig()
 
 	for (auto option : config.child("InstrumentOptions"))
 	{
-		instrumentOptions[option.name()] = option.text().as_uint();
+		CsoundInstrumentOption opt;
+		opt.name = option.name();
+		if (option.attribute("name"))
+			opt.name = option.attribute("name").as_string();
+		opt.value = option.text().as_uint();
+
+		instrumentOptions[option.name()] = opt;
 	}
 
 	// General
@@ -256,7 +262,11 @@ void CSoundManager::SaveConfigFile()
 	for (auto &option : instrumentOptions)
 	{
 		auto node = InstrOptions.append_child(option.first.c_str());
-		node.append_child(pugi::node_pcdata).set_value(to_string(option.second).c_str());
+		if (option.first.compare(option.second.name)) {
+			auto att = node.append_attribute("name");
+			att.set_value(option.second.name.c_str());
+		}
+		node.append_child(pugi::node_pcdata).set_value(to_string(option.second.value).c_str());
 	}
 
 	// ------------------------------------------
@@ -316,7 +326,7 @@ void CSoundManager::RenderInstrumentOptions()
 	char buff[128] = {0};
 	for (auto &option : instrumentOptions)
 	{
-		sprintf(buff, "\n%s = %u", option.first.c_str(), option.second);
+		sprintf(buff, "\n%s = %u", option.second.name.c_str(), option.second.value);
 		csInstrOptionsRender += buff;
 	}
 	csInstrOptionsRender += "\n";
@@ -398,9 +408,9 @@ void CSoundManager::SetCsInstrumentOption(const char * property, unsigned int va
 {
 	auto item = instrumentOptions.find(property);
 	if (item != instrumentOptions.end()) {
-		if ((*item).second == value)
+		if ((*item).second.value == value)
 			return;
-		(*item).second = value;
+		(*item).second.value = value;
 	}
 	RenderInstrumentOptions();
 	SaveConfigFile();
@@ -415,7 +425,7 @@ unsigned int CSoundManager::GetInstrumentOption(const char *propertyName) const
 {
 	auto item = instrumentOptions.find(propertyName);
 	if (item != instrumentOptions.end()) {
-			return (*item).second;
+			return (*item).second.value;
 	}
 	return -1;
 }
