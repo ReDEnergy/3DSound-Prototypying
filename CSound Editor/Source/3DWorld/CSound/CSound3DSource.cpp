@@ -22,6 +22,9 @@
 
 #include <Component/Transform/Transform.h>
 
+#include <Event/TimerEvent.h>
+#include <Event/SimpleTimer.h>
+
 #include <Manager/Manager.h>
 #include <Manager/ColorManager.h>
 #include <Manager/SceneManager.h>
@@ -66,7 +69,16 @@ void CSound3DSource::Init()
 	elevationPanningFactor = 0;
 	azimuthPanningFactor = 0;
 
-	timer = nullptr;
+	timer = new SimpleTimer(1);
+	timer->OnExpire([this]() {
+		StopScore();
+	});
+
+	volumeTimer = new SimpleTimer(1);
+	volumeTimer->OnExpire([this]() {
+		SetVolume(0);
+	});
+
 	SubscribeToEvent("model-changed");
 }
 
@@ -140,13 +152,8 @@ void CSound3DSource::PlayScore(float deltaTime)
 		player->Play();
 		ComputeControlProperties();
 		UpdateControlChannels();
-		if (timer)
-			SAFE_FREE(timer);
-		timer = new SimpleTimer(deltaTime);
-		timer->OnExpire([&]() {
-			StopScore();
-			SAFE_FREE(timer);
-		});
+		timer->SetDuration(deltaTime);
+		timer->Start();
 	}
 }
 
@@ -332,9 +339,21 @@ void CSound3DSource::SetSurfaceArea(unsigned int visibleAreaInPixels)
 	surfaceCover = float(surfaceArea) / Engine::Window->GetResolution();
 }
 
+void CSound3DSource::SetPlaybackTime(float time)
+{
+	player->SetPlaybackTime(time);
+}
+
 void CSound3DSource::SetVolume(unsigned int value)
 {
 	soundVolume = max(min(value, 100), 0);
+}
+
+void CSound3DSource::SetVolumeOvershoot(unsigned int value, float deltaTime)
+{
+	soundVolume = max(min(value, 100), 0);
+	volumeTimer->SetDuration(deltaTime);
+	volumeTimer->Start();
 }
 
 void CSound3DSource::SetControlChannel(const char * channel, float value, bool forceUpdate) const

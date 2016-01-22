@@ -34,7 +34,9 @@ class CSound3DSource
 		unsigned int GetSoundVolume() const;
 		const glm::vec3 & GetCameraSpacePosition() const;
 
+		void SetPlaybackTime(float time);
 		void SetVolume(unsigned int value = 100);
+		void SetVolumeOvershoot(unsigned int value, float deltaTime);
 		void SetControlChannel(const char* channel, float value, bool forceUpdate = false) const;
 		void UseVirtalPosition(bool value);
 		void SetVirtualCameraSpacePosition(glm::vec3 cameraSpacePosition);
@@ -57,6 +59,7 @@ class CSound3DSource
 		CSoundScore *soundModel;
 		CSoundPlayer *player;
 		SimpleTimer *timer;
+		SimpleTimer *volumeTimer;
 
 		bool forceUpdate;
 		float distanceToCamera;
