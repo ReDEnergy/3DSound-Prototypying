@@ -14,15 +14,15 @@ class QtSortableInput;
 class SimpleCheckBox;
 class QKeyEvent;
 
-struct MovingPlaneConfig;
+struct SweepingPlaneConfig;
 
-class MovingPlaneWindow
+class SweepingPlaneWindow
 	: public CustomWidget
 	, public EventListener
 {
 	public:
-		MovingPlaneWindow();
-		virtual ~MovingPlaneWindow() {};
+		SweepingPlaneWindow();
+		virtual ~SweepingPlaneWindow() {};
 
 	private:
 		void InitUI();
@@ -32,9 +32,10 @@ class MovingPlaneWindow
 		void OnEvent(const string& eventID, void *data);
 
 	private:
-		MovingPlaneConfig *config;
+		SweepingPlaneConfig *config;
+		SimpleFloatInput *scanTime;
 		SimpleFloatInput *maxDistanceInput;
-		SimpleFloatInput *travelSpeedInput;
 		SimpleFloatInput *pauseBetweenScans;
 		SimpleFloatInput *tickInterval;
+		SimpleFloatInput *tickVolume;
 };

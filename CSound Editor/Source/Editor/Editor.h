@@ -21,6 +21,7 @@
 #include <Editor/Windows/Features/Headphone Test/HeadphoneTestWindow.h>
 #include <Editor/Windows/Features/Moving Plane/MovingPlaneWindow.h>
 #include <Editor/Windows/Features/Expanding Sphere/ExpandingSphereWindow.h>
+#include <Editor/Windows/Features/Sweeping Plane/SweepingPlaneWindow.h>
 #include <Editor/Windows/General/AboutWindow.h>
 #include <Editor/Windows/General/CSoundOptionsWindow.h>
 #include <Editor/Windows/Interface/QtListTemplates.h>

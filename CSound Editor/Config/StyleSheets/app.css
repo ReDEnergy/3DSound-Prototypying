@@ -24,3 +24,10 @@ QComboBox QAbstractItemView::item {
 QToolButton {
 	height: 30px;
 }
+
+QWidget#ToolWiteSpace {
+	min-width: 350px;
+}
+
+QWidget#GlobalOutputDropdown {
+}

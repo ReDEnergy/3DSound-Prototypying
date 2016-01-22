@@ -13,21 +13,21 @@ class SceneIntersection;
 template <class T>
 class TimerEvent;
 
-struct MovingPlaneConfig;
-class AudioSource;
 class SoundTriggerList;
+struct SweepingPlaneConfig;
 
-class MovingPlaneScript
+class SweepingPlaneScript
 	: public EventListener
 {
+
 	public:
-		MovingPlaneScript();
-		virtual ~MovingPlaneScript() {};
+		SweepingPlaneScript();
+		virtual ~SweepingPlaneScript() {};
 
 		void Init();
 
 	private:
-		void Start(MovingPlaneConfig *config);
+		void Start(SweepingPlaneConfig *config);
 		void Stop();
 		void Resume();
 		void Reset();
@@ -39,7 +39,7 @@ class MovingPlaneScript
 
 	private:
 
-		MovingPlaneConfig *config;
+		SweepingPlaneConfig *config;
 
 		GameObject* camera;
 		GameObject *virtualPlane;
@@ -49,7 +49,9 @@ class MovingPlaneScript
 		SceneIntersection *computeIntersection;
 		SoundTriggerList *triggerList;
 
-		AudioSource* feedbackTick;
+		float scanningAzimuth;
+		CSound3DSource *feedbackTick;
 		int nrFeedbackTicks;
 		int nrTicksReleased;
+		float sweepingTime;
 };

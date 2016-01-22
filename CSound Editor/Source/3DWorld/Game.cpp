@@ -12,6 +12,7 @@
 #include <templates/singleton.h>
 
 #include <3DWorld/Scripts/MovingPlaneScript.h>
+#include <3DWorld/Scripts/SweepingPlaneScript.h>
 #include <3DWorld/Scripts/ExpandingSphereScript.h>
 
 Game::Game() {
@@ -74,6 +75,7 @@ void Game::Init()
 	Manager::GetScene()->Update();
 
 	new MovingPlaneScript();
+	new SweepingPlaneScript();
 	new ExpandingSphereScript();
 	new SurfaceArea();
 

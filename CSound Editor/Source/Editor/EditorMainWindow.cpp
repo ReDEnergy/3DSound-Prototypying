@@ -327,16 +327,32 @@ void EditorMainWindow::SetupUI(QMainWindow *MainWindow) {
 	}
 
 	// Moving Plane
-	//{
-	//	QToolButton *button = new QToolButton();
-	//	button->setText("Moving Plane");
-	//	toolbar->addWidget(button);
+	{
+		QToolButton *button = new QToolButton();
+		button->setText("Moving Plane");
+		button->setIcon(*QtConfig::GetIcon("frames.png"));
+		button->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
+		toolbar->addWidget(button);
 
-	//	appWindows["MovingPlane"] = new MovingPlaneWindow();
-	//	QObject::connect(button, &QToolButton::clicked, this, [this]() {
-	//		appWindows["MovingPlane"]->Toggle();
-	//	});
-	//}
+		appWindows["MovingPlane"] = new MovingPlaneWindow();
+		QObject::connect(button, &QToolButton::clicked, this, [this]() {
+			appWindows["MovingPlane"]->Toggle();
+		});
+	}
+
+	// Sweeping Plane
+	{
+		QToolButton *button = new QToolButton();
+		button->setText("Horizontal Sweep");
+		button->setIcon(*QtConfig::GetIcon("half-loading.png"));
+		button->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
+		toolbar->addWidget(button);
+
+		appWindows["SweepingPlane"] = new SweepingPlaneWindow();
+		QObject::connect(button, &QToolButton::clicked, this, [this]() {
+			appWindows["SweepingPlane"]->Toggle();
+		});
+	}
 
 	// Expanding Sphere
 	{
@@ -356,8 +372,7 @@ void EditorMainWindow::SetupUI(QMainWindow *MainWindow) {
 	// Padding Scene
 	{
 		QWidget *empty = new QWidget();
-		empty->setMinimumWidth(600);
-		empty->setMinimumHeight(30);
+		empty->setObjectName("ToolWiteSpace");
 		toolbar->addWidget(empty);
 	}
 
@@ -384,7 +399,11 @@ void EditorMainWindow::SetupUI(QMainWindow *MainWindow) {
 		SoundManager::SetGlobalOutputModelIndex(1);
 
 		// Add widget
-		QWidget* widget = Wrap("Global output", 65, dropdown);
+		auto widget = new CustomWidget(QBoxLayout::LeftToRight);
+		widget->setObjectName("GlobalOutputDropdown");
+		auto label = new QLabel("Global output");
+		widget->AddWidget(label);
+		widget->AddWidget(dropdown);
 		toolbar->addWidget(widget);
 
 		void (QComboBox::* indexChangedSignal)(int index) = &QComboBox::currentIndexChanged;

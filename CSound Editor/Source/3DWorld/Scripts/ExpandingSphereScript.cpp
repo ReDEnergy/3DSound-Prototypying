@@ -23,6 +23,7 @@
 #include <Component/AudioSource.h>
 #include <Component/Transform/Transform.h>
 #include <Component/Renderer.h>
+#include <Event/TimerEvent.h>
 #include <Manager/Manager.h>
 #include <Manager/AudioManager.h>
 #include <Manager/SceneManager.h>

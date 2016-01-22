@@ -1,4 +1,4 @@
-#include "ExpandingSphereWindow.h"
+#include "SweepingPlaneWindow.h"
 
 #include <Editor/Windows/Interface/QtInput.h>
 
@@ -13,17 +13,17 @@
 #include <QKeyEvent>
 #include <QDir>
 
-ExpandingSphereWindow::ExpandingSphereWindow()
+SweepingPlaneWindow::SweepingPlaneWindow()
 {
 	LoadStyleSheet("sound-model-config.css");
-	setWindowTitle("Expaning Sphere Sound Model");
+	setWindowTitle("Sweeping Plane Sound Model");
 	SetOnTop();
 	InitUI();
 
-	config = new ExpandingSphereConfig();
+	config = new SweepingPlaneConfig();
 }
 
-void ExpandingSphereWindow::InitUI()
+void SweepingPlaneWindow::InitUI()
 {
 	qtLayout->setSpacing(5);
 	qtLayout->setContentsMargins(5, 5, 5, 5);
@@ -41,7 +41,7 @@ void ExpandingSphereWindow::InitUI()
 				Start();
 			}
 			else {
-				Manager::GetEvent()->EmitAsync("Stop-Expanding-Sphere");
+				Manager::GetEvent()->EmitAsync("Stop-Sweeping-Plane");
 				button->setText("Start Test");
 			}
 		});
@@ -50,9 +50,9 @@ void ExpandingSphereWindow::InitUI()
 	// ------------------------------------------------------------------------
 	// Configuration Panel
 
-	travelSpeedInput = new SimpleFloatInput("Travel speed:", "meters/second");
-	travelSpeedInput->AcceptNegativeValues(false);
-	AddWidget(travelSpeedInput);
+	scanTime = new SimpleFloatInput("Travel time:", "seconds");
+	scanTime->AcceptNegativeValues(false);
+	AddWidget(scanTime);
 
 	maxDistanceInput = new SimpleFloatInput("Max distance:", "meters");
 	maxDistanceInput->AcceptNegativeValues(false);
@@ -66,21 +66,28 @@ void ExpandingSphereWindow::InitUI()
 	pauseBetweenScans->AcceptNegativeValues(false);
 	AddWidget(pauseBetweenScans);
 
-	startTickVolume = new SimpleFloatInput("Start scan FX volume:", "", 0);
-	startTickVolume->SetValue(100);
-	startTickVolume->AcceptNegativeValues(false);
-	startTickVolume->OnUserEdit([this](float value) {
-		if (value > 100)
-			startTickVolume->SetValue(100);
+	tickInterval = new SimpleFloatInput("Tick Interval:", "degrees");
+	tickInterval->AcceptNegativeValues(false);
+	tickInterval->OnUserEdit([this](float value) {
+		if (value < 5)
+			tickVolume->SetValue(5);
 	});
-	AddWidget(startTickVolume);
+	AddWidget(tickInterval);
+
+	tickVolume = new SimpleFloatInput("Tick volume:", "");
+	tickVolume->AcceptNegativeValues(false);
+	tickVolume->OnUserEdit([this](float value) {
+		if (value > 2)
+			tickVolume->SetValue(2);
+	});
+	AddWidget(tickVolume);
 
 	{
 		auto button = new QPushButton();
 		button->setText("Reset Configuration");
 		button->setMinimumHeight(30);
 		AddWidget(button);
-		QObject::connect(button, &QPushButton::clicked, this, &ExpandingSphereWindow::ResetConfig);
+		QObject::connect(button, &QPushButton::clicked, this, &SweepingPlaneWindow::ResetConfig);
 	}
 
 	// ------------------------------------------------------------------------
@@ -88,26 +95,29 @@ void ExpandingSphereWindow::InitUI()
 	ResetConfig();
 }
 
-void ExpandingSphereWindow::Start()
+void SweepingPlaneWindow::Start()
 {
-	config->travelSpeed = travelSpeedInput->GetValue();
+	config->fullScanTime = scanTime->GetValue();
 	config->pauseBetweenScans = pauseBetweenScans->GetValue();
 	config->maxDistanceReach = maxDistanceInput->GetValue();
-	config->startScanFXVolume = startTickVolume->GetValue();
-	Manager::GetEvent()->EmitAsync("Start-Expanding-Sphere", config);
+	config->tickInterval = tickInterval->GetValue();
+	config->tickVolume = tickVolume->GetValue();
+	Manager::GetEvent()->EmitAsync("Start-Sweeping-Plane", config);
 }
 
-void ExpandingSphereWindow::Stop()
+void SweepingPlaneWindow::Stop()
 {
 }
 
-void ExpandingSphereWindow::ResetConfig()
+void SweepingPlaneWindow::ResetConfig()
 {
-	travelSpeedInput->SetValue(5);
-	pauseBetweenScans->SetValue(0.5);
-	maxDistanceInput->SetValue(10);
+	scanTime->SetValue(1.5f);
+	maxDistanceInput->SetValue(5);
+	pauseBetweenScans->SetValue(0.5f);
+	tickInterval->SetValue(15.0f);
+	tickVolume->SetValue(0.25f);
 }
 
-void ExpandingSphereWindow::OnEvent(const string & eventID, void * data)
+void SweepingPlaneWindow::OnEvent(const string & eventID, void * data)
 {
 }

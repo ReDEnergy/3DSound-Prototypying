@@ -56,6 +56,21 @@
 			<component>channel-test</component>
 		</components>
 	</instrument>		
+	
+	<instrument>
+		<name>moving-plane</name>
+		<components>
+			<component>moving-plane</component>
+		</components>
+	</instrument>
+	
+	<instrument>
+		<name>feedback-tick</name>
+		<components>
+			<component>feedback-tick</component>
+		</components>
+	</instrument>		
+	
 </instruments>
 
 <blocks>

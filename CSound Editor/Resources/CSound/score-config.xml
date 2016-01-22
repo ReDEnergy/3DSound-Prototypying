@@ -13,15 +13,16 @@
 		</devices>
 	</general>
 	<CsOptions>
-		<dac>-o dac3</dac>
 		<rtaudio>-+rtaudio=Portaudio</rtaudio>
+		<dac>-o dac3</dac>
 		<hwbuf>-B 2048</hwbuf>
 		<iobuf>-b 32</iobuf>
 	</CsOptions>
 	<InstrumentOptions>
 		<sr>44100</sr>
 		<ksmps>7</ksmps>
-		<nchnls>8</nchnls>
 		<nchnls_i>1</nchnls_i>
+		<nchnls>8</nchnls>
+		<dbfs name="0dbfs">1</dbfs>
 	</InstrumentOptions>
 </config>

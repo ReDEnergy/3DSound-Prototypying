@@ -25,6 +25,7 @@ HeadphoneTestWindow::HeadphoneTestWindow()
 {
 	LoadStyleSheet("headphone-test.css");
 	setWindowTitle("Headphone Test");
+	SetOnTop();
 
 	config = new HeadphoneTestConfig();
 	recorder = new HeadphoneTestScript();

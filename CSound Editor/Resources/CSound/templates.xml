@@ -200,6 +200,40 @@
 			<channel>kChannel</channel>
 			<text>, aout</text>
 		</content>
+	</component>	
+	
+	<component>
+		<name>moving-plane</name>
+		<controls>
+			<control>kMvGain</control>
+			<control>kMvPitch</control>
+			<control>kMvDuration</control>
+		</controls>		
+		<content>
+			<text>
+	kMvGain = 1
+	ipch cps2pch 8.01, 12
+	kenv linsegr 0, 0.05, 0.2, 0.05, 0.2, 0.2, 0
+	aout vco2 kMvGain * kenv, ipch
+	aout moogladder aout, 2000, 0.25
+			</text>
+		</content>
+	</component>
+
+	<component>
+		<name>feedback-tick</name>
+		<controls>
+			<control>kAzimuth</control>
+			<control>kTickVolume</control>
+		</controls>		
+		<content>
+			<text>
+		ain soundin "../../Audio/MvPlane/percuss_02.wav"
+		aout = ain * kTickVolume
+		aleft, aright hrtfmove2 aout, kAzimuth, 0, "../hrtf/hrtf-44100-left.dat", "../hrtf/hrtf-44100-right.dat"
+		outs aleft, aright
+			</text>
+		</content>
 	</component>
 
 	<component>

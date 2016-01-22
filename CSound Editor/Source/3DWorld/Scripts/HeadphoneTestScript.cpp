@@ -27,6 +27,7 @@ using namespace std;
 #include <Core/Camera/Camera.h>
 #include <Component/Transform/Transform.h>
 #include <Component/Transform/FreezeTransform.h>
+#include <Event/TimerEvent.h>
 #include <Manager/Manager.h>
 #include <Manager/SceneManager.h>
 #include <Manager/EventSystem.h>

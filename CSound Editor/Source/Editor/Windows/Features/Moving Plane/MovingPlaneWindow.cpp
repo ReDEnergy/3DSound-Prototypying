@@ -15,8 +15,9 @@
 
 MovingPlaneWindow::MovingPlaneWindow()
 {
-	LoadStyleSheet("moving-plane.css");
+	LoadStyleSheet("sound-model-config.css");
 	setWindowTitle("Moving Plane Sound Model");
+	SetOnTop();
 	InitUI();
 
 	config = new MovingPlaneConfig();
@@ -65,6 +66,14 @@ void MovingPlaneWindow::InitUI()
 	pauseBetweenScans->AcceptNegativeValues(false);
 	AddWidget(pauseBetweenScans);
 
+	tickInterval = new SimpleFloatInput("Tick Interval:", "meters");
+	tickInterval->AcceptNegativeValues(false);
+	tickInterval->OnUserEdit([this](float value) {
+		if (value < 0.5)
+			tickInterval->SetValue(0.5);
+	});
+	AddWidget(tickInterval);
+
 	{
 		auto button = new QPushButton();
 		button->setText("Reset Configuration");
@@ -83,6 +92,7 @@ void MovingPlaneWindow::Start()
 	config->travelSpeed = travelSpeedInput->GetValue();
 	config->pauseBetweenScans = pauseBetweenScans->GetValue();
 	config->maxDistanceReach = maxDistanceInput->GetValue();
+	config->tickInterval = tickInterval->GetValue();
 	Manager::GetEvent()->EmitAsync("Start-Moving-Plane", config);
 }
 
@@ -92,9 +102,10 @@ void MovingPlaneWindow::Stop()
 
 void MovingPlaneWindow::ResetConfig()
 {
-	travelSpeedInput->SetValue(5);
-	pauseBetweenScans->SetValue(0.5);
-	maxDistanceInput->SetValue(10);
+	travelSpeedInput->SetValue(2);
+	maxDistanceInput->SetValue(5);
+	pauseBetweenScans->SetValue(0.5f);
+	tickInterval->SetValue(1);
 }
 
 void MovingPlaneWindow::OnEvent(const string & eventID, void * data)

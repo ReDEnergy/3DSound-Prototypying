@@ -70,6 +70,9 @@
     <Filter Include="Editor\Windows\Code">
       <UniqueIdentifier>{39d1a028-be11-4e6b-b261-e1451c583732}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Editor\Windows\Features\Sweeping Plane">
+      <UniqueIdentifier>{eed21365-fc24-4b7f-9da2-1b7b7208d12f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Source\3DWorld\CSound\CSound3DSource.cpp">
@@ -205,6 +208,15 @@
     </ClCompile>
     <ClCompile Include="..\Source\Editor\QtConfig.cpp">
       <Filter>Editor\Windows</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\Editor\Windows\Features\Sweeping Plane\SweepingPlaneWindow.cpp">
+      <Filter>Editor\Windows\Features\Sweeping Plane</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\3DWorld\Scripts\SoundTriggerList.cpp">
+      <Filter>3DWorld\Scripts</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\3DWorld\Scripts\SweepingPlaneScript.cpp">
+      <Filter>3DWorld\Scripts</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -379,6 +391,15 @@
     </ClInclude>
     <ClInclude Include="..\Source\Editor\QtConfig.h">
       <Filter>Editor\Windows</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Editor\Windows\Features\Sweeping Plane\SweepingPlaneWindow.h">
+      <Filter>Editor\Windows\Features\Sweeping Plane</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\3DWorld\Scripts\SoundTriggerList.h">
+      <Filter>3DWorld\Scripts</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\3DWorld\Scripts\SweepingPlaneScript.h">
+      <Filter>3DWorld\Scripts</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

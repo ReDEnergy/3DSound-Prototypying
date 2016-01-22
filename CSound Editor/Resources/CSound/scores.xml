@@ -33,6 +33,21 @@
 			<instrument>sound-test</instrument>
 		</instruments>
 	</score>		
+
+	<score>
+		<name>moving-plane</name>
+		<instruments>
+			<instrument>moving-plane</instrument>
+		</instruments>
+	</score>
+
+	<score>
+		<name>feedback-tick</name>
+		<instruments>
+			<instrument>feedback-tick</instrument>
+		</instruments>
+	</score>
+	
 </scores>
 
 
