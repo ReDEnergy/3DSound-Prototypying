@@ -22,6 +22,7 @@ class DLLExport CSoundPlayer
 		bool IsPlaying();
 		void Pause();
 		void Stop();
+		void SetPlaybackTime(float time);
 
 		void InitControlChannels();
 		void SetControl(const char* channelName, float value, bool forceUpdate = false);

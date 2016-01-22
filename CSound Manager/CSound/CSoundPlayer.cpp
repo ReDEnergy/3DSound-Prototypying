@@ -96,6 +96,12 @@ void CSoundPlayer::Stop()
 		cout << "Sound Score Time: " << csound->GetScoreTime() << endl;
 	}
 }
+
+void CSoundPlayer::SetPlaybackTime(float time)
+{
+	if (perfThread)
+		perfThread->SetScoreOffsetSeconds(time);
+}
 	
 void CSoundPlayer::InitControlChannels()
 {
