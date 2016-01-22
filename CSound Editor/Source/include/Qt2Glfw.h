@@ -68,14 +68,14 @@ namespace Qt2Glfw
 
 	int GetKeyButton(int qtKey)
 	{
-		if (qtKey < 384)
+		if (qtKey < 256)
 		{
 			return qtKey;
 		}
 		if (keyboardButtons.find(qtKey) != keyboardButtons.end())
 			return keyboardButtons.at(qtKey);
 
-		std::cout << "[WARNING] - KEY BINDING NOT FOUND" << std::endl;
+		std::cout << "[WARNING] Key forward for [" << qtKey << "] not set" << std::endl;
 		return 0;
 	}
 
