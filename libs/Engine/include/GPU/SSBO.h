@@ -65,9 +65,8 @@ class SSBO
 			return size;
 		}
 
-		void ClearBuffer() const
+		void ClearBuffer(uint value = 0) const
 		{
-			Bind();
 			// Clear Buffer Object using a compute shader
 			// Better should clear by setting null data
 			// Reason: Intel HD4000 OpenGL glClearBufferdata (Surface PRO) will crash the program
@@ -79,7 +78,8 @@ class SSBO
 				glMemoryBarrier(GL_ALL_BARRIER_BITS);
 			}
 			#else
-			glClearBufferData(GL_SHADER_STORAGE_BUFFER, GL_R32UI, GL_RED, GL_UNSIGNED_INT, NULL);
+			Bind();
+			glClearBufferData(GL_SHADER_STORAGE_BUFFER, GL_R32UI, GL_RED, GL_UNSIGNED_INT, &value);
 			CheckOpenGLError();
 			#endif
 		}
