@@ -45,6 +45,11 @@ void CustomWidget::Toggle()
 		show();
 }
 
+void CustomWidget::SetOnTop()
+{
+	setWindowFlags(Qt::WindowType::CustomizeWindowHint | Qt::WindowStaysOnTopHint | Qt::WindowType::WindowCloseButtonHint);
+}
+
 void CustomWidget::AddWidget(QWidget * widget)
 {
 	if (widget)
