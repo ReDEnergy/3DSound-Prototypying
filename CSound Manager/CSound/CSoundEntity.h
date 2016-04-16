@@ -3,8 +3,6 @@
 
 #include <include/dll_export.h>
 
-using namespace std;
-
 class DLLExport CSoundEntity
 {
 	public:
@@ -24,6 +22,6 @@ class DLLExport CSoundEntity
 		unsigned int UID;
 
 	protected:
-		string render;
-		string name;
+		std::string render;
+		std::string name;
 };

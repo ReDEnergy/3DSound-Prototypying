@@ -3,6 +3,8 @@
 #include <CSoundInstrument.h>
 #include <CSoundComponent.h>
 
+using namespace std;
+
 CSoundInstrumentBlock::CSoundInstrumentBlock()
 {
 	SetName("Instrument Block");

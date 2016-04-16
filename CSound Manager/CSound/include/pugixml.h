@@ -2,8 +2,6 @@
 #include <assert.h>
 #include <pugixml/pugixml.hpp>
 
-using namespace std;
-
 namespace pugi
 {
 	inline xml_document* LoadXML(const char* fileName)

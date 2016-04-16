@@ -32,8 +32,8 @@ class DLLExport CSoundPlayer
 		CSoundSynthesizer *score;
 
 		void* ThreadID;
-		unordered_map<string, MYFLT*> channels;
-		unordered_map<string, int> invalidChannels;
+		std::unordered_map<std::string, MYFLT*> channels;
+		std::unordered_map<std::string, int> invalidChannels;
 		CsoundPerformanceThread* perfThread;
 
 		Csound *csound;

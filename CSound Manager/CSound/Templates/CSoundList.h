@@ -9,7 +9,7 @@ class CSoundList
 		CSoundList() {};
 		virtual ~CSoundList() {};
 
-		virtual list<T*>& GetEntries();
+		virtual std::list<T*>& GetEntries();
 		virtual T* GetEntry(const char* name);
 
 		virtual void Add(T *entry);
@@ -26,13 +26,13 @@ class CSoundList
 
 	protected:
 		bool update = true;
-		list<T*> entries;
-		unordered_map<string, T*> entry_map;
+		std::list<T*> entries;
+		std::unordered_map<std::string, T*> entry_map;
 };
 
 
 template<class T, class P>
-inline list<T*>& CSoundList<T, P>::GetEntries()
+inline std::list<T*>& CSoundList<T, P>::GetEntries()
 {
 	return entries;
 }

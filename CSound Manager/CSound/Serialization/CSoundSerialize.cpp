@@ -13,6 +13,7 @@
 #include <CSoundSynthesizer.h>
 
 using namespace pugi;
+using namespace std;
 
 unordered_map<uint, CSoundSynthesizer*> CSoundSerialize::Load(const char * file)
 {

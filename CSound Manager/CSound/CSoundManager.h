@@ -29,7 +29,7 @@ class AudioDevice
 };
 
 struct CsoundInstrumentOption {
-	string name;
+	std::string name;
 	unsigned int value;
 };
 
@@ -47,10 +47,10 @@ class DLLExport CSoundManager
 		CSoundSynthesizer* GetScore(const char *name) const;
 
 		// Visual programming tags
-		list<string> GetPropertyTypes() const;
+		std::list<std::string> GetPropertyTypes() const;
 		void RegisterType(const char *name);
 
-		const vector<AudioDevice*>& GetOutputDevices() const;
+		const std::vector<AudioDevice*>& GetOutputDevices() const;
 
 		AudioDevice* GetActiveDac() const;
 		uint GetActiveDacID() const;
@@ -82,11 +82,11 @@ class DLLExport CSoundManager
 
 		uint activeDacID;
 		unsigned int controlSamples;
-		unordered_map<string, char> propertyTypes;
-		vector<AudioDevice*> outputDevices;
+		std::unordered_map<std::string, char> propertyTypes;
+		std::vector<AudioDevice*> outputDevices;
 
-		string csOptionsRender;
-		string csInstrOptionsRender;
-		unordered_map<string, string> csOptions;
-		unordered_map<string, CsoundInstrumentOption> instrumentOptions;
+		std::string csOptionsRender;
+		std::string csInstrOptionsRender;
+		std::unordered_map<std::string, std::string> csOptions;
+		std::unordered_map<std::string, CsoundInstrumentOption> instrumentOptions;
 };

@@ -19,7 +19,5 @@ class CsoundPerformanceThread;
 
 #define MYFLT double
 
-using namespace std;
-
 typedef unsigned int uint;
 typedef unsigned char uchar;

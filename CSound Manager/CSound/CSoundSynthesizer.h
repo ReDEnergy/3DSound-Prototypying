@@ -27,8 +27,8 @@ class DLLExport CSoundSynthesizer
 		void Rebuild();
 
 		bool HasSourceCode() const;
-		const string& GetSourceCode() const;
-		void SetSourceCode(string & code);
+		const std::string& GetSourceCode() const;
+		void SetSourceCode(std::string & code);
 		void AddEvent(CSoundEvent* ev);
 
 	private:
@@ -37,9 +37,9 @@ class DLLExport CSoundSynthesizer
 		bool useSourceCode;
 		// Used for real-time editing of the score file
 		// If present it will be used instead of the rendering from the visual editor
-		string sourceCode;
-		unordered_map<string, list<CSoundEvent*>> instrumentEvents;
-		list<CSoundEvent*> standardEvents;
+		std::string sourceCode;
+		std::unordered_map<std::string, std::list<CSoundEvent*>> instrumentEvents;
+		std::list<CSoundEvent*> standardEvents;
 
 	private:
 		pugi::xml_document *doc;

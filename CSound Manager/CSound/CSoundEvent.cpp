@@ -1,5 +1,7 @@
 ﻿#include "CSoundEvent.h"
 
+using namespace std;
+
 CSoundEvent::CSoundEvent(char type, const char * instrumentID, string parameters)
 {
 	this->type = (type == 0) ? 'i' : type;

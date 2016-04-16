@@ -6,6 +6,8 @@
 #include <CSoundComponent.h>
 #include <EntityStorage.h>
 
+using namespace std;
+
 CSoundManager* SoundManager::csManager = nullptr;
 CSoundInstrumentBlock* SoundManager::globalOutputModel = nullptr;
 uint SoundManager::globalOutputModelIndex = 0;

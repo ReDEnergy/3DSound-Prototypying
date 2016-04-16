@@ -4,8 +4,6 @@
 #include <iostream>
 #include <vector>
 
-using namespace std;
-
 template <class T>
 class EntityStorage
 {
@@ -17,8 +15,8 @@ class EntityStorage
 
 		T* Get(const char* name) const;
 		T* Create(const char* name);
-		string Create();
-		const vector<T*>& GetEntries() const;
+		std::string Create();
+		const std::vector<T*>& GetEntries() const;
 
 		void Set(const char* name, T* entity);
 
@@ -29,9 +27,9 @@ class EntityStorage
 		void RebuildList();
 
 	protected:
-		const string prefix;
-		unordered_map <string, T*> storage;
-		vector <T*> list;
+		const std::string prefix;
+		std::unordered_map <std::string, T*> storage;
+		std::vector <T*> list;
 };
 
 template<class T>
@@ -110,9 +108,9 @@ inline T * EntityStorage<T>::Create(const char * name)
 }
 
 template<class T>
-inline string EntityStorage<T>::Create()
+inline std::string EntityStorage<T>::Create()
 {
-	string name;
+	std::string name;
 	T* entry = nullptr;
 	unsigned int ID = 0;
 
@@ -128,7 +126,7 @@ inline string EntityStorage<T>::Create()
 }
 
 template<class T>
-inline const vector<T*>& EntityStorage<T>::GetEntries() const
+inline const std::vector<T*>& EntityStorage<T>::GetEntries() const
 {
 	return list;
 }

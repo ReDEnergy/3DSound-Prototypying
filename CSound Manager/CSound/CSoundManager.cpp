@@ -6,6 +6,7 @@
 
 #include <include/pugixml.h>
 #include <include/utils.h>
+#include <stdlib.h>
 
 #include <CSound/EntityStorage.h>
 #include <CSound/CSoundComponent.h>
@@ -16,6 +17,8 @@
 
 #include <include/csound.h>
 
+using namespace std;
+
 CSoundManager::CSoundManager()
 {
 	activeDacID = -1;
@@ -25,12 +28,19 @@ CSoundManager::CSoundManager()
 	components	= new EntityStorage<CSoundComponent>("component ");
 	blocks		= new EntityStorage<CSoundInstrumentBlock>("block ");
 
-	//csoundSetGlobalEnv("OPCODE6DIR64", "Resources/CSound");
+	auto path = getenv("Path");
+	//cout << "PATH ENV: " << path << endl << endl;
+
+	_putenv("Path=.\\Resources\\CSound\\plugins64");
+	csoundSetGlobalEnv("OPCODE6DIR64", ".\\Resources\\CSound\\plugins64");
+	//csoundSetGlobalEnv("Path", ".\\Resources\\CSound\\bin3");
 	auto csound = csoundCreate(NULL);
 	csoundSetRTAudioModule(csound, "Portaudio");
 
 	// Get output devices
 	int nrDevices = csoundGetAudioDevList(csound, NULL, 1);
+	if (nrDevices == 0)
+		exit(1);
 	CS_AUDIODEVICE *devices = new CS_AUDIODEVICE[nrDevices];
 	csoundGetAudioDevList(csound, devices, 1);
 	for (int i = 0; i < nrDevices; i++) {

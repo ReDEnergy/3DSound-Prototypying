@@ -26,7 +26,7 @@ class DLLExport CSoundComponentProperty
 
 	private:
 		CSoundComponent *parent;
-		string value;
-		string default;
+		std::string value;
+		std::string default;
 };
 

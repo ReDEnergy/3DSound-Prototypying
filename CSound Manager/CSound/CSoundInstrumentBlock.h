@@ -15,8 +15,8 @@ class DLLExport CSoundInstrumentBlock
 
 		void Update();
 		void AddControlChannel(const char* channel);
-		const vector<string>& GetControlChannels() const;
+		const std::vector<std::string>& GetControlChannels() const;
 
 	private:
-		vector<string> channels;
+		std::vector<std::string> channels;
 };

@@ -14,6 +14,6 @@ class DLLExport CSoundSerialize
 		~CSoundSerialize() {};
 
 	public:
-		static unordered_map<uint, CSoundSynthesizer*> Load(const char* file);
-		static pugi::xml_document* GetXML(const vector<CSoundSynthesizer*> &scoreList);
+		static std::unordered_map<uint, CSoundSynthesizer*> Load(const char* file);
+		static pugi::xml_document* GetXML(const std::vector<CSoundSynthesizer*> &scoreList);
 };

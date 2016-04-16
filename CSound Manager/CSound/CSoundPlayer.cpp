@@ -8,6 +8,8 @@
 #include <CSound/CSoundSynthesizer.h>
 #include <CSound/CSoundInstrument.h>
 
+using namespace std;
+
 CSoundPlayer::CSoundPlayer(CSoundSynthesizer * score)
 {
 	this->score = score;

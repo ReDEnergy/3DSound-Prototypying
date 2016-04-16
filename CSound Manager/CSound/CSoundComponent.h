@@ -19,7 +19,7 @@ class DLLExport CSoundComponent
 		void InitControlChannels();
 		void AddControlChannel(const char* channel);
 
-		const vector<string>& GetControlChannels() const;
+		const std::vector<std::string>& GetControlChannels() const;
 
 		void SetParent(CSoundInstrument *instrument);
 		void SetParent(CSoundInstrumentBlock *instrument) {};
@@ -29,6 +29,6 @@ class DLLExport CSoundComponent
 
 	private:
 		CSoundInstrument *parent;
-		vector<string> controlChannels;
-		vector<string> controls;
+		std::vector<std::string> controlChannels;
+		std::vector<std::string> controls;
 };

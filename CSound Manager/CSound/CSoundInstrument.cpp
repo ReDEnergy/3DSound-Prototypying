@@ -8,6 +8,8 @@
 #include <CSound/CSoundSynthesizer.h>
 #include <CSound/SoundManager.h>
 
+using namespace std;
+
 CSoundInstrument::CSoundInstrument()
 {
 	SetName("New Instrument");

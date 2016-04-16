@@ -17,7 +17,7 @@ class DLLExport CSoundInstrument
 		void Update();
 
 		void InitControlChannels(Csound * score);
-		vector<string> GetControlChannels() const;
+		std::vector<std::string> GetControlChannels() const;
 
 		void SetChannelValue(const char * channelName, float value);
 		void SetParent(CSoundSynthesizer *score);
@@ -31,5 +31,5 @@ class DLLExport CSoundInstrument
 		bool useGlobalOutput;
 		unsigned int duration;
 		CSoundSynthesizer *parent;
-		unordered_map<string, MYFLT*> channels;
+		std::unordered_map<std::string, MYFLT*> channels;
 };

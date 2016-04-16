@@ -11,6 +11,8 @@
 #include <CSound/CSoundManager.h>
 #include <CSound/SoundManager.h>
 
+using namespace std;
+
 CSoundSynthesizer::CSoundSynthesizer()
 {
 	useSourceCode = false;

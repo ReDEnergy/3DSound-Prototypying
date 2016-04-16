@@ -5,6 +5,8 @@
 #include <CSound/CSoundManager.h>
 #include <CSound/SoundManager.h>
 
+using namespace std;
+
 CSoundComponent::CSoundComponent()
 {
 	parent = nullptr;

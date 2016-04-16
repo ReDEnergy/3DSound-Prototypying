@@ -24,13 +24,13 @@ class DLLExport SoundManager
 
 		static CSoundInstrumentBlock* GetGlobalOutputModel();
 		static unsigned int GetGlobalOutputModelIndex();
-		static vector<string>& GetDefaultChannelNames();
+		static std::vector<std::string>& GetDefaultChannelNames();
 		static const char* GetChannelMapping(AudioDevice *device, unsigned int channelCount);
 
 	private:
-		static vector<string> standardChannels;
-		static vector<string> output4Channels;
-		static vector<string> output8Channels;
+		static std::vector<std::string> standardChannels;
+		static std::vector<std::string> output4Channels;
+		static std::vector<std::string> output8Channels;
 		static CSoundManager* csManager;
 		static CSoundInstrumentBlock *globalOutputModel;
 		static uint globalOutputModelIndex;
