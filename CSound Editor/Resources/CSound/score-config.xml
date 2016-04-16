@@ -8,7 +8,7 @@
 				<mapping>1 0 </mapping>
 			</dac>
 			<dac id="3">
-				<mapping>1 2 3 4 5 6 7 0 </mapping>
+				<mapping>1 2 2 3 4 5 6 7 </mapping>
 			</dac>
 		</devices>
 	</general>

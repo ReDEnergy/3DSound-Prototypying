@@ -61,19 +61,20 @@ void SceneObjectProperties::InitUI()
 
 		meshType = new QComboBox();
 		
+		auto meshList = Manager::GetResource()->GetMeshList();
 		QStyledItemDelegate* itemDelegate = new QStyledItemDelegate();
 		meshType->setItemDelegate(itemDelegate);
-		meshType->addItem("Box", QVariant("box"));
-		meshType->addItem("Sphere", QVariant("sphere"));
-		meshType->addItem("Plane", QVariant("plane"));
+		for (auto &mesh : meshList) {
+			auto value = qVariantFromValue((void*)(mesh.second));
+			meshType->addItem(mesh.first.c_str(), value);
+		}
 
 		void (QComboBox::* indexChangedSignal)(int index) = &QComboBox::currentIndexChanged;
 		QObject::connect(meshType, indexChangedSignal, this, [&](int index) {
 			auto value = meshType->itemData(index);
-			auto type = value.toString().toStdString();
-			auto mesh = Manager::GetResource()->GetMesh(type.c_str());
-			// If plane disable backface culling
-			auto culling = index == 2 ? OpenGL::CULL::NONE : OpenGL::CULL::BACK;
+			auto mesh = (Mesh*)(value.value<void*>());
+
+			auto culling = (strcmp(mesh->GetMeshID(), "plane") == 0) ? OpenGL::CULL::NONE : OpenGL::CULL::BACK;
 			gameObj->renderer->SetCulling(culling);
 			gameObj->SetMesh(mesh);
 		});
@@ -196,8 +197,8 @@ void SceneObjectProperties::ForceUpdate()
 		forceUpdate = true;
 		Update();
 
-		auto meshID = gameObj->mesh->GetMeshID();
-		auto typeIndex = meshType->findData(QVariant(meshID));
+		auto value = qVariantFromValue((void*)(gameObj->GetMesh()));
+		auto typeIndex = meshType->findData(value);
 		if (typeIndex >= 0)
 			meshType->setCurrentIndex(typeIndex);
 

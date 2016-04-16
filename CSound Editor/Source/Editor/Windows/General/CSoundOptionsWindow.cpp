@@ -11,7 +11,7 @@
 
 #include <CSound/CSoundManager.h>
 #include <CSound/SoundManager.h>
-#include <CSound/CSoundScore.h>
+#include <CSound/CSoundSynthesizer.h>
 #include <CSound/CSoundInstrument.h>
 #include <CSound/CSoundInstrumentBlock.h>
 #include <CSound/CSoundComponent.h>

@@ -60,12 +60,12 @@ EditorMainWindow::~EditorMainWindow()
 
 void EditorMainWindow::Run(QApplication *app)
 {
-	float fps = 24;
 	this->app = app;
 
-	qtTimer = new QTimer(0);
-	qtTimer->setInterval(1000 / fps);
-	qtTimer->start();
+	//float fps = 24;
+	//qtTimer = new QTimer(0);
+	//qtTimer->setInterval(1000 / fps);
+	//qtTimer->start();
 
 	//connect(qtTimer, &QTimer::timeout, this, &EditorMainWindow::Update);
 
@@ -94,7 +94,7 @@ void EditorMainWindow::SetupUI(QMainWindow *MainWindow) {
 
 	setWindowIcon(*QtConfig::GetIcon("colorwheel.png"));
 
-	MainWindow->setWindowTitle("Sound Engine v0.2.3");
+	MainWindow->setWindowTitle("Sound Engine v0.2.4.2");
 
 	MainWindow->resize(1280, 720);
 
@@ -326,6 +326,21 @@ void EditorMainWindow::SetupUI(QMainWindow *MainWindow) {
 		toolbar->addWidget(button);
 	}
 
+	// Impact Sound
+	{
+		QToolButton *button = new QToolButton();
+		button->setText("Impact Sound");
+		button->setIcon(*QtConfig::GetIcon("focus.png"));
+		button->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
+
+		appWindows["ImpactSound"] = new ImpactSoundWindow();
+		QObject::connect(button, &QToolButton::clicked, this, [this]() {
+			appWindows["ImpactSound"]->Toggle();
+		});
+
+		toolbar->addWidget(button);
+	}
+
 	// Moving Plane
 	{
 		QToolButton *button = new QToolButton();
@@ -364,6 +379,21 @@ void EditorMainWindow::SetupUI(QMainWindow *MainWindow) {
 		appWindows["ExpandingPlane"] = new ExpandingSphereWindow();
 		QObject::connect(button, &QToolButton::clicked, this, [this]() {
 			appWindows["ExpandingPlane"]->Toggle();
+		});
+
+		toolbar->addWidget(button);
+	}
+
+	// Depth Perception
+	{
+		QToolButton *button = new QToolButton();
+		button->setText("Depth Perception");
+		button->setIcon(*QtConfig::GetIcon("countdown.png"));
+		button->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
+
+		appWindows["DepthPerception"] = new DepthPerceptionWindow();
+		QObject::connect(button, &QToolButton::clicked, this, [this]() {
+			appWindows["DepthPerception"]->Toggle();
 		});
 
 		toolbar->addWidget(button);

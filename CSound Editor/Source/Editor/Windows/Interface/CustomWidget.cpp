@@ -7,7 +7,7 @@
 #include <QtWidgets/QBoxLayout>
 #include <QtCore/QFile>
 
-#include <Editor/QtConfig.h>
+#include <Editor/Config/QtConfig.h>
 #include <QIcon>
 
 using namespace std;

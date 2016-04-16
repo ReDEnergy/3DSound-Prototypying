@@ -11,7 +11,8 @@
 #include <CSound/CSoundComponent.h>
 #include <CSound/CSoundInstrument.h>
 #include <CSound/CSoundInstrumentBlock.h>
-#include <CSound/CSoundScore.h>
+#include <CSound/CSoundSynthesizer.h>
+#include <CSound/CSoundEvent.h>
 
 #include <include/csound.h>
 
@@ -19,7 +20,7 @@ CSoundManager::CSoundManager()
 {
 	activeDacID = -1;
 
-	scores		= new EntityStorage<CSoundScore>("score ");
+	scores		= new EntityStorage<CSoundSynthesizer>("score ");
 	instruments	= new EntityStorage<CSoundInstrument>("instrument ");
 	components	= new EntityStorage<CSoundComponent>("component ");
 	blocks		= new EntityStorage<CSoundInstrumentBlock>("block ");
@@ -220,6 +221,7 @@ void CSoundManager::LoadScores()
 		auto score = scores->Create(name);
 		score->SetName(name);
 		score->PreventUpdate();
+
 		for (auto &instr : node.child("instruments")) {
 			const char* cName = instr.text().get();
 			auto I = instruments->Get(cName);
@@ -229,6 +231,14 @@ void CSoundManager::LoadScores()
 			auto comp = new CSoundInstrument(*I);
 			score->Add(comp);
 		}
+
+		for (auto &event : node.child("events")) {
+			auto type = event.attribute("type").as_string();
+			auto id = event.attribute("id").as_string();
+			auto E = new CSoundEvent(type[0], id, event.text().get());
+			score->AddEvent(E);
+		}
+
 		score->ResumeUpdate();
 		score->Update();
 		score->SaveToFile();
@@ -332,7 +342,7 @@ void CSoundManager::RenderInstrumentOptions()
 	csInstrOptionsRender += "\n";
 }
 
-CSoundScore * CSoundManager::CreateScore()
+CSoundSynthesizer * CSoundManager::CreateScore()
 {
 	auto name = scores->Create();
 	auto S = scores->Get(name.c_str());
@@ -342,7 +352,7 @@ CSoundScore * CSoundManager::CreateScore()
 	return S;
 }
 
-CSoundScore * CSoundManager::GetScore(const char * name) const
+CSoundSynthesizer * CSoundManager::GetScore(const char * name) const
 {
 	return scores->Get(name);
 }

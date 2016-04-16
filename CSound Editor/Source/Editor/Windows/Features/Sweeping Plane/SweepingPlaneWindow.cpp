@@ -82,6 +82,10 @@ void SweepingPlaneWindow::InitUI()
 	});
 	AddWidget(tickVolume);
 
+	soundGain = new SimpleFloatInput("Gain:", "");
+	soundGain->AcceptNegativeValues(false);
+	AddWidget(soundGain);
+
 	{
 		auto button = new QPushButton();
 		button->setText("Reset Configuration");
@@ -102,6 +106,7 @@ void SweepingPlaneWindow::Start()
 	config->maxDistanceReach = maxDistanceInput->GetValue();
 	config->tickInterval = tickInterval->GetValue();
 	config->tickVolume = tickVolume->GetValue();
+	config->soundGain = soundGain->GetValue();
 	Manager::GetEvent()->EmitAsync("Start-Sweeping-Plane", config);
 }
 
@@ -116,6 +121,7 @@ void SweepingPlaneWindow::ResetConfig()
 	pauseBetweenScans->SetValue(0.5f);
 	tickInterval->SetValue(15.0f);
 	tickVolume->SetValue(0.25f);
+	soundGain->SetValue(2);
 }
 
 void SweepingPlaneWindow::OnEvent(const string & eventID, void * data)

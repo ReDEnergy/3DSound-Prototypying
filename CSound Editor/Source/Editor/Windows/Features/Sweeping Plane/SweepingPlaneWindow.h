@@ -38,4 +38,5 @@ class SweepingPlaneWindow
 		SimpleFloatInput *pauseBetweenScans;
 		SimpleFloatInput *tickInterval;
 		SimpleFloatInput *tickVolume;
+		SimpleFloatInput *soundGain;
 };

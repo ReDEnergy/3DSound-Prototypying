@@ -4,6 +4,9 @@
 		<instruments>
 			<instrument>simple</instrument>
 		</instruments>
+		<events>
+			<event id="simple">0 10000</event>
+		</events>
 	</score>
 
 	<score>
@@ -11,6 +14,9 @@
 		<instruments>
 			<instrument>sound-loop</instrument>
 		</instruments>
+		<events>
+			<event id="sound-loop">0 10000</event>
+		</events>
 	</score>
 
 	<score>
@@ -25,6 +31,9 @@
 		<instruments>
 			<instrument>headphone-test</instrument>
 		</instruments>
+		<events>
+			<event id="headphone-test">0 10000</event>
+		</events>
 	</score>	
 	
 	<score>
@@ -42,12 +51,25 @@
 	</score>
 
 	<score>
+		<name>impact-sound</name>
+		<instruments>
+			<instrument>impact-sound</instrument>
+		</instruments>
+		<events>
+			<event type="f" id="impact-sound">0 1024 10 1</event>
+			<event type="f" id="0">3600</event>
+		</events>
+	</score>
+	
+	<score>
 		<name>feedback-tick</name>
 		<instruments>
 			<instrument>feedback-tick</instrument>
 		</instruments>
+		<events>
+			<event id="feedback-tick">0 10000</event>
+		</events>
 	</score>
-	
 </scores>
 
 

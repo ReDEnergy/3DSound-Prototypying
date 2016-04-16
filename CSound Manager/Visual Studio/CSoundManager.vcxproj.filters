@@ -13,9 +13,6 @@
     <ClCompile Include="..\CSound\CSoundManager.cpp">
       <Filter>CSound</Filter>
     </ClCompile>
-    <ClCompile Include="..\CSound\CSoundScore.cpp">
-      <Filter>CSound</Filter>
-    </ClCompile>
     <ClCompile Include="..\CSound\SoundManager.cpp">
       <Filter>CSound</Filter>
     </ClCompile>
@@ -36,6 +33,15 @@
     </ClCompile>
     <ClCompile Include="..\..\libs\Csound\csound\csPerfThread.cpp">
       <Filter>csPerfThread</Filter>
+    </ClCompile>
+    <ClCompile Include="..\CSound\CSoundSynthesizer.cpp">
+      <Filter>CSound</Filter>
+    </ClCompile>
+    <ClCompile Include="..\CSound\CSoundEvent.cpp">
+      <Filter>CSound</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\libs\pugixml\pugixml.cpp">
+      <Filter>libs\pugixml</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -69,9 +75,6 @@
     <ClInclude Include="..\CSound\CSoundRenderEntry.h">
       <Filter>CSound</Filter>
     </ClInclude>
-    <ClInclude Include="..\CSound\CSoundScore.h">
-      <Filter>CSound</Filter>
-    </ClInclude>
     <ClInclude Include="..\CSound\EntityStorage.h">
       <Filter>CSound</Filter>
     </ClInclude>
@@ -99,6 +102,18 @@
     <ClInclude Include="..\CSound\Serialization\CSoundSerialize.h">
       <Filter>Serialization</Filter>
     </ClInclude>
+    <ClInclude Include="..\CSound\CSoundSynthesizer.h">
+      <Filter>CSound</Filter>
+    </ClInclude>
+    <ClInclude Include="..\CSound\CSoundEvent.h">
+      <Filter>CSound</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\libs\pugixml\pugiconfig.hpp">
+      <Filter>libs\pugixml</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\libs\pugixml\pugixml.hpp">
+      <Filter>libs\pugixml</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="DLL">
@@ -121,6 +136,12 @@
     </Filter>
     <Filter Include="csPerfThread">
       <UniqueIdentifier>{9ea40a93-f81f-40b2-8d27-3dea0e83072d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="libs">
+      <UniqueIdentifier>{1a8e055a-8209-4098-83b9-22461f35bc67}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="libs\pugixml">
+      <UniqueIdentifier>{618907e9-f6cf-442f-9eda-01109b553c57}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

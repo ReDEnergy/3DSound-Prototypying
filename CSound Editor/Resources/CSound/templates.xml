@@ -201,21 +201,34 @@
 			<text>, aout</text>
 		</content>
 	</component>	
+
+	<component>
+		<name>impact-sound</name>
+		<controls>
+			<control>kFreq</control>
+		</controls>
+		<content>
+			<text>
+	aout oscili 1, kFreq, 1
+			</text>
+		</content>
+	</component>	
 	
 	<component>
 		<name>moving-plane</name>
 		<controls>
-			<control>kMvGain</control>
-			<control>kMvPitch</control>
-			<control>kMvDuration</control>
-		</controls>		
+			<control>kAzimuth</control>
+			<control>kElevation</control>
+			<control>kGain</control>
+		</controls>
 		<content>
 			<text>
-	kMvGain = 1
-	ipch cps2pch 8.01, 12
-	kenv linsegr 0, 0.05, 0.2, 0.05, 0.2, 0.2, 0
-	aout vco2 kMvGain * kenv, ipch
+	ipch cps2pch p4, 12
+	kenv linsegr 0, p3 * 0.05, p3 * 0.2, p3 * 0.05, p3 * 0.2, p3 * 0.2, 0
+	aout vco2 kGain * kenv, ipch
 	aout moogladder aout, 2000, 0.25
+	aleft, aright hrtfmove2 aout, kAzimuth, kElevation , "../hrtf/hrtf-44100-left.dat", "../hrtf/hrtf-44100-right.dat"
+	outs aleft, aright
 			</text>
 		</content>
 	</component>

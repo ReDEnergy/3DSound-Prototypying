@@ -1,0 +1,483 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="3DWorld">
+      <UniqueIdentifier>{5dfdcee5-ff00-4a22-9860-c8808ceba397}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="3DWorld\CSound">
+      <UniqueIdentifier>{fdf52e0e-4748-47ff-928b-83df34fc3324}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="3DWorld\Input">
+      <UniqueIdentifier>{a663c5e1-aac1-4798-971a-f0dc49bfcf52}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Editor">
+      <UniqueIdentifier>{b94e1cfb-dcae-4b48-bee1-1b2f0f2517e5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="templates">
+      <UniqueIdentifier>{ad1d7e01-d818-4c5d-a0b4-b059c2096bb7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Editor\QT">
+      <UniqueIdentifier>{306fa174-c0fd-47ca-beab-c6b28eb131f3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Editor\Windows">
+      <UniqueIdentifier>{841e3732-a46d-45ab-b9a7-355ead894113}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Editor\Windows\OpenGL">
+      <UniqueIdentifier>{3bbb57df-55a5-4084-892f-9dca5d2ec3d9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Editor\Windows\Interface">
+      <UniqueIdentifier>{57a60cfe-c150-4e6f-a26e-ef983c4caae5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Editor\Windows\Editors">
+      <UniqueIdentifier>{40993d38-a61f-4dab-b693-15dded79c08e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Editor\Windows\Lists">
+      <UniqueIdentifier>{293d7cd2-d34c-4d47-8108-404d29df0b4c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Editor\Windows\Features">
+      <UniqueIdentifier>{323c32f9-fd9c-4c08-9b36-4957c40df22f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="3DWorld\Scripts">
+      <UniqueIdentifier>{d865708c-2104-4e2a-9a1a-2d8a333aedad}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Editor\Events">
+      <UniqueIdentifier>{5dfe2465-b6e8-4dae-9a0a-b427174fac55}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="3DWorld\Compute">
+      <UniqueIdentifier>{02d9d6f0-38a1-40f4-b5b1-0ca546c3357a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Editor\Windows\Features\Moving Plane">
+      <UniqueIdentifier>{b6b99cb4-798b-4717-a6ab-7d64919d386c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Editor\Windows\Features\Expanding Sphere">
+      <UniqueIdentifier>{a2c54a78-aaeb-4f6e-9811-1a6c41c00476}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Editor\Windows\General">
+      <UniqueIdentifier>{00f7f4f2-9bee-455f-ad57-49291ff613c4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Editor\Windows\Features\Headphone Test">
+      <UniqueIdentifier>{aa8a4908-a14a-4e74-89f7-c209f184528c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Utils">
+      <UniqueIdentifier>{b7dc9fed-4752-42e8-ba14-ed58a6cb0771}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Editor\Windows\Code">
+      <UniqueIdentifier>{39d1a028-be11-4e6b-b261-e1451c583732}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Editor\Windows\Features\Sweeping Plane">
+      <UniqueIdentifier>{eed21365-fc24-4b7f-9da2-1b7b7208d12f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Editor\Windows\Features\Depth Perception">
+      <UniqueIdentifier>{2028a0c8-5710-4d6b-91cf-6a9a1df531be}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="3DWorld\Scripts\Depth Perception">
+      <UniqueIdentifier>{f2dd6dde-c0a8-4bee-bd97-95335e0844bd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="3DWorld\Scripts\Expanding Sphere">
+      <UniqueIdentifier>{efa34643-ef5c-435c-ba7c-a2f04fafd5c9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="3DWorld\Scripts\Sweeping Plane">
+      <UniqueIdentifier>{aa678225-8b1a-4f8c-9206-f12ba3c00725}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="3DWorld\Scripts\Moving Plane">
+      <UniqueIdentifier>{592d6d27-e781-47c9-94b9-2fe5843a8dc5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="3DWorld\Scripts\Impact Sound">
+      <UniqueIdentifier>{c3449727-5cd1-49b7-bf0f-8b44aefcb83a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="PCH">
+      <UniqueIdentifier>{689c36e5-48a8-4e59-89d9-2a41bce22229}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Editor\App">
+      <UniqueIdentifier>{8cdcd831-a012-4ed0-9197-b5cbec1b1214}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Editor\App\Impact Sound">
+      <UniqueIdentifier>{dbaaf849-9872-4830-8b8e-52caf69320af}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="libs">
+      <UniqueIdentifier>{10de46de-118d-45d9-b99b-342118e144ee}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Editor\OpenGL">
+      <UniqueIdentifier>{9e1c21f1-fde6-48b6-9f11-f8e07dcdbb24}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Editor\Config">
+      <UniqueIdentifier>{305b48a5-327b-41cc-bc89-2adf37beb151}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Editor\System">
+      <UniqueIdentifier>{c2987a34-c726-438d-9820-1597588f691c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="libs\pugixml">
+      <UniqueIdentifier>{a6d445c2-914f-4945-baf6-953ce9e7fdd7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Editor\include">
+      <UniqueIdentifier>{fe0c5669-1bc4-4fd1-b91b-8d2e59abffa0}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\Source\3DWorld\CSound\CSound3DSource.cpp">
+      <Filter>3DWorld\CSound</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\3DWorld\CSound\CSoundScene.cpp">
+      <Filter>3DWorld\CSound</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\3DWorld\Input\GameInput.cpp">
+      <Filter>3DWorld\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\3DWorld\Game.cpp">
+      <Filter>3DWorld</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\Editor\EditorMainWindow.cpp">
+      <Filter>Editor</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\Editor\GUI.cpp">
+      <Filter>Editor</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\Editor\QT\Utils.cpp">
+      <Filter>Editor\QT</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\Editor\Windows\SceneWindow.cpp">
+      <Filter>Editor\Windows</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\Editor\Windows\TextPreview.cpp">
+      <Filter>Editor\Windows</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\Editor\Windows\Lists\ScoreList.cpp">
+      <Filter>Editor\Windows\Lists</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\Editor\Windows\Lists\ComponentList.cpp">
+      <Filter>Editor\Windows\Lists</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\Editor\Windows\Lists\InstrumentList.cpp">
+      <Filter>Editor\Windows\Lists</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\Editor\Windows\Interface\EditorList.cpp">
+      <Filter>Editor\Windows\Interface</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\Editor\Windows\Interface\DockWindow.cpp">
+      <Filter>Editor\Windows\Interface</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\Editor\Windows\Editors\PropertyEditor.cpp">
+      <Filter>Editor\Windows\Editors</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\Editor\Windows\Editors\ScoreEditor.cpp">
+      <Filter>Editor\Windows\Editors</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\Editor\Windows\Editors\InstrumentEditor.cpp">
+      <Filter>Editor\Windows\Editors</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\Editor\Windows\OpenGL\OpenGLWindow.cpp">
+      <Filter>Editor\Windows\OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\Editor\Windows\OpenGL\GameWindow.cpp">
+      <Filter>Editor\Windows\OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\CSoundEditor.cpp" />
+    <ClCompile Include="..\Source\Main.cpp" />
+    <ClCompile Include="..\Source\Editor\Windows\Interface\CustomWidget.cpp">
+      <Filter>Editor\Windows\Interface</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\Editor\Windows\Editors\ComponentComposer.cpp">
+      <Filter>Editor\Windows\Editors</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\Editor\Windows\Editors\ComponentEditor.cpp">
+      <Filter>Editor\Windows\Editors</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\Editor\Windows\Editors\SceneObjectProperties.cpp">
+      <Filter>Editor\Windows\Editors</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\Editor\Events\UIEvents.cpp">
+      <Filter>Editor\Events</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\3DWorld\Compute\SurfaceArea.cpp">
+      <Filter>3DWorld\Compute</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\Editor\Windows\Interface\QtSortableInput.cpp">
+      <Filter>Editor\Windows\Interface</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\3DWorld\Compute\SceneIntersection.cpp">
+      <Filter>3DWorld\Compute</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\Editor\Windows\Features\Expanding Sphere\ExpandingSphereWindow.cpp">
+      <Filter>Editor\Windows\Features\Expanding Sphere</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\Editor\Windows\Features\Moving Plane\MovingPlaneWindow.cpp">
+      <Filter>Editor\Windows\Features\Moving Plane</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\Editor\Windows\Interface\QtInput.cpp">
+      <Filter>Editor\Windows\Interface</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\Editor\Windows\General\AboutWindow.cpp">
+      <Filter>Editor\Windows\General</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\Editor\Windows\Features\Headphone Test\HeadphoneTestAnswerPanel.cpp">
+      <Filter>Editor\Windows\Features\Headphone Test</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\Editor\Windows\Features\Headphone Test\HeadphoneTestGenerator.cpp">
+      <Filter>Editor\Windows\Features\Headphone Test</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\Editor\Windows\Features\Headphone Test\HeadphoneTestWindow.cpp">
+      <Filter>Editor\Windows\Features\Headphone Test</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\3DWorld\Scripts\HeadphoneTestScript.cpp">
+      <Filter>3DWorld\Scripts</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\Editor\Windows\Editors\CameraPropertyEditor.cpp">
+      <Filter>Editor\Windows\Editors</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\Editor\Windows\General\CSoundOptionsWindow.cpp">
+      <Filter>Editor\Windows\General</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\Editor\Windows\Editors\CSoundControlWindow.cpp">
+      <Filter>Editor\Windows\Editors</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\Editor\Windows\Code\CodeEditorWindow.cpp">
+      <Filter>Editor\Windows\Code</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\Editor\Windows\Features\Sweeping Plane\SweepingPlaneWindow.cpp">
+      <Filter>Editor\Windows\Features\Sweeping Plane</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\3DWorld\Scripts\SoundTriggerList.cpp">
+      <Filter>3DWorld\Scripts</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\Editor\Windows\Features\Depth Perception\DepthPerceptionWindow.cpp">
+      <Filter>Editor\Windows\Features\Depth Perception</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\3DWorld\Scripts\Moving Plane\MovingPlaneScript.cpp">
+      <Filter>3DWorld\Scripts\Moving Plane</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\3DWorld\Scripts\Expanding Sphere\ExpandingSphereScript.cpp">
+      <Filter>3DWorld\Scripts\Expanding Sphere</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\3DWorld\Scripts\Sweeping Plane\SweepingPlaneScript.cpp">
+      <Filter>3DWorld\Scripts\Sweeping Plane</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\3DWorld\Scripts\Impact Sound\ImpactSoundScript.cpp">
+      <Filter>3DWorld\Scripts\Impact Sound</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\PCH\pch.cpp">
+      <Filter>PCH</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\Editor\App\Impact Sound\ImpactSoundWindow.cpp">
+      <Filter>Editor\App\Impact Sound</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\3DWorld\Scripts\Depth Perception\DepthPerceptionScript.cpp">
+      <Filter>3DWorld\Scripts\Depth Perception</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\Editor\OpenGL\QtGLFW.cpp">
+      <Filter>Editor\OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\Editor\Config\QtConfig.cpp">
+      <Filter>Editor\Config</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\Editor\System\FilePicker.cpp">
+      <Filter>Editor\System</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\Editor\System\GUIEntity.cpp">
+      <Filter>Editor\System</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\libs\pugixml\pugixml.cpp">
+      <Filter>libs\pugixml</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\Source\3DWorld\CSound\CSound3DSource.h">
+      <Filter>3DWorld\CSound</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\3DWorld\CSound\CSoundScene.h">
+      <Filter>3DWorld\CSound</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\3DWorld\Input\GameInput.h">
+      <Filter>3DWorld\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\3DWorld\Game.h">
+      <Filter>3DWorld</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\templates\ReferenceCounter.h">
+      <Filter>templates</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\templates\singleton.h">
+      <Filter>templates</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\include\Qt.h">
+      <Filter>Editor\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\include\qt_utils.h">
+      <Filter>Editor\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Editor\Editor.h">
+      <Filter>Editor</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Editor\EditorForward.h">
+      <Filter>Editor</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Editor\EditorMainWindow.h">
+      <Filter>Editor</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Editor\GUI.h">
+      <Filter>Editor</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Editor\QT\Utils.h">
+      <Filter>Editor\QT</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Editor\Windows\SceneWindow.h">
+      <Filter>Editor\Windows</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Editor\Windows\TextPreview.h">
+      <Filter>Editor\Windows</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Editor\Windows\Lists\InstrumentList.h">
+      <Filter>Editor\Windows\Lists</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Editor\Windows\Lists\ScoreList.h">
+      <Filter>Editor\Windows\Lists</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Editor\Windows\Lists\ComponentList.h">
+      <Filter>Editor\Windows\Lists</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Editor\Windows\Interface\DockWindow.h">
+      <Filter>Editor\Windows\Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Editor\Windows\Interface\EditorList.h">
+      <Filter>Editor\Windows\Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Editor\Windows\Interface\GenericList.h">
+      <Filter>Editor\Windows\Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Editor\Windows\Interface\QtListTemplates.h">
+      <Filter>Editor\Windows\Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Editor\Windows\Interface\CSoundListEditor.h">
+      <Filter>Editor\Windows\Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Editor\Windows\Editors\PropertyEditor.h">
+      <Filter>Editor\Windows\Editors</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Editor\Windows\Editors\ScoreEditor.h">
+      <Filter>Editor\Windows\Editors</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Editor\Windows\Editors\InstrumentEditor.h">
+      <Filter>Editor\Windows\Editors</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Editor\Windows\OpenGL\OpenGLWindow.h">
+      <Filter>Editor\Windows\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Editor\Windows\OpenGL\GameWindow.h">
+      <Filter>Editor\Windows\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\CSoundEditor.h" />
+    <ClInclude Include="..\Source\Editor\Windows\Interface\CustomWidget.h">
+      <Filter>Editor\Windows\Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Editor\Windows\Editors\ComponentComposer.h">
+      <Filter>Editor\Windows\Editors</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Editor\Windows\Editors\ComponentEditor.h">
+      <Filter>Editor\Windows\Editors</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Editor\Windows\Editors\SceneObjectProperties.h">
+      <Filter>Editor\Windows\Editors</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Editor\Windows\Interface\QtInput.h">
+      <Filter>Editor\Windows\Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Editor\Events\UIEvents.h">
+      <Filter>Editor\Events</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\3DWorld\Compute\SurfaceArea.h">
+      <Filter>3DWorld\Compute</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Editor\Windows\Interface\QtSortableInput.h">
+      <Filter>Editor\Windows\Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\3DWorld\Compute\SceneIntersection.h">
+      <Filter>3DWorld\Compute</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Editor\Windows\Features\Expanding Sphere\ExpandingSphereWindow.h">
+      <Filter>Editor\Windows\Features\Expanding Sphere</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Editor\Windows\Features\Moving Plane\MovingPlaneWindow.h">
+      <Filter>Editor\Windows\Features\Moving Plane</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\3DWorld\Scripts\SoundModelsConfig.h">
+      <Filter>3DWorld\Scripts</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Editor\Windows\General\AboutWindow.h">
+      <Filter>Editor\Windows\General</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Utils\utils.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Editor\Windows\Features\Headphone Test\HeadphoneTestAnswerPanel.h">
+      <Filter>Editor\Windows\Features\Headphone Test</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Editor\Windows\Features\Headphone Test\HeadphoneTestGenerator.h">
+      <Filter>Editor\Windows\Features\Headphone Test</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Editor\Windows\Features\Headphone Test\HeadphoneTestWindow.h">
+      <Filter>Editor\Windows\Features\Headphone Test</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\3DWorld\Scripts\HeadphoneTestScript.h">
+      <Filter>3DWorld\Scripts</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Editor\Windows\Editors\CameraPropertyEditor.h">
+      <Filter>Editor\Windows\Editors</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Editor\Windows\General\CSoundOptionsWindow.h">
+      <Filter>Editor\Windows\General</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Editor\Windows\Editors\CSoundControlWindow.h">
+      <Filter>Editor\Windows\Editors</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Editor\Windows\Code\CodeEditorWindow.h">
+      <Filter>Editor\Windows\Code</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Editor\Windows\Features\Sweeping Plane\SweepingPlaneWindow.h">
+      <Filter>Editor\Windows\Features\Sweeping Plane</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\3DWorld\Scripts\SoundTriggerList.h">
+      <Filter>3DWorld\Scripts</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Editor\Windows\Features\Depth Perception\DepthPerceptionWindow.h">
+      <Filter>Editor\Windows\Features\Depth Perception</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\3DWorld\Scripts\Moving Plane\MovingPlaneScript.h">
+      <Filter>3DWorld\Scripts\Moving Plane</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\3DWorld\Scripts\Expanding Sphere\ExpandingSphereScript.h">
+      <Filter>3DWorld\Scripts\Expanding Sphere</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\3DWorld\Scripts\Sweeping Plane\SweepingPlaneScript.h">
+      <Filter>3DWorld\Scripts\Sweeping Plane</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\3DWorld\Scripts\Impact Sound\ImpactSoundScript.h">
+      <Filter>3DWorld\Scripts\Impact Sound</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\PCH\pch.h">
+      <Filter>PCH</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Editor\App\Impact Sound\ImpactSoundWindow.h">
+      <Filter>Editor\App\Impact Sound</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\3DWorld\Scripts\Depth Perception\DepthPerceptionScript.h">
+      <Filter>3DWorld\Scripts\Depth Perception</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Editor\OpenGL\QtGLFW.h">
+      <Filter>Editor\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Editor\Config\QtConfig.h">
+      <Filter>Editor\Config</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Editor\System\FilePicker.h">
+      <Filter>Editor\System</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Editor\System\GUIEntity.h">
+      <Filter>Editor\System</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\libs\pugixml\pugiconfig.hpp">
+      <Filter>libs\pugixml</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\libs\pugixml\pugixml.hpp">
+      <Filter>libs\pugixml</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

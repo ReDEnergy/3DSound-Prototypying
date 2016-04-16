@@ -1,0 +1,2 @@
+BUG:
+	Continous memory allocation without free after click a click is performed on the Qt OpenGL Surface

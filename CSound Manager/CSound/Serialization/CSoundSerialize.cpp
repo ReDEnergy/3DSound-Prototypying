@@ -10,15 +10,15 @@
 #include <CSoundComponent.h>
 #include <CSoundComponentProperty.h>
 #include <CSoundInstrument.h>
-#include <CSoundScore.h>
+#include <CSoundSynthesizer.h>
 
 using namespace pugi;
 
-unordered_map<uint, CSoundScore*> CSoundSerialize::Load(const char * file)
+unordered_map<uint, CSoundSynthesizer*> CSoundSerialize::Load(const char * file)
 {
 	unordered_map<uint, CSoundInstrument*> instruments;
 	unordered_map<uint, CSoundComponent*> components;
-	unordered_map<uint, CSoundScore*> scores;
+	unordered_map<uint, CSoundSynthesizer*> scores;
 
 	///////////////////////////////////////////////////////////////////////////
 	// Open Document
@@ -90,7 +90,7 @@ unordered_map<uint, CSoundScore*> CSoundSerialize::Load(const char * file)
 		auto name = score.child_value("name");
 		auto UID = score.child("uid").text().as_uint();
 
-		auto S = new CSoundScore();
+		auto S = new CSoundSynthesizer();
 		S->SetName(name);
 		S->SetUID(UID);
 		scores[UID] = S;
@@ -112,11 +112,11 @@ unordered_map<uint, CSoundScore*> CSoundSerialize::Load(const char * file)
 	return scores;
 }
 
-pugi::xml_document * CSoundSerialize::GetXML(const vector<CSoundScore*>& scoreList)
+pugi::xml_document * CSoundSerialize::GetXML(const vector<CSoundSynthesizer*>& scoreList)
 {
 	unordered_map<uint, CSoundInstrument*> instruments;
 	unordered_map<uint, CSoundComponent*> components;
-	unordered_map<uint, CSoundScore*> scores;
+	unordered_map<uint, CSoundSynthesizer*> scores;
 
 	///////////////////////////////////////////////////////////////////////////
 	// Find Unique Elements

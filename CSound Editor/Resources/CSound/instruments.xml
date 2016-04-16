@@ -65,6 +65,13 @@
 	</instrument>
 	
 	<instrument>
+		<name>impact-sound</name>
+		<components>
+			<component>impact-sound</component>
+		</components>
+	</instrument>	
+	
+	<instrument>
 		<name>feedback-tick</name>
 		<components>
 			<component>feedback-tick</component>

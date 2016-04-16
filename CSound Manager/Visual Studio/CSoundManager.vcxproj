@@ -19,17 +19,20 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\libs\pugixml\pugiconfig.hpp" />
+    <ClInclude Include="..\..\libs\pugixml\pugixml.hpp" />
     <ClInclude Include="..\CSound\CSound.h" />
     <ClInclude Include="..\CSound\CSoundComponentProperty.h" />
     <ClInclude Include="..\CSound\CSoundComponent.h" />
     <ClInclude Include="..\CSound\CSoundEntity.h" />
+    <ClInclude Include="..\CSound\CSoundEvent.h" />
     <ClInclude Include="..\CSound\CSoundForward.h" />
     <ClInclude Include="..\CSound\CSoundInstrument.h" />
     <ClInclude Include="..\CSound\CSoundInstrumentBlock.h" />
     <ClInclude Include="..\CSound\CSoundManager.h" />
     <ClInclude Include="..\CSound\CSoundPlayer.h" />
     <ClInclude Include="..\CSound\CSoundRenderEntry.h" />
-    <ClInclude Include="..\CSound\CSoundScore.h" />
+    <ClInclude Include="..\CSound\CSoundSynthesizer.h" />
     <ClInclude Include="..\CSound\EntityStorage.h" />
     <ClInclude Include="..\CSound\include\csound.h" />
     <ClInclude Include="..\CSound\include\dll_export.h" />
@@ -42,14 +45,16 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\libs\Csound\csound\csPerfThread.cpp" />
+    <ClCompile Include="..\..\libs\pugixml\pugixml.cpp" />
     <ClCompile Include="..\CSound\CSoundComponent.cpp" />
     <ClCompile Include="..\CSound\CSoundComponentProperty.cpp" />
     <ClCompile Include="..\CSound\CSoundEntity.cpp" />
+    <ClCompile Include="..\CSound\CSoundEvent.cpp" />
     <ClCompile Include="..\CSound\CSoundInstrument.cpp" />
     <ClCompile Include="..\CSound\CSoundInstrumentBlock.cpp" />
     <ClCompile Include="..\CSound\CSoundManager.cpp" />
     <ClCompile Include="..\CSound\CSoundPlayer.cpp" />
-    <ClCompile Include="..\CSound\CSoundScore.cpp" />
+    <ClCompile Include="..\CSound\CSoundSynthesizer.cpp" />
     <ClCompile Include="..\CSound\DLL\dllmain.cpp" />
     <ClCompile Include="..\CSound\Serialization\CSoundSerialize.cpp" />
     <ClCompile Include="..\CSound\SoundManager.cpp" />
@@ -64,20 +69,20 @@
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Label="Configuration" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <PlatformToolset>v120</PlatformToolset>
+    <PlatformToolset>v140</PlatformToolset>
     <ConfigurationType>DynamicLibrary</ConfigurationType>
   </PropertyGroup>
   <PropertyGroup Label="Configuration" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <PlatformToolset>v120</PlatformToolset>
+    <PlatformToolset>v140</PlatformToolset>
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <WholeProgramOptimization>true</WholeProgramOptimization>
   </PropertyGroup>
   <PropertyGroup Label="Configuration" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <PlatformToolset>v120</PlatformToolset>
+    <PlatformToolset>v140</PlatformToolset>
     <ConfigurationType>DynamicLibrary</ConfigurationType>
   </PropertyGroup>
   <PropertyGroup Label="Configuration" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <PlatformToolset>v120</PlatformToolset>
+    <PlatformToolset>v140</PlatformToolset>
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <WholeProgramOptimization>true</WholeProgramOptimization>
   </PropertyGroup>
@@ -87,28 +92,24 @@
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <Import Project="Property Sheets\Csound.props" />
     <Import Project="Property Sheets\include.props" />
-    <Import Project="Property Sheets\pugixml.props" />
     <Import Project="Property Sheets\libsndfile.props" />
     <Import Project="Property Sheets\pthread.props" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <Import Project="Property Sheets\Csound.props" />
     <Import Project="Property Sheets\include.props" />
-    <Import Project="Property Sheets\pugixml.props" />
     <Import Project="Property Sheets\libsndfile.props" />
     <Import Project="Property Sheets\pthread.props" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <Import Project="Property Sheets\Csound.props" />
     <Import Project="Property Sheets\include.props" />
-    <Import Project="Property Sheets\pugixml.props" />
     <Import Project="Property Sheets\libsndfile.props" />
     <Import Project="Property Sheets\pthread.props" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <Import Project="Property Sheets\Csound.props" />
     <Import Project="Property Sheets\include.props" />
-    <Import Project="Property Sheets\pugixml.props" />
     <Import Project="Property Sheets\libsndfile.props" />
     <Import Project="Property Sheets\pthread.props" />
   </ImportGroup>
@@ -132,7 +133,7 @@
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
-      <PreprocessorDefinitions>CSOUND_MANAGER_DLL_EXPORTS;__SSE__;_CRT_SECURE_NO_WARNINGS;_DEBUG</PreprocessorDefinitions>
+      <PreprocessorDefinitions>CSOUND_MANAGER_DLL_EXPORTS;HAVE_STRUCT_TIMESPEC;_CRT_SECURE_NO_WARNINGS;_DEBUG</PreprocessorDefinitions>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <Optimization>Disabled</Optimization>
@@ -147,7 +148,7 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
-      <PreprocessorDefinitions>CSOUND_MANAGER_DLL_EXPORTS;__SSE__;_CRT_SECURE_NO_WARNINGS;</PreprocessorDefinitions>
+      <PreprocessorDefinitions>CSOUND_MANAGER_DLL_EXPORTS;HAVE_STRUCT_TIMESPEC;_CRT_SECURE_NO_WARNINGS;</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <Optimization>Disabled</Optimization>
       <WarningLevel>Level3</WarningLevel>
@@ -163,7 +164,7 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>CSOUND_MANAGER_DLL_EXPORTS;__SSE__;_CRT_SECURE_NO_WARNINGS;_DEBUG</PreprocessorDefinitions>
+      <PreprocessorDefinitions>CSOUND_MANAGER_DLL_EXPORTS;HAVE_STRUCT_TIMESPEC;_CRT_SECURE_NO_WARNINGS;_DEBUG</PreprocessorDefinitions>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <WarningLevel>Level3</WarningLevel>
@@ -175,7 +176,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
-      <PreprocessorDefinitions>CSOUND_MANAGER_DLL_EXPORTS;__SSE__;_CRT_SECURE_NO_WARNINGS;</PreprocessorDefinitions>
+      <PreprocessorDefinitions>CSOUND_MANAGER_DLL_EXPORTS;HAVE_STRUCT_TIMESPEC;_CRT_SECURE_NO_WARNINGS;</PreprocessorDefinitions>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <WarningLevel>Level3</WarningLevel>

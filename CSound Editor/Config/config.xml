@@ -12,7 +12,7 @@
 		<fullscreen>false</fullscreen>
 		<position>0 0</position>
 		<centered>true</centered>
-		<hidden>true</hidden>
+		<hidden>false</hidden>
 	</window>
 	<vsync>false</vsync>
 	<ssao>false</ssao>

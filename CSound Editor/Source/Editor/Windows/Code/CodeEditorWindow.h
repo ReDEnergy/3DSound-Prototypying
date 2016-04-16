@@ -1,7 +1,7 @@
 #pragma once
 #include <Editor/Windows/Interface/DockWindow.h>
 
-class CSoundScore;
+class CSoundSynthesizer;
 class QTextEdit;
 class QTimer;
 
@@ -12,13 +12,13 @@ class CodeEditorWindow
 		CodeEditorWindow();
 		virtual ~CodeEditorWindow() {};
 
-		void SetContext(CSoundScore *score);
+		void SetContext(CSoundSynthesizer *score);
 
 	private:
 		void InitUI();
 
 	private:
-		CSoundScore *activeContext;
+		CSoundSynthesizer *activeContext;
 		QTextEdit *qtTextEdit;
 		QTimer *codeUpdateTimer;
 		bool disableFirstUpdate;

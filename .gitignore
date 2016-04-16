@@ -3,6 +3,7 @@ lib
 *.sdf
 *.suo
 **/.vs
+**/ipch
 **/Visual Studio/obj
 **/Visual Studio/Debug
 **/Saves
@@ -11,4 +12,6 @@ lib
 /CSound Editor/Visual Studio/*.opendb
 /CSound Editor/Resources/CSound/Scores/*.csd
 /CSound Editor/Visual Studio/*.opensdf
+/CSound Editor/Resources/Audio/MvPlane
 /libs/Engine/Engine
+/TODO

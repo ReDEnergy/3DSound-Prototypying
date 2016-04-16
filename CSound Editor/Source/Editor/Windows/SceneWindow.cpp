@@ -20,7 +20,7 @@
 
 
 typedef QTTreeItem<CSound3DSource> SceneItem;
-typedef QTListItem<CSoundScore> DropItem;
+typedef QTListItem<CSoundSynthesizer> DropItem;
 
 SceneWindow::SceneWindow()
 {
@@ -119,7 +119,7 @@ void SceneWindow::CreateItem()
 	QtItemClicked(item, 0);
 }
 
-void SceneWindow::DropItem(CSoundScore * score)
+void SceneWindow::DropItem(CSoundSynthesizer * score)
 {
 }
 

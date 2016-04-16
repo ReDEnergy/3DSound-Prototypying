@@ -1,27 +1,7 @@
+#include <pch.h>
 #include "SurfaceArea.h"
 
-#include <iostream>
-
-#include <include/utils.h>
-#include <include/math.h>
-#include <include/glm_utils.h>
-
-#include <Core/Engine.h>
-#include <Core/Camera/Camera.h>
-#include <Core/WindowObject.h>
-#include <Component/Transform/Transform.h>
-
-#include <Manager/Manager.h>
-#include <Manager/ShaderManager.h>
-#include <Manager/ColorManager.h>
-#include <UI/ColorPicking/ColorPicking.h>
-
-#include <GPU/Shader.h>
 #include <GPU/SSBO.h>
-#include <GPU/Texture.h>
-#include <GPU/FrameBuffer.h>
-
-#include <Utils/OpenGL.h>
 
 #include <3DWorld/Game.h>
 #include <3DWorld/CSound/CSoundScene.h>
@@ -68,16 +48,17 @@ void SurfaceArea::Update()
 	computeShader->Use();
 	ssbo->BindBuffer(0);
 	glBindImageTexture(0, Manager::GetPicker()->FBO->GetTextureID(0), 0, GL_FALSE, 0, GL_READ_ONLY, GL_RGBA32F);
-	OpenGL::DispatchCompute(Engine::Window->resolution.x, Engine::Window->resolution.y, 1, 32);
+
+	auto res = WindowManager::GetDefaultWindow()->GetResolution();
+	OpenGL::DispatchCompute(res.x, res.y, 1, 32);
 
 	ReadData();
-
 
 	// ------------------------------------------------------------------------
 	// Update Scene Information
 	for (auto S3D : CSoundEditor::GetScene()->GetEntries())
 	{
-		auto ID = Manager::GetColor()->GetUKeyFromColor(S3D->GetColorID());
+		unsigned int ID = Manager::GetColor()->GetObjectUID(S3D);
 		S3D->SetSurfaceArea(counter[ID]);
 	}
 

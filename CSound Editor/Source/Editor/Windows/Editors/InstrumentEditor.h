@@ -1,6 +1,6 @@
 #pragma once
 #include <Csound/CSoundInstrument.h>
-#include <Csound/CSoundScore.h>
+#include <Csound/CSoundSynthesizer.h>
 
 #include <Editor/Windows/Interface/CSoundListEditor.h>
 

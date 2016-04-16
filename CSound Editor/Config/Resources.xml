@@ -72,51 +72,12 @@
 
 <!-- GameObjects -->
 <objects>
-	<!-- gizmo objects -->
-	<object>
-		<name>gizmo_move</name>
-		<mesh>gizmo_move</mesh>
-	</object>
-	<object>
-		<name>gizmo_rotate</name>
-		<mesh>gizmo_rotate</mesh>
-	</object>
-	<object>
-		<name>gizmo_scale</name>
-		<mesh>gizmo_scale</mesh>
-	</object>
-	<!-- end gizmo objects -->
-	
 	<object>
 		<name>render-quad</name>
 		<mesh>screen-quad</mesh>
 	</object>
 	<object>
-		<name>box</name>
-		<mesh>box</mesh>
-	</object>
-	<object>
 		<name>light-debug</name>
 		<mesh>sphere</mesh>
-	</object>
-	<object>
-		<name>sphere</name>
-		<mesh>sphere</mesh>
-	</object>
-	<object>
-		<name>plane</name>
-		<mesh>plane</mesh>
-	</object>
-	<object>
-		<name>ground</name>
-		<mesh>ground</mesh>
-		<physics>
-			<file>ground.hkt</file>
-		</physics>
-	</object>
-	<object>
-		<name>teapot</name>
-		<mesh>teapot</mesh>
-		<shadow>yes</shadow>
 	</object>
 </objects>

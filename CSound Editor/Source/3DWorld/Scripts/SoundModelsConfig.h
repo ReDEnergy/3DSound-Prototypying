@@ -7,6 +7,7 @@ struct MovingPlaneConfig
 	float pauseBetweenScans;
 	float tickInterval;
 	float tickVolume;
+	float soundGain;
 };
 
 struct SweepingPlaneConfig
@@ -16,6 +17,7 @@ struct SweepingPlaneConfig
 	float pauseBetweenScans;
 	float tickInterval;
 	float tickVolume;
+	float soundGain;
 };
 
 struct ExpandingSphereConfig
@@ -26,3 +28,18 @@ struct ExpandingSphereConfig
 	unsigned int startScanFXVolume;
 };
 
+struct DepthPerceptionConfig
+{
+	float soundGain;
+};
+
+struct ImpactSoundConfig
+{
+	float soundGain;
+};
+
+struct GlobalCsoundControlChannel {
+	string label;
+	string name;
+	float value;
+};

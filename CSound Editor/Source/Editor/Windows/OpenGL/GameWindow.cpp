@@ -1,21 +1,19 @@
+#include <pch.h>
 #include "GameWindow.h"
+
+#include <include/gl.h>
+#include <Utils/GPU.h>
 
 #include <Editor/Windows/OpenGL/OpenGLWindow.h>
 #include <Editor/GUI.h>
 #include <3DWorld/Game.h>
 #include <3DWorld/CSound/CSoundScene.h>
-#include <Utils/GPU.h>
 
 #include <CSoundEditor.h>
 
 #include <QOpenGLContext>
 #include <QWGLNativeContext>
 #include <QLayout>
-
-// Engine library
-#include <include/Engine.h>
-#include <Manager/Manager.h>
-#include <Debugging/TextureDebugger.h>
 
 static GPUBuffers *buffer;
 static Transform debugTransform;
@@ -43,17 +41,18 @@ GameWindow::GameWindow()
 void GameWindow::InitUI()
 {
 	qtOpenGLWindow = new OpenGLWindow();
-	qtOpenGLWindow->Init();
+	qtOpenGLWindow->Init(WindowManager::GetDefaultWindow());
 	qtLayout->addWidget(qtOpenGLWindow->container);
 }
 
 void GameWindow::DockedEvent(bool state)
 {
+	auto res = WindowManager::GetDefaultWindow()->GetResolution();
 	if (state == true) {
-		setFixedSize(Engine::Window->resolution.x, Engine::Window->resolution.y);
+		setFixedSize(res.x, res.y);
 	}
 	else {
-		setMinimumHeight(Engine::Window->resolution.y + 22);
+		setMinimumHeight(res.y + 22);
 	}
 }
 
@@ -74,7 +73,9 @@ void GameWindow::Render()
 	auto activeCamera = Manager::GetScene()->GetActiveCamera();
 
 	// No need to clear because we write a texture to the entire screen
-	FrameBuffer::Unbind();
+	auto window = WindowManager::GetDefaultWindow();
+
+	FrameBuffer::Unbind(window);
 	FrameBuffer::Clear();
 
 	glDisable(GL_DEPTH_TEST);
@@ -84,7 +85,7 @@ void GameWindow::Render()
 		Shader *Composition = Manager::GetShader()->GetShader("composition");
 		Composition->Use();
 
-		glUniform2f(Composition->loc_resolution, (float)Engine::Window->resolution.x, (float)Engine::Window->resolution.y);
+		glUniform2f(Composition->loc_resolution, (float)window->props.resolution.x, (float)window->props.resolution.y);
 		glUniform1i(Composition->active_selection, Manager::GetPicker()->HasActiveSelection());
 		glUniform1i(Composition->loc_debug_view, Manager::GetDebug()->GetActiveState());
 		activeCamera->BindProjectionDistances(Composition);
@@ -107,11 +108,14 @@ void GameWindow::Render()
 	CheckOpenGLError();
 }
 
+// TODO - now the engine supports recreating a VAO for a different thread
+
 void GameWindow::InitRendering()
 {
 	auto value = qtOpenGLWindow->SetAsCurrentContext();
 	auto mesh = Manager::GetResource()->GetMesh("screen-quad");
-	buffer = UtilsGPU::UploadData(mesh->positions, mesh->normals, mesh->texCoords, mesh->indices);
+	buffer = new GPUBuffers();
+	*buffer = UtilsGPU::UploadData(mesh->positions, mesh->normals, mesh->texCoords, mesh->indices);
 
 	auto nativeHandle = qtOpenGLWindow->GetContext()->nativeHandle();
 	auto windowsNative = nativeHandle.value<QWGLNativeContext>();
@@ -119,4 +123,4 @@ void GameWindow::InitRendering()
 	auto sctx = qtOpenGLWindow->GetContext()->shareContext();
 
 	useContext = true;
-}
+}	

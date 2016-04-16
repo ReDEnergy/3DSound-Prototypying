@@ -1,5 +1,5 @@
 #pragma once
-#include <Editor/QTForward.h>
+#include <Editor/include/QtForward.h>
 
 using namespace std;
 

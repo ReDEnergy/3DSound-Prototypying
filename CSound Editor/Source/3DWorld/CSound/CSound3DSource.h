@@ -17,12 +17,12 @@ class CSound3DSource
 		CSound3DSource(const CSound3DSource& ref);
 		~CSound3DSource();
 
-		void SetSoundModel(CSoundScore* soundModel, bool trackScore = true);
+		void SetSoundModel(CSoundSynthesizer* soundModel, bool trackScore = true);
 		void Update();
 		void ComputeControlProperties();
 
 		const char* GetRender() const;
-		CSoundScore* GetScore() const;
+		CSoundSynthesizer* GetScore() const;
 		int GetSurfaceArea() const;
 		float GetSurfaceCover() const;
 		float GetDistanceToCamera() const;
@@ -38,6 +38,8 @@ class CSound3DSource
 		void SetVolume(unsigned int value = 100);
 		void SetVolumeOvershoot(unsigned int value, float deltaTime);
 		void SetControlChannel(const char* channel, float value, bool forceUpdate = false) const;
+		void SendCsoundEvent(char eventType, int nrParams, double * params) const;
+
 		void UseVirtalPosition(bool value);
 		void SetVirtualCameraSpacePosition(glm::vec3 cameraSpacePosition);
 
@@ -56,9 +58,10 @@ class CSound3DSource
 		void Init();
 		void OnEvent(const string& eventID, void * data);
 		void UpdateControlChannels(bool motion = true) const;
-		CSoundScore *soundModel;
+		CSoundSynthesizer *soundModel;
 		CSoundPlayer *player;
-		SimpleTimer *timer;
+
+		SimpleTimer *stopTimer;
 		SimpleTimer *volumeTimer;
 
 		bool forceUpdate;

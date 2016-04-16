@@ -2,7 +2,7 @@
 #include <Editor/Windows/Interface/CSoundListEditor.h>
 
 class CSoundInstrument;
-class CSoundScore;
+class CSoundSynthesizer;
 class ScoreComposer;
 
 class ScoreEditorList
@@ -13,7 +13,7 @@ class ScoreEditorList
 };
 
 class ScoreComposer
-	: public CSoundListEditor<CSoundScore, ScoreEditorList>
+	: public CSoundListEditor<CSoundSynthesizer, ScoreEditorList>
 {
 	public:
 		ScoreComposer();

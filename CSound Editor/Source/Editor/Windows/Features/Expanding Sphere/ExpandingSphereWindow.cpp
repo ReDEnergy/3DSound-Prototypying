@@ -29,23 +29,11 @@ void ExpandingSphereWindow::InitUI()
 	qtLayout->setContentsMargins(5, 5, 5, 5);
 	qtLayout->setAlignment(Qt::AlignTop);
 
-	{
-		bool started = false;
-		auto *button = new QPushButton();
-		button->setText("Start Test");
-		button->setMinimumHeight(30);
-		qtLayout->addWidget(button);
-		QObject::connect(button, &QPushButton::clicked, this, [button, this]() {
-			if (button->text().compare("Start Test") == 0) {
-				button->setText("Stop Test");
-				Start();
-			}
-			else {
-				Manager::GetEvent()->EmitAsync("Stop-Expanding-Sphere");
-				button->setText("Start Test");
-			}
-		});
-	}
+	startStopButton = new QPushButton();
+	startStopButton->setText("Start Test");
+	startStopButton->setMinimumHeight(30);
+	qtLayout->addWidget(startStopButton);
+	QObject::connect(startStopButton, &QPushButton::clicked, this, &ExpandingSphereWindow::ToggleState);
 
 	// ------------------------------------------------------------------------
 	// Configuration Panel
@@ -97,17 +85,21 @@ void ExpandingSphereWindow::Start()
 	Manager::GetEvent()->EmitAsync("Start-Expanding-Sphere", config);
 }
 
-void ExpandingSphereWindow::Stop()
+void ExpandingSphereWindow::ToggleState()
 {
+	if (startStopButton->text().compare("Start Test") == 0) {
+		startStopButton->setText("Stop Test");
+		Start();
+	}
+	else {
+		Manager::GetEvent()->EmitAsync("Stop-Expanding-Sphere");
+		startStopButton->setText("Start Test");
+	}
 }
 
 void ExpandingSphereWindow::ResetConfig()
 {
-	travelSpeedInput->SetValue(5);
+	travelSpeedInput->SetValue(2);
 	pauseBetweenScans->SetValue(0.5);
-	maxDistanceInput->SetValue(10);
-}
-
-void ExpandingSphereWindow::OnEvent(const string & eventID, void * data)
-{
+	maxDistanceInput->SetValue(5);
 }

@@ -1,7 +1,7 @@
 #pragma once
 #include <Editor/Windows/Interface/DockWindow.h>
 
-class CSoundScore;
+class CSoundSynthesizer;
 class CSound3DSource;
 
 #include <Event/EventListener.h>
@@ -48,7 +48,7 @@ class SceneWindow
 		void OnEvent(EventType Event, void *data);
 
 	protected:
-		void DropItem(CSoundScore* score);
+		void DropItem(CSoundSynthesizer* score);
 
 	private:
 		void SelectFirstTopLevelItem(int row = 0);

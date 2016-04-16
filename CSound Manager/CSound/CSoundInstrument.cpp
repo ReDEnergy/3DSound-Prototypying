@@ -5,7 +5,7 @@
 
 #include <CSound/CSoundComponent.h>
 #include <CSound/CSoundInstrumentBlock.h>
-#include <CSound/CSoundScore.h>
+#include <CSound/CSoundSynthesizer.h>
 #include <CSound/SoundManager.h>
 
 CSoundInstrument::CSoundInstrument()
@@ -18,7 +18,6 @@ CSoundInstrument::CSoundInstrument(const CSoundInstrument & instr)
 {
 	Init();
 	SetName(instr.GetName());
-	duration = instr.duration;
 
 	PreventUpdate();
 	for (auto C : instr.entries) {
@@ -30,7 +29,6 @@ CSoundInstrument::CSoundInstrument(const CSoundInstrument & instr)
 
 void CSoundInstrument::Init()
 {
-	duration = 100000;
 	parent = nullptr;
 	useGlobalOutput = true;
 }
@@ -101,27 +99,15 @@ vector<string> CSoundInstrument::GetControlChannels() const
 	return chns;
 }
 
-unsigned int CSoundInstrument::GetDuration() const
-{
-	return duration;
-}
-
 void CSoundInstrument::SetChannelValue(const char *channelName, float value)
 {
 	if (channels.find(channelName) != channels.end())
 		*channels[channelName] = value;
 }
 
-void CSoundInstrument::SetParent(CSoundScore * score)
+void CSoundInstrument::SetParent(CSoundSynthesizer * score)
 {
 	parent = score;
-}
-
-void CSoundInstrument::SetDuration(unsigned int duration)
-{
-	this->duration = duration;
-	if (parent)
-		parent->Update();
 }
 
 void CSoundInstrument::UseGlobalOutput(bool value)

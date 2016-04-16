@@ -1,5 +1,5 @@
-﻿#include "CSound3DSource.h"
-#include <iostream>
+﻿#include <pch.h>
+#include "CSound3DSource.h"
 
 #include <CSoundEditor.h>
 #include <SoundManager.h>
@@ -9,28 +9,7 @@
 
 // CSound lib headers
 #include <CSound/CSoundPlayer.h>
-#include <CSound/CSoundScore.h>
-
-// Engine headers
-#include <include/glm.h>
-#include <include/glm_utils.h>
-#include <include/utils.h>
-
-#include <Core/Engine.h>
-#include <Core/WindowObject.h>
-#include <Core/Camera/Camera.h>
-
-#include <Component/Transform/Transform.h>
-
-#include <Event/TimerEvent.h>
-#include <Event/SimpleTimer.h>
-
-#include <Manager/Manager.h>
-#include <Manager/ColorManager.h>
-#include <Manager/SceneManager.h>
-#include <Manager/EventSystem.h>
-#include <Manager/ResourceManager.h>
-#include <UI/ColorPicking/ColorPicking.h>
+#include <CSound/CSoundSynthesizer.h>
 
 #define RESTRICT(value, min, max)  (value < min) ? min : (value > max) ? max : value
 
@@ -38,7 +17,7 @@ CSound3DSource::CSound3DSource()
 	: GameObject("")
 {
 	SetName("sound-source");
-	mesh = Manager::GetResource()->GetMesh("sphere");
+	SetMesh(Manager::GetResource()->GetMesh("sphere"));
 	SetupAABB();
 	transform->SetWorldPosition(glm::vec3(0, 1, 0));
 
@@ -69,8 +48,8 @@ void CSound3DSource::Init()
 	elevationPanningFactor = 0;
 	azimuthPanningFactor = 0;
 
-	timer = new SimpleTimer(1);
-	timer->OnExpire([this]() {
+	stopTimer = new SimpleTimer(1);
+	stopTimer->OnExpire([this]() {
 		StopScore();
 	});
 
@@ -91,19 +70,24 @@ CSound3DSource::~CSound3DSource()
 	cout << "DELETED SOURCE" << endl;
 }
 
-void CSound3DSource::SetSoundModel(CSoundScore * soundModel, bool trackScore)
+void CSound3DSource::SetSoundModel(CSoundSynthesizer * soundModel, bool trackScore)
 {
 	// TODO: Tracking should be done only by the scene manager
 	if (trackScore) {
-		if (this->soundModel)
+		if (this->soundModel) {
 			CSoundEditor::GetScene()->UnTrackScore(this->soundModel);
-		CSoundEditor::GetScene()->TrackScore(soundModel);
+		}
+		if (soundModel) {
+			CSoundEditor::GetScene()->TrackScore(soundModel);
+		}
 	}
 	this->soundModel = soundModel;
 
-	SAFE_FREE(player);
-	player = new CSoundPlayer(soundModel);
-	player->Init();
+	if (soundModel) {
+		SAFE_FREE(player);
+		player = new CSoundPlayer(soundModel);
+		player->Init();
+	}
 }
 
 void CSound3DSource::Update()
@@ -123,7 +107,7 @@ void CSound3DSource::SelectObject()
 
 bool CSound3DSource::GetPlaybackState() const
 {
-	return player->IsPlaying();
+	return player ? player->IsPlaying() : false;
 }
 
 bool CSound3DSource::TooglePlayback()
@@ -152,8 +136,8 @@ void CSound3DSource::PlayScore(float deltaTime)
 		player->Play();
 		ComputeControlProperties();
 		UpdateControlChannels();
-		timer->SetDuration(deltaTime);
-		timer->Start();
+		stopTimer->SetDuration(deltaTime);
+		stopTimer->Start();
 	}
 }
 
@@ -172,7 +156,7 @@ void CSound3DSource::ReloadScore()
 void CSound3DSource::OnEvent(const string& eventID, void * data)
 {
 	if (eventID.compare("model-changed") == 0) {
-		auto model = (CSoundScore*)data;
+		auto model = (CSoundSynthesizer*)data;
 		if (soundModel != model) {
 			return;
 		}
@@ -209,8 +193,8 @@ void CSound3DSource::ComputeControlProperties()
 
 	soundIntensity = 0;
 	//if (surfaceCover) {
-		soundIntensity = (soundFallOff - min(soundFallOff, distanceToCamera)) / soundFallOff;
-		soundIntensity *= soundIntensity;
+		soundIntensity = 1 - distanceToCamera / soundFallOff;
+		soundIntensity *= max(0, soundIntensity);
 	//}
 
 	// Camera Space
@@ -250,7 +234,7 @@ void CSound3DSource::ComputeControlProperties()
 
 void CSound3DSource::UpdateControlChannels(bool motion) const
 {
-	if (!player->IsPlaying()) return;
+	if (!player || !player->IsPlaying()) return;
 
 	// ------------------------------------------------------------------------
 	// Update Control Channels
@@ -273,7 +257,7 @@ const char * CSound3DSource::GetRender() const
 	return nullptr;
 }
 
-CSoundScore* CSound3DSource::GetScore() const
+CSoundSynthesizer* CSound3DSource::GetScore() const
 {
 	return soundModel;
 }
@@ -336,7 +320,8 @@ void CSound3DSource::SetVirtualCameraSpacePosition(glm::vec3 cameraSpacePosition
 void CSound3DSource::SetSurfaceArea(unsigned int visibleAreaInPixels)
 {
 	surfaceArea = visibleAreaInPixels;
-	surfaceCover = float(surfaceArea) / Engine::Window->GetResolution();
+	auto res = Engine::Window->GetResolution();
+	surfaceCover = float(surfaceArea) / (res.x * res.y);
 }
 
 void CSound3DSource::SetPlaybackTime(float time)
@@ -359,6 +344,12 @@ void CSound3DSource::SetVolumeOvershoot(unsigned int value, float deltaTime)
 void CSound3DSource::SetControlChannel(const char * channel, float value, bool forceUpdate) const
 {
 	player->SetControl(channel, value, forceUpdate);
+}
+
+void CSound3DSource::SendCsoundEvent(char eventType, int nrParams, double * params) const
+{
+	if (player)
+		player->SendEvent(eventType, nrParams, params);
 }
 
 void CSound3DSource::UseVirtalPosition(bool value)

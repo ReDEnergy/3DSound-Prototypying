@@ -11,7 +11,7 @@
 class DLLExport CSoundPlayer
 {
 	public:
-		CSoundPlayer(CSoundScore *score);
+		CSoundPlayer(CSoundSynthesizer *score);
 		~CSoundPlayer();
 
 		bool Init();
@@ -23,21 +23,19 @@ class DLLExport CSoundPlayer
 		void Pause();
 		void Stop();
 		void SetPlaybackTime(float time);
+		void SendEvent(char eventType, int nrParams, double * params) const;
 
 		void InitControlChannels();
 		void SetControl(const char* channelName, float value, bool forceUpdate = false);
 
 	private:
-		CSoundScore *score;
+		CSoundSynthesizer *score;
 
 		void* ThreadID;
 		unordered_map<string, MYFLT*> channels;
 		unordered_map<string, int> invalidChannels;
-		// TODO csnd6.lib missing
 		CsoundPerformanceThread* perfThread;
 
-	// Must be public benecause we need to access them from a separated thread
-	public:
 		Csound *csound;
 		bool PERF_STATUS;
 };

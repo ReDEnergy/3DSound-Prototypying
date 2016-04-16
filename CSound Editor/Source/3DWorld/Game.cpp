@@ -1,4 +1,5 @@
-﻿#include "Game.h"
+﻿#include <pch.h>
+#include "Game.h"
 
 #include <3DWorld/Input/GameInput.h>
 
@@ -8,15 +9,15 @@
 #include <Editor/GUI.h>
 #include <Editor/EditorMainWindow.h>
 
-#include <include/Engine.h>
-#include <templates/singleton.h>
+#include <3DWorld/Scripts/Moving Plane/MovingPlaneScript.h>
+#include <3DWorld/Scripts/Sweeping Plane/SweepingPlaneScript.h>
+#include <3DWorld/Scripts/Expanding Sphere/ExpandingSphereScript.h>
+#include <3DWorld/Scripts/Depth Perception/DepthPerceptionScript.h>
+#include <3DWorld/Scripts/Impact Sound/ImpactSoundScript.h>
 
-#include <3DWorld/Scripts/MovingPlaneScript.h>
-#include <3DWorld/Scripts/SweepingPlaneScript.h>
-#include <3DWorld/Scripts/ExpandingSphereScript.h>
-
-Game::Game() {
-
+Game::Game()
+{
+	window = WindowManager::GetDefaultWindow();
 }
 
 Game::~Game() {
@@ -25,14 +26,13 @@ Game::~Game() {
 void Game::Init()
 {
 	// Game resolution
-	glm::ivec2 resolution = Engine::Window->resolution;
+	glm::ivec2 resolution = window->GetResolution();
 	float aspectRation = float(resolution.x) / resolution.y;
 
 	// Cameras
 	gameCamera = new Camera();
 	gameCamera->SetPerspective(80 / aspectRation, aspectRation, 0.1f, 250);
 	gameCamera->SetPosition(glm::vec3(0, 3, -7));
-	gameCamera->SplitFrustum(5);
 	gameCamera->transform->SetMoveSpeed(1.4f);
 
 	freeCamera = new Camera();
@@ -65,8 +65,13 @@ void Game::Init()
 	cameraDebugInput = new CameraDebugInput(gameCamera);
 	ObjectInput *DI = new DebugInput();
 	ObjectInput *EI = new EditorInput();
-	ObjectInput *GI = new GameInput(this);
-	InputRules::PushRule(InputRule::R_GAMEPLAY);
+	ObjectInput *GI = new GameInput();
+
+	cameraInput->AttachTo(window);
+	cameraDebugInput->AttachTo(window);
+	DI->AttachTo(window);
+	EI->AttachTo(window);
+	GI->AttachTo(window);
 
 	InitSceneCameras();
 
@@ -77,6 +82,8 @@ void Game::Init()
 	new MovingPlaneScript();
 	new SweepingPlaneScript();
 	new ExpandingSphereScript();
+	new DepthPerceptionScript();
+	new ImpactSoundScript();
 	new SurfaceArea();
 
 	wglSwapIntervalEXT(1);
@@ -84,18 +91,18 @@ void Game::Init()
 
 void Game::FrameStart()
 {
-	Engine::Window->SetContext();
+	window->MakeCurrentContext();
 	Manager::GetEvent()->EmitSync(EventType::FRAME_START);
 }
 
-void Game::Update(float elapsedTime, float deltaTime)
+void Game::Update(float deltaTime)
 {
 	Camera *activeCamera = Manager::GetScene()->GetActiveCamera();
 
 	///////////////////////////////////////////////////////////////////////////
 	// Update Scene
 
-	InputSystem::UpdateObservers(deltaTime);
+	window->UpdateObserver();
 
 	Manager::GetAudio()->Update(activeCamera);
 	Manager::GetEvent()->Update();
@@ -110,7 +117,7 @@ void Game::Update(float elapsedTime, float deltaTime)
 	// Scene Rendering
 
 	if (Manager::GetRenderSys()->Is(RenderState::FORWARD)) {
-		FrameBuffer::Unbind();
+		FrameBuffer::Unbind(window);
 		FrameBuffer::Clear();
 	}
 	else {

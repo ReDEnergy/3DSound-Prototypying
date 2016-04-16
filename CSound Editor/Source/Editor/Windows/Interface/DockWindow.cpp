@@ -6,7 +6,7 @@
 
 #include <QtWidgets/QBoxLayout>
 #include <QtCore/QFile>
-#include <Editor/QtConfig.h>
+#include <Editor/Config/QtConfig.h>
 
 using namespace std;
 

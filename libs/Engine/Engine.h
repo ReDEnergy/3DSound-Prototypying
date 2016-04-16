@@ -40,6 +40,9 @@
 #include <Component/SkinnedMesh.h>
 #include <Component/Renderer.h>
 
+// Events
+#include <Event/TimerEvent.h>
+
 // SkeletalSystem
 #include <SkeletalSystem/SkeletalJoint.h>
 
@@ -88,6 +91,7 @@
 #include <GPU/FrameBuffer.h>
 #include <GPU/Texture.h>
 #include <GPU/Shader.h>
+#include <GPU/SSBO.h>
 
 // Rendering
 #include <Rendering/SSAO.h>

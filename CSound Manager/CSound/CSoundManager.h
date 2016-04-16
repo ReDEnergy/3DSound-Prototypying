@@ -43,8 +43,8 @@ class DLLExport CSoundManager
 		void LoadConfig();
 		void SaveConfigFile();
 		void Clear();
-		CSoundScore* CreateScore();
-		CSoundScore* GetScore(const char *name) const;
+		CSoundSynthesizer* CreateScore();
+		CSoundSynthesizer* GetScore(const char *name) const;
 
 		// Visual programming tags
 		list<string> GetPropertyTypes() const;
@@ -72,7 +72,7 @@ class DLLExport CSoundManager
 		void RenderInstrumentOptions();
 
 	public:
-		EntityStorage<CSoundScore> *scores;
+		EntityStorage<CSoundSynthesizer> *scores;
 		EntityStorage<CSoundComponent> *components;
 		EntityStorage<CSoundInstrument> *instruments;
 		EntityStorage<CSoundInstrumentBlock> *blocks;

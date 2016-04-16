@@ -1,4 +1,5 @@
-﻿#include "CSoundScene.h"
+﻿#include <pch.h>
+#include "CSoundScene.h"
 #include <ctime>
 
 #include <include/pugixml.h>
@@ -9,25 +10,7 @@
 
 #include <CSound/CSound.h>
 
-// Engine library
-#include <include/glm.h>
-#include <include/glm_utils.h>
-#include <Core/Camera/Camera.h>
-#include <Component/Mesh.h>
-#include <Component/Transform/Transform.h>
-#include <Manager/Manager.h>
-#include <Manager/ColorManager.h>
-#include <Manager/ResourceManager.h>
-#include <Manager/SceneManager.h>
-#include <Manager/SceneManager.h>
-#include <Manager/EventSystem.h>
-#include <UI/ColorPicking/ColorPicking.h>
-#include <Utils/Serialization.h>
-
-
 using namespace pugi;
-using namespace std;
-
 
 CSoundScene::CSoundScene()
 {
@@ -35,6 +18,8 @@ CSoundScene::CSoundScene()
 	defaultScore = nullptr;
 	playback = false;
 	_3DSources = new EntityStorage<CSound3DSource>("3DSource ");
+
+	SetOutputModel("global-output");
 
 	SubscribeToEvent(EventType::EDITOR_OBJECT_REMOVED);
 }
@@ -48,7 +33,6 @@ void CSoundScene::Init()
 {
 	SetDefaultScore(SoundManager::GetCSManager()->GetScore("simple"));
 	auto obj = CreateSource();
-	SetOutputModel("global-output");
 }
 
 void CSoundScene::TriggerCSoundRebuild()
@@ -141,7 +125,7 @@ CSound3DSource * CSoundScene::CreateSource()
 	return source;
 }
 
-CSoundScore * CSoundScene::GetDefaultScore()
+CSoundSynthesizer * CSoundScene::GetDefaultScore()
 {
 	return defaultScore;
 }
@@ -166,11 +150,11 @@ void CSoundScene::Remove(CSound3DSource * S3D)
 	Manager::GetScene()->RemoveObject(S3D, true);
 }
 
-void CSoundScene::SetDefaultScore(CSoundScore * score)
+void CSoundScene::SetDefaultScore(CSoundSynthesizer * score)
 {
 	if (defaultScore && strcmp(defaultScore->GetName(), score->GetName()) == 0)
 		return;
-	defaultScore = new CSoundScore(*score);
+	defaultScore = new CSoundSynthesizer(*score);
 }
 
 void CSoundScene::SetOutputModel(const char * name)
@@ -210,7 +194,7 @@ void CSoundScene::SaveSceneAs(const char* path)
 	///////////////////////////////////////////////////////////////////////////
 	// Save Scores
 
-	vector<CSoundScore*> scores;
+	vector<CSoundSynthesizer*> scores;
 	for (auto S3D : _3DSources->GetEntries()) {
 		scores.push_back(S3D->GetScore());
 	}
@@ -227,8 +211,8 @@ void CSoundScene::SaveSceneAs(const char* path)
 		auto sourceNode = objects.append_child("object");
 
 		CreateNode("name", S3D->GetName(), sourceNode);
-		if (S3D->mesh) {
-			CreateNode("meshID", S3D->mesh->GetMeshID(), sourceNode);
+		if (S3D->meshRenderer->mesh) {
+			CreateNode("meshID", S3D->meshRenderer->mesh->GetMeshID(), sourceNode);
 		}
 		CreateNode("scoreID", S3D->GetScore()->GetUID(), sourceNode);
 
@@ -343,7 +327,7 @@ void CSoundScene::LoadScene(const char* fileName)
 
 }
 
-void CSoundScene::TrackScore(CSoundScore * score)
+void CSoundScene::TrackScore(CSoundSynthesizer * score)
 {
 	sceneScores.Add(score);
 	for (auto I : score->GetEntries()) {
@@ -351,7 +335,7 @@ void CSoundScene::TrackScore(CSoundScore * score)
 	}
 }
 
-void CSoundScene::UnTrackScore(CSoundScore * score)
+void CSoundScene::UnTrackScore(CSoundSynthesizer * score)
 {
 	sceneScores.Remove(score);
 	for (auto I : score->GetEntries()) {

@@ -1,7 +1,7 @@
 #pragma once
 #include <string>
 
-#include <Editor/QTForward.h>
+#include <Editor/include/QtForward.h>
 #include <QtWidgets/QDockWidget>
 
 using namespace std;

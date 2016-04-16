@@ -12,6 +12,8 @@
 	<tess_control></tess_control>
 </shader>
 -->
+<base-path>Resources/Shaders/</base-path>
+
 <shaders>
 	<shader name="simple">
 		<vertex>MVP.Texture.VS</vertex>
@@ -58,6 +60,10 @@
 		<fragment>Depth.FS</fragment>
 	</shader>	
 
+	<shader name="ClearBuffer">
+		<compute>Compute/ClearBuffer.CS</compute>
+	</shader>
+
 	<shader name="ColorSurface">
 		<compute>Compute/ColorSurface.CS</compute>
 	</shader>
@@ -66,8 +72,16 @@
 		<compute>Compute/SceneIntersection.CS</compute>
 	</shader>
 
-	<shader name="ClearBuffer">
-		<compute>Compute/ClearBuffer.CS</compute>
+	<shader name="DepthPerception">
+		<compute>Compute/Depth Perception/DepthPerception.CS</compute>
+	</shader>
+	
+	<shader name="DepthGridClear">
+		<compute>Compute/Depth Perception/DepthGridClear.CS</compute>
+	</shader>
+
+	<shader name="DepthGrid">
+		<compute>Compute/Depth Perception/DepthGrid.CS</compute>
 	</shader>
 
 </shaders>

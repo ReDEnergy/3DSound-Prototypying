@@ -1,10 +1,6 @@
 #pragma once
 #include <Editor/Windows/Interface/CustomWidget.h>
 
-// Engine
-#include <Event/EventListener.h>
-
-
 class CSoundComponentProperty;
 class CSound3DSource;
 class HeadphoneTestGenerator;
@@ -18,7 +14,6 @@ struct MovingPlaneConfig;
 
 class MovingPlaneWindow
 	: public CustomWidget
-	, public EventListener
 {
 	public:
 		MovingPlaneWindow();
@@ -27,14 +22,15 @@ class MovingPlaneWindow
 	private:
 		void InitUI();
 		void Start();
-		void Stop();
+		void ToggleState();
 		void ResetConfig();
-		void OnEvent(const string& eventID, void *data);
 
 	private:
+		QPushButton *startStopButton;
 		MovingPlaneConfig *config;
 		SimpleFloatInput *maxDistanceInput;
 		SimpleFloatInput *travelSpeedInput;
 		SimpleFloatInput *pauseBetweenScans;
 		SimpleFloatInput *tickInterval;
+		SimpleFloatInput *soundGain;
 };

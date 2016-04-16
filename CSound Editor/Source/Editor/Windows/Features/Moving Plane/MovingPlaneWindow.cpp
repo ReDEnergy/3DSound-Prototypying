@@ -29,23 +29,11 @@ void MovingPlaneWindow::InitUI()
 	qtLayout->setContentsMargins(5, 5, 5, 5);
 	qtLayout->setAlignment(Qt::AlignTop);
 
-	{
-		bool started = false;
-		auto *button = new QPushButton();
-		button->setText("Start Test");
-		button->setMinimumHeight(30);
-		qtLayout->addWidget(button);
-		QObject::connect(button, &QPushButton::clicked, this, [button, this]() {
-			if (button->text().compare("Start Test") == 0) {
-				button->setText("Stop Test");
-				Start();
-			}
-			else {
-				Manager::GetEvent()->EmitAsync("Stop-Moving-Plane");
-				button->setText("Start Test");
-			}
-		});
-	}
+	startStopButton = new QPushButton();
+	startStopButton->setText("Start Test");
+	startStopButton->setMinimumHeight(30);
+	qtLayout->addWidget(startStopButton);
+	QObject::connect(startStopButton, &QPushButton::clicked, this, &MovingPlaneWindow::ToggleState);
 
 	// ------------------------------------------------------------------------
 	// Configuration Panel
@@ -74,6 +62,10 @@ void MovingPlaneWindow::InitUI()
 	});
 	AddWidget(tickInterval);
 
+	soundGain = new SimpleFloatInput("Gain:", "");
+	soundGain->AcceptNegativeValues(false);
+	AddWidget(soundGain);
+
 	{
 		auto button = new QPushButton();
 		button->setText("Reset Configuration");
@@ -93,11 +85,8 @@ void MovingPlaneWindow::Start()
 	config->pauseBetweenScans = pauseBetweenScans->GetValue();
 	config->maxDistanceReach = maxDistanceInput->GetValue();
 	config->tickInterval = tickInterval->GetValue();
+	config->soundGain = soundGain->GetValue();
 	Manager::GetEvent()->EmitAsync("Start-Moving-Plane", config);
-}
-
-void MovingPlaneWindow::Stop()
-{
 }
 
 void MovingPlaneWindow::ResetConfig()
@@ -106,8 +95,17 @@ void MovingPlaneWindow::ResetConfig()
 	maxDistanceInput->SetValue(5);
 	pauseBetweenScans->SetValue(0.5f);
 	tickInterval->SetValue(1);
+	soundGain->SetValue(2);
 }
 
-void MovingPlaneWindow::OnEvent(const string & eventID, void * data)
+void MovingPlaneWindow::ToggleState()
 {
+	if (startStopButton->text().compare("Start Test") == 0) {
+		startStopButton->setText("Stop Test");
+		Start();
+	}
+	else {
+		Manager::GetEvent()->EmitAsync("Stop-Moving-Plane");
+		startStopButton->setText("Start Test");
+	}
 }

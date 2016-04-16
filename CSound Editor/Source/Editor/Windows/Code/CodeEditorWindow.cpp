@@ -11,7 +11,7 @@
 #include <QTextEdit>
 #include <QTimer>
 
-#include <CSound/CSoundScore.h>
+#include <CSound/CSoundSynthesizer.h>
 
 
 static unsigned int windowNumber = 0;
@@ -50,7 +50,7 @@ void CodeEditorWindow::InitUI()
 	GUI::Set(QT_INSTACE::CODE_EDITOR_WINDOW, (void*)this);
 }
 
-void CodeEditorWindow::SetContext(CSoundScore *score)
+void CodeEditorWindow::SetContext(CSoundSynthesizer *score)
 {
 	if (activeContext == score)
 		return;

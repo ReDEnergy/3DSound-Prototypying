@@ -7,6 +7,7 @@
 #include <Editor/Windows/Editors/ComponentEditor.h>
 #include <3DWorld/Csound/CSound3DSource.h>
 #include <3DWorld/Csound/CSoundScene.h>
+#include <3DWorld/Scripts/SoundModelsConfig.h>
 
 #include <Csound/CSoundComponentProperty.h>
 #include <Csound/CSoundManager.h>
@@ -41,6 +42,7 @@ CSoundControlWindow::CSoundControlWindow()
 	InitUI();
 
 	SubscribeToEvent(EventType::FRAME_AFTER_RENDERING);
+	SubscribeToEvent("create-global-csound-control");
 }
 
 void CSoundControlWindow::InitUI()
@@ -163,7 +165,8 @@ void CSoundControlWindow::InitUI()
 
 SimpleFloatInput* CSoundControlWindow::CreateControl(const char * name, const char * channel)
 {
-	if (controlChannels.find(channel) == controlChannels.end())
+	auto box = controlChannels.find(channel);
+	if (box == controlChannels.end())
 	{
 		auto control = new SimpleFloatInput(name, "", 2);
 		control->SetValue(0);
@@ -172,7 +175,7 @@ SimpleFloatInput* CSoundControlWindow::CreateControl(const char * name, const ch
 		return control;
 	}
 
-	return nullptr;
+	return box->second;
 }
 
 void CSoundControlWindow::OnEvent(EventType Event, void * data)
@@ -182,5 +185,14 @@ void CSoundControlWindow::OnEvent(EventType Event, void * data)
 		for (auto &CC : controlChannels) {
 			CSoundEditor::GetScene()->SetCSoundControl(CC.first.c_str(), CC.second->GetValue());
 		}
+	}
+}
+
+void CSoundControlWindow::OnEvent(const string & eventID, void * data)
+{
+	if (eventID.compare("create-global-csound-control") == 0) {
+		auto initData = (GlobalCsoundControlChannel*)data;
+		auto control = CreateControl(initData->label.c_str(), initData->name.c_str());
+		control->SetValue(initData->value);
 	}
 }

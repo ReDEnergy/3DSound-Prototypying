@@ -1,6 +1,7 @@
 #pragma once
 #include <vector>
 #include <list>
+#include <functional>
 
 using namespace std;
 
@@ -19,13 +20,17 @@ class SoundTriggerList
 		void Add(CSound3DSource *obj);
 		bool IsTracked(CSound3DSource *obj);
 		void Update();
+		void OnTrigger(function<void(CSound3DSource*)>);
 
 	private:
 		void TriggerAction(CSound3DSource * obj);
 
 	private:
-		CSound3DSource* activeSource;
+		float triggerInterval;
 		float lastTriggerTime;
+
+		CSound3DSource* activeSource;
 		list<CSound3DSource*> triggerList;
 		TimerEvent<string> *triggerEvent;
+		function<void(CSound3DSource*)> listener;
 };

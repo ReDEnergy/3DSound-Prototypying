@@ -57,7 +57,10 @@ CSoundManager* SoundManager::GetCSManager()
 
 void SoundManager::SetGlobalOutputModel(const char * model)
 {
-	globalOutputModel = csManager->blocks->Get(model);
+	if (model)
+		globalOutputModel = csManager->blocks->Get(model);
+	else
+		globalOutputModel = nullptr;
 }
 
 void SoundManager::SetGlobalOutputModelIndex(unsigned int index)

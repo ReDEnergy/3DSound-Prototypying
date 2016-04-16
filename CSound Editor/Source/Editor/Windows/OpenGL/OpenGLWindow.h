@@ -2,7 +2,9 @@
 #include <QtGui/QWindow>
 
 class QOpenGLContext;
+class QtGLFW;
 class QWidget;
+class WindowObject;
 
 class OpenGLWindow : public QWindow
 {
@@ -10,7 +12,7 @@ class OpenGLWindow : public QWindow
 		OpenGLWindow();
 		~OpenGLWindow();
 
-		void Init();
+		void Init(WindowObject* sharedContext = nullptr);
 		void EndFrame();
 		QOpenGLContext* GetContext();
 		bool SetAsCurrentContext();
@@ -19,6 +21,8 @@ class OpenGLWindow : public QWindow
 		virtual void CenterCursor();
 		virtual void HideCursor();
 		virtual void ShowCursor();
+		virtual bool SharesContext() const final;
+		virtual WindowObject* GetWindowObject() const final;
 
 	private:
 		void KeyEvent(QKeyEvent* e, bool state);
@@ -39,6 +43,8 @@ class OpenGLWindow : public QWindow
 		QWidget *container;
 
 	private:
+		QtGLFW *qtGLFWEvents;
+		WindowObject* sharedContext;
 		bool focused;
 		bool cursorClip;
 		bool skipClipFrame;

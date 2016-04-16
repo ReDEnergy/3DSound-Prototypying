@@ -1,16 +1,19 @@
 #pragma once
 #include <vector>
-#include <include/EngineForward.h>
+#include <EngineForward.h>
 
 using namespace std;
 
 #include <Core/World.h>
 #include <Event/EventListener.h>
+#include <Component/ObjectInput.h>
 
 class SurfaceArea;
 
-class Game : public World,
-			public EventListener
+class Game :
+	public World,
+	public EventListener,
+	public ObjectInput
 {
 	public:
 		Game();
@@ -18,7 +21,7 @@ class Game : public World,
 
 		void Init();
 		void FrameStart();
-		void Update(float elapsedTime, float deltaTime);
+		void Update(float elapsedTime);
 		void FrameEnd();
 
 	private:
@@ -45,6 +48,6 @@ class Game : public World,
 
 		ColorPicking		*colorPicking;
 
-		vector<Camera*>		sceneCameras;
-		unsigned int		activeSceneCamera;
+		std::vector<Camera*>	sceneCameras;
+		unsigned int			activeSceneCamera;
 };

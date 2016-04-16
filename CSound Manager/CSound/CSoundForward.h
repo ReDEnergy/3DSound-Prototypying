@@ -5,7 +5,7 @@ class CSoundComponentProperty;
 class CSoundInstrument;
 class CSoundInstrumentBlock;
 class CSoundManager;
-class CSoundScore;
+class CSoundSynthesizer;
 class CSound3DSource;
 class CSoundRenderEntry;
 class CSoundPlayer;

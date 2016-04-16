@@ -7,13 +7,13 @@
 #include <Manager/SceneManager.h>
 #include <UI/ColorPicking/ColorPicking.h>
 #include <Manager/EventSystem.h>
-#include <Core/InputSystem.h>
+#include <Core/WindowObject.h>
 #include <Core/Camera/Camera.h>
 #include <Component/Transform/Transform.h>
 
+#include <include/gl.h>
 
-GameInput::GameInput(Game *game)
-	: ObjectInput(InputGroup::IG_GAMEPLAY), game(game)
+GameInput::GameInput()
 {
 }
 
@@ -21,13 +21,13 @@ void GameInput::Update(float deltaTime, int mods)
 {
 	Camera *activeCamera = Manager::GetScene()->GetActiveCamera();
 
-	if (InputSystem::KeyHold(GLFW_KEY_RIGHT))
+	if (window->KeyHold(GLFW_KEY_RIGHT))
 		activeCamera->MoveRight(deltaTime);
-	if (InputSystem::KeyHold(GLFW_KEY_UP))
+	if (window->KeyHold(GLFW_KEY_UP))
 		activeCamera->MoveForward(deltaTime);
-	if (InputSystem::KeyHold(GLFW_KEY_LEFT))
+	if (window->KeyHold(GLFW_KEY_LEFT))
 		activeCamera->MoveRight(-deltaTime);
-	if (InputSystem::KeyHold(GLFW_KEY_DOWN))
+	if (window->KeyHold(GLFW_KEY_DOWN))
 		activeCamera->MoveBackward(deltaTime);
 
 	if (activeCamera->transform->GetMotionState())

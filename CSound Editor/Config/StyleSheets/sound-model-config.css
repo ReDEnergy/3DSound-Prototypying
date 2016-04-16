@@ -15,3 +15,7 @@ QLineEdit {
 	min-width: 150px;
 	padding: 0 0 0 10px;
 }
+
+QWidget#DepthPerceptionWindow {
+	min-width: 250px;
+}

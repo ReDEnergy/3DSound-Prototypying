@@ -5,12 +5,10 @@
 #include <include/utils.h>
 #include <include/csound.h>
 
-#include <CSound/CSoundScore.h>
+#include <CSound/CSoundSynthesizer.h>
 #include <CSound/CSoundInstrument.h>
 
-uintptr_t csThread(void *clientData);
-
-CSoundPlayer::CSoundPlayer(CSoundScore * score)
+CSoundPlayer::CSoundPlayer(CSoundSynthesizer * score)
 {
 	this->score = score;
 	csound = nullptr;
@@ -52,10 +50,6 @@ void CSoundPlayer::Clean()
 {
 	invalidChannels.clear();
 	PERF_STATUS = false;
-	//if (ThreadID) {
-	//	csoundJoinThread(ThreadID);
-	//	ThreadID = nullptr;
-	//}
 	if (perfThread) {
 		perfThread->Stop();
 		perfThread->Join();
@@ -73,7 +67,6 @@ void CSoundPlayer::Play()
 		PERF_STATUS = true;
 		if (!perfThread)
 			perfThread = new CsoundPerformanceThread(csound);
-		//ThreadID = csoundCreateThread(csThread, this);
 		perfThread->Play();
 	}
 }
@@ -101,6 +94,11 @@ void CSoundPlayer::SetPlaybackTime(float time)
 {
 	if (perfThread)
 		perfThread->SetScoreOffsetSeconds(time);
+}
+
+void CSoundPlayer::SendEvent(char eventType, int nrParams, double* params) const
+{
+	perfThread->ScoreEvent(0, eventType, nrParams, params);
 }
 	
 void CSoundPlayer::InitControlChannels()
@@ -141,17 +139,3 @@ void CSoundPlayer::SetControl(const char* channelName, float value, bool forceUp
 		}
 	}
 }
-
-//uintptr_t csThread(void *data)
-//{	
-//	CSoundPlayer* score = (CSoundPlayer*)data;
-//
-//	score->PERF_STATUS = true;
-//
-//	// Play sound
-//	while ((score->csound->PerformKsmps() == 0)	&& score->PERF_STATUS) {}
-//
-//	score->PERF_STATUS = false;
-//
-//	return 0;
-//}

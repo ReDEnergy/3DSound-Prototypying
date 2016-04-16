@@ -41,14 +41,14 @@ class CSoundScene
 		const vector<CSound3DSource*>& GetEntries() const;
 
 		// Audio settings
-		CSoundScore *GetDefaultScore();
-		void SetDefaultScore(CSoundScore *score);
+		CSoundSynthesizer *GetDefaultScore();
+		void SetDefaultScore(CSoundSynthesizer *score);
 		void SetOutputModel(const char* name);
 
 		// Tracking
-		void TrackScore(CSoundScore* score);
+		void TrackScore(CSoundSynthesizer* score);
 		void TrackInstrument(CSoundInstrument * instr);
-		void UnTrackScore(CSoundScore* score);
+		void UnTrackScore(CSoundSynthesizer* score);
 
 		void UnTrackInstrument(CSoundInstrument * instr);
 
@@ -59,11 +59,11 @@ class CSoundScene
 		EntityStorage<CSound3DSource> *_3DSources;
 
 	public:
-		ReferenceCounter<CSoundScore> sceneScores;
+		ReferenceCounter<CSoundSynthesizer> sceneScores;
 		ReferenceCounter<CSoundInstrument> sceneInstruments;
 
 	private:
 		bool playback;
-		CSoundScore *defaultScore;
+		CSoundSynthesizer *defaultScore;
 		string sceneFile;
 };

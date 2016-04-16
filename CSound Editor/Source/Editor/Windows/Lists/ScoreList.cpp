@@ -13,11 +13,11 @@
 #include <QLayout>
 #include <QMenu>
 
-typedef QTListItem<CSoundScore> ListItem;
+typedef QTListItem<CSoundSynthesizer> ListItem;
 
 ScoreList::ScoreList()
 {
-	setWindowTitle("Scores");
+	setWindowTitle("Synthesizers");
 	GUI::Set(QT_INSTACE::SCORE_LIST, (void*) this);
 
 	QAction* actionDefaultScore = qtContextMenu->addAction("Set Default");

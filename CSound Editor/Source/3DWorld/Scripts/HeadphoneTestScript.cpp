@@ -1,4 +1,7 @@
+#include <pch.h>
 #include "HeadphoneTestScript.h"
+
+#include <include/gl.h>
 
 #include <ctime>
 #include <iostream>
@@ -11,27 +14,14 @@ using namespace std;
 #include <3DWorld/Csound/CSound3DSource.h>
 #include <3DWorld/Csound/CSoundScene.h>
 
+#include <Csound/CSoundComponent.h>
 #include <Csound/CSoundComponentProperty.h>
 #include <Csound/CSoundManager.h>
 #include <Csound/SoundManager.h>
-#include <Csound/CSoundScore.h>
+#include <Csound/CSoundSynthesizer.h>
 #include <Csound/CSoundInstrument.h>
 
 #include <CSoundEditor.h>
-
-// Engine
-#include <include/glm.h>
-#include <include/utils.h>
-#include <include/glm_utils.h>
-#include <Core/GameObject.h>
-#include <Core/Camera/Camera.h>
-#include <Component/Transform/Transform.h>
-#include <Component/Transform/FreezeTransform.h>
-#include <Event/TimerEvent.h>
-#include <Manager/Manager.h>
-#include <Manager/SceneManager.h>
-#include <Manager/EventSystem.h>
-#include <UI/ColorPicking/ColorPicking.h>
 
 static TimerManager<string> *dynamicEvents;
 static ProjectionInfo cameraProjection;

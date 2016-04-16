@@ -1,72 +1,85 @@
 #include "OpenGLWindow.h"
 
-#include <include/Engine.h>
-#include <QtGui/QOpenGLContext>
-#include <QtPlatformHeaders/QWGLNativeContext>
-#include <QtGui/QOffscreenSurface>
-
-#include <include/Qt2Glfw.h>
+#include <Editor/OpenGL/QtGLFW.h>
+#include <Editor/Config/QtConfig.h>
 
 #include <QKeyEvent>
 #include <QWidget>
 
+#include <QOpenGLContext>
+#include <QSurfaceFormat>
+
+#ifdef _WIN32
+#include <QtPlatformHeaders/QWGLNativeContext>
+#elif __linux__
+//	#include <QtPlatformHeaders/QGLXNativeContext>
+#endif
+
+#define GL_DISABLE_GLEW
+#include <include/gl_native.h>
+
+#include <Engine.h>
 
 OpenGLWindow::OpenGLWindow()
 {
+	sharedContext = nullptr;
 	setSurfaceType(QSurface::OpenGLSurface);
 	container = QWidget::createWindowContainer(this);
 
-	///////////////////////////////////////////////////////////////////////////
-	// Window Properties
-
-	container->setMaximumWidth(Engine::Window->resolution.x);
-	container->setFixedHeight(Engine::Window->resolution.y);
-	Qt2Glfw::Init();
+	qtGLFWEvents = new QtGLFW();
 }
 
 OpenGLWindow::~OpenGLWindow()
 {
 }
 
-void OpenGLWindow::Init()
+void OpenGLWindow::Init(WindowObject *sharedContext)
 {
-	// OpenGL
-	//auto surface = new QOffscreenSurface();
-	//surface->setFormat(format);
-	//surface->create();
-	//setSwapInterval
+	// Create surface context
+	qtGLContext = new QOpenGLContext();
 
+	if (sharedContext)
+	{
+		sharedContext->UseNativeHandles(true);
+		this->sharedContext = sharedContext;
+
+		auto res = sharedContext->props.resolution;
+		container->setMinimumWidth(res.x);
+		container->setMinimumHeight(res.y);
+		QtConfig::SetWidgetStyleSheet(container, "OpenGL.css");
+
+		// Create a new OpenGL context using a native OS handle
+		QOpenGLContext* qtctx = new QOpenGLContext();
+
+		#ifdef _WIN32
+			auto glfwCTX = glfwGetWGLContext(sharedContext->GetGLFWWindow());
+			auto window = glfwGetWin32Window(sharedContext->GetGLFWWindow());
+			auto newNative = new QWGLNativeContext(glfwCTX, window);
+			qtctx->setNativeHandle(QVariant::fromValue<QWGLNativeContext>(*newNative));
+		#endif
+
+		qtctx->create();
+		qtctx->makeCurrent(this);
+
+		// Shared the context with the rendering context
+		qtGLContext->setShareContext(qtctx);
+	}
+
+	// Actually create the context
+	qtGLContext->create();
+
+	// Set OpenGL format
 	QSurfaceFormat format;
-	format.setVersion(4, 0);
+	format.setVersion(3, 3);
 	format.setSwapInterval(0);
 	format.setProfile(QSurfaceFormat::CoreProfile);
+	format.setSwapBehavior(QSurfaceFormat::SwapBehavior::SingleBuffer);
 	setFormat(format);
 
-	auto glfwCTX = glfwGetWGLContext(Engine::Window->window);
-	auto window = glfwGetWin32Window(Engine::Window->window);
-
-	auto newNative = new QWGLNativeContext(glfwCTX, window);
-	QOpenGLContext* qtctx = new QOpenGLContext();
-	//qtctx->setFormat(format);
-	qtctx->setNativeHandle(QVariant::fromValue<QWGLNativeContext>(*newNative));
-	bool created = qtctx->create();
-	bool value = qtctx->makeCurrent(this);
-
-	// Test
-	auto nativeHandle = qtctx->nativeHandle();
-	auto windowsNative = nativeHandle.value<QWGLNativeContext>();
-
-	// Share context
-	qtGLContext = new QOpenGLContext(this);
-	//qtGLContext->setFormat(format);
-	qtGLContext->setShareContext(qtctx);
-	bool success = qtGLContext->create();
-
-	nativeHandle = qtGLContext->nativeHandle();
-	windowsNative = nativeHandle.value<QWGLNativeContext>();
-
-	bool sharing = qtGLContext->areSharing(qtctx, qtGLContext);
-	bool sharing2 = qtGLContext->shareContext();
+	// Test sharing
+	auto ctx = qtGLContext->shareContext();
+	//auto nativeHandle = qtGLContext->nativeHandle();
+	//auto windowsNative = nativeHandle.value<QWGLNativeContext>();
 }
 
 void OpenGLWindow::EndFrame()
@@ -88,6 +101,7 @@ void OpenGLWindow::CenterCursor()
 {
 	skipClipFrame = true;
 	cursor().setPos(mapToGlobal(QPoint(width() / 2, height() / 2)));
+	sharedContext->CenterPointer();
 }
 
 void OpenGLWindow::HideCursor()
@@ -107,12 +121,22 @@ void OpenGLWindow::ShowCursor()
 	setCursor(c);
 }
 
+bool OpenGLWindow::SharesContext() const
+{
+	return (sharedContext != nullptr);
+}
+
+WindowObject * OpenGLWindow::GetWindowObject() const
+{
+	return sharedContext;
+}
+
 void OpenGLWindow::KeyEvent(QKeyEvent * e, bool state)
 {
 	if (!focused) return;
 
-	int mods = Qt2Glfw::GetModifiers();
-	int key = Qt2Glfw::GetKeyButton(e->key());
+	int mods = qtGLFWEvents->GetModifiers();
+	int key = qtGLFWEvents->GetKeyButton(e->key());
 	InputSystem::KeyCallback(nullptr, key, GLFW_KEY_UNKNOWN, state, mods);
 
 	//cout << "[QT] " << e->key() << "\t[GLFW] " << key << "\t[MODS] " << mods << endl;
@@ -121,12 +145,11 @@ void OpenGLWindow::KeyEvent(QKeyEvent * e, bool state)
 void OpenGLWindow::MouseEvent(QMouseEvent * e, bool state)
 {
 	if (!focused) return;
-	int mods = Qt2Glfw::GetModifiers();
-	int glfwButton = Qt2Glfw::GetMouseButton(e->button());
-	int qtButton = e->button();
+	int mods = qtGLFWEvents->GetModifiers();
+	int glfwButton = qtGLFWEvents->GetMouseButton(e->button());
 
 	prevMousePos = e->windowPos();
-	InputSystem::MouseClick(glfwButton, state, e->windowPos().x(), e->windowPos().y(), mods);
+	InputSystem::MouseClick(nullptr, glfwButton, state, mods);
 
 	//cout << qtButton << "[" << e->windowPos().x() << ", " << e->windowPos().y() << "]" << endl;
 }
@@ -141,33 +164,24 @@ void OpenGLWindow::keyReleaseEvent(QKeyEvent * e)
 	KeyEvent(e, GLFW_RELEASE);
 }
 
+unsigned int countMovements = 0;
+
 void OpenGLWindow::mouseMoveEvent(QMouseEvent * e)
 {
 	if (!focused) return;
-	int deltaX, deltaY;
 
-	if (cursorClip)
+	if (cursorClip && skipClipFrame)
 	{
-		if (skipClipFrame) {
-			skipClipFrame = false;
-			return;
-		}
-		auto center = glm::ivec2(width() / 2, height() / 2);
-		deltaX = e->windowPos().x() - center.x;
-		deltaY = e->windowPos().y() - center.y;
-	}
-	else {
-		deltaX = e->windowPos().x() - prevMousePos.x();
-		deltaY = e->windowPos().y() - prevMousePos.y();
+		skipClipFrame = false;
+		return;
 	}
 
 	prevMousePos = e->windowPos();
-	InputSystem::MouseMove(e->windowPos().x(), e->windowPos().y(), deltaX, deltaY);
-	
+	InputSystem::CursorMove(sharedContext->GetGLFWWindow(), e->windowPos().x(), e->windowPos().y());
+
 	if (cursorClip) {
 		CenterCursor();
 	}
-	//cout << "[" << e->windowPos().x() << ", " << e->windowPos().y() << "] delta [" << deltaX << ", " << deltaY << "]" << endl;
 }
 
 void OpenGLWindow::mousePressEvent(QMouseEvent * e)

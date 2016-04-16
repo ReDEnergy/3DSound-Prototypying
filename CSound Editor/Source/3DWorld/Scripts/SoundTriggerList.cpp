@@ -1,3 +1,4 @@
+#include <pch.h>
 #include "SoundTriggerList.h"
 
 #include <iostream>
@@ -7,11 +8,9 @@ using namespace std;
 
 #include <3DWorld/Csound/CSound3DSource.h>
 
-// Engine
-#include <Core/Engine.h>
-
 SoundTriggerList::SoundTriggerList()
 {
+	triggerInterval = 0.2f;
 	activeSource = nullptr;
 }
 
@@ -42,17 +41,22 @@ void SoundTriggerList::Update()
 		activeSource = nullptr;
 	if (triggerList.size() == 0)
 		return;
-	if (Engine::GetElapsedTime() - lastTriggerTime > 0.2f) {
+	if (Engine::GetElapsedTime() - lastTriggerTime > triggerInterval)
+	{
 		auto obj = triggerList.front();
 		triggerList.pop_front();
 		TriggerAction(obj);
 	}
 }
 
-void SoundTriggerList::TriggerAction(CSound3DSource *obj)
+void SoundTriggerList::OnTrigger(function<void(CSound3DSource*)> func)
 {
-	//obj->PlayScore(max(obj->GetSurfaceCover(), 0.05f));
-	obj->SetVolumeOvershoot(100, max(obj->GetSurfaceCover(), 0.1f));
+	listener = func;
+}
+
+void SoundTriggerList::TriggerAction(CSound3DSource* obj)
+{
+	listener(obj);
 	activeSource = obj;
 	lastTriggerTime = (float)Engine::GetElapsedTime();
 }

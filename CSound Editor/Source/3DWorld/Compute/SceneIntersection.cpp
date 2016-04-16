@@ -1,33 +1,12 @@
+#include "pch.h"
 #include "SceneIntersection.h"
 
-#include <include/utils.h>
-#include <include/math.h>
-#include <include/glm_utils.h>
+#include <GPU/SSBO.h>
 
 #include <3DWorld/Game.h>
 #include <3DWorld/CSound/CSound3DSource.h>
 #include <3DWorld/CSound/CSoundScene.h>
 #include <CSoundEditor.h>
-
-#include <Core/Engine.h>
-#include <Core/GameObject.h>
-#include <Core/Camera/Camera.h>
-#include <Core/WindowObject.h>
-#include <Component/Transform/Transform.h>
-
-#include <Manager/Manager.h>
-#include <Manager/SceneManager.h>
-#include <Manager/ShaderManager.h>
-#include <Manager/ColorManager.h>
-#include <Debugging/TextureDebugger.h>
-#include <UI/ColorPicking/ColorPicking.h>
-
-#include <GPU/Shader.h>
-#include <GPU/SSBO.h>
-#include <GPU/Texture.h>
-#include <GPU/FrameBuffer.h>
-
-#include <Utils/OpenGL.h>
 
 SceneIntersection::SceneIntersection()
 {

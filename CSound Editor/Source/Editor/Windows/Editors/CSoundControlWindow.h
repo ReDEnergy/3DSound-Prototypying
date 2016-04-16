@@ -20,8 +20,9 @@ class CSoundControlWindow
 
 	private:
 		void InitUI();
-		SimpleFloatInput* CreateControl(const char* name, const char *channel);
 		void OnEvent(EventType Event, void *data);
+		void OnEvent(const string& eventID, void *data);
+		SimpleFloatInput* CreateControl(const char* name, const char *channel);
 
 	private:
 		CustomWidget *controls;
