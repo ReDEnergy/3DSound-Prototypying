@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="CSoundManager" />
+		<Option pch_mode="2" />
+		<Option compiler="gcc" />
+		<Build>
+			<Target title="Debug">
+				<Option output="../../../lib/$(Platform)/Debug/CSoundManager" imp_lib="$(TARGET_OUTPUT_DIR)$(TARGET_OUTPUT_BASENAME).a" def_file="$(TARGET_OUTPUT_DIR)$(TARGET_OUTPUT_BASENAME).def" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/$(Platform)/Debug/" />
+				<Option type="3" />
+				<Option compiler="gcc" />
+				<Option createDefFile="1" />
+				<Option createStaticLib="1" />
+				<Compiler>
+					<Add option="-Wnon-virtual-dtor" />
+					<Add option="-Wunreachable-code" />
+					<Add option="-Wmissing-include-dirs" />
+					<Add option="-g" />
+				</Compiler>
+				<Environment>
+					<Variable name="Platform" value="Linux" />
+				</Environment>
+			</Target>
+			<Target title="Release">
+				<Option output="../../../lib/$(Platform)/Release/libCSoundManager" imp_lib="$(TARGET_OUTPUT_DIR)$(TARGET_OUTPUT_BASENAME).a" def_file="$(TARGET_OUTPUT_DIR)$(TARGET_OUTPUT_BASENAME).def" prefix_auto="0" extension_auto="1" />
+				<Option object_output="obj/$(Platform)/Release/" />
+				<Option type="3" />
+				<Option compiler="gcc" />
+				<Option createDefFile="1" />
+				<Option createStaticLib="1" />
+				<Compiler>
+					<Add option="-O2" />
+				</Compiler>
+				<Linker>
+					<Add option="-s" />
+				</Linker>
+				<Environment>
+					<Variable name="Platform" value="Linux" />
+				</Environment>
+			</Target>
+			<Target title="Debug-ARM">
+				<Option output="../../../lib/$(Platform)/Debug/CSoundManager" imp_lib="$(TARGET_OUTPUT_DIR)$(TARGET_OUTPUT_BASENAME).a" def_file="$(TARGET_OUTPUT_DIR)$(TARGET_OUTPUT_BASENAME).def" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/$(Platform)/Debug/" />
+				<Option type="3" />
+				<Option compiler="gcc" />
+				<Option createDefFile="1" />
+				<Option createStaticLib="1" />
+				<Compiler>
+					<Add option="-Wnon-virtual-dtor" />
+					<Add option="-Wunreachable-code" />
+					<Add option="-g" />
+				</Compiler>
+				<Environment>
+					<Variable name="Platform" value="ARM" />
+				</Environment>
+			</Target>
+			<Target title="Release-ARM">
+				<Option output="../../../lib/$(Platform)/Release/CSoundManager" imp_lib="$(TARGET_OUTPUT_DIR)$(TARGET_OUTPUT_BASENAME).a" def_file="$(TARGET_OUTPUT_DIR)$(TARGET_OUTPUT_BASENAME).def" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/$(Platform)/Release/" />
+				<Option type="3" />
+				<Option compiler="gcc" />
+				<Option createDefFile="1" />
+				<Option createStaticLib="1" />
+				<Compiler>
+					<Add option="-O2" />
+				</Compiler>
+				<Linker>
+					<Add option="-s" />
+				</Linker>
+				<Environment>
+					<Variable name="Platform" value="ARM" />
+				</Environment>
+			</Target>
+		</Build>
+		<Compiler>
+			<Add option="-Wall" />
+			<Add option="-std=c++14" />
+			<Add option="-fPIC" />
+			<Add option="-fexceptions" />
+			<Add option="-D__linux__" />
+			<Add directory="../../../CSound" />
+			<Add directory="../../../../libs" />
+			<Add directory="../../../" />
+		</Compiler>
+		<Linker>
+			<Add option="-Wl,-soname,libCSoundManager.so" />
+		</Linker>
+		<Unit filename="../../../../libs/Csound/csound/CppSound.hpp" />
+		<Unit filename="../../../../libs/Csound/csound/CsoundFile.hpp" />
+		<Unit filename="../../../../libs/Csound/csound/OpcodeBase.hpp" />
+		<Unit filename="../../../../libs/Csound/csound/Soundfile.hpp" />
+		<Unit filename="../../../../libs/Csound/csound/cfgvar.h" />
+		<Unit filename="../../../../libs/Csound/csound/csPerfThread.cpp" />
+		<Unit filename="../../../../libs/Csound/csound/csPerfThread.hpp" />
+		<Unit filename="../../../../libs/Csound/csound/cs_glue.hpp" />
+		<Unit filename="../../../../libs/Csound/csound/cs_par_structs.h" />
+		<Unit filename="../../../../libs/Csound/csound/cscore.h" />
+		<Unit filename="../../../../libs/Csound/csound/csdebug.h" />
+		<Unit filename="../../../../libs/Csound/csound/csdl.h" />
+		<Unit filename="../../../../libs/Csound/csound/csound.h" />
+		<Unit filename="../../../../libs/Csound/csound/csound.hpp" />
+		<Unit filename="../../../../libs/Csound/csound/csoundCore.h" />
+		<Unit filename="../../../../libs/Csound/csound/csound_data_structures.h" />
+		<Unit filename="../../../../libs/Csound/csound/csound_standard_types.h" />
+		<Unit filename="../../../../libs/Csound/csound/csound_type_system.h" />
+		<Unit filename="../../../../libs/Csound/csound/cwindow.h" />
+		<Unit filename="../../../../libs/Csound/csound/filebuilding.h" />
+		<Unit filename="../../../../libs/Csound/csound/float-version.h" />
+		<Unit filename="../../../../libs/Csound/csound/interlocks.h" />
+		<Unit filename="../../../../libs/Csound/csound/java_interfaceJAVA_wrap.h" />
+		<Unit filename="../../../../libs/Csound/csound/msg_attr.h" />
+		<Unit filename="../../../../libs/Csound/csound/pools.h" />
+		<Unit filename="../../../../libs/Csound/csound/pstream.h" />
+		<Unit filename="../../../../libs/Csound/csound/pvfileio.h" />
+		<Unit filename="../../../../libs/Csound/csound/python_interfacePYTHON_wrap.h" />
+		<Unit filename="../../../../libs/Csound/csound/soundio.h" />
+		<Unit filename="../../../../libs/Csound/csound/sysdep.h" />
+		<Unit filename="../../../../libs/Csound/csound/text.h" />
+		<Unit filename="../../../../libs/Csound/csound/version.h" />
+		<Unit filename="../../../CSound/CSound.h" />
+		<Unit filename="../../../CSound/CSoundComponent.cpp" />
+		<Unit filename="../../../CSound/CSoundComponent.h" />
+		<Unit filename="../../../CSound/CSoundComponentProperty.cpp" />
+		<Unit filename="../../../CSound/CSoundComponentProperty.h" />
+		<Unit filename="../../../CSound/CSoundConfig.h" />
+		<Unit filename="../../../CSound/CSoundEntity.cpp" />
+		<Unit filename="../../../CSound/CSoundEntity.h" />
+		<Unit filename="../../../CSound/CSoundEvent.cpp" />
+		<Unit filename="../../../CSound/CSoundEvent.h" />
+		<Unit filename="../../../CSound/CSoundForward.h" />
+		<Unit filename="../../../CSound/CSoundInstrument.cpp" />
+		<Unit filename="../../../CSound/CSoundInstrument.h" />
+		<Unit filename="../../../CSound/CSoundInstrumentBlock.cpp" />
+		<Unit filename="../../../CSound/CSoundInstrumentBlock.h" />
+		<Unit filename="../../../CSound/CSoundManager.cpp" />
+		<Unit filename="../../../CSound/CSoundManager.h" />
+		<Unit filename="../../../CSound/CSoundPlayer.cpp" />
+		<Unit filename="../../../CSound/CSoundPlayer.h" />
+		<Unit filename="../../../CSound/CSoundRenderEntry.h" />
+		<Unit filename="../../../CSound/CSoundSynthesizer.cpp" />
+		<Unit filename="../../../CSound/CSoundSynthesizer.h" />
+		<Unit filename="../../../CSound/EntityStorage.h" />
+		<Unit filename="../../../CSound/Serialization/CSoundSerialize.cpp" />
+		<Unit filename="../../../CSound/Serialization/CSoundSerialize.h" />
+		<Unit filename="../../../CSound/SoundManager.cpp" />
+		<Unit filename="../../../CSound/SoundManager.h" />
+		<Unit filename="../../../CSound/Templates/CSoundList.h" />
+		<Unit filename="../../../CSound/include/csound.h" />
+		<Unit filename="../../../CSound/include/dll_export.h" />
+		<Unit filename="../../../CSound/include/math.h" />
+		<Unit filename="../../../CSound/include/pugixml.h" />
+		<Unit filename="../../../CSound/include/singleton.h" />
+		<Unit filename="../../../CSound/include/utils.h" />
+		<Extensions>
+			<code_completion />
+			<debugger />
+		</Extensions>
+	</Project>
+</CodeBlocks_project_file>

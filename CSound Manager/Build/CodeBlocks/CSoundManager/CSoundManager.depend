@@ -1,0 +1,717 @@
+# depslib dependency file v1.0
+1442064792 source:/media/sf_D/Dropbox/Projects/CSound Editor/CSound Manager/CSound/CSoundEntity.cpp
+	"CSoundEntity.h"
+
+1460832043 /media/sf_D/Dropbox/Projects/CSound Editor/CSound Manager/CSound/CSoundEntity.h
+	<string>
+	<include/dll_export.h>
+
+1462918534 /media/sf_D/Dropbox/Projects/CSound Editor/CSound Manager/CSound/include/dll_export.h
+
+1460832633 source:/media/sf_D/Dropbox/Projects/CSound Editor/CSound Manager/CSound/CSoundEvent.cpp
+
+1460832591 source:/media/sf_D/Dropbox/Projects/CSound Editor/CSound Manager/CSound/CSoundInstrumentBlock.cpp
+	<CSoundInstrument.h>
+	<CSoundComponent.h>
+
+1463789569 /media/sf_D/Dropbox/Projects/CSound Editor/CSound Manager/CSound/CSoundInstrument.h
+	<string>
+	<vector>
+	<unordered_map>
+	<CSound/CSoundForward.h>
+	<CSound/CSoundEntity.h>
+	<CSound/Templates/CSoundList.h>
+
+1463789703 /media/sf_D/Dropbox/Projects/CSound Editor/CSound Manager//CSound/CSoundForward.h
+
+1460832043 /media/sf_D/Dropbox/Projects/CSound Editor/CSound Manager//CSound/CSoundEntity.h
+	<string>
+	<include/dll_export.h>
+
+1460832416 /media/sf_D/Dropbox/Projects/CSound Editor/CSound Manager//CSound/Templates/CSoundList.h
+	<list>
+	<unordered_map>
+
+1460834596 /media/sf_D/Dropbox/Projects/CSound Editor/CSound Manager/CSound/CSoundComponent.h
+	<vector>
+	<CSound/CSoundEntity.h>
+	<CSound/CSoundForward.h>
+	<CSound/CSoundComponentProperty.h>
+	<CSound/Templates/CSoundList.h>
+
+1462918994 /media/sf_D/Dropbox/Projects/CSound Editor/CSound Manager//CSound/CSoundComponentProperty.h
+	<string>
+	<CSound/CSoundForward.h>
+	<CSound/CSoundEntity.h>
+
+1460832451 source:/media/sf_D/Dropbox/Projects/CSound Editor/CSound Manager/CSound/CSoundInstrument.cpp
+	<iostream>
+	<include/csound.h>
+	<CSound/CSoundComponent.h>
+	<CSound/CSoundInstrumentBlock.h>
+	<CSound/CSoundSynthesizer.h>
+	<CSound/SoundManager.h>
+
+1437413052 /media/sf_D/Dropbox/Projects/CSound Editor/CSound Manager/CSound/include/csound.h
+	<csound/csound/csound.hpp>
+	<csound/csound/csPerfThread.hpp>
+
+1420478936 /media/sf_D/Dropbox/Projects/CSound Editor/libs/csound/csound/csound.hpp
+	"csound.h"
+	"csound.h"
+	<pthread.h>
+
+1447272329 /media/sf_D/Dropbox/Projects/CSound Editor/libs/csound/csound/csound.h
+	<intrin.h>
+	"float-version.h"
+	"sysdep.h"
+	"text.h"
+	<stdarg.h>
+	"sysdep.h"
+	"text.h"
+	<stdarg.h>
+	<libkern/OSAtomic.h>
+	"cfgvar.h"
+	"msg_attr.h"
+	"version.h"
+
+1420478972 /media/sf_D/Dropbox/Projects/CSound Editor/libs/csound/csound/float-version.h
+
+1437760271 /media/sf_D/Dropbox/Projects/CSound Editor/libs/csound/csound/sysdep.h
+	<limits.h>
+	<stdint.h>
+	<pthread.h>
+	<pthread.h>
+	<AvailabilityMacros.h>
+	"float-version.h"
+	<stdio.h>
+	<stdlib.h>
+	<math.h>
+	<string.h>
+	<fcntl.h>
+	<unistd.h>
+	<io.h>
+	<sys/types.h>
+	<sys/file.h>
+	<sys/stat.h>
+	<stdint.h>
+
+1418759074 /media/sf_D/Dropbox/Projects/CSound Editor/libs/csound/csound/text.h
+
+1375170056 /media/sf_D/Dropbox/Projects/CSound Editor/libs/csound/csound/cfgvar.h
+
+1375170056 /media/sf_D/Dropbox/Projects/CSound Editor/libs/csound/csound/msg_attr.h
+
+1429878788 /media/sf_D/Dropbox/Projects/CSound Editor/libs/csound/csound/version.h
+
+1436298141 /media/sf_D/Dropbox/Projects/CSound Editor/libs/csound/csound/csPerfThread.hpp
+	<string>
+	<pthread.h>
+	<stdio.h>
+	"csound.hpp"
+	"csPerfThread.hpp"
+	<xmmintrin.h>
+
+1460834596 /media/sf_D/Dropbox/Projects/CSound Editor/CSound Manager//CSound/CSoundComponent.h
+	<vector>
+	<CSound/CSoundEntity.h>
+	<CSound/CSoundForward.h>
+	<CSound/CSoundComponentProperty.h>
+	<CSound/Templates/CSoundList.h>
+
+1462919025 /media/sf_D/Dropbox/Projects/CSound Editor/CSound Manager//CSound/CSoundInstrumentBlock.h
+	<vector>
+	<string>
+	<CSound/CSoundForward.h>
+	<CSound/CSoundEntity.h>
+	<CSound/Templates/CSoundList.h>
+
+1463732252 /media/sf_D/Dropbox/Projects/CSound Editor/CSound Manager//CSound/CSoundSynthesizer.h
+	<include/dll_export.h>
+	<CSound/CSoundComponent.h>
+	<CSound/CSoundForward.h>
+	<CSound/CSoundEntity.h>
+	<CSound/Templates/CSoundList.h>
+
+1460835065 /media/sf_D/Dropbox/Projects/CSound Editor/CSound Manager//CSound/SoundManager.h
+	<vector>
+	<string>
+	<include/dll_export.h>
+	<CSound/CSoundForward.h>
+	<CSound/CSoundConfig.h>
+
+1463856759 /media/sf_D/Dropbox/Projects/CSound Editor/CSound Manager//CSound/CSoundConfig.h
+	<string>
+
+1462919139 source:/media/sf_D/Dropbox/Projects/CSound Editor/CSound Manager/CSound/CSoundComponentProperty.cpp
+	"CSoundComponentProperty.h"
+	<CSound/CSoundComponent.h>
+
+1462918994 /media/sf_D/Dropbox/Projects/CSound Editor/CSound Manager/CSound/CSoundComponentProperty.h
+	<string>
+	<CSound/CSoundForward.h>
+	<CSound/CSoundEntity.h>
+
+1463496428 source:/media/sf_D/Dropbox/Projects/CSound Editor/CSound Manager/CSound/CSoundPlayer.cpp
+	<iostream>
+	<include/utils.h>
+	<include/csound.h>
+	<CSound/CSoundConfig.h>
+	<CSound/CSoundSynthesizer.h>
+	<CSound/CSoundInstrument.h>
+
+1450476989 /media/sf_D/Dropbox/Projects/CSound Editor/CSound Manager/CSound/include/utils.h
+
+1463789569 /media/sf_D/Dropbox/Projects/CSound Editor/CSound Manager//CSound/CSoundInstrument.h
+	<string>
+	<vector>
+	<unordered_map>
+	<CSound/CSoundForward.h>
+	<CSound/CSoundEntity.h>
+	<CSound/Templates/CSoundList.h>
+
+1461780843 source:/media/sf_D/Dropbox/Projects/CSound Editor/CSound Manager/CSound/CSoundSynthesizer.cpp
+	<sstream>
+	<iostream>
+	<include/pugixml.h>
+	<include/utils.h>
+	<CSound/CSoundEvent.h>
+	<CSound/CSoundInstrument.h>
+	<CSound/CSoundManager.h>
+	<CSound/SoundManager.h>
+
+1460835935 /media/sf_D/Dropbox/Projects/CSound Editor/CSound Manager/CSound/include/pugixml.h
+	<assert.h>
+	<pugixml/pugixml.hpp>
+
+1445188550 /media/sf_D/Dropbox/Projects/CSound Editor/libs/pugixml/pugixml.hpp
+	"pugiconfig.hpp"
+	<stddef.h>
+	<exception>
+	<iterator>
+	<iosfwd>
+	<string>
+
+1457106248 /media/sf_D/Dropbox/Projects/CSound Editor/libs/pugixml/pugiconfig.hpp
+
+1460832072 /media/sf_D/Dropbox/Projects/CSound Editor/CSound Manager//CSound/CSoundEvent.h
+	<include/dll_export.h>
+	<string>
+
+1462919317 /media/sf_D/Dropbox/Projects/CSound Editor/CSound Manager//CSound/CSoundManager.h
+	<list>
+	<string>
+	<vector>
+	<unordered_map>
+	<include/dll_export.h>
+	<CSound/CSoundForward.h>
+
+1460844152 source:/media/sf_D/Dropbox/Projects/CSound Editor/CSound Manager/CSound/SoundManager.cpp
+	"SoundManager.h"
+	<include/singleton.h>
+	<CsoundManager.h>
+	<CSoundComponent.h>
+	<EntityStorage.h>
+
+1460835065 /media/sf_D/Dropbox/Projects/CSound Editor/CSound Manager/CSound/SoundManager.h
+	<vector>
+	<string>
+	<include/dll_export.h>
+	<CSound/CSoundForward.h>
+	<CSound/CSoundConfig.h>
+
+1414774136 /media/sf_D/Dropbox/Projects/CSound Editor/CSound Manager/CSound/include/singleton.h
+
+1462920764 /media/sf_D/Dropbox/Projects/CSound Editor/CSound Manager/CSound/EntityStorage.h
+	<unordered_map>
+	<string>
+	<iostream>
+	<vector>
+
+1463496357 source:/media/sf_D/Dropbox/Projects/CSound Editor/CSound Manager/CSound/CSoundComponent.cpp
+	<cstring>
+	<CSound/CSoundComponentProperty.h>
+	<CSound/CSoundInstrument.h>
+	<CSound/CSoundManager.h>
+	<CSound/SoundManager.h>
+
+1462919630 source:/media/sf_D/Dropbox/Projects/CSound Editor/CSound Manager/CSound/Serialization/CSoundSerialize.cpp
+	"CSoundSerialize.h"
+	<include/pugixml.h>
+	<include/utils.h>
+	<functional>
+	<thread>
+	<unordered_map>
+	<CSoundComponent.h>
+	<CSoundComponentProperty.h>
+	<CSoundInstrument.h>
+	<CSoundSynthesizer.h>
+
+1460832318 /media/sf_D/Dropbox/Projects/CSound Editor/CSound Manager/CSound/Serialization/CSoundSerialize.h
+	<vector>
+	<unordered_map>
+	<include/dll_export.h>
+	<include/pugixml.h>
+	<CSound/CSoundForward.h>
+
+1463732252 /media/sf_D/Dropbox/Projects/CSound Editor/CSound Manager/CSound/CSoundSynthesizer.h
+	<include/dll_export.h>
+	<CSound/CSoundComponent.h>
+	<CSound/CSoundForward.h>
+	<CSound/CSoundEntity.h>
+	<CSound/Templates/CSoundList.h>
+
+1463496578 source:/media/sf_D/Dropbox/Projects/CSound Editor/CSound Manager/CSound/CSoundManager.cpp
+	<iostream>
+	<string>
+	<sstream>
+	<Windows.h>
+	<include/pugixml.h>
+	<include/utils.h>
+	<stdlib.h>
+	<CSound/EntityStorage.h>
+	<CSound/CSoundComponent.h>
+	<CSound/CSoundInstrument.h>
+	<CSound/CSoundInstrumentBlock.h>
+	<CSound/CSoundSynthesizer.h>
+	<CSound/CSoundEvent.h>
+	<CSound/CSoundConfig.h>
+	<include/csound.h>
+
+1462920764 /media/sf_D/Dropbox/Projects/CSound Editor/CSound Manager//CSound/EntityStorage.h
+	<unordered_map>
+	<string>
+	<iostream>
+	<vector>
+
+1463570376 source:/media/sf_D/Dropbox/Projects/CSound Editor/libs/Csound/csound/csPerfThread.cpp
+	<iostream>
+	<exception>
+	"csound.hpp"
+	"csPerfThread.hpp"
+	<libsndfile/sndfile.h>
+
+1420478936 /media/sf_D/Dropbox/Projects/CSound Editor/libs/Csound/csound/csound.hpp
+	"csound.h"
+	"csound.h"
+	<pthread.h>
+
+1447272329 /media/sf_D/Dropbox/Projects/CSound Editor/libs/Csound/csound/csound.h
+	<intrin.h>
+	"float-version.h"
+	"sysdep.h"
+	"text.h"
+	<stdarg.h>
+	"sysdep.h"
+	"text.h"
+	<stdarg.h>
+	<libkern/OSAtomic.h>
+	"cfgvar.h"
+	"msg_attr.h"
+	"version.h"
+
+1420478972 /media/sf_D/Dropbox/Projects/CSound Editor/libs/Csound/csound/float-version.h
+
+1437760271 /media/sf_D/Dropbox/Projects/CSound Editor/libs/Csound/csound/sysdep.h
+	<limits.h>
+	<stdint.h>
+	<pthread.h>
+	<pthread.h>
+	<AvailabilityMacros.h>
+	"float-version.h"
+	<stdio.h>
+	<stdlib.h>
+	<math.h>
+	<string.h>
+	<fcntl.h>
+	<unistd.h>
+	<io.h>
+	<sys/types.h>
+	<sys/file.h>
+	<sys/stat.h>
+	<stdint.h>
+
+1418759074 /media/sf_D/Dropbox/Projects/CSound Editor/libs/Csound/csound/text.h
+
+1375170056 /media/sf_D/Dropbox/Projects/CSound Editor/libs/Csound/csound/cfgvar.h
+
+1375170056 /media/sf_D/Dropbox/Projects/CSound Editor/libs/Csound/csound/msg_attr.h
+
+1429878788 /media/sf_D/Dropbox/Projects/CSound Editor/libs/Csound/csound/version.h
+
+1436298141 /media/sf_D/Dropbox/Projects/CSound Editor/libs/Csound/csound/csPerfThread.hpp
+	<string>
+	<pthread.h>
+	<stdio.h>
+	"csound.hpp"
+	"csPerfThread.hpp"
+	<xmmintrin.h>
+
+1463496272 /media/sf_D/Dropbox/Projects/CSound Editor/libs/Csound/libsndfile/sndfile.h
+	<stdio.h>
+	<sys/types.h>
+
+1463570376 source:/media/programs/Dropbox/Projects/CSound Editor/libs/Csound/csound/csPerfThread.cpp
+	<iostream>
+	<exception>
+	"csound.hpp"
+	"csPerfThread.hpp"
+	<libsndfile/sndfile.h>
+
+1420478936 /media/programs/Dropbox/Projects/CSound Editor/libs/Csound/csound/csound.hpp
+	"csound.h"
+	"csound.h"
+	<pthread.h>
+
+1447272329 /media/programs/Dropbox/Projects/CSound Editor/libs/Csound/csound/csound.h
+	<intrin.h>
+	"float-version.h"
+	"sysdep.h"
+	"text.h"
+	<stdarg.h>
+	"sysdep.h"
+	"text.h"
+	<stdarg.h>
+	<libkern/OSAtomic.h>
+	"cfgvar.h"
+	"msg_attr.h"
+	"version.h"
+
+1420478972 /media/programs/Dropbox/Projects/CSound Editor/libs/Csound/csound/float-version.h
+
+1437760271 /media/programs/Dropbox/Projects/CSound Editor/libs/Csound/csound/sysdep.h
+	<limits.h>
+	<stdint.h>
+	<pthread.h>
+	<pthread.h>
+	<AvailabilityMacros.h>
+	"float-version.h"
+	<stdio.h>
+	<stdlib.h>
+	<math.h>
+	<string.h>
+	<fcntl.h>
+	<unistd.h>
+	<io.h>
+	<sys/types.h>
+	<sys/file.h>
+	<sys/stat.h>
+	<stdint.h>
+
+1418759074 /media/programs/Dropbox/Projects/CSound Editor/libs/Csound/csound/text.h
+
+1375170056 /media/programs/Dropbox/Projects/CSound Editor/libs/Csound/csound/cfgvar.h
+
+1375170056 /media/programs/Dropbox/Projects/CSound Editor/libs/Csound/csound/msg_attr.h
+
+1429878788 /media/programs/Dropbox/Projects/CSound Editor/libs/Csound/csound/version.h
+
+1436298141 /media/programs/Dropbox/Projects/CSound Editor/libs/Csound/csound/csPerfThread.hpp
+	<string>
+	<pthread.h>
+	<stdio.h>
+	"csound.hpp"
+	"csPerfThread.hpp"
+	<xmmintrin.h>
+
+1463496272 /media/programs/Dropbox/Projects/CSound Editor/libs/Csound/libsndfile/sndfile.h
+	<stdio.h>
+	<sys/types.h>
+
+1462919630 source:/media/programs/Dropbox/Projects/CSound Editor/CSound Manager/CSound/Serialization/CSoundSerialize.cpp
+	"CSoundSerialize.h"
+	<include/pugixml.h>
+	<include/utils.h>
+	<functional>
+	<thread>
+	<unordered_map>
+	<CSoundComponent.h>
+	<CSoundComponentProperty.h>
+	<CSoundInstrument.h>
+	<CSoundSynthesizer.h>
+
+1460832318 /media/programs/Dropbox/Projects/CSound Editor/CSound Manager/CSound/Serialization/CSoundSerialize.h
+	<vector>
+	<unordered_map>
+	<include/dll_export.h>
+	<include/pugixml.h>
+	<CSound/CSoundForward.h>
+
+1462918534 /media/programs/Dropbox/Projects/CSound Editor/CSound Manager/CSound/include/dll_export.h
+
+1460835935 /media/programs/Dropbox/Projects/CSound Editor/CSound Manager/CSound/include/pugixml.h
+	<assert.h>
+	<pugixml/pugixml.hpp>
+
+1445188550 /media/programs/Dropbox/Projects/CSound Editor/libs/pugixml/pugixml.hpp
+	"pugiconfig.hpp"
+	<stddef.h>
+	<exception>
+	<iterator>
+	<iosfwd>
+	<string>
+
+1457106248 /media/programs/Dropbox/Projects/CSound Editor/libs/pugixml/pugiconfig.hpp
+
+1450476989 /media/programs/Dropbox/Projects/CSound Editor/CSound Manager/CSound/include/utils.h
+
+1463570787 /media/sf_D/Dropbox/Projects/CSound Editor/libs/libsndfile/sndfile.h
+	<stdio.h>
+	<stdint.h>
+	<sys/types.h>
+
+1463570787 /media/programs/Dropbox/Projects/CSound Editor/libs/libsndfile/sndfile.h
+	<stdio.h>
+	<stdint.h>
+	<sys/types.h>
+
+1463496357 source:/media/programs/Dropbox/Projects/CSound Editor/CSound Manager/CSound/CSoundComponent.cpp
+	<cstring>
+	<CSound/CSoundComponentProperty.h>
+	<CSound/CSoundInstrument.h>
+	<CSound/CSoundManager.h>
+	<CSound/SoundManager.h>
+
+1462918994 /media/programs/Dropbox/Projects/CSound Editor/CSound Manager//CSound/CSoundComponentProperty.h
+	<string>
+	<CSound/CSoundForward.h>
+	<CSound/CSoundEntity.h>
+
+1463732107 /media/programs/Dropbox/Projects/CSound Editor/CSound Manager//CSound/CSoundForward.h
+
+1460832043 /media/programs/Dropbox/Projects/CSound Editor/CSound Manager//CSound/CSoundEntity.h
+	<string>
+	<include/dll_export.h>
+
+1463732097 /media/programs/Dropbox/Projects/CSound Editor/CSound Manager//CSound/CSoundInstrument.h
+	<string>
+	<vector>
+	<unordered_map>
+	<CSound/CSoundForward.h>
+	<CSound/CSoundEntity.h>
+	<CSound/Templates/CSoundList.h>
+	<csound/sysdep.h>
+
+1460832416 /media/programs/Dropbox/Projects/CSound Editor/CSound Manager//CSound/Templates/CSoundList.h
+	<list>
+	<unordered_map>
+
+1462919317 /media/programs/Dropbox/Projects/CSound Editor/CSound Manager//CSound/CSoundManager.h
+	<list>
+	<string>
+	<vector>
+	<unordered_map>
+	<include/dll_export.h>
+	<CSound/CSoundForward.h>
+
+1460835065 /media/programs/Dropbox/Projects/CSound Editor/CSound Manager//CSound/SoundManager.h
+	<vector>
+	<string>
+	<include/dll_export.h>
+	<CSound/CSoundForward.h>
+	<CSound/CSoundConfig.h>
+
+1461780647 /media/programs/Dropbox/Projects/CSound Editor/CSound Manager//CSound/CSoundConfig.h
+	<string>
+
+1462919139 source:/media/programs/Dropbox/Projects/CSound Editor/CSound Manager/CSound/CSoundComponentProperty.cpp
+	"CSoundComponentProperty.h"
+	<CSound/CSoundComponent.h>
+
+1462918994 /media/programs/Dropbox/Projects/CSound Editor/CSound Manager/CSound/CSoundComponentProperty.h
+	<string>
+	<CSound/CSoundForward.h>
+	<CSound/CSoundEntity.h>
+
+1460834596 /media/programs/Dropbox/Projects/CSound Editor/CSound Manager//CSound/CSoundComponent.h
+	<vector>
+	<CSound/CSoundEntity.h>
+	<CSound/CSoundForward.h>
+	<CSound/CSoundComponentProperty.h>
+	<CSound/Templates/CSoundList.h>
+
+1442064792 source:/media/programs/Dropbox/Projects/CSound Editor/CSound Manager/CSound/CSoundEntity.cpp
+	"CSoundEntity.h"
+
+1460832043 /media/programs/Dropbox/Projects/CSound Editor/CSound Manager/CSound/CSoundEntity.h
+	<string>
+	<include/dll_export.h>
+
+1460832633 source:/media/programs/Dropbox/Projects/CSound Editor/CSound Manager/CSound/CSoundEvent.cpp
+
+1460832451 source:/media/programs/Dropbox/Projects/CSound Editor/CSound Manager/CSound/CSoundInstrument.cpp
+	<iostream>
+	<include/csound.h>
+	<CSound/CSoundComponent.h>
+	<CSound/CSoundInstrumentBlock.h>
+	<CSound/CSoundSynthesizer.h>
+	<CSound/SoundManager.h>
+
+1437413052 /media/programs/Dropbox/Projects/CSound Editor/CSound Manager/CSound/include/csound.h
+	<csound/csound/csound.hpp>
+	<csound/csound/csPerfThread.hpp>
+
+1420478936 /media/programs/Dropbox/Projects/CSound Editor/libs/csound/csound/csound.hpp
+	"csound.h"
+	"csound.h"
+	<pthread.h>
+
+1447272329 /media/programs/Dropbox/Projects/CSound Editor/libs/csound/csound/csound.h
+	<intrin.h>
+	"float-version.h"
+	"sysdep.h"
+	"text.h"
+	<stdarg.h>
+	"sysdep.h"
+	"text.h"
+	<stdarg.h>
+	<libkern/OSAtomic.h>
+	"cfgvar.h"
+	"msg_attr.h"
+	"version.h"
+
+1420478972 /media/programs/Dropbox/Projects/CSound Editor/libs/csound/csound/float-version.h
+
+1437760271 /media/programs/Dropbox/Projects/CSound Editor/libs/csound/csound/sysdep.h
+	<limits.h>
+	<stdint.h>
+	<pthread.h>
+	<pthread.h>
+	<AvailabilityMacros.h>
+	"float-version.h"
+	<stdio.h>
+	<stdlib.h>
+	<math.h>
+	<string.h>
+	<fcntl.h>
+	<unistd.h>
+	<io.h>
+	<sys/types.h>
+	<sys/file.h>
+	<sys/stat.h>
+	<stdint.h>
+
+1418759074 /media/programs/Dropbox/Projects/CSound Editor/libs/csound/csound/text.h
+
+1375170056 /media/programs/Dropbox/Projects/CSound Editor/libs/csound/csound/cfgvar.h
+
+1375170056 /media/programs/Dropbox/Projects/CSound Editor/libs/csound/csound/msg_attr.h
+
+1429878788 /media/programs/Dropbox/Projects/CSound Editor/libs/csound/csound/version.h
+
+1436298141 /media/programs/Dropbox/Projects/CSound Editor/libs/csound/csound/csPerfThread.hpp
+	<string>
+	<pthread.h>
+	<stdio.h>
+	"csound.hpp"
+	"csPerfThread.hpp"
+	<xmmintrin.h>
+
+1462919025 /media/programs/Dropbox/Projects/CSound Editor/CSound Manager//CSound/CSoundInstrumentBlock.h
+	<vector>
+	<string>
+	<CSound/CSoundForward.h>
+	<CSound/CSoundEntity.h>
+	<CSound/Templates/CSoundList.h>
+
+1463732252 /media/programs/Dropbox/Projects/CSound Editor/CSound Manager//CSound/CSoundSynthesizer.h
+	<include/dll_export.h>
+	<CSound/CSoundComponent.h>
+	<CSound/CSoundForward.h>
+	<CSound/CSoundEntity.h>
+	<CSound/Templates/CSoundList.h>
+
+1460832591 source:/media/programs/Dropbox/Projects/CSound Editor/CSound Manager/CSound/CSoundInstrumentBlock.cpp
+	<CSoundInstrument.h>
+	<CSoundComponent.h>
+
+1463732097 /media/programs/Dropbox/Projects/CSound Editor/CSound Manager/CSound/CSoundInstrument.h
+	<string>
+	<vector>
+	<unordered_map>
+	<CSound/CSoundForward.h>
+	<CSound/CSoundEntity.h>
+	<CSound/Templates/CSoundList.h>
+	<csound/sysdep.h>
+
+1460834596 /media/programs/Dropbox/Projects/CSound Editor/CSound Manager/CSound/CSoundComponent.h
+	<vector>
+	<CSound/CSoundEntity.h>
+	<CSound/CSoundForward.h>
+	<CSound/CSoundComponentProperty.h>
+	<CSound/Templates/CSoundList.h>
+
+1463496428 source:/media/programs/Dropbox/Projects/CSound Editor/CSound Manager/CSound/CSoundPlayer.cpp
+	<iostream>
+	<include/utils.h>
+	<include/csound.h>
+	<CSound/CSoundConfig.h>
+	<CSound/CSoundSynthesizer.h>
+	<CSound/CSoundInstrument.h>
+
+1463732252 /media/programs/Dropbox/Projects/CSound Editor/CSound Manager/CSound/CSoundSynthesizer.h
+	<include/dll_export.h>
+	<CSound/CSoundComponent.h>
+	<CSound/CSoundForward.h>
+	<CSound/CSoundEntity.h>
+	<CSound/Templates/CSoundList.h>
+
+1460844152 source:/media/programs/Dropbox/Projects/CSound Editor/CSound Manager/CSound/SoundManager.cpp
+	"SoundManager.h"
+	<include/singleton.h>
+	<CsoundManager.h>
+	<CSoundComponent.h>
+	<EntityStorage.h>
+
+1460835065 /media/programs/Dropbox/Projects/CSound Editor/CSound Manager/CSound/SoundManager.h
+	<vector>
+	<string>
+	<include/dll_export.h>
+	<CSound/CSoundForward.h>
+	<CSound/CSoundConfig.h>
+
+1414774136 /media/programs/Dropbox/Projects/CSound Editor/CSound Manager/CSound/include/singleton.h
+
+1462920764 /media/programs/Dropbox/Projects/CSound Editor/CSound Manager/CSound/EntityStorage.h
+	<unordered_map>
+	<string>
+	<iostream>
+	<vector>
+
+1463597924 source:/media/programs/Dropbox/Projects/CSound Editor/CSound Manager/CSound/CSoundManager.cpp
+	<iostream>
+	<string>
+	<sstream>
+	<Windows.h>
+	<include/pugixml.h>
+	<include/utils.h>
+	<stdlib.h>
+	<CSound/EntityStorage.h>
+	<CSound/CSoundComponent.h>
+	<CSound/CSoundInstrument.h>
+	<CSound/CSoundInstrumentBlock.h>
+	<CSound/CSoundSynthesizer.h>
+	<CSound/CSoundEvent.h>
+	<CSound/CSoundConfig.h>
+	<include/csound.h>
+
+1462920764 /media/programs/Dropbox/Projects/CSound Editor/CSound Manager//CSound/EntityStorage.h
+	<unordered_map>
+	<string>
+	<iostream>
+	<vector>
+
+1460832072 /media/programs/Dropbox/Projects/CSound Editor/CSound Manager//CSound/CSoundEvent.h
+	<include/dll_export.h>
+	<string>
+
+1463732260 source:/media/programs/Dropbox/Projects/CSound Editor/CSound Manager/CSound/CSoundSynthesizer.cpp
+	<sstream>
+	<iostream>
+	<include/pugixml.h>
+	<include/utils.h>
+	<CSound/CSoundEvent.h>
+	<CSound/CSoundInstrument.h>
+	<CSound/CSoundManager.h>
+	<CSound/SoundManager.h>
+
