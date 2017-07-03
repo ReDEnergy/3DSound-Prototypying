@@ -1,5 +1,7 @@
 ﻿#include "CSoundComponent.h"
 
+#include <cstring>
+
 #include <CSound/CSoundComponentProperty.h>
 #include <CSound/CSoundInstrument.h>
 #include <CSound/CSoundManager.h>
@@ -40,7 +42,6 @@ void CSoundComponent::Update()
 	render.clear();
 
 	const char* lastype = nullptr;
-	const char *value = nullptr;
 
 	for (auto &prop : entries)
 	{

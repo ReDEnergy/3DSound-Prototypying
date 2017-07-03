@@ -104,7 +104,7 @@ void CSoundSynthesizer::Update()
 
 void CSoundSynthesizer::SaveToFile()
 {
-	string filename = "Resources//CSound//Scores//" + name + ".csd";
+	string filename = CsoundManagerNS::ResourcePath::GENERATED_CSD + name + ".csd";
 	
 	if (useSourceCode) {
 		auto F = fopen(filename.c_str(), "w");

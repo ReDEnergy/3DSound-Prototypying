@@ -59,7 +59,7 @@ inline T * EntityStorage<T>::Get(const char * name) const
 		return storage.at(name);
 	}
 	#ifdef _DEBUG
-	cout << "Template: [" << name << "] was not found " << endl;
+	std::cout << "Template: [" << name << "] was not found " << std::endl;
 	#endif
 
 	return nullptr;
@@ -117,7 +117,7 @@ inline std::string EntityStorage<T>::Create()
 	while (entry == nullptr)
 	{
 		name = prefix;
-		name.append(to_string(ID));
+		name.append(std::to_string(ID));
 		entry = Create(name.c_str());
 		ID++;
 	}

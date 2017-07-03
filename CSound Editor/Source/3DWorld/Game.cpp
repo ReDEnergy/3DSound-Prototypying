@@ -75,7 +75,7 @@ void Game::Init()
 
 	InitSceneCameras();
 
-	auto ground = Manager::GetScene()->GetGameObject("ground", 1);
+	auto ground = Manager::GetScene()->GetGameObject("ground");
 	if (ground) ground->SetSelectable(false);
 	Manager::GetScene()->Update();
 

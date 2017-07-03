@@ -75,7 +75,7 @@ void CSoundPropertyEditor::Update()
 {
 	if (!context) return;
 
-	context->SetDefault(defaultValue->text().toStdString().c_str());
+	context->SetValue(defaultValue->text().toStdString().c_str());
 	context->SetValue(value->text().toStdString().c_str());
 	context->SetName(dropdown->currentText().toStdString().c_str());
 	auto CE = GUI::Get<ComponentComposer>(QT_INSTACE::COMPONENT_COMPOSER);

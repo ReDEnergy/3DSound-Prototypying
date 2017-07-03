@@ -66,14 +66,14 @@ void CameraPropertyEditor::InitUI()
 		camerFoV->OnUserEdit([](float value) {
 			auto cam = Manager::GetScene()->GetActiveCamera();
 			auto PI = cam->GetProjectionInfo();
-			PI.FoV = max(10, value) / PI.aspectRatio;
+			PI.FoVy = max(10, value) / PI.aspectRatio;
 			cam->SetProjection(PI);
 		});
 		auto PI = Manager::GetScene()->GetActiveCamera()->GetProjectionInfo();
-		camerFoV->SetValue(PI.FoV * PI.aspectRatio);
+		camerFoV->SetValue(PI.FoVy * PI.aspectRatio);
 		qtLayout->addWidget(camerFoV);
 
-		moveSpeed = new SimpleFloatInput("Move spped", "meters/second", 2);
+		moveSpeed = new SimpleFloatInput("Move speed", "meters/second", 2);
 		moveSpeed->AcceptNegativeValues(false);
 		moveSpeed->OnUserEdit([](float value) {
 			Manager::GetScene()->GetActiveCamera()->transform->SetMoveSpeed(value);

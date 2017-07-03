@@ -3,7 +3,7 @@
   <ImportGroup Label="PropertySheets" />
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup>
-    <LibraryPath>..\..\libs\Csound\$(PlatformTarget);..\..\libs\Csound\pthread\$(PlatformTarget);$(LibraryPath)</LibraryPath>
+    <LibraryPath>..\..\libs\Csound\$(PlatformTarget);$(LibraryPath)</LibraryPath>
     <IncludePath>..\..\libs\Csound;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup>

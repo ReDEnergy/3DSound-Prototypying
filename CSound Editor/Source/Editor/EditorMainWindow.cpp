@@ -212,7 +212,7 @@ void EditorMainWindow::SetupUI(QMainWindow *MainWindow) {
 		// Submenu buttons
 		QAction *action = new QAction(MainWindow);
 		action->setText("Options");
-		action->setIcon(*QtConfig::GetIcon("gear.png"));
+		action->setIcon(*QtConfig::GetIcon("speaker.png"));
 		menu->addAction(action);
 
 		appWindows["CSoundOptions"] = new CSoundOptionsWindow();

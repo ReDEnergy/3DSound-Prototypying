@@ -1,0 +1,341 @@
+<!-- 
+	TODO 
+	Each Component
+		- in/out/constant
+			{name: value}  	
+			// default value is name unless a default attribute is defined
+		- function/control
+			{name} of the function/channel
+		- op
+			{value} of the concatenating operation
+		- text
+			{name: value}
+-->
+
+<components>
+	<component>
+		<name>control</name>
+		<content>
+			<control>kName</control>
+		</content>
+	</component>		
+	<component>
+		<name>sound source</name>
+		<content>
+			<out>ain</out>
+			<function>soundin</function>
+			<in>"../../Audio/noise.wav"</in>
+		</content>
+	</component>		
+	<component>
+		<name>wav output</name>
+		<content>
+			<function>fout</function>
+			<out>"Audio/1.wav"</out>
+			<in>, 14</in>
+			<in>aleft</in>
+			<in>aright</in>
+		</content>
+	</component>		<component>
+		<name>sound loop</name>
+		<content>
+			<out>aout</out>
+			<out>krec</out>
+			<function>sndloop</function>
+			<in>ain</in>
+			<op>,</op>
+			<control>kPitch</control>
+			<control>kTrigger</control>
+			<op>,</op>
+			<constant>5</constant>		<!-- iDuration -->
+			<constant>0</constant>		<!-- iFade -->
+		</content>
+	</component>
+
+	<component>
+		<name>snd-loop-pitch-cover</name>
+		<content>
+			<out>aout</out>
+			<out>krec</out>
+			<function>sndloop</function>
+			<in>ain</in>
+			<op>,</op>
+			<control>kSurfaceCover</control>
+			<control>kTrigger</control>
+			<op>,</op>
+			<constant>0.5</constant>		<!-- iDuration -->
+			<constant>0</constant>			<!-- iFade -->
+		</content>
+	</component>		
+			
+	<component>
+		<name>attenuation</name>
+		<content>
+			<out>aout</out>
+			<op>=</op>
+			<in>aout</in>
+			<op>*</op>
+			<control>kVolume</control>
+			<op>*</op>
+			<control>kAttenuation</control>
+		</content>
+	</component>	
+	
+	<component>
+		<name>volume</name>
+		<content>
+			<out>aout</out>
+			<op>=</op>
+			<in>aout</in>
+			<op>*</op>
+			<control>kVolume</control>
+		</content>
+	</component>		
+			
+	<component>
+		<name>hrtf2</name>
+		<content>
+			<out>aleft</out>
+			<out>aright</out>
+			<function>hrtfmove2</function>
+			<in>aout</in>
+			<op>,</op>
+			<control>kAzimuth</control>
+			<control>kElevation</control>
+			<text>, "../hrtf/hrtf-44100-left.dat", "../hrtf/hrtf-44100-right.dat"</text>		
+		</content>
+	</component>		
+
+	<component>
+		<name>output mono</name>
+		<content>
+			<function>outs</function>
+			<in>aout</in>
+			<in>aout</in>
+		</content>
+	</component>	
+
+	<component>
+		<name>output stereo</name>
+		<content>
+			<function>outs</function>
+			<in>aleft</in>
+			<in>aright</in>
+		</content>
+	</component>	
+	
+	<component>
+		<name>stereo panning 3 left</name>
+		<controls>
+			<control>kAzPanFactor</control>
+		</controls>
+		<content>
+			<out>aleft</out>
+			<op>=</op>
+			<in>aout</in>
+			<op>*</op>
+			<in>cos(kAzPanFactor * $M_PI_2)</in>
+		</content>
+	</component>		
+
+	<component>
+		<name>stereo panning 3 right</name>
+		<controls>
+			<control>kAzPanFactor</control>
+		</controls>
+		<content>
+			<out>aright</out>
+			<op>=</op>
+			<in>aout</in>
+			<op>*</op>
+			<in>sin(kAzPanFactor * $M_PI_2)</in>
+		</content>
+	</component>		
+
+	<component>
+		<name>pan2</name>
+		<controls>
+			<control>kAzPanFactor</control>
+		</controls>
+		<content>
+			<out>aleft</out>
+			<out>aright</out>
+			<function>pan2</function>
+			<in>aout</in>
+			<in>kAzPanFactor</in>
+			<in>0</in>
+		</content>
+	</component>
+	
+	<component>
+		<name>output 8 channel</name>
+		<content>
+			<function>outch</function>
+			<out>1</out>
+			<out>aout</out>
+			<out>2</out>
+			<out>aout</out>
+			<out>3</out>
+			<out>aout</out>
+			<out>4</out>
+			<out>aout</out>
+			<out>5</out>
+			<out>aout</out>
+			<out>6</out>
+			<out>aout</out>
+			<out>7</out>
+			<out>aout</out>
+			<out>8</out>
+			<out>aout</out>
+		</content>
+	</component>
+	
+	<component>
+		<name>channel-test</name>
+		<controls>
+			<control>kChannel</control>
+		</controls>
+		<content>
+			<text>outch</text>
+			<channel>kChannel</channel>
+			<text>, aout</text>
+		</content>
+	</component>	
+
+	<component>
+		<name>impact-sound</name>
+		<controls>
+			<control>kFreq</control>
+		</controls>
+		<content>
+			<text>
+	aout oscili 1, kFreq, 1
+			</text>
+		</content>
+	</component>	
+	
+	<component>
+		<name>moving-plane</name>
+		<controls>
+			<control>kAzimuth</control>
+			<control>kElevation</control>
+			<control>kGain</control>
+		</controls>
+		<content>
+			<text>
+	ipch cps2pch p4, 12
+	kenv linsegr 0, p3 * 0.05, p3 * 0.2, p3 * 0.05, p3 * 0.2, p3 * 0.2, 0
+	aout vco2 kGain * kenv, ipch
+	aout moogladder aout, 2000, 0.25
+	aleft, aright hrtfmove2 aout, kAzimuth, kElevation , "../hrtf/hrtf-44100-left.dat", "../hrtf/hrtf-44100-right.dat"
+	outs aleft, aright
+			</text>
+		</content>
+	</component>
+
+	<component>
+		<name>feedback-tick</name>
+		<controls>
+			<control>kAzimuth</control>
+			<control>kTickVolume</control>
+		</controls>		
+		<content>
+			<text>
+		ain soundin "../../Audio/MvPlane/percuss_02.wav"
+		aout = ain * kTickVolume
+		aleft, aright hrtfmove2 aout, kAzimuth, 0, "../hrtf/hrtf-44100-left.dat", "../hrtf/hrtf-44100-right.dat"
+		outs aleft, aright
+			</text>
+		</content>
+	</component>
+
+	<component>
+		<name>global-output</name>
+		<controls>
+			<control>kAzimuth</control>
+			<control>kElevation</control>
+			<control>kAzPanFactor</control>
+			<control>kElPanFactor</control>
+			<control>kElBias</control>
+			<control>kOutput</control>
+			<control>kRearGain</control>
+			<control>kMulti8Az</control>
+			<control>kMulti8El</control>
+			<control>kDragFront</control>
+			<control>kFrontAmp</control>
+			<control>k8ChanPower</control>
+		</controls>
+		<content>
+			<text>
+	if (kOutput == 0) then
+		outs aout, aout
+	elseif ((kOutput & 1) != 0) then
+		aleft, aright hrtfmove2 aout, kAzimuth, kElevation , "../hrtf/hrtf-44100-left.dat", "../hrtf/hrtf-44100-right.dat"
+		outs aleft, aright
+	elseif ((kOutput & 2) != 0) then
+		aleft = aout * cos(kAzPanFactor * $M_PI_2)
+		aright = aout * sin(kAzPanFactor * $M_PI_2)
+		outs aleft, aright
+	elseif ((kOutput & 4) != 0) then
+		aleft, aright hrtfmove2 aout , kAzimuth, kElevation,</text>
+			<in>"../ind_hrtf/hrtf-44100-left.dat"</in>
+			<in>"../ind_hrtf/hrtf-44100-right.dat"</in>
+			<text>
+		outs aleft, aright
+	elseif ((kOutput & 8) != 0) then
+		aleft, aright pan2 aout, kAzPanFactor, 1
+		outs aleft, aright
+	elseif ((kOutput & 16) != 0) then
+		aleft, aright hrtfmove2 aout, kAzimuth, 0 , "../hrtf/hrtf-44100-left.dat", "../hrtf/hrtf-44100-right.dat"
+		kTopGain = kElPanFactor * (1 + kElBias)
+		kBottomGain = (1 - kElPanFactor) * (1 - kElBias) * kRearGain
+		afrontleft = aleft * kTopGain
+		afrontright = aleft * kBottomGain
+		acenter = aright * kTopGain
+		asubwoofer = aright * kBottomGain
+		</text>
+			<output4>outch 1, afrontleft, 2, afrontright, 3, acenter, 4, asubwoofer</output4>
+		<text>
+	elseif ((kOutput & 64) != 0) then
+		aleft = aout * cos(kAzPanFactor * $M_PI_2)
+		aright = aout * sin(kAzPanFactor * $M_PI_2)
+		kTopGain = kElPanFactor * (1 + kElBias)
+		kBottomGain = (1 - kElPanFactor) * (1 - kElBias) * kRearGain
+		afrontleft = aleft * kTopGain
+		afrontright = aleft * kBottomGain
+		acenter = aright * kTopGain
+		asubwoofer = aright * kBottomGain
+		</text>
+			<output4-2>outch 1, afrontleft, 2, afrontright, 3, acenter, 4, asubwoofer</output4-2>
+		<text>		
+	elseif ((kOutput & 32) != 0) then
+		aleft, aright hrtfmove2 aout, kAzimuth, 0 , "../hrtf/hrtf-44100-left.dat", "../hrtf/hrtf-44100-right.dat"
+		//kFactor = (90 - kAzimuth) / 90
+		kFactor = cos(kAzimuth * $M_PI / 180)
+		kFront = kFactor * kDragFront
+		kBack = 1 - kFront
+
+		kFront = kFront * kFrontAmp * k8ChanPower
+		kBack = kBack * k8ChanPower
+
+		kUp = kElevation / kMulti8El + 0.5
+		kDown = 1 - kUp
+
+		// Left side
+		aLeftFrontUp = aleft * kFront * kUp
+		aLeftFrontDown = aleft * kFront * kDown
+		aLeftBackUp = aleft * kBack * kUp
+		aLeftBackDown = aleft *kBack * kDown
+
+		// Right side
+		aRightFrontUp = aright * kFront * kUp
+		aRightFrontDown = aright * kFront * kDown
+		aRightBackUp = aright * kBack * kUp
+		aRightBackDown = aright * kBack * kDown
+		</text>
+			<output8>outch 2, aLeftFrontUp, 1, aLeftFrontDown, 4, aLeftBackUp, 3, aLeftBackDown, 5, aRightFrontUp, 6, aRightFrontDown, 7, aRightBackUp, 8, aRightBackDown</output8>
+			<text>
+	endif</text>
+		</content>
+	</component>
+</components>

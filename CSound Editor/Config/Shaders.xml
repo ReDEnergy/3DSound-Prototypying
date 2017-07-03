@@ -19,7 +19,12 @@
 		<vertex>MVP.Texture.VS</vertex>
 		<fragment>Simple.FS</fragment>
 	</shader>
-
+	
+	<shader name="simple-skinned">
+		<vertex>Skinning/MVP.Texture.VS</vertex>
+		<fragment>Simple.FS</fragment>
+	</shader>
+	
 	<shader name="screen">
 		<vertex>Screen.VS</vertex>
 		<fragment>Screen.FS</fragment>

@@ -26,7 +26,7 @@
 
 #include "csound.hpp"
 #include "csPerfThread.hpp"
-#include "sndfile.h"
+#include <libsndfile/sndfile.h>
 
 // ----------------------------------------------------------------------------
 

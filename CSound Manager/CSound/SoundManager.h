@@ -5,6 +5,7 @@
 #include <include/dll_export.h>
 
 #include <CSound/CSoundForward.h>
+#include <CSound/CSoundConfig.h>
 
 class AudioDevice;
 

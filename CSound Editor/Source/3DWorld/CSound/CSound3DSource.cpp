@@ -18,7 +18,6 @@ CSound3DSource::CSound3DSource()
 {
 	SetName("sound-source");
 	SetMesh(Manager::GetResource()->GetMesh("sphere"));
-	SetupAABB();
 	transform->SetWorldPosition(glm::vec3(0, 1, 0));
 
 	forceUpdateSoundParameters = false;
@@ -86,7 +85,7 @@ void CSound3DSource::SetSoundModel(CSoundSynthesizer * soundModel, bool trackSco
 	if (soundModel) {
 		SAFE_FREE(player);
 		player = new CSoundPlayer(soundModel);
-		player->Init();
+		player->LoadCSD();
 	}
 }
 

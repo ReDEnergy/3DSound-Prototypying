@@ -12,7 +12,7 @@ CSoundComponentProperty::CSoundComponentProperty(const CSoundComponentProperty &
 	parent = nullptr;
 	SetValue(Prop.GetValue());
 	SetName(Prop.GetName());
-	SetDefault(Prop.GetDefaut());
+	SetDefaultValue(Prop.GetDefaultValue());
 }
 
 bool CSoundComponentProperty::IsValueSet() const
@@ -20,19 +20,19 @@ bool CSoundComponentProperty::IsValueSet() const
 	if (value.length() == 0)
 		return false;
 
-	return value != default;
+	return value != defaultValue;
 }
 
 const char * CSoundComponentProperty::GetValue() const
 {
 	if (value.length() == 0)
-		return default.c_str();
+		return defaultValue.c_str();
 	return value.c_str();
 }
 
 const char * CSoundComponentProperty::GetDefaultValue() const
 {
-	return default.c_str();
+	return defaultValue.c_str();
 }
 
 void CSoundComponentProperty::SetValue(const char * value)
@@ -51,17 +51,12 @@ void CSoundComponentProperty::SetName(const char * name)
 	}
 }
 
-void CSoundComponentProperty::SetDefault(const char * value)
+void CSoundComponentProperty::SetDefaultValue(const char * value)
 {
-	default = value;
+	defaultValue = value;
 }
 
 void CSoundComponentProperty::SetParent(CSoundComponent *component)
 {
 	parent = component;
-}
-
-const char * CSoundComponentProperty::GetDefaut() const
-{
-	return default.c_str();
 }

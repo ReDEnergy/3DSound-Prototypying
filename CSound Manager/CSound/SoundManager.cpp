@@ -21,6 +21,8 @@ SoundManager::SoundManager()
 
 void SoundManager::Init()
 {
+	CsoundManagerNS::Version::LogInfo();
+
 	standardChannels.push_back("Front Left");
 	standardChannels.push_back("Front Right");
 	standardChannels.push_back("Center");

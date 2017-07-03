@@ -3,13 +3,13 @@
   <ImportGroup Label="PropertySheets" />
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup>
-    <LibraryPath>..\..\libs\Csound\pthread\$(PlatformTarget);$(LibraryPath)</LibraryPath>
+    <LibraryPath>..\..\libs\pthread\$(PlatformTarget);$(LibraryPath)</LibraryPath>
     <_PropertySheetDisplayName>pthread</_PropertySheetDisplayName>
-    <IncludePath>..\..\libs\Csound\pthread;$(IncludePath)</IncludePath>
+    <IncludePath>..\..\libs\pthread;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup>
     <Link>
-      <AdditionalDependencies>pthreadVSE2.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>pthreadVC2.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup />

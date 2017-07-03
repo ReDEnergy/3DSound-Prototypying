@@ -1,11 +1,25 @@
 bin
 lib
-*.sdf
-*.suo
-**/.vs
-**/ipch
-**/Visual Studio/obj
-**/Visual Studio/Debug
+
+# Visual Studio
+**/*.vs
+**/*.sln
+**/*.sdf
+**/*.suo
+**/*.pdb
+**/*.idb
+**/*.exp
+**/*.ipdb
+**/*.iobj
+**/*.VC.db
+**/*.cache
+**/*.opensdf
+**/*.opendb
+**/*.vcxproj
+**/*.vcxproj.filters
+**/*.vcxproj.user
+**/obj/*
+
 **/Saves
 **/Resources/*.csd
 /CSound Editor/Headphone Test Results
@@ -13,5 +27,7 @@ lib
 /CSound Editor/Resources/CSound/Scores/*.csd
 /CSound Editor/Visual Studio/*.opensdf
 /CSound Editor/Resources/Audio/MvPlane
+
 /libs/Engine/Engine
 /TODO
+/CSound Manager/Build

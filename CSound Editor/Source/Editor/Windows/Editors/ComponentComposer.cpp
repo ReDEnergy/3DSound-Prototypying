@@ -36,7 +36,7 @@ void ComponentComposer::AddItem()
 	if (activeContext) {
 		CSoundComponentProperty *P = new CSoundComponentProperty(activeContext);
 		P->SetName("text");
-		P->SetDefault("0");
+		P->SetValue("0");
 		activeContext->Add(P);
 		SetContext(activeContext);
 		Update();

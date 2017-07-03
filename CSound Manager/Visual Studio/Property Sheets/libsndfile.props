@@ -3,9 +3,9 @@
   <ImportGroup Label="PropertySheets" />
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup>
-    <LibraryPath>..\..\libs\Csound\libsndfile\$(PlatformTarget);$(LibraryPath)</LibraryPath>
+    <LibraryPath>..\..\libs\libsndfile\$(PlatformTarget);$(LibraryPath)</LibraryPath>
     <_PropertySheetDisplayName>libsndfile</_PropertySheetDisplayName>
-    <IncludePath>..\..\libs\Csound\libsndfile\;$(IncludePath)</IncludePath>
+    <IncludePath>..\..\libs\libsndfile\;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup>
     <Link>

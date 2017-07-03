@@ -25,9 +25,6 @@ class DLLExport CSoundComponent
 		void SetParent(CSoundInstrumentBlock *instrument) {};
 
 	private:
-		void InitProperties();
-
-	private:
 		CSoundInstrument *parent;
 		std::vector<std::string> controlChannels;
 		std::vector<std::string> controls;

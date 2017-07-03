@@ -24,6 +24,7 @@
     <ClInclude Include="..\CSound\CSound.h" />
     <ClInclude Include="..\CSound\CSoundComponentProperty.h" />
     <ClInclude Include="..\CSound\CSoundComponent.h" />
+    <ClInclude Include="..\CSound\CSoundConfig.h" />
     <ClInclude Include="..\CSound\CSoundEntity.h" />
     <ClInclude Include="..\CSound\CSoundEvent.h" />
     <ClInclude Include="..\CSound\CSoundForward.h" />
@@ -48,6 +49,7 @@
     <ClCompile Include="..\..\libs\pugixml\pugixml.cpp" />
     <ClCompile Include="..\CSound\CSoundComponent.cpp" />
     <ClCompile Include="..\CSound\CSoundComponentProperty.cpp" />
+    <ClCompile Include="..\CSound\CSoundConfig.cpp" />
     <ClCompile Include="..\CSound\CSoundEntity.cpp" />
     <ClCompile Include="..\CSound\CSoundEvent.cpp" />
     <ClCompile Include="..\CSound\CSoundInstrument.cpp" />
@@ -60,7 +62,7 @@
     <ClCompile Include="..\CSound\SoundManager.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{E0952CA1-E7DF-460D-B453-7C172AB99577}</ProjectGuid>
+    <ProjectGuid>{0392642F-3434-4217-960C-F6966699D17D}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>Engine</RootNamespace>
     <TargetPlatformVersion>8.1</TargetPlatformVersion>

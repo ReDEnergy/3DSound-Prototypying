@@ -1,5 +1,6 @@
 #pragma once
-#include <unordered_map>
+#include <vector>
+#include <string>
 
 #include <CSound/CSoundForward.h>
 #include <CSound/CSoundEntity.h>

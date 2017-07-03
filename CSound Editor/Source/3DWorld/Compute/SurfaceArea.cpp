@@ -61,7 +61,6 @@ void SurfaceArea::Update()
 		unsigned int ID = Manager::GetColor()->GetObjectUID(S3D);
 		S3D->SetSurfaceArea(counter[ID]);
 	}
-
 }
 
 unsigned int SurfaceArea::GetValue(unsigned int ID) const

@@ -1,5 +1,7 @@
 #pragma once
+#include <list>
 #include <string>
+#include <vector>
 #include <unordered_map>
 
 #include <include/dll_export.h>
@@ -20,7 +22,7 @@ class AudioDevice
 		char deviceName[64];
 		char deviceID[64];
 		char realTimeModule[64];
-		int supportedChannels;
+		uint supportedChannels;
 		int isOutput;
 		uint index;
 		uint nrActiveChannels;
@@ -53,7 +55,7 @@ class DLLExport CSoundManager
 		const std::vector<AudioDevice*>& GetOutputDevices() const;
 
 		AudioDevice* GetActiveDac() const;
-		uint GetActiveDacID() const;
+		int GetActiveDacID() const;
 		const char* GetCsOptionsRender() const;
 		const char* GetInstrumentOptionsRender() const;
 		unsigned int GetInstrumentOption(const char* propertyName) const;
@@ -80,7 +82,7 @@ class DLLExport CSoundManager
 	private:
 		pugi::xml_document *configXML;
 
-		uint activeDacID;
+		int activeDacID;
 		unsigned int controlSamples;
 		std::unordered_map<std::string, char> propertyTypes;
 		std::vector<AudioDevice*> outputDevices;

@@ -50,7 +50,7 @@ unordered_map<uint, CSoundSynthesizer*> CSoundSerialize::Load(const char * file)
 
 			CSoundComponentProperty *CP = new CSoundComponentProperty(C);
 			CP->SetName(type);
-			CP->SetDefault(def);
+			CP->SetDefaultValue(def);
 			if (value) {
 				CP->SetValue(value.text().get());
 			}

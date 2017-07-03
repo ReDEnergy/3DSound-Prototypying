@@ -4,8 +4,13 @@
 #include <string>
 #include <sstream>
 
+#ifdef _WIN32
+#include <Windows.h>
+#endif
+
 #include <include/pugixml.h>
 #include <include/utils.h>
+#include <include/math.h>
 #include <stdlib.h>
 
 #include <CSound/EntityStorage.h>
@@ -14,6 +19,7 @@
 #include <CSound/CSoundInstrumentBlock.h>
 #include <CSound/CSoundSynthesizer.h>
 #include <CSound/CSoundEvent.h>
+#include <CSound/CSoundConfig.h>
 
 #include <include/csound.h>
 
@@ -21,6 +27,12 @@ using namespace std;
 
 CSoundManager::CSoundManager()
 {
+	// Create Generated Scores directory if does not exist
+	#ifdef _WIN32
+	CreateDirectory(CsoundManagerNS::ResourcePath::GENERATED_CSD.c_str(), NULL);
+	CreateDirectory(CsoundManagerNS::ResourcePath::CSD_DATABASE.c_str(), NULL);
+	#endif
+
 	activeDacID = -1;
 
 	scores		= new EntityStorage<CSoundSynthesizer>("score ");
@@ -28,27 +40,53 @@ CSoundManager::CSoundManager()
 	components	= new EntityStorage<CSoundComponent>("component ");
 	blocks		= new EntityStorage<CSoundInstrumentBlock>("block ");
 
-	auto path = getenv("Path");
+#ifdef _x86_64
+
+#endif
+
+	#if _WIN32 || _WIN64
+		#ifdef _WIN64
+			_putenv(("Path=.\\" + CsoundManagerNS::ResourcePath::PLUGINS_WIN_X64).c_str());
+			csoundSetGlobalEnv("OPCODE6DIR64", (CsoundManagerNS::ResourcePath::PLUGINS_WIN_X64).c_str());
+		#else
+			_putenv(("Path=.\\" + CsoundManagerNS::ResourcePath::PLUGINS_WIN_X86).c_str());
+			csoundSetGlobalEnv("OPCODE6DIR64", (CsoundManagerNS::ResourcePath::PLUGINS_WIN_X86).c_str());
+		#endif
+	#elif __linux__
+		#ifdef __arm__
+			putenv(const_cast<char*>(("Path=./" + CsoundManagerNS::ResourcePath::PLUGINS_ARM_X64).c_str()));
+			csoundSetGlobalEnv("OPCODE6DIR64", (CsoundManagerNS::ResourcePath::PLUGINS_ARM_X64).c_str());
+		#else
+			putenv(const_cast<char*>(("Path=./" + CsoundManagerNS::ResourcePath::PLUGINS_LINUX_X64).c_str()));
+				csoundSetGlobalEnv("OPCODE6DIR64", (CsoundManagerNS::ResourcePath::PLUGINS_LINUX_X64).c_str());
+		#endif
+	#endif
+
+	//auto path = getenv("Path");
 	//cout << "PATH ENV: " << path << endl << endl;
 
-	_putenv("Path=.\\Resources\\CSound\\plugins64");
-	csoundSetGlobalEnv("OPCODE6DIR64", ".\\Resources\\CSound\\plugins64");
-	//csoundSetGlobalEnv("Path", ".\\Resources\\CSound\\bin3");
 	auto csound = csoundCreate(NULL);
-	csoundSetRTAudioModule(csound, "Portaudio");
+
+	#ifdef _WIN32
+		string audioModule = "Portaudio";
+	#elif __linux__
+		string audioModule = "alsa";
+	#endif
+
+	csoundSetRTAudioModule(csound, const_cast<char*>(audioModule.c_str()));
 
 	// Get output devices
 	int nrDevices = csoundGetAudioDevList(csound, NULL, 1);
-	if (nrDevices == 0)
-		exit(1);
-	CS_AUDIODEVICE *devices = new CS_AUDIODEVICE[nrDevices];
-	csoundGetAudioDevList(csound, devices, 1);
-	for (int i = 0; i < nrDevices; i++) {
-		auto AD = new AudioDevice();
-		memcpy(AD, &devices[i], sizeof(CS_AUDIODEVICE));
-		AD->index = i;
-		AD->nrActiveChannels = AD->supportedChannels;
-		outputDevices.push_back(AD);
+	if (nrDevices) {
+		CS_AUDIODEVICE *devices = new CS_AUDIODEVICE[nrDevices];
+		csoundGetAudioDevList(csound, devices, 1);
+		for (int i = 0; i < nrDevices; i++) {
+			auto AD = new AudioDevice();
+			memcpy(AD, &devices[i], sizeof(CS_AUDIODEVICE));
+			AD->index = i;
+			AD->nrActiveChannels = AD->supportedChannels;
+			outputDevices.push_back(AD);
+		}
 	}
 }
 
@@ -73,16 +111,18 @@ void CSoundManager::Clear()
 
 void CSoundManager::LoadScoreConfig()
 {
-	configXML = pugi::LoadXML("Resources//CSound//score-config.xml");
+	configXML = pugi::LoadXML(CsoundManagerNS::ResourceFile::SYNTHESIZER_OPTIONS.c_str());
 
 	auto config = configXML->child("config");
 
-	for (auto option : config.child("CsOptions"))
-	{
-		csOptions[option.name()] = option.text().get();
-	}
+	// General
+	#ifdef _WIN32
+	auto configOS = config.child("Windows");
+	#elif __linux__
+	auto configOS = config.child("Linux");
+	#endif
 
-	for (auto option : config.child("InstrumentOptions"))
+	for (auto option : configOS.child("InstrumentOptions"))
 	{
 		CsoundInstrumentOption opt;
 		opt.name = option.name();
@@ -93,17 +133,28 @@ void CSoundManager::LoadScoreConfig()
 		instrumentOptions[option.name()] = opt;
 	}
 
-	// General
+	// Get CsOptions
+	for (auto option : configOS.child("CsOptions"))
+	{
+		csOptions[option.name()] = option.text().get();
+	}
 
-	auto general = config.child("general");
+	// Get General
+	auto general = configOS.child("general");
 	auto dacID = general.child("dac").text().as_uint();
 
-	if (dacID < outputDevices.size()) {
-		outputDevices[dacID]->nrActiveChannels = general.child("channels").text().as_uint();
-	} else {
-		dacID = 0;
-		outputDevices[dacID]->nrActiveChannels = outputDevices[dacID]->supportedChannels;
+	if (outputDevices.size() == 0)
+	{
+		activeDacID = -1;
+		return;
 	}
+	
+	if (dacID >= outputDevices.size())
+	{
+		dacID = 0;
+	}
+
+	outputDevices[dacID]->nrActiveChannels = MIN(general.child("channels").text().as_uint(), outputDevices[dacID]->supportedChannels);
 
 	auto devices = general.child("devices");
 	for (auto deviceNode : devices) {
@@ -113,7 +164,7 @@ void CSoundManager::LoadScoreConfig()
 			auto mapping = deviceNode.child_value("mapping");
 			if (mapping) {
 				istringstream iss(mapping);
-				for (int i = 0; i < device->supportedChannels; i++) {
+				for (uint i = 0; i < device->supportedChannels; i++) {
 					iss >> device->mapping[i];
 				}
 			}
@@ -122,15 +173,14 @@ void CSoundManager::LoadScoreConfig()
 	}
 
 	SetActiveDac(dacID);
-	SetCsInstrumentOption("nchnls", outputDevices[activeDacID]->supportedChannels);
+	SetCsInstrumentOption("nchnls", outputDevices.size() ? outputDevices[activeDacID]->supportedChannels : 2);
 	RenderCsOptions();
 	RenderInstrumentOptions();
-	//SAFE_FREE(configXML);
 }
 
 void CSoundManager::LoadTemplates()
 {
-	pugi::xml_document *doc = pugi::LoadXML("Resources//CSound//templates.xml");
+	pugi::xml_document *doc = pugi::LoadXML(CsoundManagerNS::ResourceFile::TEMPLATES_CONFIG_XML.c_str());
 
 	for (auto &component : doc->child("components").children()) {
 		CSoundComponent * T = new CSoundComponent();
@@ -143,15 +193,15 @@ void CSoundManager::LoadTemplates()
 			T->AddControlChannel(channelName);
 		}
 
-		auto &content = component.child("content");
+		auto content = component.child("content");
 		for (auto &entry : content.children()) {
 
 			const char* tag = entry.name();
-			const char* default = entry.text().get();
+			const char* value = entry.text().get();
 
 			CSoundComponentProperty *CP = new CSoundComponentProperty(T);
 			CP->SetName(tag);
-			CP->SetDefault(default);
+			CP->SetDefaultValue(value);
 			T->Add(CP);
 
 			RegisterType(tag);
@@ -168,7 +218,7 @@ void CSoundManager::LoadTemplates()
 
 void CSoundManager::LoadInstruments()
 {
-	pugi::xml_document *doc = pugi::LoadXML("Resources//CSound//instruments.xml");
+	pugi::xml_document *doc = pugi::LoadXML(CsoundManagerNS::ResourceFile::INSTRUMENTS_CONFIG_XML.c_str());
 
 	for (auto &instrument : doc->child("instruments").children()) {
 		auto I = new CSoundInstrument();
@@ -181,8 +231,8 @@ void CSoundManager::LoadInstruments()
 			if (!T) {
 				continue;
 			}
-			auto comp = new CSoundComponent(*T);
-			I->Add(comp);
+			auto C = new CSoundComponent(*T);
+			I->Add(C);
 		}
 
 		I->ResumeUpdate();
@@ -210,8 +260,8 @@ void CSoundManager::LoadInstruments()
 			if (!T) {
 				continue;
 			}
-			auto comp = new CSoundComponent(*T);
-			I->Add(comp);
+			auto C = new CSoundComponent(*T);
+			I->Add(C);
 		}
 
 		I->ResumeUpdate();
@@ -224,7 +274,7 @@ void CSoundManager::LoadInstruments()
 
 void CSoundManager::LoadScores()
 {
-	pugi::xml_document *doc = pugi::LoadXML("Resources//CSound//scores.xml");
+	pugi::xml_document *doc = pugi::LoadXML(CsoundManagerNS::ResourceFile::SCORES_CONFIG_XML.c_str());
 
 	for (auto &node : doc->child("scores").children()) {
 		const char* name = node.child_value("name");
@@ -261,24 +311,18 @@ void CSoundManager::SaveConfigFile()
 {
 	auto config = configXML->child("config");
 
-	// ------------------------------------------
-	// CsOptions
-
-	auto CsOptions = config.child("CsOptions");
-	config.remove_child(CsOptions);
-	CsOptions = config.append_child("CsOptions");
-	for (auto &option : csOptions)
-	{
-		auto node = CsOptions.append_child(option.first.c_str());
-		node.append_child(pugi::node_pcdata).set_value(option.second.c_str());
-	}
+	#ifdef _WIN32
+	auto configOS = config.child("Windows");
+	#elif __linux__
+	auto configOS = config.child("Linux");
+	#endif
 
 	// ------------------------------------------
 	// Instrument Options
 
-	auto InstrOptions = config.child("InstrumentOptions");
-	config.remove_child(InstrOptions);
-	InstrOptions = config.append_child("InstrumentOptions");
+	auto InstrOptions = configOS.child("InstrumentOptions");
+	configOS.remove_child(InstrOptions);
+	InstrOptions = configOS.append_child("InstrumentOptions");
 	for (auto &option : instrumentOptions)
 	{
 		auto node = InstrOptions.append_child(option.first.c_str());
@@ -290,17 +334,29 @@ void CSoundManager::SaveConfigFile()
 	}
 
 	// ------------------------------------------
+	// CsOptions
+
+	auto CsOptions = configOS.child("CsOptions");
+	configOS.remove_child(CsOptions);
+	CsOptions = configOS.append_child("CsOptions");
+	for (auto &option : csOptions)
+	{
+		auto node = CsOptions.append_child(option.first.c_str());
+		node.append_child(pugi::node_pcdata).set_value(option.second.c_str());
+	}
+
+	// ------------------------------------------
 	// Device options
 
 	uint deviceID = 0;
 
-	auto generalNode = config.child("general");
+	auto generalNode = configOS.child("general");
 
 	auto activeDacNode = generalNode.child("dac");
 	activeDacNode.text().set(activeDacID);
 
 	auto nrActiveChnNode = generalNode.child("channels");
-	nrActiveChnNode.text().set(outputDevices[activeDacID]->nrActiveChannels);
+	nrActiveChnNode.text().set(outputDevices.size() ? outputDevices[activeDacID]->nrActiveChannels : 2);
 
 	auto devicesNode = generalNode.child("devices");
 	generalNode.remove_child("devices");
@@ -317,7 +373,7 @@ void CSoundManager::SaveConfigFile()
 			string buffer;
 			auto mapping = deviceNode.append_child("mapping");
 
-			for (auto i = 0; i < device->supportedChannels; i++) {
+			for (uint i = 0; i < device->supportedChannels; i++) {
 				buffer += to_string(device->mapping[i]) + " ";
 			}
 			mapping.append_child(pugi::node_pcdata).set_value(buffer.c_str());
@@ -325,7 +381,7 @@ void CSoundManager::SaveConfigFile()
 		deviceID++;
 	}
 
-	configXML->save_file("Resources//CSound//score-config.xml", "\t", pugi::format_default);
+	configXML->save_file(CsoundManagerNS::ResourceFile::SYNTHESIZER_OPTIONS.c_str(), "\t", pugi::format_default);
 }
 
 void CSoundManager::RenderCsOptions()
@@ -391,7 +447,7 @@ AudioDevice * CSoundManager::GetActiveDac() const
 	return outputDevices[activeDacID];
 }
 
-unsigned int CSoundManager::GetActiveDacID() const
+int CSoundManager::GetActiveDacID() const
 {
 	return activeDacID;
 }
@@ -403,8 +459,9 @@ const char * CSoundManager::GetCsOptionsRender() const
 
 void CSoundManager::SetActiveDac(uint dacID)
 {
-	if (dacID == activeDacID)
+	if (outputDevices.size() == 0 || dacID == activeDacID)
 		return;
+
 	activeDacID = dacID;
 	string outValue("-o ");
 	outValue += outputDevices[dacID]->deviceID;

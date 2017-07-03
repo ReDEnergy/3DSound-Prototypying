@@ -18,15 +18,12 @@ class DLLExport CSoundComponentProperty
 
 		void SetValue(const char *value);
 		void SetName(const char *name);
-		void SetDefault(const char *value);
+		void SetDefaultValue(const char *value);
 		void SetParent(CSoundComponent *component);
-
-	private:
-		const char *GetDefaut() const;
 
 	private:
 		CSoundComponent *parent;
 		std::string value;
-		std::string default;
+		std::string defaultValue;
 };
 

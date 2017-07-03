@@ -32,7 +32,7 @@
       <Filter>DLL</Filter>
     </ClCompile>
     <ClCompile Include="..\..\libs\Csound\csound\csPerfThread.cpp">
-      <Filter>csPerfThread</Filter>
+      <Filter>libs\csPerfThread</Filter>
     </ClCompile>
     <ClCompile Include="..\CSound\CSoundSynthesizer.cpp">
       <Filter>CSound</Filter>
@@ -42,6 +42,9 @@
     </ClCompile>
     <ClCompile Include="..\..\libs\pugixml\pugixml.cpp">
       <Filter>libs\pugixml</Filter>
+    </ClCompile>
+    <ClCompile Include="..\CSound\CSoundConfig.cpp">
+      <Filter>CSound</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -93,9 +96,6 @@
     <ClInclude Include="..\CSound\CSoundInstrumentBlock.h">
       <Filter>CSound</Filter>
     </ClInclude>
-    <ClInclude Include="..\CSound\CSoundForward.h">
-      <Filter>Forward</Filter>
-    </ClInclude>
     <ClInclude Include="..\CSound\Templates\CSoundList.h">
       <Filter>Templates</Filter>
     </ClInclude>
@@ -114,6 +114,12 @@
     <ClInclude Include="..\..\libs\pugixml\pugixml.hpp">
       <Filter>libs\pugixml</Filter>
     </ClInclude>
+    <ClInclude Include="..\CSound\CSoundConfig.h">
+      <Filter>CSound</Filter>
+    </ClInclude>
+    <ClInclude Include="..\CSound\CSoundForward.h">
+      <Filter>CSound</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="DLL">
@@ -125,23 +131,20 @@
     <Filter Include="CSound">
       <UniqueIdentifier>{1b9deebe-c274-4c5c-acbd-f6b59d846093}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Forward">
-      <UniqueIdentifier>{86ff207f-44af-4399-8eb9-5dae0af28d79}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Templates">
       <UniqueIdentifier>{16658a26-d9f3-4e35-a750-d8bc7b2d53ac}</UniqueIdentifier>
     </Filter>
     <Filter Include="Serialization">
       <UniqueIdentifier>{aa897e80-02a2-4c23-a33a-c8ee4162b5e5}</UniqueIdentifier>
     </Filter>
-    <Filter Include="csPerfThread">
-      <UniqueIdentifier>{9ea40a93-f81f-40b2-8d27-3dea0e83072d}</UniqueIdentifier>
-    </Filter>
     <Filter Include="libs">
       <UniqueIdentifier>{1a8e055a-8209-4098-83b9-22461f35bc67}</UniqueIdentifier>
     </Filter>
     <Filter Include="libs\pugixml">
       <UniqueIdentifier>{618907e9-f6cf-442f-9eda-01109b553c57}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="libs\csPerfThread">
+      <UniqueIdentifier>{9ea40a93-f81f-40b2-8d27-3dea0e83072d}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

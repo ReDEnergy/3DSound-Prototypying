@@ -184,7 +184,7 @@ void CSoundScene::SaveSceneAs(const char* path)
 {
 	string fileName(path);
 
-	// Verify if .xml extension is appened; If not add it
+	// Verify if .xml extension is append; If not add it
 	int len = fileName.length();
 	if (len < 4 || (path[len - 4] != '.' && path[len - 3] != 'x' && path[len - 3] != 'm' && path[len - 1] != 'l')) {
 		fileName.append(".xml");
@@ -244,7 +244,7 @@ void CSoundScene::SaveSceneAs(const char* path)
 		auto projectionInfo = cameraInfo.append_child("projection");
 		auto PI = camera->GetProjectionInfo();
 		if (PI.isPerspective) {
-			CreateNode("fov", PI.FoV, projectionInfo);
+			CreateNode("FoV", PI.FoVy, projectionInfo);
 			CreateNode("aspect-ratio", PI.aspectRatio, projectionInfo);
 		}
 		else {
@@ -253,7 +253,7 @@ void CSoundScene::SaveSceneAs(const char* path)
 		}
 		CreateNode("zNear", PI.zNear, projectionInfo);
 		CreateNode("zFar", PI.zFar, projectionInfo);
-		CreateNode("persepective", PI.isPerspective, projectionInfo);
+		CreateNode("Perspective", PI.isPerspective, projectionInfo);
 	}
 
 	///////////////////////////////////////////////////////////////////////////
@@ -312,7 +312,7 @@ void CSoundScene::LoadScene(const char* fileName)
 		auto projectionNode = cameraInfo.child("projection");
 		PI.isPerspective = projectionNode.child("persepective").text().as_bool();
 		if (PI.isPerspective) {
-			PI.FoV = projectionNode.child("fov").text().as_float();
+			PI.FoVy = projectionNode.child("fov").text().as_float();
 			PI.aspectRatio = projectionNode.child("aspect-ratio").text().as_float();
 		}
 		else {

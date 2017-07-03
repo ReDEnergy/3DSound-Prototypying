@@ -5,18 +5,29 @@
 #include <include/utils.h>
 #include <include/csound.h>
 
+#include <CSound/CSoundConfig.h>
 #include <CSound/CSoundSynthesizer.h>
 #include <CSound/CSoundInstrument.h>
 
 using namespace std;
+
+CSoundPlayer::CSoundPlayer()
+	: CSoundPlayer(nullptr)
+{
+}
 
 CSoundPlayer::CSoundPlayer(CSoundSynthesizer * score)
 {
 	this->score = score;
 	csound = nullptr;
 	ThreadID = nullptr;
-	PERF_STATUS = false;
 	perfThread = nullptr;
+	isPlaying = false;
+}
+
+CSoundPlayer::CSoundPlayer(const CSoundPlayer& player)
+	: CSoundPlayer(player.score)
+{
 }
 
 CSoundPlayer::~CSoundPlayer() {
@@ -25,19 +36,40 @@ CSoundPlayer::~CSoundPlayer() {
 
 bool CSoundPlayer::Reload()
 {
-	bool state = PERF_STATUS;
-	bool rez = Init();
+	bool state = isPlaying;
+	bool rez = LoadCSDFile(synthFile.c_str());
 	if (state && rez)
 		Play();
 	return rez;
 }
 
-bool CSoundPlayer::Init()
+bool CSoundPlayer::LoadCSD(std::string file, std::string location)
+{
+	this->csdFile = file;
+	synthFile = location + csdFile;
+	return LoadCSDFile(synthFile.c_str());
+}
+
+bool CSoundPlayer::LoadSynthesizer(CSoundSynthesizer * score, std::string location)
+{
+	this->score = score;
+	synthFile = location + string(score->GetName()) + ".csd";
+	return LoadCSDFile(synthFile.c_str());
+	return false;
+}
+
+bool CSoundPlayer::LoadCSDFromDB(std::string file)
+{
+	this->csdFile = file;
+	synthFile = CsoundManagerNS::ResourcePath::CSD_DATABASE + csdFile;
+	return LoadCSDFile(synthFile.c_str());
+}
+
+bool CSoundPlayer::LoadCSDFile(const char* file)
 {
 	Clean();
 	csound = new Csound();
-	string filename = "Resources//CSound//Scores//" + string(score->GetName()) + ".csd";
-	int error = csound->Compile((char*)filename.c_str());
+	int error = csound->Compile(const_cast<char*>(file));
 
 	if (error) {
 		Clean();
@@ -51,12 +83,15 @@ bool CSoundPlayer::Init()
 void CSoundPlayer::Clean()
 {
 	invalidChannels.clear();
-	PERF_STATUS = false;
-	if (perfThread) {
+
+	if (isPlaying)
+	{
+		isPlaying = false;
 		perfThread->Stop();
 		perfThread->Join();
 		SAFE_FREE(perfThread);
 	}
+
 	if (csound) {
 		csound->Cleanup();
 		SAFE_FREE(csound);
@@ -66,50 +101,86 @@ void CSoundPlayer::Clean()
 void CSoundPlayer::Play()
 {
 	if (csound) {
-		PERF_STATUS = true;
 		if (!perfThread)
+		{
 			perfThread = new CsoundPerformanceThread(csound);
+			cout << "Synthesizer thread started: " << csound->GetScoreTime() << endl;
+		}
 		perfThread->Play();
+		isPlaying = true;
 	}
 }
 
-bool CSoundPlayer::IsPlaying()
+bool CSoundPlayer::IsPlaying() const
 {
-	return PERF_STATUS;
+	return isPlaying;
+}
+
+void CSoundPlayer::SetPlaybackState(bool value)
+{
+	value ? Play() : Pause();
 }
 
 void CSoundPlayer::Pause()
 {
-	perfThread->Pause();
+	if (isPlaying)
+	{
+		isPlaying = false;
+		perfThread->Pause();
+	}
+}
+
+void CSoundPlayer::TogglePause()
+{
+	isPlaying ? Pause() : Play();
 }
 
 void CSoundPlayer::Stop()
 {
-	perfThread->Pause();
-	if (PERF_STATUS) {
-		PERF_STATUS = false;
-		cout << "Sound Score Time: " << csound->GetScoreTime() << endl;
-	}
+	Pause();
 }
 
 void CSoundPlayer::SetPlaybackTime(float time)
 {
-	if (perfThread)
+	if (isPlaying)
 		perfThread->SetScoreOffsetSeconds(time);
+}
+
+void CSoundPlayer::GetPlaybackTime() const
+{
+	csound->GetScoreOffsetSeconds();
 }
 
 void CSoundPlayer::SendEvent(char eventType, int nrParams, double* params) const
 {
-	perfThread->ScoreEvent(0, eventType, nrParams, params);
+	if (isPlaying)
+		perfThread->ScoreEvent(0, eventType, nrParams, params);
 }
-	
+
+std::string CSoundPlayer::GetCSDFile(bool fullPath) const
+{
+	return (fullPath ? synthFile : csdFile);
+}
+
+CSoundSynthesizer * CSoundPlayer::GetSynthesizer() const
+{
+	return score;
+}
+
+Csound* CSoundPlayer::GetCsoundHandle() const
+{
+	return csound;
+}
+
 void CSoundPlayer::InitControlChannels()
 {
 	if (!csound) return;
 
-	for (auto instr : score->GetEntries()) {
-		for (auto &chn : instr->GetControlChannels()) {
-			channels[chn];
+	if (score) {
+		for (auto instr : score->GetEntries()) {
+			for (auto &chn : instr->GetControlChannels()) {
+				channels[chn];
+			}
 		}
 	}
 
@@ -121,7 +192,8 @@ void CSoundPlayer::InitControlChannels()
 
 void CSoundPlayer::SetControl(const char* channelName, float value, bool forceUpdate)
 {
-	if (!forceUpdate && (!PERF_STATUS || !csound)) return;
+	if (!csound)
+		return;
 
 	if (channels.find(channelName) != channels.end()) {
 		*channels[channelName] = value;
